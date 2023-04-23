@@ -30,19 +30,15 @@ const Chat = () => {
   };
 
   const msgNotificationHandler = (data: MsgData) => {
-    var notifTitle = "Title";
-    var notifBody = "Created by " + data.user + ".";
+    var notifTitle = "러브다이브 메시지";
+    var notifBody = data.user + " : " + data.msg;
     // var notifImg = "data/img/" + games[randomItem].slug + ".jpg";
     var options = {
       body: notifBody,
       // icon: notifImg,
     };
-    const nofi = new Notification(notifTitle, options);
-    console.log(nofi);
+    new Notification(notifTitle, options);
     // registration.showNotification();
-    setTimeout(() => {
-      msgNotificationHandler(data);
-    }, 3000);
   };
 
   const chatListUpdateHandler = (data: MsgData) => {

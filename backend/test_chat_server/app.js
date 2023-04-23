@@ -11,8 +11,26 @@ const sendTestMSg = () => {
   console.log("테스트 메시지 발송");
 };
 
+// 구독 정보를 데이터베이스에 저장
+const saveSubscriptionToDatabase = async (subscription) => {
+  // const db = await getDatabase();
+  // await db.collection("subscriptions").insertOne(subscription);
+  // console.log("Subscription saved to database.");
+};
+
+/**
+ * Rest API
+ */
 app.get("/", (req, res) => {
   res.send("Server Running");
+});
+
+app.post("/subscribe", async (req, res) => {
+  const subscription = req.body;
+  await saveSubscriptionToDatabase(subscription);
+  res.json({
+    message: "New subscription saved successfully.",
+  });
 });
 
 http.listen(5000, () => {

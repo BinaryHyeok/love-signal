@@ -1,0 +1,48 @@
+server:
+  servlet:
+    address: 0.0.0.0
+    port: 8888
+    context-path: /member
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+
+  http2:
+    enabled: true
+
+  error:
+    include-exception: false
+    include-message: always
+    include-stacktrace: on_param
+    whitelabel:
+      enabled: true
+
+spring:
+  profiles:
+    default: default
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lovesignal_member?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    username: root
+    password: ssafy
+
+swagger:
+  enable: true

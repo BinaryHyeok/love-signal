@@ -10,6 +10,7 @@ import BuildingTeam from "./components/SameGender/BuildingTeam";
 import MyTeam from "./components/SameGender/MyTeam";
 import Mypage from "./components/Mypage/Mypage";
 import RootLayout from "./components/Main/RootLayout";
+import Chat from "./components/Chat/Chat";
 
 function App() {
   const router = createBrowserRouter([
@@ -45,6 +46,10 @@ function App() {
         {
           path: "/SameGender/MyTeam",
           element: <MyTeam />,
+        },
+        {
+          path: "/Chat",
+          element: <Chat />,
         },
         {
           path: "/Mypage",

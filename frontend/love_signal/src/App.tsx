@@ -11,6 +11,7 @@ import MyTeam from "./components/SameGender/MyTeam";
 import Mypage from "./components/Mypage/Mypage";
 import RootLayout from "./components/Main/RootLayout";
 import Chat from "./components/Chat/Chat";
+import Codepen from "./components/UI/Loading/codepen";
 
 function App() {
   const router = createBrowserRouter([
@@ -54,6 +55,10 @@ function App() {
         {
           path: "/Mypage",
           element: <Mypage />,
+        },
+        {
+          path: "/loading",
+          element: <Codepen />,
         },
       ],
     },

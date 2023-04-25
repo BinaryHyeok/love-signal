@@ -44,7 +44,7 @@ const Login = () => {
           placeholder="test@test.com"
         />
         <input
-          type="text"
+          type="password"
           id="email"
           value={myPw}
           name="email"

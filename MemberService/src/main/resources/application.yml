@@ -1,15 +1,15 @@
 server:
+  port: 8888
   servlet:
-    address: 0.0.0.0
-    port: 8888
+    address: localhost
     context-path: /member
     encoding:
       enabled: true
       force: true
       charset: UTF-8
 
-  http2:
-    enabled: true
+  #  http2:
+#    enabled: true
 
   error:
     include-exception: false
@@ -19,6 +19,9 @@ server:
       enabled: true
 
 spring:
+  application:
+    name: member-service
+
   profiles:
     default: default
 

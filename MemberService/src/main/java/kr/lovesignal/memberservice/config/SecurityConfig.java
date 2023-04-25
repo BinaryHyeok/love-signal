@@ -30,24 +30,26 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
                 .antMatchers("/").permitAll() // swagger csrf 엔드포인트 오류를 지우기 위함 1
                 .antMatchers("/csrf").permitAll() // swagger csrf 엔드포인트 오류를 지우기 위함 2
+                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**").permitAll()
                 .antMatchers("/error/*").permitAll()
-                .antMatchers("/*/auth", "/*/auth/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/*/auth", "/*/auth/**").permitAll();
+//                .anyRequest().authenticated();
 
 //        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers(
-                "/v2/api-docs",
-                "/swagger-resources/**",
-                "/swagger-ui.html",
-                "/webjars/**",
-                "/swagger/**");
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//
+//        return (web) -> web.ignoring().antMatchers(
+//                "/v2/api-docs",
+//                "/swagger-resources/**",
+//                "/swagger-ui.html",
+//                "/webjars/**",
+//                "/swagger/**");
+//    }
 
 //    @Bean
 //    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)

@@ -13,7 +13,7 @@ public interface AuthService {
 
     public SuccessResponse<String> registerMember(SignUpRequest signUpDto, HttpServletRequest request);
 
-    public SuccessResponse<Integer> authenticate(SignInRequest signInDto, HttpServletRequest request);
+    public SuccessResponse<Long> authenticate(SignInRequest signInDto, HttpServletRequest request);
 
     public SuccessResponse<String> updateMember(UpdateMemberRequest updateInfoDto, HttpServletRequest request);
 

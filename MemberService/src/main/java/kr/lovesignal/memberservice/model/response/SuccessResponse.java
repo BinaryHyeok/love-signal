@@ -1,21 +1,20 @@
 package kr.lovesignal.memberservice.model.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @Builder
 public class SuccessResponse<T> {
 
     private LocalDateTime timestamp;
     private T body;
 
-    public SuccessResponse<T> buildResponse(T body){
-        return SuccessResponse.<T>builder()
-                .timestamp(LocalDateTime.now())
-                .body(body)
-                .build();
-    }
+//    @Builder
+//    public SuccessResponse(LocalDateTime timestamp, T body){
+//        this.body = body;
+//        this.timestamp = timestamp;
+//    }
 }

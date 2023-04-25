@@ -20,15 +20,15 @@ public class MemberEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", columnDefinition = "INT UNSIGNED")
-    private Long member_id;
+    private Long memberId;
 
     @Column(name = "login_id", nullable = false, unique = true)
-    private String login_id;
+    private String loginId;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "nickname", nullable = false, length = 20)
     private String nickname;
 
     @Column(name = "gender", nullable = false, length = 1)
@@ -44,3 +44,4 @@ public class MemberEntity extends BaseEntity{
     @ColumnDefault("'T'")
     private String help;
 }
+

@@ -25,23 +25,21 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    private static final String API_NAME = "B109 Project API";
+    private static final String API_NAME = "Love Signal - Member API";
     private static final String API_VERSION = "1.0.0";
-    private static final String API_DESCRIPTION = "B109 특화 프로젝트 API 명세서";
+    private static final String API_DESCRIPTION = "Member API 명세서";
 
     @Bean
     public Docket allApi() {
-        String version = "v1";
         return buildDocket("_전체_", Predicates
-                .or(PathSelectors.ant("/" + version + "/**")));
+                .or(PathSelectors.ant(  "/**")));
     }
 
     @Bean
-    public Docket userApi() {
-        String version = "v1";
-        return buildDocket("멤버 " + version, Predicates
-                .or(PathSelectors.ant("/" + version + "/auth"),
-                        PathSelectors.ant("/" + version + "/auth/**")));
+    public Docket memberApi() {
+        return buildDocket("멤버 ", Predicates
+                .or(PathSelectors.ant( "/auth"),
+                        PathSelectors.ant("/auth/**")));
     }
 
 
@@ -54,7 +52,7 @@ public class SwaggerConfig {
                 .groupName(groupName)
                 .select()
                 .paths(predicates)
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("kr.lovesignal"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -75,14 +73,14 @@ public class SwaggerConfig {
 //        // return new ApiKey("Bearer", "Authorization", "header"); // <type> : Bearer
 //    }
 //
-//    private SecurityContext securityContext() {
-//        return SecurityContext.builder().securityReferences(defaultAuth()).build();
-//    }
-//
-//    private List<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
-//    }
+    private SecurityContext securityContext() {
+        return SecurityContext.builder().securityReferences(defaultAuth()).build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+    }
 }

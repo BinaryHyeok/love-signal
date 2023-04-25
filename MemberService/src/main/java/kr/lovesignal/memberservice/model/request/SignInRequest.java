@@ -6,9 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 public class SignInRequest {
 
-    private String login_id;
+    private String loginId;
     private String password;
 }

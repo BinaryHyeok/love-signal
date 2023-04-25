@@ -6,6 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 public class DeleteMemberRequest {
+
+    private Long memberId;
+
+
 }

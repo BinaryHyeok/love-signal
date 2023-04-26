@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface AuthService {
 
-    public SuccessResponse<String> registerMember(SignUpRequest signUpDto, HttpServletRequest request);
+    public SuccessResponse<String> registerMember(SignUpRequest signUpRequest);
 
-    public SuccessResponse<Long> authenticate(SignInRequest signInDto, HttpServletRequest request);
+    public SuccessResponse<Long> authenticate(SignInRequest signInRequest);
 
-    public SuccessResponse<String> updateMember(UpdateMemberRequest updateInfoDto, HttpServletRequest request);
+    public SuccessResponse<String> updateMember(UpdateMemberRequest updateMemberRequest);
 
-    public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteDto, HttpServletRequest request);
+    public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteMemberRequest);
 
-    public SuccessResponse<MemberResponse> getMemberById(Long memberId, HttpServletRequest request);
+    public SuccessResponse<MemberResponse> getMemberById(Long memberId);
 
     public SuccessResponse<String> checkNicknameDuplicate(String nickname);
 

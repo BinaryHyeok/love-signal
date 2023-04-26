@@ -13,6 +13,7 @@ import kr.lovesignal.memberservice.repository.MemberRepository;
 import kr.lovesignal.memberservice.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,9 @@ public class AuthServiceImpl implements AuthService{
     // 회원가입
     @Override
     @Transactional
-    public SuccessResponse<String> registerMember(SignUpRequest signUpDto, HttpServletRequest request) {
+    public SuccessResponse<String> registerMember(SignUpRequest signUpRequest) {
 
-        MemberEntity saveMember = signUpDto.toEntity();
+        MemberEntity saveMember = signUpRequest.toEntity();
 
         memberRepository.save(saveMember);
 
@@ -42,12 +43,12 @@ public class AuthServiceImpl implements AuthService{
     // 로그인
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<Long> authenticate(SignInRequest signInDto, HttpServletRequest request) {
+    public SuccessResponse<Long> authenticate(SignInRequest signInRequest) {
 
-        MemberEntity findMember = memberRepository.findByLoginIdAndExpiredLike(signInDto.getLoginId(), "F")
+        MemberEntity findMember = memberRepository.findByLoginIdAndExpiredLike(signInRequest.getLoginId(), "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if(!findMember.getPassword().equals(signInDto.getPassword())){
+        if(!findMember.getPassword().equals(signInRequest.getPassword())){
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
@@ -57,12 +58,12 @@ public class AuthServiceImpl implements AuthService{
     // 멤버정보 수정
     @Override
     @Transactional
-    public SuccessResponse<String> updateMember(UpdateMemberRequest updateDto, HttpServletRequest request) {
+    public SuccessResponse<String> updateMember(UpdateMemberRequest updateMemberRequest) {
 
-        MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(updateDto.getMemberId(), "F")
+        MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(updateMemberRequest.getMemberId(), "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        MemberEntity updateMember = updateDto.toEntity(findMember);
+        MemberEntity updateMember = updateMemberRequest.toEntity(findMember);
 
         memberRepository.save(updateMember);
 
@@ -72,9 +73,9 @@ public class AuthServiceImpl implements AuthService{
     // 계정탈퇴
     @Override
     @Transactional
-    public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteDto, HttpServletRequest request) {
+    public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteMemberRequest) {
 
-        MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(deleteDto.getMemberId(), "F")
+        MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(deleteMemberRequest.getMemberId(), "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         MemberEntity deleteMember = markAsExpired(findMember);
@@ -87,7 +88,7 @@ public class AuthServiceImpl implements AuthService{
     // 멤버조회
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<MemberResponse> getMemberById(Long memberId, HttpServletRequest request) {
+    public SuccessResponse<MemberResponse> getMemberById(Long memberId) {
 
         MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(memberId, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
@@ -99,7 +100,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, isolation = Isolation.DEFAULT)
     public SuccessResponse<String> checkNicknameDuplicate(String nickname) {
 
         MemberEntity findMember = memberRepository.findByNicknameAndExpiredLike(nickname, "F");

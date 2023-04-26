@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -27,68 +25,68 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<SuccessResponse> signUp(@RequestBody SignUpRequest signUpDto, HttpServletRequest request){
+    public ResponseEntity<SuccessResponse> signUp(@RequestBody SignUpRequest signUpRequest){
 
-        SuccessResponse body = authService.registerMember(signUpDto, request);
+        SuccessResponse successResponse = authService.registerMember(signUpRequest);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(body);
+                .body(successResponse);
     }
 
     @PostMapping("/sign-in")
     @ApiOperation(value = "로그인")
-    public ResponseEntity<SuccessResponse> singIn(@RequestBody SignInRequest signInDto, HttpServletRequest request){
+    public ResponseEntity<SuccessResponse> singIn(@RequestBody SignInRequest signInRequest){
 
-        SuccessResponse body = authService.authenticate(signInDto, request);
+        SuccessResponse successResponse = authService.authenticate(signInRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(body);
+                .body(successResponse);
     }
 
     @PutMapping
     @ApiOperation(value = "회원정보 수정")
-    public ResponseEntity<SuccessResponse> updateMember(@RequestBody UpdateMemberRequest updateDto, HttpServletRequest request){
+    public ResponseEntity<SuccessResponse> updateMember(@RequestBody UpdateMemberRequest updateMemberRequest){
 
-        SuccessResponse body = authService.updateMember(updateDto, request);
+        SuccessResponse successResponse = authService.updateMember(updateMemberRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(body);
+                .body(successResponse);
     }
 
     @DeleteMapping
     @ApiOperation(value = "회원 탈퇴")
-    public ResponseEntity<SuccessResponse> deleteMember(@RequestBody DeleteMemberRequest deleteDto, HttpServletRequest request){
+    public ResponseEntity<SuccessResponse> deleteMember(@RequestBody DeleteMemberRequest deleteMemberRequest){
 
-        SuccessResponse body = authService.deleteMember(deleteDto, request);
+        SuccessResponse successResponse = authService.deleteMember(deleteMemberRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(body);
+                .body(successResponse);
     }
 
     @GetMapping("/{memberId}")
     @ApiOperation(value = "회원정보 조회")
-    public ResponseEntity<SuccessResponse> getMemberById(@PathVariable Long memberId, HttpServletRequest request){
+    public ResponseEntity<SuccessResponse> getMemberById(@PathVariable Long memberId){
 
-        SuccessResponse body = authService.getMemberById(memberId, request);
+        SuccessResponse successResponse = authService.getMemberById(memberId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(body);
+                .body(successResponse);
     }
 
     @GetMapping("/check/nickname/{nickname}")
     @ApiOperation(value = "닉네임 중복체크")
     public ResponseEntity<SuccessResponse> validateNickname(@PathVariable String nickname){
 
-        SuccessResponse body = authService.checkNicknameDuplicate(nickname);
+        SuccessResponse successResponse = authService.checkNicknameDuplicate(nickname);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(body);
+                .body(successResponse);
     }
 
 }

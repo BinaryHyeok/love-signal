@@ -1,0 +1,26 @@
+$w: 100px;
+
+.listItem {
+  width: 90%;
+  height: $w;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & + .reveresed {
+    flex-direction: row-reverse;
+  }
+
+  .imgBox {
+    height: 100%;
+    width: $w;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+  }
+
+  .profileBox {
+    width: calc(100% - 100px);
+    height: $w;
+  }
+}

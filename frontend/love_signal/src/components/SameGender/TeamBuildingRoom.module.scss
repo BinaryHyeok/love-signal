@@ -1,7 +1,14 @@
 .container {
   .teamcode {
     width: 100%;
-    justify-content: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .code {
+      margin: 0 4px;
+      position: relative;
+      top: -1px;
+    }
   }
 }

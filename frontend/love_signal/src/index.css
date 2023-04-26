@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .diagonal-gradient {
   background: linear-gradient(
     to bottom left,

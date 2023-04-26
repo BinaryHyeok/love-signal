@@ -31,11 +31,7 @@ code {
   border-radius: 20px;
   line-height: 1.4rem;
   position: relative;
-  background: radial-gradient(
-    rgba(249, 210, 216, 255),
-    rgba(249, 210, 216, 0),
-    rgba(249, 210, 216, 0)
-  );
+  background: radial-gradient(#fed2d7 0%, #fde5e7 50%, #eef0f5 100%);
 }
 
 .text-blue {
@@ -43,9 +39,5 @@ code {
   padding: 0 4px;
   border-radius: 20px;
   line-height: 1.4rem;
-  background: radial-gradient(
-    rgba(185, 198, 240, 255),
-    rgba(185, 198, 240, 0),
-    rgba(185, 198, 240, 0)
-  );
+  background: radial-gradient(#bccfff 0%, #d7eeff 50%, #eef0f5 100%);
 }

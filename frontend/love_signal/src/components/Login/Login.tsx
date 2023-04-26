@@ -1,10 +1,12 @@
 import style from "./Login.module.scss";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [myId, setMyId] = useState<string>("");
   const [myPw, setMyPw] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -19,12 +21,13 @@ const Login = () => {
   const checkLogin = () => {
     //로그인 되는지 체크해주는 함수
     axios
-      .post("/경로어디어디뭐시기/member/auth/sign-in", {
-        id: myId,
-        pw: myPw,
+      .post("http://localhost:8888/member/auth/sign-in", {
+        loginId: myId,
+        password: myPw,
       })
       .then((response) => {
         console.log(response);
+        navigate("/othergender");
       })
       .catch((err) => {
         console.log(err);

@@ -62,10 +62,10 @@ function App() {
           path: "/loading",
           element: <Codepen />,
         },
-        {
-          path: "/checkTeam",
-          element: <CheckTeam />,
-        },
+        // {
+        //   path: "/checkTeam",
+        //   element: <CheckTeam />,
+        // },
         {
           path: "/memberDetail",
           element: <MemberDetail />,

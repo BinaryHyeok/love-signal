@@ -24,15 +24,15 @@ const CheckTeam = () => {
         >
           <SwiperSlide className={style.swiperSlide}>
             <img src="/assets/selfieSample.jpg" />
-            <div></div>
+            <div className={style.profileBlack}>test</div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
             <img src="/assets/selfieSample2.jpg" />
-            <div></div>
+            <div className={style.profileBlack}>test</div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
             <img src="/assets/selfieSample3.jpg" />
-            <div></div>
+            <div className={style.profileBlack}>test</div>
           </SwiperSlide>
         </Swiper>
         <div className={style.buttonContainer}>

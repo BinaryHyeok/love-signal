@@ -11,7 +11,7 @@ const Main = () => {
   };
   return (
     <>
-      <div className={style.MainContainer}>
+      <div className={`${style.MainContainer} diagonal-gradient`}>
         <div className={style.mainImg}>
           <img src="/assets/Main.png" />
         </div>

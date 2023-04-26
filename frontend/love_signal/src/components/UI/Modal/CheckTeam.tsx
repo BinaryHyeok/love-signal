@@ -1,5 +1,5 @@
 import style from "./CheckTeam.module.scss";
-
+import { Dispatch, SetStateAction } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -7,8 +7,17 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper";
 
 import Button_Type_A from "../Common/Button_Type_A";
+import { memberType } from "../../../types/member";
 
-const CheckTeam = () => {
+type propsType = {
+  setVisible: Dispatch<SetStateAction<boolean>>;
+  visible: boolean;
+  member: memberType;
+}
+
+const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
+  console.log(member);
+  
   return (
     <div className={style.container}>
       <div className={style.background}></div>
@@ -23,15 +32,15 @@ const CheckTeam = () => {
           className={style.swiper}
         >
           <SwiperSlide className={style.swiperSlide}>
-            <img src="/assets/selfieSample.jpg" />
+            <img src={member[0].imgload} />
             <div></div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <img src="/assets/selfieSample2.jpg" />
+            <img src={member[1].imgload} />
             <div></div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <img src="/assets/selfieSample3.jpg" />
+            <img src={member[2].imgload} />
             <div></div>
           </SwiperSlide>
         </Swiper>

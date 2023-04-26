@@ -12,6 +12,8 @@ import Mypage from "./components/Mypage/Mypage";
 import RootLayout from "./components/Main/RootLayout";
 import Chat from "./components/Chat/Chat";
 import Codepen from "./components/UI/Loading/codepen";
+import CheckTeam from "./components/UI/Modal/CheckTeam";
+import MemberDetail from "./components/UI/Modal/MemberDetail";
 
 function App() {
   const router = createBrowserRouter([
@@ -59,6 +61,14 @@ function App() {
         {
           path: "/loading",
           element: <Codepen />,
+        },
+        // {
+        //   path: "/checkTeam",
+        //   element: <CheckTeam />,
+        // },
+        {
+          path: "/memberDetail",
+          element: <MemberDetail />,
         },
       ],
     },

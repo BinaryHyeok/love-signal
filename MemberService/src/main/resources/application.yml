@@ -8,8 +8,8 @@ server:
       force: true
       charset: UTF-8
 
-  #  http2:
-#    enabled: true
+    http2:
+    enabled: true
 
   error:
     include-exception: false
@@ -19,8 +19,9 @@ server:
       enabled: true
 
 spring:
+
   application:
-    name: member-service
+    name: member-service      # Application name
 
   profiles:
     default: default
@@ -48,4 +49,9 @@ spring:
     password: ssafy
 
 swagger:
-  enable: true
+  enable: true      # Use Swagger
+
+
+logging:
+  level:
+    org.hibernate.type: trace     # Show Query Parameter

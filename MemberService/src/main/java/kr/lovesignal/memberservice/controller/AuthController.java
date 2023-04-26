@@ -80,8 +80,15 @@ public class AuthController {
                 .body(body);
     }
 
-//    @GetMapping("/nickname/check")
-//    @ApiOperation(value = "닉네임 중복체크")
-//    public ResponseEntity<SuccessResponse>
+    @GetMapping("/check/nickname/{nickname}")
+    @ApiOperation(value = "닉네임 중복체크")
+    public ResponseEntity<SuccessResponse> validateNickname(@PathVariable String nickname){
+
+        SuccessResponse body = authService.checkNicknameDuplicate(nickname);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(body);
+    }
 
 }

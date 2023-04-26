@@ -98,8 +98,17 @@ public class AuthServiceImpl implements AuthService{
         return responseUtil.buildSuccessResponse(memberResponse);
     }
 
-    // 닉네임 중복체크
+    @Override
+    @Transactional(readOnly = true)
+    public SuccessResponse<String> checkNicknameDuplicate(String nickname) {
 
+        MemberEntity findMember = memberRepository.findByNicknameAndExpiredLike(nickname, "F");
+
+        if(null != findMember){
+            throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
+        }
+        return responseUtil.buildSuccessResponse("사용 가능한 닉네임입니다.");
+    }
 
     public MemberEntity markAsExpired(MemberEntity member){
         member.setExpired("T");

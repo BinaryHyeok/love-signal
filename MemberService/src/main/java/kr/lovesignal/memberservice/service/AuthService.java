@@ -21,4 +21,6 @@ public interface AuthService {
 
     public SuccessResponse<MemberResponse> getMemberById(Long memberId, HttpServletRequest request);
 
+    public SuccessResponse<String> checkNicknameDuplicate(String nickname);
+
 }

@@ -11,4 +11,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     Optional<MemberEntity> findByLoginIdAndExpiredLike(String loginId, String expired);
 
     Optional<MemberEntity> findByMemberIdAndExpiredLike(Long memberId, String expired);
+
+    MemberEntity findByNicknameAndExpiredLike(String nickname, String expired);
 }

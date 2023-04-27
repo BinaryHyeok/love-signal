@@ -57,3 +57,11 @@ code {
   background: radial-gradient(#bccfff 0%, #d7eeff 50%, #eef0f5 100%);
   font-weight: 700;
 }
+
+.red-line {
+  border: 1px solid #fb659f;
+}
+
+.blue-line {
+  border: 1px solid #608dff;
+}

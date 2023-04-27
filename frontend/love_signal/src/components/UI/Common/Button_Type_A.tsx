@@ -10,6 +10,7 @@ const Button_Type_A = (props: any) => {
         background: `${props.background}`,
       }}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.children}
     </button>

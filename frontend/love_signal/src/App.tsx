@@ -62,10 +62,6 @@ function App() {
           path: "/loading",
           element: <Codepen />,
         },
-        // {
-        //   path: "/checkTeam",
-        //   element: <CheckTeam />,
-        // },
         {
           path: "/memberDetail",
           element: <MemberDetail />,

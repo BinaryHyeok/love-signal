@@ -3,6 +3,7 @@ import style from "./MyTeamList.module.scss";
 import BlueHeartLine from "../UI/Common/BlueHeartLine";
 import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
 import MyTeamListItem from "./MyTeamListItem";
+import ApplyTeamList from "./ApplyTeamList";
 
 type Profile = {
   name: string;
@@ -28,18 +29,50 @@ const PROFILE_LIST_DUMMY: Profile[] = [
   },
 ];
 
+const DUMMY_APPLY_LIST: Profile[][] = [
+  [
+    {
+      name: "John",
+      age: 26,
+      introduce: "Hello.",
+    },
+    {
+      name: "Tom",
+      age: 24,
+      introduce: "Helloooooooo",
+    },
+    {
+      name: "James",
+      age: 29,
+      introduce: "WTF",
+    },
+  ],
+  [
+    {
+      name: "John",
+      age: 26,
+      introduce: "Hello.",
+    },
+    {
+      name: "Tom",
+      age: 24,
+      introduce: "Helloooooooo",
+    },
+    {
+      name: "James",
+      age: 29,
+      introduce: "WTF",
+    },
+  ],
+];
+
 const MyTeamList = () => {
   const [profileList, setProfileList] = useState<Profile[]>([]);
+  const [applyList, setApplyList] = useState<Profile[][]>([]);
 
   useEffect(() => {
-    while (PROFILE_LIST_DUMMY.length < 3) {
-      PROFILE_LIST_DUMMY.push({
-        name: "LOADING",
-        age: null,
-        introduce: "팀원을 기다리는 중...",
-      });
-    }
     setProfileList([...PROFILE_LIST_DUMMY]);
+    setApplyList([...DUMMY_APPLY_LIST]);
   }, [PROFILE_LIST_DUMMY]);
 
   return (
@@ -67,7 +100,9 @@ const MyTeamList = () => {
             <img src="/assets/mail.png" />
           </>
         }
-      ></ListBoxWithImgTitle>
+      >
+        <ApplyTeamList applyList={applyList} />
+      </ListBoxWithImgTitle>
     </div>
   );
 };

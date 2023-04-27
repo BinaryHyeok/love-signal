@@ -4,7 +4,7 @@ const Codepen = () => {
   //펄스 위아래로 사진이 들어가야하는건데.. 흠..
   return (
     <>
-      <div className={style.heartContainer}>
+      <div className={`${style.heartContainer} diagonal-gradient`}>
         <div className={style.topheart}>
           <img src="/assets/loadingheart.png" />
         </div>

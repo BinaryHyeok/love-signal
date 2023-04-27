@@ -1,0 +1,55 @@
+.backColor {
+  background-color: #eef0f5;
+  width: 100vw;
+  height: 100vh;
+  .otherContainer {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .description {
+      text-align: center;
+      font-size: 16px;
+      margin: 16px;
+
+      span {
+        font-weight: 550;
+        background: radial-gradient(#fed2d7 0%, #fde5e7 50%, #eef0f5 100%);
+      }
+    }
+    .heartIcon {
+      width: 20vw;
+      height: 1vh;
+    }
+    .otherList {
+      width: 90%;
+      height: 16vh;
+      border: 2px solid #fb659f;
+      border-radius: 7px;
+      position: relative;
+      margin-bottom: 24px;
+      .heartIcon {
+        position: absolute;
+        top: -1.6vh;
+        left: 36.5vw;
+        width: 16vw;
+        height: 3vh;
+        background-color: #eef0f5;
+      }
+      .otherPicture {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+      .humanPicture {
+        width: 30%;
+        margin: 1px 4px;
+        height: 12vh;
+        border-radius: 5px;
+        box-shadow: -1px -1px 3px #fff,
+          /* 왼쪽 위 흰색 그림자 */ 4px 4px 5px #a0a0a0; /* 오른쪽 아래 회색 그림자 */
+      }
+    }
+  }
+}

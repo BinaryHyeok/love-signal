@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public class ResponseUtil<T> {
+public class ResponseUtils<T> {
 
     public SuccessResponse<T> buildSuccessResponse(T body) {
         return SuccessResponse.<T>builder()

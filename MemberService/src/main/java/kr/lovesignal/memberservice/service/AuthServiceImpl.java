@@ -10,22 +10,23 @@ import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
 import kr.lovesignal.memberservice.model.response.MemberResponse;
 import kr.lovesignal.memberservice.model.response.SuccessResponse;
 import kr.lovesignal.memberservice.repository.MemberRepository;
-import kr.lovesignal.memberservice.util.ResponseUtil;
+import kr.lovesignal.memberservice.util.CommonUtils;
+import kr.lovesignal.memberservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
 
-    private final ResponseUtil responseUtil;
+    private final ResponseUtils responseUtil;
+    private final CommonUtils commonUtils;
     private final MemberRepository memberRepository;
 
     // 회원가입
@@ -52,7 +53,7 @@ public class AuthServiceImpl implements AuthService{
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
-        return responseUtil.buildSuccessResponse(findMember.getMemberId());
+        return responseUtil.buildSuccessResponse(findMember.getUuid().toString());
     }
 
     // 멤버정보 수정
@@ -60,7 +61,9 @@ public class AuthServiceImpl implements AuthService{
     @Transactional
     public SuccessResponse<String> updateMember(UpdateMemberRequest updateMemberRequest) {
 
-        MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(updateMemberRequest.getMemberId(), "F")
+        UUID uuid = commonUtils.getValidUUID(updateMemberRequest.getUuid());
+
+        MemberEntity findMember = memberRepository.findByUuidAndExpiredLike(uuid, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         MemberEntity updateMember = updateMemberRequest.toEntity(findMember);
@@ -75,12 +78,14 @@ public class AuthServiceImpl implements AuthService{
     @Transactional
     public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteMemberRequest) {
 
-        MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(deleteMemberRequest.getMemberId(), "F")
+        UUID uuid = commonUtils.getValidUUID(deleteMemberRequest.getUuid());
+
+        MemberEntity findMember = memberRepository.findByUuidAndExpiredLike(uuid, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        MemberEntity deleteMember = markAsExpired(findMember);
+        findMember.setExpired("T");
 
-        memberRepository.save(deleteMember);
+        memberRepository.save(findMember);
 
         return responseUtil.buildSuccessResponse("삭제 되었습니다.");
     }
@@ -88,9 +93,11 @@ public class AuthServiceImpl implements AuthService{
     // 멤버조회
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<MemberResponse> getMemberById(Long memberId) {
+    public SuccessResponse<MemberResponse> getMemberById(String uuidRequest) {
 
-        MemberEntity findMember = memberRepository.findByMemberIdAndExpiredLike(memberId, "F")
+        UUID uuid = commonUtils.getValidUUID(uuidRequest);
+
+        MemberEntity findMember = memberRepository.findByUuidAndExpiredLike(uuid, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         int age = calculateAge(findMember.getBirth());
@@ -100,7 +107,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    @Transactional(readOnly = true, isolation = Isolation.DEFAULT)
+    @Transactional(readOnly = true)
     public SuccessResponse<String> checkNicknameDuplicate(String nickname) {
 
         MemberEntity findMember = memberRepository.findByNicknameAndExpiredLike(nickname, "F");
@@ -109,11 +116,6 @@ public class AuthServiceImpl implements AuthService{
             throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
         }
         return responseUtil.buildSuccessResponse("사용 가능한 닉네임입니다.");
-    }
-
-    public MemberEntity markAsExpired(MemberEntity member){
-        member.setExpired("T");
-        return member;
     }
 
     public int calculateAge(String birth){

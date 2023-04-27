@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class MemberResponse {
 
-    private Long memberId;
+    private String uuid;
     private String nickname;
     private String gender;
     private int age;
@@ -17,7 +17,7 @@ public class MemberResponse {
 
     public static MemberResponse toDto(MemberEntity member, int age){
         return MemberResponse.builder()
-                .memberId(member.getMemberId())
+                .uuid(member.getUuid().toString())
                 .nickname(member.getNickname())
                 .gender(member.getGender())
                 .age(age)

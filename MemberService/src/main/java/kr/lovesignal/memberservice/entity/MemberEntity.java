@@ -43,5 +43,6 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "help", nullable = false, length = 1)
     @ColumnDefault("'T'")
     private String help;
+
 }
 

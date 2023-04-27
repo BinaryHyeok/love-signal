@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class UpdateMemberRequest {
 
-    private Long memberId;
+    private String uuid;
     private String nickname;
     private String description;
 
@@ -24,6 +24,7 @@ public class UpdateMemberRequest {
                 .birth(member.getBirth())
                 .description(description)
                 .help(member.getHelp())
+                .uuid(member.getUuid())
                 .createdDate(member.getCreatedDate())
                 .updatedDate(LocalDateTime.now())
                 .expired(member.getExpired())

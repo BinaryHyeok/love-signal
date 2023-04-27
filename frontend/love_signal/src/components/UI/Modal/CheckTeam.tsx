@@ -1,5 +1,5 @@
 import style from "./CheckTeam.module.scss";
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -13,15 +13,25 @@ type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
   member: memberType;
-}
+};
 
 const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
   console.log(member);
-  
+
+  const closeModal = () => {
+    setVisible(!visible);
+  };
+
   return (
     <div className={style.container}>
       <div className={style.background}></div>
       <div className={style.modal}>
+        <img
+          src="/assets/exit.png"
+          className={style.exit}
+          alt="나가기"
+          onClick={closeModal}
+        />
         <Swiper
           pagination={{
             type: "progressbar",

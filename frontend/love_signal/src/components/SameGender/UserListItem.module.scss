@@ -1,0 +1,45 @@
+$w: 100px;
+
+.listItem {
+  width: 90%;
+  height: $w;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .imgBox {
+    height: 100%;
+    width: $w;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+  }
+
+  .profileBox {
+    width: calc(100% - 100px);
+    height: $w;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8px 16px;
+
+    .profile {
+      font-weight: 700;
+      margin: 4px 0;
+    }
+
+    .introduce {
+    }
+  }
+
+  &:nth-child(2n) {
+    flex-direction: row-reverse;
+
+    .profileBox {
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+    }
+  }
+}

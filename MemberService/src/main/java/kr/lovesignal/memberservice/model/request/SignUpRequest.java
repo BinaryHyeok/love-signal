@@ -13,7 +13,6 @@ public class SignUpRequest {
     private String gender;
     private String birth;
     private String description;
-    private String help;
 
     public MemberEntity toEntity(){
         return MemberEntity.builder()
@@ -23,7 +22,6 @@ public class SignUpRequest {
                 .gender(gender)
                 .birth(birth)
                 .description(description)
-                .help(help)
                 .build();
     }
 }

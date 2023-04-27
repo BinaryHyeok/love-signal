@@ -23,8 +23,8 @@ public abstract class BaseEntity {
 
     private static final long serialVersionID = 1L;
 
-    @Column(name = "uuid", columnDefinition = "BINARY(16)")
-    private UUID uuid;
+    @Column(name = "UUID", columnDefinition = "BINARY(16)")
+    private UUID UUID;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -41,7 +41,7 @@ public abstract class BaseEntity {
         LocalDateTime now = LocalDateTime.now();
         createdDate = now;
         updatedDate = now;
-        uuid = UUID.randomUUID();
+        UUID = UUID.randomUUID();
     }
 
     @PreUpdate

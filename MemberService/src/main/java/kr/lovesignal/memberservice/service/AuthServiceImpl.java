@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService{
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
-        return responseUtil.buildSuccessResponse(findMember.getUuid().toString());
+        return responseUtil.buildSuccessResponse(findMember.getUUID().toString());
     }
 
     // 멤버정보 수정
@@ -61,9 +61,9 @@ public class AuthServiceImpl implements AuthService{
     @Transactional
     public SuccessResponse<String> updateMember(UpdateMemberRequest updateMemberRequest) {
 
-        UUID uuid = commonUtils.getValidUUID(updateMemberRequest.getUuid());
+        UUID UUID = commonUtils.getValidUUID(updateMemberRequest.getMemberUUID());
 
-        MemberEntity findMember = memberRepository.findByUuidAndExpiredLike(uuid, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         MemberEntity updateMember = updateMemberRequest.toEntity(findMember);
@@ -78,9 +78,9 @@ public class AuthServiceImpl implements AuthService{
     @Transactional
     public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteMemberRequest) {
 
-        UUID uuid = commonUtils.getValidUUID(deleteMemberRequest.getUuid());
+        UUID UUID = commonUtils.getValidUUID(deleteMemberRequest.getMemberUUID());
 
-        MemberEntity findMember = memberRepository.findByUuidAndExpiredLike(uuid, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         findMember.setExpired("T");
@@ -93,11 +93,11 @@ public class AuthServiceImpl implements AuthService{
     // 멤버조회
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<MemberResponse> getMemberById(String uuidRequest) {
+    public SuccessResponse<MemberResponse> getMemberByUUID(String memberUUID) {
 
-        UUID uuid = commonUtils.getValidUUID(uuidRequest);
+        UUID UUID = commonUtils.getValidUUID(memberUUID);
 
-        MemberEntity findMember = memberRepository.findByUuidAndExpiredLike(uuid, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         int age = calculateAge(findMember.getBirth());

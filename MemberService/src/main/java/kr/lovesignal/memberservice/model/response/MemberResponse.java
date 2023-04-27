@@ -8,21 +8,21 @@ import lombok.*;
 @Builder
 public class MemberResponse {
 
-    private String uuid;
+    private String memberUUID;
     private String nickname;
     private String gender;
     private int age;
     private String description;
-    private String help;
+    private String teamUUID;
 
     public static MemberResponse toDto(MemberEntity member, int age){
         return MemberResponse.builder()
-                .uuid(member.getUuid().toString())
+                .memberUUID(member.getUUID().toString())
                 .nickname(member.getNickname())
                 .gender(member.getGender())
                 .age(age)
                 .description(member.getDescription())
-                .help(member.getHelp())
+                .teamUUID(member.getTeam().getUUID().toString())
                 .build();
     }
 }

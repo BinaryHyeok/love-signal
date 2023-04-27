@@ -67,11 +67,11 @@ public class AuthController {
                 .body(successResponse);
     }
 
-    @GetMapping("/{uuid}")
+    @GetMapping("/{memberUUID}")
     @ApiOperation(value = "회원정보 조회")
-    public ResponseEntity<SuccessResponse> getMemberById(@PathVariable String uuid){
+    public ResponseEntity<SuccessResponse> getMemberById(@PathVariable String memberUUID){
 
-        SuccessResponse successResponse = authService.getMemberById(uuid);
+        SuccessResponse successResponse = authService.getMemberByUUID(memberUUID);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

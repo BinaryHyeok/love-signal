@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class DeleteMemberRequest {
 
-    private String uuid;
+    private String memberUUID;
 
 }

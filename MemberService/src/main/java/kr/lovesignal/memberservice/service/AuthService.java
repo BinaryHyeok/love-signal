@@ -19,7 +19,7 @@ public interface AuthService {
 
     public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteMemberRequest);
 
-    public SuccessResponse<MemberResponse> getMemberById(String uuid);
+    public SuccessResponse<MemberResponse> getMemberByUUID(String memberUUID);
 
     public SuccessResponse<String> checkNicknameDuplicate(String nickname);
 

@@ -3,11 +3,12 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 96%;
 }
 .humanPicture {
-  width: 30%;
-  margin: 1px 4px;
-  height: 12vh;
-  border-radius: 5px;
+  width: 100%;
+  margin: 1px 6px;
+  height: 13vh;
+  border-radius: 8px;
   box-shadow: -1px -1px 3px #fff, /* 왼쪽 위 흰색 그림자 */ 4px 4px 5px #a0a0a0; /* 오른쪽 아래 회색 그림자 */
 }

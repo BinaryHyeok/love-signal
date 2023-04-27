@@ -1,7 +1,16 @@
+import Header from "../UI/Header/Header";
 import style from "./MyTeam.module.scss";
+import MyTeamDesc from "./MyTeamDesc";
+import MyTeamList from "./MyTeamList";
 
 const MyTeam = () => {
-  return <>팀빌딩이 완료된 후 나의 팀을 보여줄 화면 입니다.</>;
+  return (
+    <div className={style.container}>
+      <Header />
+      <MyTeamDesc />
+      <MyTeamList />
+    </div>
+  );
 };
 
 export default MyTeam;

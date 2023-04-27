@@ -1,6 +1,5 @@
 package kr.lovesignal.teamservice.entity;
 
-import com.fasterxml.uuid.Generators;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +23,8 @@ public abstract class BaseEntity {
 
     private static final long serialVersionID = 1L;
 
-    @Column(name = "uuid", columnDefinition = "BINARY(16)")
-    private UUID uuid;
+    @Column(name = "UUID", columnDefinition = "BINARY(16)")
+    private UUID UUID;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -42,25 +41,11 @@ public abstract class BaseEntity {
         LocalDateTime now = LocalDateTime.now();
         createdDate = now;
         updatedDate = now;
-        uuid = createUUID();
+        UUID = UUID.randomUUID();
     }
 
     @PreUpdate
     public void preUpdate(){
         updatedDate = LocalDateTime.now();
     }
-
-    public UUID createUUID(){
-        UUID uuid = Generators.timeBasedGenerator().generate();
-        String[] uuidArr = uuid.toString().split("-");
-        String uuidStr = uuidArr[2]+uuidArr[1]+uuidArr[0]+uuidArr[3]+uuidArr[4];
-        StringBuffer sb = new StringBuffer(uuidStr);
-        sb.insert(8, "-");
-        sb.insert(13, "-");
-        sb.insert(18, "-");
-        sb.insert(23, "-");
-        uuid = UUID.fromString(sb.toString());
-        return uuid;
-    }
-
 }

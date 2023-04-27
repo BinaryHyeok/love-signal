@@ -9,9 +9,6 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
-import javax.persistence.*;
-import java.util.UUID;
-
 @Entity
 @Table(name ="member")
 @Getter
@@ -25,8 +22,9 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "member_id", columnDefinition = "INT UNSIGNED")
     private Long memberId;
 
-    @Column(name = "uuid", columnDefinition = "BINARY(16)")
-    private UUID uuid;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id", nullable = true)
+    private TeamEntity team;
 
     @Column(name = "login_id", nullable = false, unique = true)
     private String loginId;
@@ -45,9 +43,5 @@ public class MemberEntity extends BaseEntity{
 
     @Column(name = "description", nullable = true, length = 120)
     private String description;
-
-    @Column(name = "help", nullable = false, length = 1)
-    @ColumnDefault("'T'")
-    private String help;
 }
 

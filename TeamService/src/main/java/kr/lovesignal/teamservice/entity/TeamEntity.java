@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -22,12 +23,10 @@ public class TeamEntity extends BaseEntity{
     @Column(name = "team_id", columnDefinition = "INT UNSIGNED")
     private Long teamId;
 
-    @Column(name = "uuid", columnDefinition = "BINARY(16)")
-    private UUID uuid;
-
-    @Column(name = "code", length = 20, nullable = false, unique = true)
-    private String code;
-
     @Column(name = "gender", length = 1, nullable = false)
     private String gender;
+
+    @Column(name = "member_count", nullable = false)
+    @ColumnDefault("0")
+    private int memberCount;
 }

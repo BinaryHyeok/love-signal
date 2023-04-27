@@ -1,7 +1,7 @@
 package kr.lovesignal.teamservice.exception;
 
 import kr.lovesignal.teamservice.model.response.ErrorResponse;
-import kr.lovesignal.teamservice.util.ResponseUtil;
+import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final ResponseUtil responseUtil;
+    private final ResponseUtils responseUtil;
 
     @ExceptionHandler(value = {CustomException.class})
     public ResponseEntity<ErrorResponse> handleCustomException(CustomException e, HttpServletRequest request){

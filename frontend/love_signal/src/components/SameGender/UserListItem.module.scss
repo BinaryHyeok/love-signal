@@ -8,10 +8,6 @@ $w: 100px;
   align-items: center;
   justify-content: center;
 
-  & + .reveresed {
-    flex-direction: row-reverse;
-  }
-
   .imgBox {
     height: 100%;
     width: $w;
@@ -22,5 +18,28 @@ $w: 100px;
   .profileBox {
     width: calc(100% - 100px);
     height: $w;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8px 16px;
+
+    .profile {
+      font-weight: 700;
+      margin: 4px 0;
+    }
+
+    .introduce {
+    }
+  }
+
+  &:nth-child(2n) {
+    flex-direction: row-reverse;
+
+    .profileBox {
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+    }
   }
 }

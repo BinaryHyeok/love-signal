@@ -4,10 +4,10 @@ import TeamBuildingRoom from "./TeamBuildingRoom";
 
 const TeamBuilding = () => {
   return (
-    <>
+    <div className={style.container}>
       <Header />
       <TeamBuildingRoom />
-    </>
+    </div>
   );
 };
 

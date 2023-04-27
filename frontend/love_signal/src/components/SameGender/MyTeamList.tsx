@@ -85,6 +85,7 @@ const MyTeamList = () => {
             <BlueHeartLine />
           </>
         }
+        type="blue"
       >
         <ul className={style.teamList}>
           {profileList.map((item) => (
@@ -100,6 +101,7 @@ const MyTeamList = () => {
             <img src="/assets/mail.png" />
           </>
         }
+        type="blue"
       >
         <ApplyTeamList applyList={applyList} />
       </ListBoxWithImgTitle>

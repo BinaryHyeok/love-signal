@@ -9,6 +9,7 @@ import OtherTeamDesc from "./OtherTeamDesc";
 import PictureBox from "./OtherTeamPicture";
 import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
 import RedHeartLine from "../UI/Common/RedHearLine";
+import Footer from "../UI/Footer/Footer";
 
 const ExploreTeam = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -132,6 +133,7 @@ const ExploreTeam = () => {
                 </>
               ))}
             </div>
+            <Footer />
           </div>
         )}
       </>

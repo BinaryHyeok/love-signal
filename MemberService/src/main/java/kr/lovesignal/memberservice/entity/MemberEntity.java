@@ -26,7 +26,6 @@ public class MemberEntity extends BaseEntity{
     @JoinColumn(name = "team_id", nullable = true)
     private TeamEntity team;
 
-
     @Column(name = "login_id", nullable = false, unique = true)
     private String loginId;
 
@@ -45,5 +44,8 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "description", nullable = true, length = 120)
     private String description;
 
+    @Column(name = "team_leader", nullable = false, length = 1)
+    @ColumnDefault("'F'")
+    private String teamLeader;
 }
 

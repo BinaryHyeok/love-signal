@@ -14,6 +14,7 @@ public class MemberResponse {
     private int age;
     private String description;
     private String teamUUID;
+    private boolean teamLeader;
 
     public static MemberResponse toDto(MemberEntity member, int age){
         return MemberResponse.builder()
@@ -22,7 +23,8 @@ public class MemberResponse {
                 .gender(member.getGender())
                 .age(age)
                 .description(member.getDescription())
-                .teamUUID(member.getTeam().getUUID().toString())
+                .teamUUID(member.getTeam() != null ? member.getTeam().getUUID().toString() : null)
+                .teamLeader(member.getTeamLeader() == "T" ? true : false)
                 .build();
     }
 }

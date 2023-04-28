@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,6 +30,7 @@ public class AuthServiceImpl implements AuthService{
     private final ResponseUtils responseUtil;
     private final CommonUtils commonUtils;
     private final MemberRepository memberRepository;
+
 
     // 회원가입
     @Override
@@ -39,6 +42,7 @@ public class AuthServiceImpl implements AuthService{
         memberRepository.save(saveMember);
 
         return responseUtil.buildSuccessResponse("회원가입 되었습니다.");
+
     }
 
     // 로그인
@@ -100,7 +104,7 @@ public class AuthServiceImpl implements AuthService{
         MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        int age = calculateAge(findMember.getBirth());
+        int age = commonUtils.calculateAge(findMember.getBirth());
         MemberResponse memberResponse = MemberResponse.toDto(findMember, age);
 
         return responseUtil.buildSuccessResponse(memberResponse);
@@ -118,8 +122,5 @@ public class AuthServiceImpl implements AuthService{
         return responseUtil.buildSuccessResponse("사용 가능한 닉네임입니다.");
     }
 
-    public int calculateAge(String birth){
-        LocalDate birthDate = LocalDate.parse(birth, DateTimeFormatter.BASIC_ISO_DATE);
-        return Period.between(birthDate, LocalDate.now()).getYears();
-    }
+
 }

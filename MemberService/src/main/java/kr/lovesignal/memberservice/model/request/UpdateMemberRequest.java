@@ -23,6 +23,7 @@ public class UpdateMemberRequest {
                 .gender(member.getGender())
                 .birth(member.getBirth())
                 .description(description)
+                .teamLeader(member.getTeamLeader())
                 .UUID(member.getUUID())
                 .createdDate(member.getCreatedDate())
                 .updatedDate(LocalDateTime.now())

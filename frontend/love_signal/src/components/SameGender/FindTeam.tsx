@@ -1,3 +1,4 @@
+import Footer from "../UI/Footer/Footer";
 import Header from "../UI/Header/Header";
 import style from "./FindTeam.module.scss";
 import TeamBuildingDesc from "./TeamBuildingDesc";
@@ -9,6 +10,7 @@ const FindTeam = () => {
       <Header />
       <TeamBuildingDesc />
       <TeamBuildingMenu />
+      <Footer />
     </div>
   );
 };

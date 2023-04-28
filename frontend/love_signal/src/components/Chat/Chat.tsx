@@ -4,10 +4,10 @@ import style from "./Chat.module.scss";
 
 const Chat = () => {
   return (
-    <>
+    <div className={style.container}>
       <Header />
       <Footer />
-    </>
+    </div>
   );
 };
 

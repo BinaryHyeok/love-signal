@@ -10,87 +10,80 @@ $box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
   justify-content: center;
   width: 100%;
   height: 720px;
-}
 
-.background {
-  width: 100%;
-  height: 100%;
-  background: $background;
-  z-index: 0;
-  backdrop-filter: blur(2px);
-}
-
-.modal {
-  width: 304px;
-  height: 500px;
-  background: $modal;
-  box-shadow: $box-shadow;
-  border-radius: 10px;
-  position: absolute;
-  display: flex;
-  z-index: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .exit {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 12px;
-    right: 12px;
+  .background {
+    width: 100%;
+    height: 100%;
+    background: $background;
+    z-index: 0;
+    backdrop-filter: blur(2px);
   }
-}
+  .modal {
+    width: 304px;
+    height: 500px;
+    background: $modal;
+    box-shadow: $box-shadow;
+    border-radius: 10px;
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .exit {
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
+  }
 
-//캐러셀
+  //캐러셀
 
-.swiper {
-  width: 80%;
-}
+  .swiper {
+    width: 80%;
+  }
+  .swiperSlide {
+    text-align: center;
+    font-size: 18px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+  }
+  .swiperSlide img {
+    width: 100%;
+    height: 100%;
+    margin-top: 16px;
+    display: block;
+    z-index: 2;
+  }
 
-.swiperSlide {
-  text-align: center;
-  font-size: 18px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  object-fit: cover;
-}
+  // progressbar 컬러 수정해야함 !
+  .swiperSlide > .swiper > .swiper-pagination > .swiper-pagination-progressbar {
+    background-color: red;
+  }
 
-.swiperSlide img {
-  width: 100%;
-  height: 100%;
-  margin-top: 16px;
-  display: block;
-  z-index: 2;
-}
+  // 버튼
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  .button {
+    margin-right: 32px;
+  }
+  .buttonContainer img {
+    width: 24px;
+  }
 
-// progressbar 컬러 수정해야함 !
-
-.swiperSlide > .swiper > .swiper-pagination > .swiper-pagination-progressbar {
-  background-color: red;
-}
-
-// 버튼
-
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.button {
-  margin-right: 32px;
-}
-
-.buttonContainer img {
-  width: 24px;
-}
-
-// 프로필 정보
-.profileBlack {
-  width: 100%;
-  background: black;
-  position: absolute;
-  z-index: 3;
+  // 프로필 정보
+  .profileBlack {
+    width: 100%;
+    background: black;
+    position: absolute;
+    z-index: 3;
+  }
 }

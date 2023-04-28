@@ -10,10 +10,12 @@ import TeamBuilding from "./components/SameGender/TeamBuilding";
 import MyTeam from "./components/SameGender/MyTeam";
 import Mypage from "./components/Mypage/Mypage";
 import RootLayout from "./components/Main/RootLayout";
-import Chat from "./components/Chat/Chat";
+import Chat from "./components/pages/Chat";
 import Codepen from "./components/UI/Loading/codepen";
 import CheckTeam from "./components/UI/Modal/CheckTeam";
 import MemberDetail from "./components/UI/Modal/MemberDetail";
+import NotFound from "./components/pages/NotFound";
+import ContentLayout from "./components/pages/ContentLayout";
 
 function App() {
   const router = createBrowserRouter([
@@ -35,6 +37,7 @@ function App() {
           element: <Manual />,
         },
         {
+<<<<<<< HEAD
           path: "/OtherGender",
           element: <ExploreTeam />,
         },
@@ -65,6 +68,52 @@ function App() {
         {
           path: "/memberDetail",
           element: <MemberDetail />,
+=======
+          path: "/",
+          element: <ContentLayout />,
+          children: [
+            {
+              path: "/OtherGender",
+              element: <ExploreTeam />,
+            },
+            {
+              path: "/SameGender",
+              element: <FindTeam />,
+            },
+            {
+              path: "/SameGender/build",
+              element: <TeamBuilding />,
+            },
+            {
+              path: "/SameGender/MyTeam",
+              element: <MyTeam />,
+            },
+            {
+              path: "/Chat",
+              element: <Chat />,
+            },
+            {
+              path: "/Mypage",
+              element: <Mypage />,
+            },
+            {
+              path: "/loading",
+              element: <Codepen />,
+            },
+            // {
+            //   path: "/checkTeam",
+            //   element: <CheckTeam />,
+            // },
+            {
+              path: "/memberDetail",
+              element: <MemberDetail />,
+            },
+            {
+              path: "/*",
+              element: <NotFound />,
+            },
+          ],
+>>>>>>> cf55fe21e6bac75dd3181490ce5a6aa4e85e8014
         },
       ],
     },

@@ -24,7 +24,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
 
   return (
     <div className={style.container}>
-      <div className={style.background}></div>
+      <div className={style.background} onClick={closeModal}></div>
       <div className={style.modal}>
         <img
           src="/assets/exit.png"
@@ -42,7 +42,9 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
           className={style.swiper}
         >
           <SwiperSlide className={style.swiperSlide}>
-            <img src={member[0].imgload} />
+            <div>
+              <img src={member[0].imgload} />
+            </div>
             <div></div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>

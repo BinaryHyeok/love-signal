@@ -1,3 +1,4 @@
+import Footer from "../UI/Footer/Footer";
 import Header from "../UI/Header/Header";
 import style from "./MyTeam.module.scss";
 import MyTeamDesc from "./MyTeamDesc";

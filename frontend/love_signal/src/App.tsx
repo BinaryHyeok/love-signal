@@ -37,38 +37,6 @@ function App() {
           element: <Manual />,
         },
         {
-<<<<<<< HEAD
-          path: "/OtherGender",
-          element: <ExploreTeam />,
-        },
-        {
-          path: "/SameGender",
-          element: <FindTeam />,
-        },
-        {
-          path: "/SameGender/build",
-          element: <TeamBuilding />,
-        },
-        {
-          path: "/SameGender/MyTeam",
-          element: <MyTeam />,
-        },
-        {
-          path: "/Chat",
-          element: <Chat />,
-        },
-        {
-          path: "/Mypage",
-          element: <Mypage />,
-        },
-        {
-          path: "/loading",
-          element: <Codepen />,
-        },
-        {
-          path: "/memberDetail",
-          element: <MemberDetail />,
-=======
           path: "/",
           element: <ContentLayout />,
           children: [
@@ -109,7 +77,6 @@ function App() {
               element: <MemberDetail />,
             },
           ],
->>>>>>> cf55fe21e6bac75dd3181490ce5a6aa4e85e8014
         },
         {
           path: "/*",

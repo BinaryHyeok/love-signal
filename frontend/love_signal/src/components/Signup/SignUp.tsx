@@ -2,6 +2,9 @@ import style from "./SignUp.module.scss";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Input_Type_A from "./Input_Type_A";
+import Button_Type_A from "../UI/Common/Button_Type_A";
+import Image_Type_A from "./Image_Type_A";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -16,15 +19,15 @@ const SignUp = () => {
   const gender: string = "M";
   const help: string = "T";
 
-  const handleChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    setEmail(target.value);
-  };
+  // const handleChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const target = e.target as HTMLInputElement;
+  //   setEmail(target.value);
+  // };
 
-  const handleChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    setPassword(target.value);
-  };
+  // const handleChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const target = e.target as HTMLInputElement;
+  //   setPassword(target.value);
+  // };
 
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -80,37 +83,40 @@ const SignUp = () => {
 
   return (
     <>
-      <div className={style.loginTainer}>
-        <input
-          type="text"
-          id="email"
-          value={nickname}
-          name="email"
-          onChange={handleChangeNickname}
-          className={style.loginTextform}
-          placeholder="우정새우"
-        />
-        <button onClick={duplecheck}>중복확인</button>
-        <input
-          type="text"
-          id="email"
-          value={email}
-          name="email"
-          onChange={handleChangeId}
-          className={style.loginTextform}
-          placeholder="test@test.com"
-        />
-        <input
-          type="password"
-          id="email"
-          value={password}
-          name="email"
-          onChange={handleChangePw}
-          className={style.loginTextform}
-          placeholder="test@test.com"
-        />
+      <div className={`${style.Container} diagonal-gradient`}>
+        <img src="/assets/Logo2.png" height="100vh" />
+        <div className={style.userInfo}>
+          <Image_Type_A />
+          <div className={style.nickName}>
+            <Input_Type_A
+              className="writeNickName"
+              type="text"
+              id="nickName"
+              value={nickname}
+              onChange={handleChangeNickname}
+              placeholder="우정새우"
+            />
+            <Button_Type_A
+              className="dupleCheck"
+              width="96px"
+              height="24px"
+              background="#ffffff"
+              onClick={duplecheck}
+              disabled={true}
+              children="중복확인"
+            />
+          </div>
+          <Button_Type_A
+            className="dupleCheck"
+            width="180px"
+            height="32px"
+            background="#ffffff"
+            onClick={signup}
+            disabled={true}
+            children="회원가입"
+          />
+        </div>
       </div>
-      <button onClick={signup}>회원가입</button>
     </>
   );
 };

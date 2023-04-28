@@ -1,5 +1,6 @@
 package kr.lovesignal.teamservice.service;
 
+import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.model.response.TeamResponse;
 
@@ -20,6 +21,8 @@ public interface TeamService {
     public SuccessResponse<TeamResponse> getTeamByTeamUUID(String teamUUID);
 
     // 이성 팀 목록 조회
-    public SuccessResponse<List<TeamResponse>> getOtherGenderTeams(String gender);
-
+    public SuccessResponse<List<TeamResponse>> getOppositeGenderTeams(
+            String gender,
+            int size,
+            GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest);
 }

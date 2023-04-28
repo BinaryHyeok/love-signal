@@ -2,8 +2,7 @@ package kr.lovesignal.teamservice.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import kr.lovesignal.teamservice.model.request.CreateTeamRequest;
-import kr.lovesignal.teamservice.model.request.DeleteTeamRequest;
+import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.service.TeamService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "TeamController")
+@RequestMapping("/team")
 public class TeamController {
 
     private final TeamService teamService;
@@ -27,7 +27,7 @@ public class TeamController {
         SuccessResponse successResponse = teamService.createTeam(memberUUID);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .body(successResponse);
     }
 
@@ -37,7 +37,9 @@ public class TeamController {
 
         SuccessResponse successResponse = teamService.JoinTeam(teamUUID, memberUUID);
 
-
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(successResponse);
     }
 
     @DeleteMapping("/{memberUUID}")
@@ -51,15 +53,29 @@ public class TeamController {
                 .body(successResponse);
     }
 
-//    @GetMapping("/{teamUUID}")
-//    @ApiOperation(value = "자신의 팀 조회")
-//    public ResponseEntity<SuccessResponse> getTeamByUUID(String teamUUID){
-//
-//    }
+    @GetMapping("/{teamUUID}")
+    @ApiOperation(value = "팀 조회")
+    public ResponseEntity<SuccessResponse> getTeamByTeamUUID(@PathVariable String teamUUID){
 
-    // 이성팀 목록 불러오기
+        SuccessResponse successResponse = teamService.getTeamByTeamUUID(teamUUID);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(successResponse);
+    }
 
     //이성팀불러오기
+    @PostMapping("/opposite-gender/teams")
+    @ApiOperation(value = "이성 팀 목록 조회")
+    public ResponseEntity<SuccessResponse> getOppositeGenderTeams(
+            @RequestParam String gender,
+            @RequestParam int size,
+            @RequestBody GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest){
 
+        SuccessResponse successResponse = teamService.getOppositeGenderTeams(gender, size, getOppositeGenderTeamsRequest);
 
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(successResponse);
+    }
 }

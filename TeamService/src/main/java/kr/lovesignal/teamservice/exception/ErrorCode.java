@@ -20,11 +20,15 @@ public enum ErrorCode {
     // 404 NOT_FOUND : 리소스를 찾을 수 없음
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저 정보를 찾을 수 없습니다"),
     NOT_HAVE_TEAM(HttpStatus.NOT_FOUND, "팀에 가입되어있지 않습니다"),
+    TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "팀 정보를 찾을 수 없습니다."),
 
     // 409 CONFLICT : 요청수행 중 충돌이 발생
     DUPLICATE_ID(HttpStatus.CONFLICT, "이미 가입된 아이디입니다"),
     DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "이미 사용중인 닉네임입니다"),
     ALREADY_JOIN_TEAM(HttpStatus.CONFLICT, "이미 팀에 가입 되어있습니다"),
+    TEAM_IS_FULL(HttpStatus.CONFLICT, "팀의 정원이 가득 찼습니다"),
+    CAN_NOT_JOIN_OPPOSITE_GENDER_TEAM (HttpStatus.CONFLICT, "성별이 다른 팀에 참가할 수 없습니다"),
+
 
     // Server Error 5xx
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버에 오류가 발생하여 요청을 수행할 수 없습니다");

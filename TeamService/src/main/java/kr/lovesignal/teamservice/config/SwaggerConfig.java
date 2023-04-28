@@ -37,8 +37,8 @@ public class SwaggerConfig {
     @Bean
     public Docket TeamApi() {
         return buildDocket("팀 ", Predicates
-                .or(PathSelectors.ant( "/"),
-                        PathSelectors.ant("/**")));
+                .or(PathSelectors.ant( "/team"),
+                        PathSelectors.ant("team/**")));
     }
 
 

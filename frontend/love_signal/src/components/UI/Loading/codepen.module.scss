@@ -66,11 +66,13 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
 }
 
 .heartContainer {
-  position: relative;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100vw;
   height: 100vh;
+  top: 0;
   .topheart {
     transform: translate(50%, -220%);
   }

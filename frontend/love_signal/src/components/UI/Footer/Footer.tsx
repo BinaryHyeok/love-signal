@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./Footer.module.scss";
 
@@ -12,57 +12,35 @@ const Footer = () => {
     "black",
   ]);
 
-  const [clickNav, setClickNav] = useState<boolean[]>([
+  let [clickNav, setClickNav] = useState<boolean[]>([
     false,
     false,
     false,
     false,
   ]);
+
+  useEffect(() => {});
+
+  const falseArr = [false, false, false, false];
+  const setNav = (id: number, path: string) => {
+    setClickNav(falseArr.map((_, index) => index === id));
+    setColor(color.map((_, index) => (index === id ? "color" : "black")));
+    navigate(path);
+  };
+
   const isClickNav = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLImageElement;
     const navid: number = +target.id;
+
     if (navid === 0) {
-      clickNav[0] = true;
-      color[0] = "color";
-      clickNav[1] = false;
-      color[1] = "black";
-      clickNav[2] = false;
-      color[2] = "black";
-      clickNav[3] = false;
-      color[3] = "black";
-      navigate(`/othergender`);
+      setNav(0, "/othergender");
     } else if (navid === 1) {
-      clickNav[0] = false;
-      color[0] = "black";
-      clickNav[1] = true;
-      color[1] = "color";
-      clickNav[2] = false;
-      color[2] = "black";
-      clickNav[3] = false;
-      color[3] = "black";
-      navigate(`/samegender`);
+      setNav(1, "/samegender");
     } else if (navid === 2) {
-      clickNav[0] = false;
-      color[0] = "black";
-      clickNav[1] = false;
-      color[1] = "black";
-      clickNav[2] = true;
-      color[2] = "color";
-      clickNav[3] = false;
-      color[3] = "black";
-      navigate(`/chat`);
+      setNav(2, "/chat");
     } else if (navid === 3) {
-      clickNav[0] = false;
-      color[0] = "black";
-      clickNav[1] = false;
-      color[1] = "black";
-      clickNav[2] = false;
-      color[2] = "black";
-      clickNav[3] = true;
-      color[3] = "color";
-      navigate(`/mypage`);
+      setNav(3, "/mypage");
     }
-    setClickNav([...clickNav]);
   };
 
   return (

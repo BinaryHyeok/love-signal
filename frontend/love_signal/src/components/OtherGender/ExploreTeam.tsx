@@ -20,7 +20,7 @@ const ExploreTeam = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(true);
-    }, 5000);
+    }, 0);
   }, []);
 
   //상세보기 모달창을 띄워주는 함수입니다.
@@ -115,7 +115,6 @@ const ExploreTeam = () => {
         )}
         {!visible && (
           <div className={style.backColor}>
-            <Header />
             <div className={style.otherContainer}>
               <OtherTeamDesc />
               {dummy.map((item, idx) => (

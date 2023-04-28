@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import style from "./MyTeamList.module.scss";
-import BlueHeartLine from "../UI/Common/BlueHeartLine";
+import HeartLine from "../UI/Common/HeartLine";
 import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
 import MyTeamListItem from "./MyTeamListItem";
 import ApplyTeamList from "./ApplyTeamList";
@@ -80,9 +80,9 @@ const MyTeamList = () => {
       <ListBoxWithImgTitle
         title={
           <>
-            <BlueHeartLine />
+            <HeartLine type="blue" count="3" />
             <span>나의 팀</span>
-            <BlueHeartLine />
+            <HeartLine type="blue" count="3" />
           </>
         }
         type="blue"

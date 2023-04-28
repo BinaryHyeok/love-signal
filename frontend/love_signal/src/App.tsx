@@ -76,11 +76,11 @@ function App() {
               path: "/memberDetail",
               element: <MemberDetail />,
             },
-            {
-              path: "/*",
-              element: <NotFound />,
-            },
           ],
+        },
+        {
+          path: "/*",
+          element: <NotFound />,
         },
       ],
     },

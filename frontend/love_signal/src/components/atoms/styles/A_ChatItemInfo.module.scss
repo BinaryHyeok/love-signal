@@ -1,0 +1,21 @@
+.infoBox {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .titleBox {
+    font-weight: 700;
+
+    .title {
+    }
+
+    .count {
+      margin-left: 16px;
+    }
+  }
+
+  .time {
+    font-size: 0.7rem;
+  }
+}

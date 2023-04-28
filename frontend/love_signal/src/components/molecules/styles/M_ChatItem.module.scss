@@ -1,0 +1,12 @@
+.chatItem {
+  width: 100%;
+  height: 96px;
+  border-bottom: 1px solid #bfbfbf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

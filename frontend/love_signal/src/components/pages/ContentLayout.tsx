@@ -6,9 +6,7 @@ const ContentLayout = () => {
   return (
     <>
       <Header />
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
     </>
   );
 };

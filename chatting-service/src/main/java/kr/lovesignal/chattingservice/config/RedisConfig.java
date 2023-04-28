@@ -38,8 +38,8 @@ public class RedisConfig {
      * 어플리케이션에서 사용할 redisTemplate 설정
      */
     @Bean
-    public RedisTemplate<Long, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<Long, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Long.class));

@@ -1,12 +1,11 @@
-package kr.lovesignal.chattingservice.model;
+package kr.lovesignal.chattingservice.model.request;
 
 import kr.lovesignal.chattingservice.entity.ChatRoom;
 import lombok.*;
 
 @Getter
 @Setter
-@ToString
-public class ChatRoomDto{
+public class ReqChatRoom {
 
     private Long roomId;
     private String type;

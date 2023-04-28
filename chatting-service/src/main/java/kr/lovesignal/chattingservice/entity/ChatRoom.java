@@ -19,8 +19,7 @@ import javax.persistence.Id;
 @SuperBuilder
 @DynamicInsert
 @NoArgsConstructor
-@ToString
-public class ChatRoom extends BaseEntity{
+public class ChatRoom extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

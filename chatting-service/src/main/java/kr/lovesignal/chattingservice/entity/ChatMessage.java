@@ -7,10 +7,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -20,18 +18,18 @@ import javax.persistence.Id;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage extends BaseEntity {
 
-    public enum MessageType {
-        ENTER, TALK
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatId;
-    private Long roomId;
+    private UUID roomUUID;
     private String type;
     private String nickname;
     private String content;
     private int notReadPerson;
+
+    @ManyToOne
+    @JoinColumn(name = "roomId")
+    private ChatRoom chatRoom;
 
 
 }

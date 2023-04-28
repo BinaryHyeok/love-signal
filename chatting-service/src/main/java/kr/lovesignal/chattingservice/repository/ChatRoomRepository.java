@@ -1,6 +1,5 @@
 package kr.lovesignal.chattingservice.repository;
 
-import kr.lovesignal.chattingservice.entity.ChatRoomOri;
 import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;

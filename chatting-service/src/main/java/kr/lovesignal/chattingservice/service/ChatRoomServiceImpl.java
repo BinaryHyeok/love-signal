@@ -3,10 +3,10 @@ package kr.lovesignal.chattingservice.service;
 import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
-import kr.lovesignal.chattingservice.model.ChatRoomDto;
+import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
+import kr.lovesignal.chattingservice.model.response.ResChatRoomDto;
 import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
 import kr.lovesignal.chattingservice.repository.ChatRoomJpaRepository;
-import kr.lovesignal.chattingservice.repository.ChatRoomRepository;
 import kr.lovesignal.chattingservice.repository.MemberJpaRepository;
 import kr.lovesignal.chattingservice.repository.ParticipantJpaRepository;
 import kr.lovesignal.chattingservice.util.CommonUtils;
@@ -14,8 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -33,7 +34,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private Map<String, ChannelTopic> topics;
 
     private final CommonUtils commonUtils;
-    private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final ParticipantJpaRepository participantJpaRepository;
@@ -44,13 +44,27 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      */
 
     @Override
-    public List<ChatRoom> getChatRoomList(String userUUID) {
+    public List<ResChatRoomDto> getChatRoomList(String userUUID) {
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findMemberByUUID(uuid);
 
-        List<ChatRoom> chatRoomList = participantJpaRepository.findByMemberId(member.getMemberId());
+        List<ChatRoom> list = participantJpaRepository.findByMemberId(member.getMemberId());
+        List<ResChatRoomDto> chatRoomList = new ArrayList<>();
+
+        for(ChatRoom chatRoom : list) {
+            ResChatRoomDto resChatRoomDto = ResChatRoomDto.toDto(chatRoom);
+            chatRoomList.add(resChatRoomDto);
+        }
 
         return chatRoomList;
+    }
+
+    @Override
+    public ResChatRoomDto getChatRoom(String roomUUID) {
+        UUID uuid = commonUtils.getValidUUID(roomUUID);
+        ChatRoom chatRoom = chatRoomJpaRepository.findByUUID(uuid);
+        ResChatRoomDto reschatRoomDto = ResChatRoomDto.toDto(chatRoom);
+        return reschatRoomDto;
     }
 
 
@@ -59,8 +73,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      */
 
     @Override
-    public ChatRoom createSystemChatroom(ChatRoomDto chatRoomDto, String userUUID) {
-        ChatRoom chatRoom = chatRoomDto.toEntity();
+    public ChatRoom createSystemChatroom(ReqChatRoom reqChatRoom, String userUUID) {
+        ChatRoom chatRoom = reqChatRoom.toEntity();
         chatRoomJpaRepository.save(chatRoom);
 
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findAll();
@@ -79,8 +93,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public ChatRoom createSameGenderChatRoom(ChatRoomDto chatRoomDto, List<String> userUUIDs) {
-        ChatRoom chatRoom = chatRoomDto.toEntity();
+    public ChatRoom createSameGenderChatRoom(ReqChatRoom reqChatRoom, List<String> userUUIDs) {
+        ChatRoom chatRoom = reqChatRoom.toEntity();
         chatRoomJpaRepository.save(chatRoom);
 
         for(String userUUID : userUUIDs) {
@@ -102,13 +116,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 채팅방 입장 : redis에 topic을 만들고 pub/sub 통신을 하기 위해 리스너를 설정한다.
      */
 
-    public void enterChatRoom(long roomId) {
-        ChannelTopic topic = topics.get(roomId);
-        String roomIdSt = Long.toString(roomId);
+    public void enterChatRoom(String roomUUID) {
+        ChannelTopic topic = topics.get(roomUUID);
         if (topic == null)
-            topic = new ChannelTopic(roomIdSt);
+            topic = new ChannelTopic(roomUUID);
         redisMessageListener.addMessageListener(redisSubscriber, topic);
-        topics.put(roomIdSt, topic);
+        topics.put(roomUUID, topic);
     }
 
     public ChannelTopic getTopic(String roomId) {

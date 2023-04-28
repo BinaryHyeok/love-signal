@@ -30,12 +30,20 @@ code {
   box-sizing: border-box;
 }
 
+main {
+  min-height: 100vh;
+}
+
 .diagonal-gradient {
   background: linear-gradient(
     to bottom left,
     rgb(243, 165, 189),
     rgb(185, 198, 240)
   );
+}
+
+.common-bg {
+  background-color: #eef0f5;
 }
 
 .text-red {

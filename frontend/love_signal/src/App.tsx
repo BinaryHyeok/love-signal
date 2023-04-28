@@ -108,12 +108,12 @@ function App() {
               path: "/memberDetail",
               element: <MemberDetail />,
             },
-            {
-              path: "/*",
-              element: <NotFound />,
-            },
           ],
 >>>>>>> cf55fe21e6bac75dd3181490ce5a6aa4e85e8014
+        },
+        {
+          path: "/*",
+          element: <NotFound />,
         },
       ],
     },

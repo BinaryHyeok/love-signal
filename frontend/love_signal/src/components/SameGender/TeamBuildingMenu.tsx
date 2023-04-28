@@ -1,14 +1,14 @@
 import React from "react";
 import style from "./TeamBuildingMenu.module.scss";
-import BlueHeartLine from "../UI/Common/BlueHeartLine";
+import HeartLine from "../UI/Common/HeartLine";
 import TeamBuildingMenuList from "./TeamBuildingMenuList";
 
 const TeamBuildingMenu = () => {
   return (
     <div className={style.menuBox}>
-      <BlueHeartLine />
+      <HeartLine type="blue" count="3" />
       <TeamBuildingMenuList />
-      <BlueHeartLine />
+      <HeartLine type="blue" count="3" />
     </div>
   );
 };

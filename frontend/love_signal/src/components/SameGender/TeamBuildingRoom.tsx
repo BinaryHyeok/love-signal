@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./TeamBuildingRoom.module.scss";
-import BlueHeartLine from "../UI/Common/BlueHeartLine";
+import HeartLine from "../UI/Common/HeartLine";
 import RoomUserList from "./RoomUserList";
 import Button_Type_A from "../UI/Common/Button_Type_A";
 
@@ -10,9 +10,9 @@ const TeamBuildingRoom = () => {
   return (
     <div className={style.container}>
       <div className={style.teamcode}>
-        <BlueHeartLine />
+        <HeartLine type="blue" count="3" />
         <span className={style.code}>TEAM CODE</span>
-        <BlueHeartLine />
+        <HeartLine type="blue" count="3" />
       </div>
       <RoomUserList />
       <Button_Type_A

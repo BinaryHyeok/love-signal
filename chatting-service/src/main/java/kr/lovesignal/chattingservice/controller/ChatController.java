@@ -45,6 +45,7 @@ public class ChatController {
         return new ResponseEntity<>(chatService.getChatMessages(roomUUID), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "이성팀 프로필 공유", notes = "동성 채팅방에 원하는 이성팀 프로필을 메세지로 보낸다.")
     @PostMapping("/chat/share")
     public ResponseEntity<String> shareProfile(@RequestBody ReqShareInfo reqShareInfo) {
         String userUUID = reqShareInfo.getUserUUID();

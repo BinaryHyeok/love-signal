@@ -26,9 +26,14 @@ spring:
       maximum-pool-size: 5
 
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

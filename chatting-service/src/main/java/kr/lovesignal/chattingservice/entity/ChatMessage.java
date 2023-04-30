@@ -27,9 +27,9 @@ public class ChatMessage extends BaseEntity {
     private String content;
     private int notReadPerson;
 
-    @ManyToOne
-    @JoinColumn(name = "roomId")
-    private ChatRoom chatRoom;
+//    @ManyToOne
+//    @JoinColumn(name = "roomId")
+//    private ChatRoom chatRoom;
 
 
 }

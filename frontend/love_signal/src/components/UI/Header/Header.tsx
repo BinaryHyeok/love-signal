@@ -11,7 +11,7 @@ const Header = () => {
   };
 
   return (
-    <div className={style.container}>
+    <div className={`${style.container} common-bg`}>
       <div className={style.content}>
         <div className={style.logo}>
           <img src="/assets/logo2.png" onClick={goMain} />

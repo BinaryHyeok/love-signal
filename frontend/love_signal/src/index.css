@@ -34,6 +34,10 @@ main {
   min-height: 100vh;
 }
 
+.inner-main {
+  padding-top: 64px;
+}
+
 .diagonal-gradient {
   background: linear-gradient(
     to bottom left,

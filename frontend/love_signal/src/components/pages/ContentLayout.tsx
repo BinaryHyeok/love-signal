@@ -1,12 +1,16 @@
 import React from "react";
 import Header from "../UI/Header/Header";
 import { Outlet } from "react-router";
+import Footer from "../UI/Footer/Footer";
 
 const ContentLayout = () => {
   return (
     <>
       <Header />
-      <Outlet />
+      <div className="inner-main" id="jij">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 };

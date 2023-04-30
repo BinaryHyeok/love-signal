@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import style from "./Footer.module.scss";
+import { footerIdx } from "../../../atoms/footer";
+import { useRecoilState } from "recoil";
+import style from "./Fotter.module.scss";
 
 const Footer = () => {
   const navigate = useNavigate();
+
+  const [idx, setIdx] = useRecoilState<number>(footerIdx);
 
   const [color, setColor] = useState<string[]>([
     "black",
@@ -19,7 +23,10 @@ const Footer = () => {
     false,
   ]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    setClickNav(falseArr.map((_, index) => index === idx));
+    setColor(color.map((_, index) => (index === idx ? "color" : "black")));
+  }, []);
 
   const falseArr = [false, false, false, false];
   const setNav = (id: number, path: string) => {
@@ -31,6 +38,7 @@ const Footer = () => {
   const isClickNav = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLImageElement;
     const navid: number = +target.id;
+    setIdx(navid);
 
     if (navid === 0) {
       setNav(0, "/othergender");

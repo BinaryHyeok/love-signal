@@ -49,7 +49,7 @@ public class ChatServiceImpl implements ChatService{
         List<Participant> participants = member.getParticipants();
         for(Participant participant : participants) {
             ChatRoom findRoom = participant.getChatRoom();
-            if(findRoom.getType().equals("TEAM"))
+            if(findRoom.getType().equals("TEAM") && findRoom.getExpired().equals("F"))
                 roomUUID = findRoom.getUUID();
         }
         String topicId = roomUUID.toString();

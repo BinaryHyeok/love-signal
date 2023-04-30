@@ -2,7 +2,7 @@ package kr.lovesignal.chattingservice.service;
 
 import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
-import kr.lovesignal.chattingservice.model.response.ResChatRoomDto;
+import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import org.springframework.data.redis.listener.ChannelTopic;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface ChatRoomService {
 
     ChatRoom createSameGenderChatRoom(ReqChatRoom chatRoomDto, List<String> userUUIDs);
 
-    List<ResChatRoomDto> getChatRoomList(String userUUID);
+    List<ResChatRoom> getChatRoomList(String userUUID);
 
-    ResChatRoomDto getChatRoom(String roomUUID);
+    ResChatRoom getChatRoom(String roomUUID);
 }

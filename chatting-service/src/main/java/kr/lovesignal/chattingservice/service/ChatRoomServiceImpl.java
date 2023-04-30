@@ -4,7 +4,7 @@ import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
 import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
-import kr.lovesignal.chattingservice.model.response.ResChatRoomDto;
+import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
 import kr.lovesignal.chattingservice.repository.ChatRoomJpaRepository;
 import kr.lovesignal.chattingservice.repository.MemberJpaRepository;
@@ -44,15 +44,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      */
 
     @Override
-    public List<ResChatRoomDto> getChatRoomList(String userUUID) {
+    public List<ResChatRoom> getChatRoomList(String userUUID) {
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findMemberByUUID(uuid);
 
         List<ChatRoom> list = participantJpaRepository.findByMemberId(member.getMemberId());
-        List<ResChatRoomDto> chatRoomList = new ArrayList<>();
+        List<ResChatRoom> chatRoomList = new ArrayList<>();
 
         for(ChatRoom chatRoom : list) {
-            ResChatRoomDto resChatRoomDto = ResChatRoomDto.toDto(chatRoom);
+            ResChatRoom resChatRoomDto = ResChatRoom.toDto(chatRoom);
             chatRoomList.add(resChatRoomDto);
         }
 
@@ -60,10 +60,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public ResChatRoomDto getChatRoom(String roomUUID) {
+    public ResChatRoom getChatRoom(String roomUUID) {
         UUID uuid = commonUtils.getValidUUID(roomUUID);
         ChatRoom chatRoom = chatRoomJpaRepository.findByUUID(uuid);
-        ResChatRoomDto reschatRoomDto = ResChatRoomDto.toDto(chatRoom);
+        ResChatRoom reschatRoomDto = ResChatRoom.toDto(chatRoom);
         return reschatRoomDto;
     }
 

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-public class ResChatRoomDto {
+public class ResChatRoom {
 
     private String UUID;
     private String type;
@@ -21,8 +21,8 @@ public class ResChatRoomDto {
     private LocalDateTime updatedDate;
     private String expired;
 
-    public static ResChatRoomDto toDto(ChatRoom chatRoom) {
-        return ResChatRoomDto.builder()
+    public static ResChatRoom toDto(ChatRoom chatRoom) {
+        return ResChatRoom.builder()
                 .UUID(chatRoom.getUUID().toString())
                 .type(chatRoom.getType())
                 .roomName(chatRoom.getRoomName())

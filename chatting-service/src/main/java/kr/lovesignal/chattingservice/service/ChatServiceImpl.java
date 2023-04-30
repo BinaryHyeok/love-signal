@@ -1,13 +1,10 @@
 package kr.lovesignal.chattingservice.service;
 
-import kr.lovesignal.chattingservice.entity.ChatMessage;
-import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
 import kr.lovesignal.chattingservice.pubsub.RedisPublisher;
 import kr.lovesignal.chattingservice.repository.ChatRepository;
 import kr.lovesignal.chattingservice.repository.ChatRoomJpaRepository;
-import kr.lovesignal.chattingservice.repository.ChatRoomRepository;
 import kr.lovesignal.chattingservice.repository.MemberJpaRepository;
 import kr.lovesignal.chattingservice.util.CommonUtils;
 import lombok.RequiredArgsConstructor;

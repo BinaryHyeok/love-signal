@@ -5,7 +5,7 @@ import O_ChatList from "../organisms/O_ChatList";
 
 const T_Chat = () => {
   return (
-    <div className={style.template_chat}>
+    <div className={`${style.template_chat}`}>
       <M_Notice_Type_A
         icon="/assets/notice_A.png"
         text="매일 저녁 10시에는 선택의 시간이 진행됩니다."

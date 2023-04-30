@@ -2,6 +2,7 @@ import React from "react";
 import style from "./styles/M_Notice_Type_A.module.scss";
 
 type PropsType = {
+  className?: string;
   icon: string;
   text: string;
   width?: string;
@@ -11,6 +12,7 @@ type PropsType = {
 };
 
 const M_Notice_Type_A: React.FC<PropsType> = ({
+  className,
   icon,
   text,
   width,
@@ -20,7 +22,7 @@ const M_Notice_Type_A: React.FC<PropsType> = ({
 }) => {
   return (
     <div
-      className={style.noticeBox}
+      className={`${style.noticeBox} ${className}`}
       style={{
         width,
         height,

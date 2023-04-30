@@ -21,7 +21,7 @@ const Button_Type_A: React.FC<propsType> = ({
 }) => {
   return (
     <button
-      className={`${style.button} ${style[className]}`}
+      className={`${style.button} ${className}`}
       style={{
         width: `${width}`,
         height: `${height}`,

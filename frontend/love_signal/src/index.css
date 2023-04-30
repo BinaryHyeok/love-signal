@@ -77,3 +77,7 @@ main {
 .blue-line {
   border: 1px solid #608dff;
 }
+
+.slide-in-enter {
+  left: 0 !important;
+}

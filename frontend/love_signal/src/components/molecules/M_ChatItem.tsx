@@ -4,12 +4,13 @@ import A_ChatItemImage from "../atoms/A_ChatItemImage";
 import M_ChatItemContent from "./M_ChatItemContent";
 
 type PropsType = {
-  onClick: () => void;
+  id: string;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
-const M_ChatItem: React.FC<PropsType> = ({ onClick }) => {
+const M_ChatItem: React.FC<PropsType> = ({ id, onClick }) => {
   return (
-    <li className={style.chatItem} onClick={onClick}>
+    <li className={style.chatItem} id={id} onClick={onClick}>
       <A_ChatItemImage />
       <M_ChatItemContent />
     </li>

@@ -18,6 +18,12 @@ const T_ChatRoom: React.FC<PropsType> = ({
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   useEffect(() => {}, []);
+
+  const textSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(e.target);
+  };
+
   return (
     <div className={`${style.chatRoom} ${className}`} ref={box_chatRoom}>
       <M_ChatRoomHeader
@@ -25,7 +31,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
         roomId={roomId}
         count={count}
       />
-      <O_ChatTextList />
+      <O_ChatTextList onTextSubmit={textSubmitHandler} />
     </div>
   );
 };

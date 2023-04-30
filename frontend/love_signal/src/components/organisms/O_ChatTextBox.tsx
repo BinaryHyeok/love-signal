@@ -1,10 +1,14 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
 import M_Notice_Type_A from "../molecules/Notice_Type_A";
+import O_ChatTextList from "./O_ChatTextList";
+import M_ChatInputBox from "../molecules/M_ChatInputBox";
 
-type PropsType = {};
+type PropsType = {
+  onTextSubmit(e: React.FormEvent<HTMLFormElement>): void;
+};
 
-const O_ChatTextList: React.FC<PropsType> = () => {
+const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit }) => {
   return (
     <div className={style.textContainer}>
       <M_Notice_Type_A
@@ -14,8 +18,10 @@ const O_ChatTextList: React.FC<PropsType> = () => {
         background="rgba(197, 197, 197, 0.5"
         className={style.topNotice}
       />
+      <O_ChatTextList />
+      <M_ChatInputBox onTextSubmit={onTextSubmit} />
     </div>
   );
 };
 
-export default O_ChatTextList;
+export default O_ChatTextBox;

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ParticipantJpaRepository extends JpaRepository<Participant, Long> {
     List<ChatRoom> findByMemberId(long memberId);
+//    Participant findBy
 }

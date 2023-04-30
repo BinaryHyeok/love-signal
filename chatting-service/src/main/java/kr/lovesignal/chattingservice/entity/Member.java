@@ -7,10 +7,9 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +29,10 @@ public class Member extends BaseEntity{
     private String birth;
     private String description;
     private char help;
+
+    @OneToMany(mappedBy = "member")
+    private List<Participant> participants = new ArrayList<>();
+
 
 
 }

@@ -7,10 +7,9 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -28,5 +27,8 @@ public class ChatRoom extends BaseEntity {
     private String roomName;
     private String lastChat;
     private int notReadChat;
+
+    @OneToMany(mappedBy = "chatRoom")
+    private List<Participant> participants = new ArrayList<>();
 
 }

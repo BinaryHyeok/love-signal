@@ -86,6 +86,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         Participant participant = Participant.builder()
                 .memberId(member.getMemberId())
                 .chatroomId(chatRoomId)
+                .member(member) // 추가
+                .chatRoom(chatRoom) // 추가
                 .build();
         participantJpaRepository.save(participant);
 
@@ -104,6 +106,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             Participant participant  = Participant.builder()
                     .memberId(member.getMemberId())
                     .chatroomId(chatRoom.getRoomId())
+                    .member(member) // 추가
+                    .chatRoom(chatRoom) // 추가
                     .build();
             participantJpaRepository.save(participant);
         }

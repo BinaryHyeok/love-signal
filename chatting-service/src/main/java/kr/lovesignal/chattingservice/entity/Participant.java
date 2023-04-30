@@ -23,4 +23,12 @@ public class Participant extends BaseEntity{
     private Long memberId;
     private Long chatroomId;
 
+    @ManyToOne
+    @JoinColumn(name = "memberId", insertable = false, updatable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "roomId", insertable = false, updatable = false)
+    private ChatRoom chatRoom;
+
 }

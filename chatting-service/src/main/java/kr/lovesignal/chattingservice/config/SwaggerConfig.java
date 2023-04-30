@@ -26,8 +26,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Demo API")
-                .description("API documentation for Demo project")
+                .title("채팅 서비스")
+                .description("spring boot 2.7.11 & spring fox 3.0.0")
                 .version("1.0.0")
                 .build();
     }

@@ -30,4 +30,8 @@ public class TeamEntity extends BaseEntity{
     @Column(name = "member_count", nullable = false)
     @ColumnDefault("1")
     private int memberCount = 1;
+
+    @Column(name = "meeting", nullable = false, length = 1)
+    @ColumnDefault("'F'")
+    private String meeting;
 }

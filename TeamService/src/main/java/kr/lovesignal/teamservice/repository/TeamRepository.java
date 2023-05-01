@@ -13,14 +13,15 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
 
     @Query("SELECT team " +
             "FROM TeamEntity team " +
-            "WHERE team.gender <> :gender " +
+            "WHERE team.gender = :gender " +
             "AND team.expired = 'F' " +
+            "AND team.meeting = 'F' " +
             "AND team.memberCount = 3" +
-            "AND team.UUID NOT IN (:UUIDs)")
-    List<TeamEntity> findTeamsNotInUUIDsByGenderAndNotExpired(
+            "AND (team.UUID NOT IN (:UUIDs) OR :UUIDs IS NULL)")
+    List<TeamEntity> findTeamsNotInUUIDsByGenderAndNotExpiredAndNotMeeting(
             @Param("gender") String gender,
             @Param("UUIDs") List<UUID> UUIDs);
 
-     Optional<TeamEntity> findByUUIDAndExpired(UUID UUID, String expired);
+     Optional<TeamEntity> findByUUIDAndExpiredAndMeeting(UUID UUID, String expired, String Meeting);
 
 }

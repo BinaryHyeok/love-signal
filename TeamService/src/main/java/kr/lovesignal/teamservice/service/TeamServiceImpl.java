@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +61,7 @@ public class TeamServiceImpl implements TeamService{
         UUID teamUUID = commonUtils.getValidUUID(strTeamUUID);
         UUID memberUUID = commonUtils.getValidUUID(strMemberUUID);
 
-        TeamEntity findTeam = teamRepository.findByUUIDAndExpired(teamUUID, "F")
+        TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(teamUUID, "F", "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
         if(findTeam.getMemberCount() >= 3){
@@ -115,7 +116,7 @@ public class TeamServiceImpl implements TeamService{
 
         UUID UUID = commonUtils.getValidUUID(strTeamUUID);
 
-        TeamEntity findTeam = teamRepository.findByUUIDAndExpired(UUID, "F")
+        TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(UUID, "F", "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
             List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(findTeam, "F");
@@ -134,13 +135,15 @@ public class TeamServiceImpl implements TeamService{
             GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest) {
 
         // Frontend에서 보낸 사용한 UUID를 String에서 UUID 형식으로 변경한다.
-        List<UUID> usedUUIDs = new ArrayList<>();
-        for(String StrUUID : getOppositeGenderTeamsRequest.getTeamUUIDList()){
-            usedUUIDs.add(commonUtils.getValidUUID(StrUUID));
+        List<UUID> usedUUIDs = null;
+        if(getOppositeGenderTeamsRequest.getTeamUUIDList() != null && getOppositeGenderTeamsRequest.getTeamUUIDList().size() > 0){
+            usedUUIDs = getOppositeGenderTeamsRequest.getTeamUUIDList().stream()
+                    .map((strUUID -> commonUtils.getValidUUID(strUUID)))
+                    .collect(Collectors.toList());
         }
 
         // DB에서 사용하지 않은 모든 Team들을 뽑아서 섞은 후 20개뽑는다.
-        List<TeamEntity> notUsedTeams = teamRepository.findTeamsNotInUUIDsByGenderAndNotExpired(gender, usedUUIDs);
+        List<TeamEntity> notUsedTeams = teamRepository.findTeamsNotInUUIDsByGenderAndNotExpiredAndNotMeeting(gender, usedUUIDs);
         Collections.shuffle(notUsedTeams);
         int sendSize = notUsedTeams.size() < size ? sendSize = notUsedTeams.size() : size;
         notUsedTeams = notUsedTeams.subList(0, sendSize);

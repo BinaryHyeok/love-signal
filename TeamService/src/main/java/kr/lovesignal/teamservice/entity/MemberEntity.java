@@ -3,7 +3,6 @@ package kr.lovesignal.teamservice.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -16,7 +15,6 @@ import javax.persistence.*;
 @DynamicInsert
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class MemberEntity extends BaseEntity{
 
     @Id
@@ -50,4 +48,3 @@ public class MemberEntity extends BaseEntity{
     @ColumnDefault("'F'")
     private String teamLeader;
 }
-

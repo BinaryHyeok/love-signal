@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./styles/A_ChatSendBtn.module.scss";
 
 const A_ChatSendBtn = () => {

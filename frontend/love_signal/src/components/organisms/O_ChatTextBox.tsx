@@ -6,7 +6,7 @@ import M_ChatInputBox from "../molecules/M_ChatInputBox";
 
 type PropsType = {
   onTextSubmit(e: React.FormEvent<HTMLFormElement>): void;
-  roomType: string;
+  roomType?: string;
 };
 
 const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {

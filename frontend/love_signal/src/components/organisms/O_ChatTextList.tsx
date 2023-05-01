@@ -1,25 +1,19 @@
 import React from "react";
 import style from "./styles/O_ChatTextList.module.scss";
-import M_ChatTextItem_TypeA from "../molecules/M_ChatTextItem_TypeA";
+import M_ChatTextItem from "../molecules/M_ChatTextItem";
 
 type PropsType = {
-  roomType: string;
+  roomType?: string;
 };
 
 const O_ChatTextList: React.FC<PropsType> = ({ roomType }) => {
   return (
     <ul className={style.textList}>
-      <M_ChatTextItem_TypeA
+      <M_ChatTextItem
         roomType={roomType}
-        text={"안녕하세요안녕하세요안녕하세요안녕하세요"}
-      />
-      <M_ChatTextItem_TypeA
-        roomType={roomType}
-        text={"안녕하세요안녕하세요안녕하세요안녕하세요"}
-      />
-      <M_ChatTextItem_TypeA
-        roomType={roomType}
-        text={"안녕하세요안녕하세요안녕하세요안녕하세요"}
+        isMe={true}
+        text={"안녕하세요"}
+        sendTime={"2023-04-30 15:20:12"}
       />
     </ul>
   );

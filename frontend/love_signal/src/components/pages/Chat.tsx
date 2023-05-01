@@ -2,24 +2,23 @@ import { useEffect } from "react";
 import style from "./styles/Chat.module.scss";
 import T_Chat from "../templates/T_Chat";
 import { useRecoilState } from "recoil";
-import { roomId } from "../../atom/chatRoom";
+import { roomInfo } from "../../atom/chatRoom";
 import T_ChatRoom from "../templates/T_ChatRoom";
 import { footerIsOn } from "../../atom/footer";
 
 const Chat = () => {
-  const [selectedRoom, setSelectedRoom] = useRecoilState(roomId);
+  const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setFooterIsOn] = useRecoilState(footerIsOn);
-  const TEMP_ROOM_MAN_COUNT = "3";
 
   useEffect(() => {
     return () => {
-      setSelectedRoom("");
+      setSelectedRoom({});
       setFooterIsOn(true);
     };
   }, []);
 
   const roomExitHandler = () => {
-    setSelectedRoom("");
+    setSelectedRoom({});
     setFooterIsOn(true);
   };
 
@@ -27,11 +26,12 @@ const Chat = () => {
     <div className={style.container}>
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       <T_ChatRoom
-        className={`${selectedRoom ? "slide-in-enter" : ""} common-bg`}
-        roomId={selectedRoom}
-        count={TEMP_ROOM_MAN_COUNT}
+        className={`${selectedRoom.id ? "slide-in-enter" : ""} common-bg`}
+        roomId={selectedRoom.id}
+        title={selectedRoom.title}
+        count={selectedRoom.memberCount}
         roomExitHandler={roomExitHandler}
-        roomType={"ANONYMOUS"}
+        roomType={selectedRoom.type}
       />
       <T_Chat />
     </div>

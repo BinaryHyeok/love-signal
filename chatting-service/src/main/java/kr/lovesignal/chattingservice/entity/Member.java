@@ -30,6 +30,10 @@ public class Member extends BaseEntity{
     private String description;
     private char help;
 
+    @ManyToOne
+    @JoinColumn(name = "teamId", insertable = false, updatable = false)
+    private Team team;
+
     @OneToMany(mappedBy = "member")
     private List<Participant> participants = new ArrayList<>();
 

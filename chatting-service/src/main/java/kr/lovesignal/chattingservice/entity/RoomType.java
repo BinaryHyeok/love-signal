@@ -1,5 +1,5 @@
 package kr.lovesignal.chattingservice.entity;
 
 public enum RoomType {
-    TEEM, MEETING, SECRET,SIGNAL
+    SYSTEM, TEEM, MEETING, SECRET,SIGNAL
 }

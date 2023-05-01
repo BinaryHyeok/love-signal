@@ -45,15 +45,13 @@ public class ChatController {
         return new ResponseEntity<>(chatService.getChatMessages(roomUUID), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "이성팀 프로필 공유", notes = "동성 채팅방에 원하는 이성팀 프로필을 메세지로 보낸다.")
+    @ApiOperation(value = "이성팀 프로필 공유 메세지 저장", notes = "동성 채팅방에 원하는 이성팀 프로필 메세지를 보낸다.")
     @PostMapping("/chat/share")
-    public ResponseEntity<String> shareProfile(@RequestBody ReqShareInfo reqShareInfo) {
+    public ResponseEntity<String> saveShareMessage(@RequestBody ReqShareInfo reqShareInfo) {
         String userUUID = reqShareInfo.getUserUUID();
         String oppositeTeamUUID = reqShareInfo.getTeamUUID();
         chatService.saveShareMessage(userUUID, oppositeTeamUUID);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
-
-
 
 }

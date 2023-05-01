@@ -19,6 +19,10 @@ body {
   font-family: "GmarketSansTTFLight";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 code {
@@ -34,10 +38,19 @@ main {
   min-height: 100vh;
 }
 
+input {
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+
+/* 헤더 공간을 비워주기 위한 메인 컨텐츠 패딩영역 */
 .inner-main {
   padding-top: 64px;
 }
 
+/* 그라데이션이 들어간 배경색 */
 .diagonal-gradient {
   background: linear-gradient(
     to bottom left,
@@ -46,10 +59,12 @@ main {
   );
 }
 
+/* 일반 화면의 배경색(연한 파랑) */
 .common-bg {
   background-color: #eef0f5;
 }
 
+/* 텍스트 형광펜 효과, 빨간색 */
 .text-red {
   display: inline-block;
   overflow-x: visible;
@@ -61,6 +76,7 @@ main {
   font-weight: 700;
 }
 
+/* 텍스트 형광펜 효과, 파란색 */
 .text-blue {
   display: inline-block;
   padding: 0 4px;
@@ -70,14 +86,25 @@ main {
   font-weight: 700;
 }
 
+/* 요소의 테두리 보더라인, 빨간색 */
 .red-line {
   border: 1px solid #fb659f;
 }
 
+/* 요소의 테두리 보더라인, 파란색 */
 .blue-line {
   border: 1px solid #608dff;
 }
 
+/* 우에서 좌로 들어오는 애니메이션을 위한 클래스 */
 .slide-in-enter {
   left: 0 !important;
+}
+
+/* 드래그가 가능한 요소에 추가하는 클래스 */
+.draggerable {
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
 }

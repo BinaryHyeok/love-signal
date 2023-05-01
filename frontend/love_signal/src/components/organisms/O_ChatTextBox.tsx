@@ -6,9 +6,10 @@ import M_ChatInputBox from "../molecules/M_ChatInputBox";
 
 type PropsType = {
   onTextSubmit(e: React.FormEvent<HTMLFormElement>): void;
+  roomType: string;
 };
 
-const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit }) => {
+const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
   return (
     <div className={style.textContainer}>
       <M_Notice_Type_A
@@ -18,7 +19,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit }) => {
         background="rgba(197, 197, 197, 0.5"
         className={style.topNotice}
       />
-      <O_ChatTextList />
+      <O_ChatTextList roomType={roomType} />
       <M_ChatInputBox onTextSubmit={onTextSubmit} />
     </div>
   );

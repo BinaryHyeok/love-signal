@@ -7,15 +7,22 @@ type PropsType = {
   onRoomExit: React.MouseEventHandler<HTMLButtonElement>;
   roomId: string;
   count: string;
+  background: string;
 };
 
 const M_ChatRoomHeader: React.FC<PropsType> = ({
   onRoomExit,
   roomId,
   count,
+  background,
 }) => {
   return (
-    <div className={style.chatRoomHeader}>
+    <div
+      className={style.chatRoomHeader}
+      style={{
+        background: background,
+      }}
+    >
       <A_ChatHeaderExit onClick={onRoomExit} />
       <A_ChatHeaderTitle title={roomId} count={count} />
     </div>

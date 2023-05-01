@@ -119,10 +119,7 @@ public class TeamServiceImpl implements TeamService{
         TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(UUID, "F", "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
-            List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(findTeam, "F");
-            memberEntities.toString();
-
-            TeamResponse teamResponse = TeamResponse.buildTeamResponse(findTeam, memberEntities);
+        TeamResponse teamResponse = makeTeam(findTeam);
 
         return responseUtils.buildSuccessResponse(teamResponse);
     }
@@ -151,8 +148,7 @@ public class TeamServiceImpl implements TeamService{
         // 이성 팀 목록을 만든다.
         List<TeamResponse> sendTeams = new ArrayList<>();
         for(TeamEntity teamEntity : notUsedTeams){
-            List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(teamEntity, "F");
-            TeamResponse teamResponse = TeamResponse.buildTeamResponse(teamEntity, memberEntities);
+            TeamResponse teamResponse = makeTeam(teamEntity);
             sendTeams.add(teamResponse);
         }
 
@@ -191,5 +187,12 @@ public class TeamServiceImpl implements TeamService{
                 .updatedDate(LocalDateTime.now())
                 .expired(team.getExpired())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public TeamResponse makeTeam(TeamEntity teamEntity){
+        List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(teamEntity, "F");
+        TeamResponse teamResponse = TeamResponse.buildTeamResponse(teamEntity, memberEntities);
+        return teamResponse;
     }
 }

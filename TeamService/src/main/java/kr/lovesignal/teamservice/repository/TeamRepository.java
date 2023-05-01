@@ -24,4 +24,6 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
 
      Optional<TeamEntity> findByUUIDAndExpiredAndMeeting(UUID UUID, String expired, String Meeting);
 
+     Optional<TeamEntity> findByTeamIdAndExpired(Long TeamId, String expired);
+
 }

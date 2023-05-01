@@ -78,4 +78,28 @@ public class TeamController {
                 .status(HttpStatus.OK)
                 .body(successResponse);
     }
+
+//    @GetMapping("/{teamUUID}/meeting")
+//    @ApiOperation(value = "미팅 신청받은 목록 불러오기")
+//    public ResponseEntity<SuccessResponse> getMeetingRequests(@PathVariable String teamUUID){
+//
+//    }
+//
+//    @PostMapping("/{teamUUID}/meeting/{oppositeTeamUUID}/request")
+//    @ApiOperation(value = "미팅 신청")
+//    public ResponseEntity<SuccessResponse> createMeetingRequest(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+//
+//    }
+//
+//    @DeleteMapping("/{teamUUID}/meeting/{oppositeTeamUUID}/accpet")
+//    @ApiOperation(value = "미팅 수락")
+//    public ResponseEntity<SuccessResponse> deleteAllMeetingRequests(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+//
+//    }
+//
+//    @DeleteMapping("/{teamUUID}/meeting/{oppositeTeamUUID}/reject")
+//    @ApiOperation(value = "미팅 거절")
+//    public ResponseEntity<SuccessResponse> deleteMeetingRequest(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+//
+//    }
 }

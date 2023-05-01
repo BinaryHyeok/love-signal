@@ -6,22 +6,24 @@ import O_ChatTextBox from "../organisms/O_ChatTextBox";
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
   NOTICE: "#fafbce",
-  ALL: "#fbced3",
+  GROUP: "#fbced3",
   ANONYMOUS: "#dccefb",
 };
 
 Object.freeze(ENUM_BACKGROUND);
 type PropsType = {
   className?: string;
-  roomId: string;
-  count: string;
+  roomId?: string;
+  title?: string;
+  count?: string;
   roomExitHandler: React.MouseEventHandler<HTMLElement>;
-  roomType: string;
+  roomType?: string;
 };
 
 const T_ChatRoom: React.FC<PropsType> = ({
   className,
   roomId,
+  title,
   count,
   roomExitHandler,
   roomType,
@@ -39,8 +41,9 @@ const T_ChatRoom: React.FC<PropsType> = ({
       <M_ChatRoomHeader
         onRoomExit={roomExitHandler}
         roomId={roomId}
+        title={title}
         count={count}
-        background={ENUM_BACKGROUND[roomType]}
+        background={roomType ? ENUM_BACKGROUND[roomType] : ""}
       />
       <O_ChatTextBox onTextSubmit={textSubmitHandler} roomType={roomType} />
     </div>

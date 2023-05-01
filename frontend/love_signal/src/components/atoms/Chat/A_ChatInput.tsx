@@ -1,4 +1,3 @@
-import { useState } from "react";
 import style from "./styles/A_ChatInput.module.scss";
 
 type PropsTypes = {

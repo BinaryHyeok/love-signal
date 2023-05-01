@@ -2,8 +2,8 @@ import React from "react";
 import style from "./styles/A_ChatHeaderTitle.module.scss";
 
 type PropsType = {
-  title: string;
-  count: string;
+  title?: string;
+  count?: string;
 };
 
 const A_ChatHeaderTitle: React.FC<PropsType> = ({ title, count }) => {

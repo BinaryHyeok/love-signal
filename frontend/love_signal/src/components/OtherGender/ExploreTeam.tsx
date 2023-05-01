@@ -109,13 +109,32 @@ const ExploreTeam = () => {
     return (
       <>
         {visible && (
-          <Modal_portal>
-            <CheckTeam
-              setVisible={setVisible}
-              visible={visible}
-              member={dummy[teamNumber]}
-            />
-          </Modal_portal>
+          <>
+            <div className={style.otherContainer}>
+              <OtherTeamDesc />
+              {dummy.map((item, idx) => (
+                <>
+                  <ListBoxWithImgTitle
+                    title={
+                      <>
+                        <RedHeartLine />
+                      </>
+                    }
+                    type="red"
+                  >
+                    <PictureBox viewDetail={viewDetail} idx={idx} item={item} />
+                  </ListBoxWithImgTitle>
+                </>
+              ))}
+            </div>
+            <Modal_portal>
+              <CheckTeam
+                setVisible={setVisible}
+                visible={visible}
+                member={dummy[teamNumber]}
+              />
+            </Modal_portal>
+          </>
         )}
         {!visible && (
           <div className={style.backColor}>

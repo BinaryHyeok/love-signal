@@ -1,12 +1,12 @@
 import style from "./CheckTeam.module.scss";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper";
 
-import Button_Type_A from "../Common/Button_Type_A";
+import ButtonTypeA from "../Common/Button_Type_A";
 import { memberType } from "../../../types/member";
 
 type propsType = {
@@ -18,8 +18,14 @@ type propsType = {
 const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
   console.log(member);
 
+  const [close, setClose] = useState(false);
+
   const closeModal = () => {
     setVisible(!visible);
+  };
+
+  const closeLeft = () => {
+    setClose(true);
   };
 
   return (
@@ -41,33 +47,83 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
           modules={[Pagination, Navigation]}
           className={style.swiper}
         >
-          <SwiperSlide className={style.swiperSlide}>
-            <div>
-              <img src={member[0].imgload} />
+          <SwiperSlide
+            className={style.swiperSlide}
+            style={{ borderRadius: "10px" }}
+          >
+            <div className={style.image}>
+              <img src={member[0].imgload} alt="" />
             </div>
-            <div></div>
+            {!close && (
+              <div className={style.swipeLeft} onClick={closeLeft}>
+                <div className={style.swipeLetter}>
+                  <b>왼쪽</b>으로 넘기면
+                </div>
+                <div className={style.swipeLetter}>
+                  <b>다른 팀원</b>들을 볼 수 있어요
+                </div>
+                <div className={style.swipeLeftIcon}>
+                  <img src="/assets/swipe_left.png" alt="" />
+                </div>
+              </div>
+            )}
+            <div className={style.profileBlack}>
+              <div className={style.profileText}>
+                <div>
+                  <b>{member[0].nickname}</b>
+                  <span style={{ fontSize: "16px", marginLeft: "8px" }}>
+                    {member[0].age}
+                  </span>
+                </div>
+                <div className={style.description}>{member[0].description}</div>
+              </div>
+            </div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <img src={member[1].imgload} />
-            <div></div>
+            <div className={style.image}>
+              <img src={member[1].imgload} alt="" />
+            </div>
+            <div className={style.profileBlack}>
+              <div className={style.profileText}>
+                <div>
+                  <b>{member[1].nickname}</b>
+                  <span style={{ fontSize: "16px", marginLeft: "8px" }}>
+                    {member[1].age}
+                  </span>
+                </div>
+                <div className={style.description}>{member[1].description}</div>
+              </div>
+            </div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <img src={member[2].imgload} />
-            <div></div>
+            <div className={style.image}>
+              <img src={member[2].imgload} alt="" />
+            </div>
+            <div className={style.profileBlack}>
+              <div className={style.profileText}>
+                <div>
+                  <b>{member[2].nickname} </b>
+                  <span style={{ fontSize: "16px", marginLeft: "8px" }}>
+                    {member[2].age}
+                  </span>
+                </div>
+                <div className={style.description}>{member[2].description}</div>
+              </div>
+            </div>
           </SwiperSlide>
         </Swiper>
         <div className={style.buttonContainer}>
-          <Button_Type_A
+          <ButtonTypeA
             width="104px"
             height="32px"
             background="#CAD9FF"
             className={style.button}
           >
-            <img src="/assets/share.png" />
-          </Button_Type_A>
-          <Button_Type_A width="104px" height="32px" background="#FBCED3">
-            <img src="/assets/send_invite.png" />
-          </Button_Type_A>
+            <img src="/assets/share.png" alt="" />
+          </ButtonTypeA>
+          <ButtonTypeA width="104px" height="32px" background="#FBCED3">
+            <img src="/assets/send_invite.png" alt="" />
+          </ButtonTypeA>
         </div>
       </div>
     </div>

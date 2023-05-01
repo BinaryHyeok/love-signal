@@ -5,27 +5,62 @@ import { footerIdx } from "../../atom/footer";
 import Codepen from "../UI/Loading/codepen";
 import Modal_portal from "../UI/Modal/Modal_portal";
 import CheckTeam from "../UI/Modal/CheckTeam";
-import { memberType } from "../../types/member";
+import { member, team } from "../../types/member";
 import OtherTeamDesc from "./OtherTeamDesc";
 import PictureBox from "./OtherTeamPicture";
 import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
 import RedHeartLine from "../UI/Common/RedHearLine";
 import Footer from "../UI/Footer/Footer";
+import { fetchList } from "../../api/othergender";
 
 const ExploreTeam = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   //팀 코드를 저장해줄 변수입니다.(또는 그 팀의 배열 위치?)
   const [teamNumber, setTeamNumber] = useState<number>(0);
-
+  const [team, setTeam] = useState<team[]>([]);
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
+  const [uuidList, setuuidList] = useState<string[]>([]);
+  let [receiveList, setReceiveList] = useState<number>(10); //받아올 리스트 수.
 
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(true);
-    }, 0);
+    }, 100);
     setIdx(0);
+
+    getList();
   }, []);
+
+  useEffect(() => {
+    console.log(uuidList);
+  }, [uuidList]);
+
+  //리스트를 받아올 axios 함수입니다.
+  const getList = async () => {
+    await fetchList("M", receiveList, uuidList)
+      .then((res) => {
+        addmemberList(res.data.body);
+        adduuidList(res.data.body);
+        setIsLoading(true);
+        setReceiveList(receiveList + 10);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const adduuidList = (teamList: team[]) => {
+    teamList.forEach((item) => {
+      setuuidList((uuidList) => [...uuidList, item.teamUUID]);
+    });
+  };
+
+  const addmemberList = (teamList: team[]) => {
+    teamList.forEach((item) => {
+      setTeam((team) => [...team, item]);
+    });
+  };
 
   //상세보기 모달창을 띄워주는 함수입니다.
   const viewDetail = (idx: number) => {
@@ -34,85 +69,26 @@ const ExploreTeam = () => {
     setVisible(!visible);
   };
 
-  const dummy: memberType[] = [
-    [
-      {
-        nickname: "John",
-        age: "26",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl1.png",
-      },
-      {
-        nickname: "Tom",
-        age: "24",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl2.png",
-      },
-      {
-        nickname: "Alice",
-        age: "25",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl3.png",
-      },
-    ],
-    [
-      {
-        nickname: "John",
-        age: "26",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl4.png",
-      },
-      {
-        nickname: "Tom",
-        age: "24",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl5.png",
-      },
-      {
-        nickname: "Alice",
-        age: "25",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl6.png",
-      },
-    ],
-    [
-      {
-        nickname: "John",
-        age: "26",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl1.png",
-      },
-      {
-        nickname: "Tom",
-        age: "24",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl2.png",
-      },
-      {
-        nickname: "Alice",
-        age: "25",
-        description: "친구찾으러왔어요~",
-        MBTI: "CUTE",
-        imgload: "/assets/girl3.png",
-      },
-    ],
-  ];
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    console.log("나 동작언제함?");
+
+    const isEnd =
+      Math.round(target.scrollTop + target.clientHeight) >
+      target.scrollHeight - 20;
+    if (isEnd) {
+      getList();
+    }
+  };
+
   if (isLoading) {
     return (
       <>
         {visible && (
           <>
-            <div className={style.otherContainer}>
+            <div className={style.otherContainer} onScroll={handleScroll}>
               <OtherTeamDesc />
-              {dummy.map((item, idx) => (
+              {team.map((item, idx) => (
                 <>
                   <ListBoxWithImgTitle
                     title={
@@ -122,7 +98,11 @@ const ExploreTeam = () => {
                     }
                     type="red"
                   >
-                    <PictureBox viewDetail={viewDetail} idx={idx} item={item} />
+                    <PictureBox
+                      viewDetail={viewDetail}
+                      idx={idx}
+                      item={item.members}
+                    />
                   </ListBoxWithImgTitle>
                 </>
               ))}
@@ -131,16 +111,16 @@ const ExploreTeam = () => {
               <CheckTeam
                 setVisible={setVisible}
                 visible={visible}
-                member={dummy[teamNumber]}
+                member={team[teamNumber].members}
               />
             </Modal_portal>
           </>
         )}
         {!visible && (
           <div className={style.backColor}>
-            <div className={style.otherContainer}>
+            <div className={style.otherContainer} onScroll={handleScroll}>
               <OtherTeamDesc />
-              {dummy.map((item, idx) => (
+              {team.map((item, idx) => (
                 <>
                   <ListBoxWithImgTitle
                     title={
@@ -150,7 +130,11 @@ const ExploreTeam = () => {
                     }
                     type="red"
                   >
-                    <PictureBox viewDetail={viewDetail} idx={idx} item={item} />
+                    <PictureBox
+                      viewDetail={viewDetail}
+                      idx={idx}
+                      item={item.members}
+                    />
                   </ListBoxWithImgTitle>
                 </>
               ))}

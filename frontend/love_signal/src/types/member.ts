@@ -1,31 +1,10 @@
-export type memberType = [
-  {
-    nickname: string;
-    age: string;
-    description: string;
-    MBTI: string;
-    imgload: string;
-  },
-  {
-    nickname: string;
-    age: string;
-    description: string;
-    MBTI: string;
-    imgload: string;
-  },
-  {
-    nickname: string;
-    age: string;
-    description: string;
-    MBTI: string;
-    imgload: string;
-  }
-];
+export type team = {
+  teamUUID: string;
+  members: member[];
+};
 
 export type member = {
   nickname: string;
-  age: string;
+  age: number;
   description: string;
-  MBTI: string;
-  imgload: string;
 };

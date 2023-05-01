@@ -7,12 +7,12 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper";
 
 import ButtonTypeA from "../Common/Button_Type_A";
-import { memberType } from "../../../types/member";
+import { member } from "../../../types/member";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
-  member: memberType;
+  member: member[];
 };
 
 const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
@@ -52,7 +52,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
             style={{ borderRadius: "10px" }}
           >
             <div className={style.image}>
-              <img src={member[0].imgload} alt="" />
+              <img src="/assets/girl1.png" alt="" />
             </div>
             {!close && (
               <div className={style.swipeLeft} onClick={closeLeft}>
@@ -81,7 +81,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
             <div className={style.image}>
-              <img src={member[1].imgload} alt="" />
+              <img src="/assets/girl2.png" alt="" />
             </div>
             <div className={style.profileBlack}>
               <div className={style.profileText}>
@@ -97,7 +97,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
             <div className={style.image}>
-              <img src={member[2].imgload} alt="" />
+              <img src="/assets/girl3.png" alt="" />
             </div>
             <div className={style.profileBlack}>
               <div className={style.profileText}>

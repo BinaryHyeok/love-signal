@@ -1,10 +1,10 @@
-import { memberType } from "../../types/member";
+import { member } from "../../types/member";
 import style from "./OtherTeamPicture.module.scss";
 
 type propsType = {
   viewDetail: (idx: number) => void;
   idx: number;
-  item: memberType;
+  item: member[];
 };
 
 const PictureBox: React.FC<propsType> = ({ viewDetail, idx, item }) => {
@@ -15,7 +15,7 @@ const PictureBox: React.FC<propsType> = ({ viewDetail, idx, item }) => {
           <>
             <img
               key={index}
-              src={Image.imgload}
+              src="/assets/girl1.png"
               alt="이성이미지"
               className={style.humanPicture}
             />

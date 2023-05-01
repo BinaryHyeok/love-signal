@@ -14,7 +14,6 @@ import Chat from "./components/pages/Chat";
 import Codepen from "./components/UI/Loading/codepen";
 import NotFound from "./components/pages/NotFound";
 import ContentLayout from "./components/pages/ContentLayout";
-import ChangeImg from "./components/UI/Modal/ChangeImg";
 
 function App() {
   const router = createBrowserRouter([

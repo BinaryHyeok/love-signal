@@ -4,13 +4,12 @@ import { footerIdx } from "../../../atom/footer";
 import { footerIsOn } from "../../../atom/footer";
 import { useRecoilState } from "recoil";
 import style from "./Footer.module.scss";
+import FooterIcon from "./FooterIcon";
 
 const Footer = () => {
   const navigate = useNavigate();
 
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
-  // const [localIdx, setLocalIdx] = useRecoilState<number>(footerIdxSelector);
-
   const [isOn, _] = useRecoilState<boolean>(footerIsOn);
 
   const [color, setColor] = useState<string[]>([
@@ -59,39 +58,35 @@ const Footer = () => {
     <div className={`${style.container} ${!isOn ? style.closed : ""}`}>
       <div className={style.content}>
         <div className={style.navbar}>
-          <img
-            id="0"
-            src={`/assets/othergender_${color[0]}.png`}
-            alt=""
-            onClick={isClickNav}
-            className={style.nav1}
+          <FooterIcon
+            idx="0"
+            color={color[0]}
+            address="othergender"
+            isClickNav={isClickNav}
           />
         </div>
         <div className={style.navbar}>
-          <img
-            id="1"
-            src={`/assets/group_${color[1]}.png`}
-            alt=""
-            onClick={isClickNav}
-            className={style.nav1}
+          <FooterIcon
+            idx="1"
+            color={color[1]}
+            address="group"
+            isClickNav={isClickNav}
           />
         </div>
         <div className={style.navbar}>
-          <img
-            id="2"
-            src={`/assets/chat_${color[2]}.png`}
-            alt=""
-            onClick={isClickNav}
-            className={style.nav2}
+          <FooterIcon
+            idx="2"
+            color={color[2]}
+            address="chat"
+            isClickNav={isClickNav}
           />
         </div>
         <div className={style.navbar}>
-          <img
-            id="3"
-            src={`assets/mypage_${color[3]}.png`}
-            alt=""
-            onClick={isClickNav}
-            className={style.nav2}
+          <FooterIcon
+            idx="3"
+            color={color[3]}
+            address="mypage"
+            isClickNav={isClickNav}
           />
         </div>
       </div>

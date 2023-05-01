@@ -25,4 +25,16 @@ public interface TeamService {
             String gender,
             int size,
             GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest);
+
+    // 미팅 신청받은 목록 조회
+    public SuccessResponse<List<TeamResponse>> getMeetingRequests(String teamUUID);
+
+    // 미팅 신청
+    public SuccessResponse<String> createMeetingRequest(String teamUUID, String oppositeTeamUUID);
+
+    // 미팅 수락
+    public SuccessResponse<String> accpetMeeting(String teamUUID, String oppositeTeamUUID);
+
+    // 미팅 거절
+    public SuccessResponse<String> rejectMeeting(String teamUUID, String oppositeTeamUUID);
 }

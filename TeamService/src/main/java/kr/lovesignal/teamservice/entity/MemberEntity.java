@@ -22,7 +22,7 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "member_id", columnDefinition = "INT UNSIGNED")
     private Long memberId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "team_id", nullable = true)
     private TeamEntity team;
 

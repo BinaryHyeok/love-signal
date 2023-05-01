@@ -1,9 +1,6 @@
 package kr.lovesignal.teamservice.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name ="meeting")
 @Getter
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MeetingEntity{
 

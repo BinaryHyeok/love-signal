@@ -1,7 +1,9 @@
 package kr.lovesignal.teamservice.service;
 
+import kr.lovesignal.teamservice.entity.MeetingEntity;
 import kr.lovesignal.teamservice.entity.MemberEntity;
 import kr.lovesignal.teamservice.entity.TeamEntity;
+import kr.lovesignal.teamservice.repository.MeetingRepository;
 import kr.lovesignal.teamservice.repository.MemberRepository;
 import kr.lovesignal.teamservice.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class InitDummyData {
 
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
+    private final MeetingRepository meetingRepository;
 
     @Transactional
     @PostConstruct
@@ -66,11 +69,6 @@ public class InitDummyData {
         Long womanTeamId = 1L;
         // 여자 팀 가입 유저
         for(int i = 1; i <= 30; i++){
-//            LocalDate startDate = LocalDate.of(1990, 1, 1);
-//            LocalDate endDate = LocalDate.of(2003, 12, 31);
-//            long days = startDate.until(endDate).getDays();
-//            LocalDate randomDate = startDate.plusDays(ThreadLocalRandom.current().nextLong(days + 1));
-//            String formattedDate = randomDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             LocalDate startDate = LocalDate.of(1990, 1, 1);
             LocalDate endDate = LocalDate.of(2003, 12, 31);
             long days = startDate.until(endDate, ChronoUnit.DAYS);
@@ -113,6 +111,67 @@ public class InitDummyData {
             idx++;
             memberRepository.save(member);
         }
+
+        // 미팅 연결
+        MeetingEntity meeting1 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .build();
+        meetingRepository.save(meeting1);
+
+        MeetingEntity meeting2 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
+                .build();
+        meetingRepository.save(meeting2);
+
+        MeetingEntity meeting3 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(3L, "F").get())
+                .build();
+        meetingRepository.save(meeting3);
+
+        MeetingEntity meeting4 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(12L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .build();
+        meetingRepository.save(meeting4);
+
+        MeetingEntity meeting5 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(12L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
+                .build();
+        meetingRepository.save(meeting5);
+
+        MeetingEntity meeting6 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(15L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(6L, "F").get())
+                .build();
+        meetingRepository.save(meeting6);
+
+        MeetingEntity meeting7 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(4L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(17L, "F").get())
+                .build();
+        meetingRepository.save(meeting7);
+
+        MeetingEntity meeting8 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(19L, "F").get())
+                .build();
+        meetingRepository.save(meeting8);
+
+        MeetingEntity meeting9 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(10L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
+                .build();
+        meetingRepository.save(meeting9);
+
+        MeetingEntity meeting10 = MeetingEntity.builder()
+                .proposeTeam(teamRepository.findByTeamIdAndExpired(20L, "F").get())
+                .requestTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .build();
+        meetingRepository.save(meeting10);
 
     }
 }

@@ -12,6 +12,7 @@ public enum ErrorCode {
     // 400 BAD_REQUEST : 잘못된 요청
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다"),
     INVALID_UUID(HttpStatus.BAD_REQUEST, "UUID가 올바르지 않습니다."),
+    NOT_MATCHING_TEAM(HttpStatus.BAD_REQUEST, "조건에 해당하는 미팅 신청이 없습니다."),
 
     // 401 UNAUTHORIZED : 인증되지 않은 사용자
     INVALID_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다"),
@@ -28,6 +29,7 @@ public enum ErrorCode {
     ALREADY_JOIN_TEAM(HttpStatus.CONFLICT, "이미 팀에 가입 되어있습니다"),
     TEAM_IS_FULL(HttpStatus.CONFLICT, "팀의 정원이 가득 찼습니다"),
     CAN_NOT_JOIN_OPPOSITE_GENDER_TEAM (HttpStatus.CONFLICT, "성별이 다른 팀에 참가할 수 없습니다"),
+
 
 
     // Server Error 5xx

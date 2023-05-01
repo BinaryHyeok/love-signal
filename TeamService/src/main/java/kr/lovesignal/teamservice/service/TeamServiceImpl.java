@@ -1,5 +1,6 @@
 package kr.lovesignal.teamservice.service;
 
+import kr.lovesignal.teamservice.entity.MeetingEntity;
 import kr.lovesignal.teamservice.entity.MemberEntity;
 import kr.lovesignal.teamservice.entity.TeamEntity;
 import kr.lovesignal.teamservice.exception.CustomException;
@@ -7,6 +8,7 @@ import kr.lovesignal.teamservice.exception.ErrorCode;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.model.response.TeamResponse;
+import kr.lovesignal.teamservice.repository.MeetingRepository;
 import kr.lovesignal.teamservice.repository.MemberRepository;
 import kr.lovesignal.teamservice.repository.TeamRepository;
 import kr.lovesignal.teamservice.util.CommonUtils;
@@ -27,6 +29,7 @@ public class TeamServiceImpl implements TeamService{
     private final ResponseUtils responseUtils;
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
+    private final MeetingRepository meetingRepository;
 
     @Override
     @Transactional
@@ -155,6 +158,72 @@ public class TeamServiceImpl implements TeamService{
         return responseUtils.buildSuccessResponse(sendTeams);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public SuccessResponse<List<TeamResponse>> getMeetingRequests(String strTeamUUID) {
+
+        UUID UUID = commonUtils.getValidUUID(strTeamUUID);
+
+        TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(UUID, "F", "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+
+        List<MeetingEntity> proposeTeamEntities = meetingRepository.findByRequestTeam(findTeam);
+
+        List<TeamResponse> proposeTeams = new ArrayList<>();
+        for(MeetingEntity meetingEntity : proposeTeamEntities){
+            TeamResponse teamResponse = makeTeam(meetingEntity.getProposeTeam());
+            proposeTeams.add(teamResponse);
+        }
+
+        return responseUtils.buildSuccessResponse(proposeTeams);
+    }
+
+    @Override
+    @Transactional
+    public SuccessResponse<String> createMeetingRequest(String strTeamUUID, String strOppositeTeamUUID) {
+
+        List<TeamEntity> teams = getMeetingTeams(strTeamUUID, strOppositeTeamUUID);
+
+        MeetingEntity saveMeeting = MeetingEntity.builder()
+                .proposeTeam(teams.get(0))
+                .requestTeam(teams.get(1))
+                .build();
+
+        meetingRepository.save(saveMeeting);
+
+        return responseUtils.buildSuccessResponse("미팅을 신청했습니다.");
+    }
+
+    @Override
+    @Transactional
+    public SuccessResponse<String> accpetMeeting(String strTeamUUID, String strOppositeTeamUUID) {
+
+        List<TeamEntity> teams = getMeetingTeams(strOppositeTeamUUID, strTeamUUID);
+        for(TeamEntity team : teams){
+            deleteAllMeeting(team);
+            teamRepository.save(buildmeetingTeamEntity(team));
+        }
+
+        // WebClinet로 성사되었다고 보내기
+
+        return responseUtils.buildSuccessResponse("미팅이 성사되었습니다.");
+    }
+
+    @Override
+    @Transactional
+    public SuccessResponse<String> rejectMeeting(String strTeamUUID, String strOppositeTeamUUID) {
+
+        List<TeamEntity> teams = getMeetingTeams(strOppositeTeamUUID, strTeamUUID);
+
+        MeetingEntity deleteMeeting = meetingRepository.findByProposeTeamAndRequestTeam(teams.get(0), teams.get(1))
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCHING_TEAM));
+
+        meetingRepository.delete(deleteMeeting);
+
+        return responseUtils.buildSuccessResponse("미팅을 거절했습니다.");
+    }
+
+
     public boolean hasTeam(MemberEntity member){
         return null != member.getTeam() ? true : false;
     }
@@ -182,6 +251,20 @@ public class TeamServiceImpl implements TeamService{
                 .teamId(team.getTeamId())
                 .gender(team.getGender())
                 .memberCount(isJoin == true ? team.getMemberCount() + 1 : team.getMemberCount() - 1)
+                .meeting(team.getMeeting())
+                .UUID(team.getUUID())
+                .createdDate(team.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .expired(team.getExpired())
+                .build();
+    }
+
+    public TeamEntity buildmeetingTeamEntity(TeamEntity team){
+        return TeamEntity.builder()
+                .teamId(team.getTeamId())
+                .gender(team.getGender())
+                .memberCount(team.getMemberCount())
+                .meeting("T")
                 .UUID(team.getUUID())
                 .createdDate(team.getCreatedDate())
                 .updatedDate(LocalDateTime.now())
@@ -194,5 +277,30 @@ public class TeamServiceImpl implements TeamService{
         List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(teamEntity, "F");
         TeamResponse teamResponse = TeamResponse.buildTeamResponse(teamEntity, memberEntities);
         return teamResponse;
+    }
+
+    // 0 : 신청한 팀, 1 : 신청을 받은 팀
+    @Transactional(readOnly = true)
+    public List<TeamEntity> getMeetingTeams(String strProposeTeamUUID, String strRequestTeamUUID){
+        UUID proposeTeamUUID = commonUtils.getValidUUID(strProposeTeamUUID);
+        UUID requestTeamUUID = commonUtils.getValidUUID(strRequestTeamUUID);
+
+        TeamEntity proposeTeam = teamRepository.findByUUIDAndExpiredAndMeeting(proposeTeamUUID, "F", "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+
+        TeamEntity requestTeam = teamRepository.findByUUIDAndExpiredAndMeeting(requestTeamUUID, "F", "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+
+        List<TeamEntity> teams = new ArrayList<>();
+        teams.add(proposeTeam);
+        teams.add(requestTeam);
+
+        return teams;
+    }
+
+    @Transactional
+    public void deleteAllMeeting(TeamEntity team){
+        meetingRepository.deleteByRequestTeam(team);
+        meetingRepository.deleteByProposeTeam(team);
     }
 }

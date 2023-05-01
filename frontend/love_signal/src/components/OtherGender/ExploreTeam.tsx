@@ -69,9 +69,10 @@ const ExploreTeam = () => {
     setVisible(!visible);
   };
 
+  //현재 동작안함..
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
-    console.log("나 동작언제함?");
+    console.log("뭐임 왜 동작안함;;");
 
     const isEnd =
       Math.round(target.scrollTop + target.clientHeight) >
@@ -81,65 +82,39 @@ const ExploreTeam = () => {
     }
   };
 
+  //뭔가 안이쁜데.. 코드가 짧아짐
   if (isLoading) {
     return (
       <>
-        {visible && (
-          <>
-            <div className={style.otherContainer} onScroll={handleScroll}>
-              <OtherTeamDesc />
+        {visible ? (
+          <Modal_portal>
+            <CheckTeam
+              setVisible={setVisible}
+              visible={visible}
+              member={team[teamNumber].members}
+            />
+          </Modal_portal>
+        ) : (
+          <div className={style.otherContainer}>
+            <OtherTeamDesc />
+            <div className={style.imgContainer} onScroll={handleScroll}>
               {team.map((item, idx) => (
-                <>
-                  <ListBoxWithImgTitle
-                    title={
-                      <>
-                        <RedHeartLine />
-                      </>
-                    }
-                    type="red"
-                  >
-                    <PictureBox
-                      viewDetail={viewDetail}
-                      idx={idx}
-                      item={item.members}
-                    />
-                  </ListBoxWithImgTitle>
-                </>
+                <ListBoxWithImgTitle
+                  title={
+                    <>
+                      <RedHeartLine />
+                    </>
+                  }
+                  type="red"
+                >
+                  <PictureBox
+                    viewDetail={viewDetail}
+                    idx={idx}
+                    item={item.members}
+                  />
+                </ListBoxWithImgTitle>
               ))}
             </div>
-            <Modal_portal>
-              <CheckTeam
-                setVisible={setVisible}
-                visible={visible}
-                member={team[teamNumber].members}
-              />
-            </Modal_portal>
-          </>
-        )}
-        {!visible && (
-          <div className={style.backColor}>
-            <div className={style.otherContainer} onScroll={handleScroll}>
-              <OtherTeamDesc />
-              {team.map((item, idx) => (
-                <>
-                  <ListBoxWithImgTitle
-                    title={
-                      <>
-                        <RedHeartLine />
-                      </>
-                    }
-                    type="red"
-                  >
-                    <PictureBox
-                      viewDetail={viewDetail}
-                      idx={idx}
-                      item={item.members}
-                    />
-                  </ListBoxWithImgTitle>
-                </>
-              ))}
-            </div>
-            <Footer />
           </div>
         )}
       </>

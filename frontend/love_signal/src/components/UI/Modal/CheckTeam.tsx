@@ -25,7 +25,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
   };
 
   const closeLeft = () => {
-    setClose(true);
+    setClose(!close);
   };
 
   return (

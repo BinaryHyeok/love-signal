@@ -9,8 +9,6 @@ const Footer = () => {
   const navigate = useNavigate();
 
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
-  // const [localIdx, setLocalIdx] = useRecoilState<number>(footerIdxSelector);
-
   const [isOn, _] = useRecoilState<boolean>(footerIsOn);
 
   const [color, setColor] = useState<string[]>([
@@ -88,7 +86,7 @@ const Footer = () => {
         <div className={style.navbar}>
           <img
             id="3"
-            src={`assets/mypage_${color[3]}.png`}
+            src={`/assets/mypage_${color[3]}.png`}
             alt=""
             onClick={isClickNav}
             className={style.nav2}

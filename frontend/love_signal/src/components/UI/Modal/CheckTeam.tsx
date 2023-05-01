@@ -7,12 +7,12 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper";
 
 import Button_Type_A from "../Common/Button_Type_A";
-import { memberType } from "../../../types/member";
+import { member } from "../../../types/member";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
-  member: memberType;
+  member: member[];
 };
 
 const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
@@ -43,16 +43,16 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
         >
           <SwiperSlide className={style.swiperSlide}>
             <div>
-              <img src={member[0].imgload} />
+              <img src="/assets/girl1.png" />
             </div>
             <div></div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <img src={member[1].imgload} />
+            <img src="/assets/girl2.png" />
             <div></div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <img src={member[2].imgload} />
+            <img src="/assets/girl3.png" />
             <div></div>
           </SwiperSlide>
         </Swiper>

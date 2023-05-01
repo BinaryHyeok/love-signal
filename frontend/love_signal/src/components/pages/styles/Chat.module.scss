@@ -1,5 +1,9 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: calc(100vh - 64px);
+  z-index: 1;
+  position: fixed;
+  overflow: hidden;
 }

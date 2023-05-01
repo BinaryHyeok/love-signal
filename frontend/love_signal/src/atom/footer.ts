@@ -12,3 +12,9 @@ export const footerIdx = atom<number>({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const footerIsOn = atom<boolean>({
+  key: "footerIsOn",
+  default: true,
+  effects_UNSTABLE: [persistAtom],
+});

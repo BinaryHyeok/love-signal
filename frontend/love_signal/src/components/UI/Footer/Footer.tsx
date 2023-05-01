@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { footerIdx } from "../../../atom/footer";
+import { footerIsOn } from "../../../atom/footer";
 import { useRecoilState } from "recoil";
 import style from "./Footer.module.scss";
 
@@ -9,6 +10,8 @@ const Footer = () => {
 
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   // const [localIdx, setLocalIdx] = useRecoilState<number>(footerIdxSelector);
+
+  const [isOn, _] = useRecoilState<boolean>(footerIsOn);
 
   const [color, setColor] = useState<string[]>([
     "black",
@@ -53,7 +56,7 @@ const Footer = () => {
   };
 
   return (
-    <div className={style.container}>
+    <div className={`${style.container} ${!isOn ? style.closed : ""}`}>
       <div className={style.content}>
         <div className={style.navbar}>
           <img

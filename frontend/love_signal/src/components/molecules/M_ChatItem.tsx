@@ -7,6 +7,7 @@ type PropsType = {
   id: string;
   title: string;
   memberCount: string;
+  lastMsgTime?: string;
   onClick: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
@@ -14,12 +15,18 @@ const M_ChatItem: React.FC<PropsType> = ({
   id,
   title,
   memberCount,
+  lastMsgTime,
   onClick,
 }) => {
   return (
     <li className={style.chatItem} id={id} title={title} onClick={onClick}>
       <A_ChatItemImage />
-      <M_ChatItemContent id={id} memberCount={memberCount} title={title} />
+      <M_ChatItemContent
+        id={id}
+        memberCount={memberCount}
+        title={title}
+        lastMsgTime={lastMsgTime}
+      />
     </li>
   );
 };

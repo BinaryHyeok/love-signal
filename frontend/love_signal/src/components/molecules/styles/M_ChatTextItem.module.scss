@@ -4,8 +4,11 @@
   margin: 0;
   width: 100%;
   display: flex;
-  flex-direction: row-reverse;
   align-items: flex-end;
   position: relative;
   margin: 16px 0;
+
+  &.isMe {
+    flex-direction: row-reverse;
+  }
 }

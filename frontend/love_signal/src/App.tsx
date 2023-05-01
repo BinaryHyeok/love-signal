@@ -16,6 +16,7 @@ import CheckTeam from "./components/UI/Modal/CheckTeam";
 import MemberDetail from "./components/UI/Modal/MemberDetail";
 import NotFound from "./components/pages/NotFound";
 import ContentLayout from "./components/pages/ContentLayout";
+import ChangeImg from "./components/UI/Modal/ChangeImg";
 
 function App() {
   const router = createBrowserRouter([
@@ -68,10 +69,6 @@ function App() {
               path: "/loading",
               element: <Codepen />,
             },
-            // {
-            //   path: "/checkTeam",
-            //   element: <CheckTeam />,
-            // },
             {
               path: "/memberDetail",
               element: <MemberDetail />,

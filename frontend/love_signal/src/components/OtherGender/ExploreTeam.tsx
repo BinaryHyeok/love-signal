@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import Header from "../UI/Header/Header";
 import style from "./ExploreTeam.module.scss";
+import { useRecoilState } from "recoil";
+import { footerIdx } from "../../atom/footer";
 import Codepen from "../UI/Loading/codepen";
 import Modal_portal from "../UI/Modal/Modal_portal";
 import CheckTeam from "../UI/Modal/CheckTeam";
@@ -17,10 +18,13 @@ const ExploreTeam = () => {
   //팀 코드를 저장해줄 변수입니다.(또는 그 팀의 배열 위치?)
   const [teamNumber, setTeamNumber] = useState<number>(0);
 
+  const [idx, setIdx] = useRecoilState<number>(footerIdx);
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(true);
     }, 0);
+    setIdx(0);
   }, []);
 
   //상세보기 모달창을 띄워주는 함수입니다.

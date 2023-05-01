@@ -25,16 +25,13 @@ const Chat = () => {
 
   return (
     <div className={style.container}>
-      {/* {selectedRoom ? (
-        <T_ChatRoom className="common-bg" roomId={selectedRoom} />
-      ) : (
-        <T_Chat />
-      )} */}
+      {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       <T_ChatRoom
         className={`${selectedRoom ? "slide-in-enter" : ""} common-bg`}
         roomId={selectedRoom}
         count={TEMP_ROOM_MAN_COUNT}
         roomExitHandler={roomExitHandler}
+        roomType={"ANONYMOUS"}
       />
       <T_Chat />
     </div>

@@ -2,9 +2,9 @@ import style from "./SignUp.module.scss";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Input_Type_A from "./Input_Type_A";
+import Input_Type_A from "../UI/Common/Input_Type_A";
 import Button_Type_A from "../UI/Common/Button_Type_A";
-import Image_Type_A from "./Image_Type_A";
+import Image_Type_A from "../UI/Common/Image_Type_A";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -85,8 +85,8 @@ const SignUp = () => {
     <>
       <div className={`${style.Container} diagonal-gradient`}>
         <img src="/assets/Logo2.png" height="100vh" />
+        <Image_Type_A />
         <div className={style.userInfo}>
-          <Image_Type_A />
           <div className={style.nickName}>
             <Input_Type_A
               className="writeNickName"

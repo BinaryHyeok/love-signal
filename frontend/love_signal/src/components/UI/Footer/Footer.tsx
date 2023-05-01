@@ -8,6 +8,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
+  // const [localIdx, setLocalIdx] = useRecoilState<number>(footerIdxSelector);
 
   const [color, setColor] = useState<string[]>([
     "black",
@@ -26,7 +27,7 @@ const Footer = () => {
   useEffect(() => {
     setClickNav(falseArr.map((_, index) => index === idx));
     setColor(color.map((_, index) => (index === idx ? "color" : "black")));
-  }, []);
+  }, [idx]);
 
   const falseArr = [false, false, false, false];
   const setNav = (id: number, path: string) => {

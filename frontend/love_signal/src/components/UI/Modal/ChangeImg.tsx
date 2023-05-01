@@ -86,7 +86,7 @@ const ChangeImg = () => {
       console.log(formData.get("image"));
       await axios({
         method: "post",
-        url: "/어딘지나도몰라",
+        url: "/mypage/file",
         data: formData,
         headers: {
           "X-Auth_Token": "AccessToken",

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import style from "./styles/M_ChatInputBox.module.scss";
-import A_ChatInput from "../atoms/A_ChatInput";
-import A_ChatSendBtn from "../atoms/A_ChatSendBtn";
+import A_ChatInput from "../atoms/Chat/A_ChatInput";
+import A_ChatSendBtn from "../atoms/Chat/A_ChatSendBtn";
 
 type PropsType = {
   onTextSubmit: (e: React.FormEvent<HTMLFormElement>) => void;

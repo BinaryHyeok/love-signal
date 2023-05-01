@@ -12,11 +12,8 @@ import Mypage from "./components/Mypage/Mypage";
 import RootLayout from "./components/Main/RootLayout";
 import Chat from "./components/pages/Chat";
 import Codepen from "./components/UI/Loading/codepen";
-import CheckTeam from "./components/UI/Modal/CheckTeam";
-import MemberDetail from "./components/UI/Modal/MemberDetail";
 import NotFound from "./components/pages/NotFound";
 import ContentLayout from "./components/pages/ContentLayout";
-import ChangeImg from "./components/UI/Modal/ChangeImg";
 
 function App() {
   const router = createBrowserRouter([
@@ -68,10 +65,6 @@ function App() {
             {
               path: "/loading",
               element: <Codepen />,
-            },
-            {
-              path: "/memberDetail",
-              element: <MemberDetail />,
             },
           ],
         },

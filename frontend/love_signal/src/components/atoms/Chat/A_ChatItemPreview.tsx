@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./styles/A_ChatItemPreview.module.scss";
 
 const A_ChatItemPreview = () => {

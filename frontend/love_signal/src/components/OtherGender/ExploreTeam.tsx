@@ -19,9 +19,9 @@ const ExploreTeam = () => {
   //팀 코드를 저장해줄 변수입니다.(또는 그 팀의 배열 위치?)
   const [teamNumber, setTeamNumber] = useState<number>(0);
   const [team, setTeam] = useState<team[]>([]);
-  const [member, setMember] = useState<member[]>([]);
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [uuidList, setuuidList] = useState<string[]>([]);
+  let [receiveList, setReceiveList] = useState<number>(10); //받아올 리스트 수.
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,21 +29,26 @@ const ExploreTeam = () => {
     }, 100);
     setIdx(0);
 
-    fetchList("M", 10, uuidList)
-      .then((res) => {
-        console.log(res.data.body);
-        addmemberList(res.data.body);
-        adduuidList(res.data.body);
-        setIsLoading(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getList();
   }, []);
 
   useEffect(() => {
     console.log(uuidList);
   }, [uuidList]);
+
+  //리스트를 받아올 axios 함수입니다.
+  const getList = async () => {
+    await fetchList("M", receiveList, uuidList)
+      .then((res) => {
+        addmemberList(res.data.body);
+        adduuidList(res.data.body);
+        setIsLoading(true);
+        setReceiveList(receiveList + 10);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const adduuidList = (teamList: team[]) => {
     teamList.forEach((item) => {
@@ -64,76 +69,26 @@ const ExploreTeam = () => {
     setVisible(!visible);
   };
 
-  const dummy: member[][] = [
-    [
-      {
-        nickname: "John",
-        age: 26,
-        description: "친구찾으러왔어요~",
-      },
-      {
-        nickname: "Tom",
-        age: 24,
-        description: "친구찾으러왔어요~",
-      },
-      {
-        nickname: "Alice",
-        age: 25,
-        description: "친구찾으러왔어요~",
-      },
-    ],
-    [
-      {
-        nickname: "John",
-        age: 26,
-        description: "친구찾으러왔어요~",
-      },
-      {
-        nickname: "Tom",
-        age: 24,
-        description: "친구찾으러왔어요~",
-      },
-      {
-        nickname: "Alice",
-        age: 25,
-        description: "친구찾으러왔어요~",
-      },
-    ],
-    [
-      {
-        nickname: "John",
-        age: 26,
-        description: "친구찾으러왔어요~",
-      },
-      {
-        nickname: "Tom",
-        age: 24,
-        description: "친구찾으러왔어요~",
-      },
-      {
-        nickname: "Alice",
-        age: 25,
-        description: "친구찾으러왔어요~",
-      },
-    ],
-  ];
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    console.log("나 동작언제함?");
+
+    const isEnd =
+      Math.round(target.scrollTop + target.clientHeight) >
+      target.scrollHeight - 20;
+    if (isEnd) {
+      getList();
+    }
+  };
+
   if (isLoading) {
     return (
       <>
         {visible && (
-          <Modal_portal>
-            <CheckTeam
-              setVisible={setVisible}
-              visible={visible}
-              member={dummy[teamNumber]}
-            />
-          </Modal_portal>
-        )}
-        {!visible && (
-          <div className={style.backColor}>
-            <div className={style.otherContainer}>
+          <>
+            <div className={style.otherContainer} onScroll={handleScroll}>
               <OtherTeamDesc />
-              {dummy.map((item, idx) => (
+              {team.map((item, idx) => (
                 <>
                   <ListBoxWithImgTitle
                     title={
@@ -143,7 +98,43 @@ const ExploreTeam = () => {
                     }
                     type="red"
                   >
-                    <PictureBox viewDetail={viewDetail} idx={idx} item={item} />
+                    <PictureBox
+                      viewDetail={viewDetail}
+                      idx={idx}
+                      item={item.members}
+                    />
+                  </ListBoxWithImgTitle>
+                </>
+              ))}
+            </div>
+            <Modal_portal>
+              <CheckTeam
+                setVisible={setVisible}
+                visible={visible}
+                member={team[teamNumber].members}
+              />
+            </Modal_portal>
+          </>
+        )}
+        {!visible && (
+          <div className={style.backColor}>
+            <div className={style.otherContainer} onScroll={handleScroll}>
+              <OtherTeamDesc />
+              {team.map((item, idx) => (
+                <>
+                  <ListBoxWithImgTitle
+                    title={
+                      <>
+                        <RedHeartLine />
+                      </>
+                    }
+                    type="red"
+                  >
+                    <PictureBox
+                      viewDetail={viewDetail}
+                      idx={idx}
+                      item={item.members}
+                    />
                   </ListBoxWithImgTitle>
                 </>
               ))}

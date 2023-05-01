@@ -12,7 +12,7 @@
       align-items: center;
       background-color: #fbced3;
       width: 270px;
-      height: auto;
+      height: 250px;
       border-radius: 20px;
       position: relative;
       margin-bottom: 32px;
@@ -31,14 +31,6 @@
           height: 92%;
           border-radius: 20px;
         }
-      }
-      .EditBtn {
-        position: absolute;
-        width: 48px;
-        height: 48px;
-        z-index: 10000;
-        left: 88%;
-        top: 85%;
       }
     }
   }

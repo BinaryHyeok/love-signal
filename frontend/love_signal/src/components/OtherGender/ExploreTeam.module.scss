@@ -1,11 +1,17 @@
-.backColor {
+.otherContainer {
   background-color: #eef0f5;
   width: 100vw;
-  // height: 100vh;
-  .otherContainer {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  .imgContainer {
+    width: 100vw;
     display: flex;
-    // justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100%;
+    overflow: scroll;
   }
 }

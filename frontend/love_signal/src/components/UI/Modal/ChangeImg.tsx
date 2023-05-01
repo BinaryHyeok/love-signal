@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import axios from "axios";
 
 const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024; // 5MB
 const ALLOW_FILE_EXTENSION = "jpg,jpeg,png";
 
+type propsType = {
+  fileImg: string;
+  setFileImg: Dispatch<SetStateAction<string>>;
+};
+
 //이미지를 바꿔줄 부분이 있는 Modal창이 뜰 부분입니다.
-const ChangeImg = () => {
-  const publicUrl = process.env.PUBLIC_URL;
-  const filesample = `${publicUrl}/assets/girl1.png`;
+const ChangeImg: React.FC<propsType> = ({ fileImg, setFileImg }) => {
   const [file, setFile] = useState<File>();
-  const [fileImg, setFileImg] = useState(`${filesample}`);
 
   const fileExtensionValid = ({ name }: { name: string }): boolean => {
     // 파일 확장자

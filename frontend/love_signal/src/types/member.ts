@@ -7,4 +7,5 @@ export type member = {
   nickname: string;
   age: number;
   description: string;
+  imgSrc?: string;
 };

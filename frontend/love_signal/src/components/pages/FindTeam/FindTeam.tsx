@@ -4,7 +4,7 @@ import { footerIdx } from "../../../atom/footer";
 import style from "./styles/FindTeam.module.scss";
 import T_FindTeam from "../../templates/FindTeam/T_FindTeam";
 import M_FindTeamDesc from "../../molecules/FindTeam/M_FindTeamDesc";
-import O_FindTeamMenu from "../../organisms/O_FindTeamMenu";
+import O_FindTeamMenu from "../../organisms/FindTeam/O_FindTeamMenu";
 
 const FindTeam = () => {
   const [idx, setIdx] = useRecoilState<number>(footerIdx);

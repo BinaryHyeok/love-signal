@@ -41,6 +41,9 @@ const ExploreTeam = () => {
       })
       .catch((err) => {
         console.log(err);
+        setTimeout(() => {
+          setIsLoading(true);
+        }, 5000);
       });
   };
 

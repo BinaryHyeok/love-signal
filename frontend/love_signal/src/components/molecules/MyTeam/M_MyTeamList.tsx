@@ -2,7 +2,6 @@ import React from "react";
 import style from "./styles/M_MyTeamList.module.scss";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import HeartLine from "../../UI/Common/HeartLine";
-import MyTeamListItem from "../../pages/MyTeam/MyTeamListItem";
 import { member } from "../../../types/member";
 import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 

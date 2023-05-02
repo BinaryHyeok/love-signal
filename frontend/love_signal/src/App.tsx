@@ -11,7 +11,7 @@ import MyTeam from "./components/SameGender/MyTeam";
 import Mypage from "./components/Mypage/Mypage";
 import RootLayout from "./components/Main/RootLayout";
 import Chat from "./components/pages/Chat";
-import Codepen from "./components/UI/Loading/codepen";
+import Codepen from "./components/UI/Loading/LoadingSpinner";
 import NotFound from "./components/pages/NotFound";
 import ContentLayout from "./components/pages/ContentLayout";
 

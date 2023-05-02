@@ -66,13 +66,14 @@ const ExploreTeam = () => {
     setVisible(!visible);
   };
 
-  //현재 동작안함..
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
 
     const isEnd =
       Math.round(target.scrollTop + target.clientHeight) >
       target.scrollHeight - 100;
+
+    console.log(isEnd);
 
     if (isEnd && !infinityScroll) {
       setInfinityScroll(true);

@@ -1,3 +1,5 @@
+// import style from "./styles/Age.module.scss";
+
 const Age = () => {
   return (
     <>

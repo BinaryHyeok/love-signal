@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
+// import style from "./styles/NickName.module.scss";
 
 type propsType = {
   changeName: Dispatch<SetStateAction<boolean>>;

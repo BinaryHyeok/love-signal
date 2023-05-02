@@ -37,8 +37,8 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /var/www/fe_develop/frontend
-                            docker compose -f docker-compose-dev.yml down
-                            docker compose -f docker-compose-dev.yml up -d
+                            docker compose -f docker-compose-prod.yml down
+                            docker compose -f docker-compose-prod.yml up -d
                         "
                     """
                 }

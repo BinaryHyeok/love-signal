@@ -1,11 +1,10 @@
-$size: 25%;
+$w: 100px;
 
-.item {
-  width: $size;
-  aspect-ratio: 1;
-  border-radius: 10px;
+.imgBox {
+  height: 100%;
+  width: $w;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  margin: 0 8px;
+  border-radius: 10px;
   overflow: hidden;
 
   img {

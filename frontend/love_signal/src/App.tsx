@@ -6,7 +6,7 @@ import Login from "./components/Login/Login";
 import Manual from "./components/Manual/Manual";
 import ExploreTeam from "./components/pages/OtherGender/ExploreTeam";
 import FindTeam from "./components/pages/FindTeam/FindTeam";
-import TeamBuilding from "./components/SameGender/TeamBuilding";
+import TeamBuild from "./components/pages/TeamBuild/TeamBuild";
 import MyTeam from "./components/pages/MyTeam/MyTeam";
 import Mypage from "./components/pages/Mypage/Mypage";
 import RootLayout from "./components/pages/Common/RootLayout";
@@ -48,7 +48,7 @@ function App() {
             },
             {
               path: "/SameGender/build",
-              element: <TeamBuilding />,
+              element: <TeamBuild />,
             },
             {
               path: "/SameGender/MyTeam",

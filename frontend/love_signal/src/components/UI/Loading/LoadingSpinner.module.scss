@@ -73,10 +73,4 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
   width: 100vw;
   height: 100vh;
   top: 0;
-  .topheart {
-    transform: translate(50%, -220%);
-  }
-  .bottomheart {
-    transform: translate(-50%, 220%);
-  }
 }

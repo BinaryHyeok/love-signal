@@ -1,6 +1,6 @@
-import style from "./OtherTeamDesc.module.scss";
+import style from "./A_OtherTeamDesc.module.scss";
 
-const OtherTeamDesc = () => {
+const A_OtherTeamDesc = () => {
   return (
     <div className={style.description}>
       러브하우스에 함께 입주하고 싶은 <span className="text-red">이성팀</span>
@@ -11,4 +11,4 @@ const OtherTeamDesc = () => {
   );
 };
 
-export default OtherTeamDesc;
+export default A_OtherTeamDesc;

@@ -1,5 +1,5 @@
 import { member } from "../../types/member";
-import GenderImg from "./GenderImg";
+import A_GenderImg from "./A_GenderImg";
 import style from "./OtherTeamPicture.module.scss";
 
 type propsType = {
@@ -14,7 +14,7 @@ const PictureBox: React.FC<propsType> = ({ viewDetail, idx, item }) => {
       <div className={style.otherPicture} onClick={() => viewDetail(idx)}>
         {item.map((Image, index) => (
           <>
-            <GenderImg index={index} />
+            <A_GenderImg index={index} />
           </>
         ))}
       </div>

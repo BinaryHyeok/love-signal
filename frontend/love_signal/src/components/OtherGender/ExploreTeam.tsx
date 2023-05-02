@@ -2,15 +2,14 @@ import { useState, useEffect } from "react";
 import style from "./ExploreTeam.module.scss";
 import { useRecoilState } from "recoil";
 import { footerIdx } from "../../atom/footer";
-import Codepen from "../UI/Loading/codepen";
+import Loading from "../UI/Loading/LoadingSpinner";
 import Modal_portal from "../UI/Modal/Modal_portal";
 import CheckTeam from "../UI/Modal/CheckTeam";
 import { member, team } from "../../types/member";
-import OtherTeamDesc from "./OtherTeamDesc";
+import A_OtherTeamDesc from "./A_OtherTeamDesc";
 import PictureBox from "./OtherTeamPicture";
 import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
 import RedHeartLine from "../UI/Common/RedHearLine";
-import Footer from "../UI/Footer/Footer";
 import { fetchList } from "../../api/othergender";
 
 const ExploreTeam = () => {
@@ -22,28 +21,23 @@ const ExploreTeam = () => {
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [uuidList, setuuidList] = useState<string[]>([]);
   let [receiveList, setReceiveList] = useState<number>(10); //받아올 리스트 수.
+  let [infinityScroll, setInfinityScroll] = useState<boolean>(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(true);
-    }, 100);
     setIdx(0);
-
     getList();
   }, []);
-
-  useEffect(() => {
-    console.log(uuidList);
-  }, [uuidList]);
 
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
     await fetchList("M", receiveList, uuidList)
       .then((res) => {
+        setInfinityScroll(false);
         addmemberList(res.data.body);
         adduuidList(res.data.body);
         setIsLoading(true);
         setReceiveList(receiveList + 10);
+        setInfinityScroll(false);
       })
       .catch((err) => {
         console.log(err);
@@ -72,12 +66,13 @@ const ExploreTeam = () => {
   //현재 동작안함..
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
-    console.log("뭐임 왜 동작안함;;");
 
     const isEnd =
       Math.round(target.scrollTop + target.clientHeight) >
-      target.scrollHeight - 20;
-    if (isEnd) {
+      target.scrollHeight - 100;
+
+    if (isEnd && !infinityScroll) {
+      setInfinityScroll(true);
       getList();
     }
   };
@@ -96,7 +91,7 @@ const ExploreTeam = () => {
           </Modal_portal>
         ) : (
           <div className={style.otherContainer}>
-            <OtherTeamDesc />
+            <A_OtherTeamDesc />
             <div className={style.imgContainer} onScroll={handleScroll}>
               {team.map((item, idx) => (
                 <ListBoxWithImgTitle
@@ -122,7 +117,7 @@ const ExploreTeam = () => {
   } else {
     return (
       <>
-        <Codepen />
+        <Loading />
       </>
     );
   }

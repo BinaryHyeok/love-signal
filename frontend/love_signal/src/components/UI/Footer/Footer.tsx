@@ -4,7 +4,7 @@ import { footerIdx } from "../../../atom/footer";
 import { footerIsOn } from "../../../atom/footer";
 import { useRecoilState } from "recoil";
 import style from "./Footer.module.scss";
-import FooterIcon from "./FooterIcon";
+import A_FooterIcon from "./A_FooterIcon";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -57,38 +57,34 @@ const Footer = () => {
   return (
     <div className={`${style.container} ${!isOn ? style.closed : ""}`}>
       <div className={style.content}>
-        <div className={style.navbar}>
-          <FooterIcon
-            idx="0"
-            color={color[0]}
-            address="othergender"
-            isClickNav={isClickNav}
-          />
-        </div>
-        <div className={style.navbar}>
-          <FooterIcon
-            idx="1"
-            color={color[1]}
-            address="group"
-            isClickNav={isClickNav}
-          />
-        </div>
-        <div className={style.navbar}>
-          <FooterIcon
-            idx="2"
-            color={color[2]}
-            address="chat"
-            isClickNav={isClickNav}
-          />
-        </div>
-        <div className={style.navbar}>
-          <FooterIcon
-            idx="3"
-            color={color[3]}
-            address="mypage"
-            isClickNav={isClickNav}
-          />
-        </div>
+        <A_FooterIcon
+          idx="0"
+          color={color[0]}
+          address="othergender"
+          isClickNav={isClickNav}
+          size="1"
+        />
+        <A_FooterIcon
+          idx="1"
+          color={color[1]}
+          address="group"
+          isClickNav={isClickNav}
+          size="1"
+        />
+        <A_FooterIcon
+          idx="2"
+          color={color[2]}
+          address="chat"
+          isClickNav={isClickNav}
+          size="2"
+        />
+        <A_FooterIcon
+          idx="3"
+          color={color[3]}
+          address="mypage"
+          isClickNav={isClickNav}
+          size="2"
+        />
       </div>
     </div>
   );

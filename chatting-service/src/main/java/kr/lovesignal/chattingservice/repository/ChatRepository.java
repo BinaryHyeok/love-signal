@@ -1,6 +1,7 @@
 package kr.lovesignal.chattingservice.repository;
 
 import kr.lovesignal.chattingservice.entity.ChatMessage;
+import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
 import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import lombok.RequiredArgsConstructor;
@@ -77,5 +78,19 @@ public class ChatRepository {
             }
         }
         opsHashMessageList.put(RoomMessageList, roomUUID, list);
+    }
+
+    public void expiredSelectMessage(List<ChatRoom> chatRooms) {
+        for(ChatRoom chatRoom : chatRooms) {
+            String roomUUID = chatRoom.getUUID().toString();
+
+            List<ResChatMessage> resChatMessages = opsHashMessageList.get(RoomMessageList, roomUUID);
+            for(ResChatMessage resChatMessage : resChatMessages) {
+                if(resChatMessage.getType().equals("SELECT"))
+                    resChatMessage.getSelectOrShareInfo().setSelected("T");
+            }
+
+            opsHashMessageList.put(RoomMessageList, roomUUID, resChatMessages);
+        }
     }
 }

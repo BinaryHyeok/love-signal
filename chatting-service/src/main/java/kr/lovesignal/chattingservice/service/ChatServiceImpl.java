@@ -29,6 +29,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService{
 
+    private final ChatRoomService chatRoomService;
     private final ChatRepository chatRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;
@@ -156,10 +157,13 @@ public class ChatServiceImpl implements ChatService{
                 .build();
 
         saveChatMessage(reqChatMessage);
+        /*
+            memberUUID,
+         */
     }
 
     /**
-     * 선택의 시간에 때 시스템 채팅방에 이성 지목 메세지 저장.
+     * 선택의 시간에 시스템 채팅방에 이성지목 메세지 저장.
      */
     @Scheduled(cron = "0 0 22 * * *") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
     public void saveSelectMessage() {
@@ -239,7 +243,7 @@ public class ChatServiceImpl implements ChatService{
     }
 
     /**
-     * saveSelectMessage() 에 사용되는 메서드
+     * 이성지목 메세지 저장 saveSelectMessage() 에 사용되는 메서드
      * ReqChatMessage 에 SelectOrShareInfo 객체를 생성하여 주입.
      */
     private void setSelctInfo(List<String> nicknames, List<String> profileUrls, ReqChatMessage reqChatMessage) {
@@ -248,6 +252,15 @@ public class ChatServiceImpl implements ChatService{
                 .profileUrls(profileUrls)
                 .build();
         reqChatMessage.setSelectOrShareInfo(selectOrShareInfo);
+    }
+
+    /**
+     * 선택의 시간이 끝나면 이성지목 메세지 기간만료
+     */
+    @Scheduled(cron = "0 30 22 * * *") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
+    public void expiredSelectMessage() {
+        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("SYSTEM", "F");
+        chatRepository.expiredSelectMessage(chatRooms);
     }
 
 }

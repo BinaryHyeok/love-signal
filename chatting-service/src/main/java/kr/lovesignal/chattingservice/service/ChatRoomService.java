@@ -11,9 +11,11 @@ public interface ChatRoomService {
 
     void enterChatRoom(String roomUUID);
     ChannelTopic getTopic(String roomId);
-    ChatRoom createSystemChatroom(ReqChatRoom chatRoomDto, String userUUID);
+    ChatRoom createSystemChatroom(ReqChatRoom chatRoomDto, String memberUUID);
 
-    ChatRoom createSameGenderChatRoom(ReqChatRoom chatRoomDto, List<String> userUUIDs);
+    ChatRoom createSameGenderChatRoom(ReqChatRoom chatRoomDto, List<String> memberUUIDs);
+
+    void createOneToOneChatRoom(String selectorUUID, String selectedUUID);
 
     List<ResChatRoom> getChatRoomList(String userUUID);
 

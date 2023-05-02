@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
 import kr.lovesignal.chattingservice.model.request.ReqChatRoomInfo;
+import kr.lovesignal.chattingservice.model.request.ReqSelectChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
@@ -44,19 +45,28 @@ public class ChatRoomController {
      * 채팅방 생성
      */
     @ApiOperation(value = "시스템 채팅방 생성", notes = "선택의 시간 때 사용할 시스템 채팅방 생성")
-    @PostMapping("/SystemChatRoom/{userUUID}")
+    @PostMapping("/System/{userUUID}")
     public ResponseEntity<String> createSystemChatRoom(@RequestBody ReqChatRoom chatRoomDto, @PathVariable String userUUID){
         chatRoomService.createSystemChatroom(chatRoomDto, userUUID);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.CREATED);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "동성 및 혼성 채팅방 생성", notes = "동성 및 혼성 채팅방 생성 후 유저들 입장")
-    @PostMapping("/SameAllGenderChatRoom")
+    @PostMapping("/SameOrAllGender")
     public ResponseEntity<String> createSameGenderChatRoom(@RequestBody ReqChatRoomInfo chatRoomInfoDto) {
         List<String> userUUIDs = chatRoomInfoDto.getUserUUIDs();
         ReqChatRoom chatRoomDto = chatRoomInfoDto.getChatRoomDto();
         chatRoomService.createSameGenderChatRoom(chatRoomDto, userUUIDs);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.CREATED);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "이성지목 1:1 채팅방 생성", notes = "이성을 지목하여 익명 혹은 영구 1:1 채팅방이 생성된다.")
+    @PostMapping("/OneToOne")
+    public ResponseEntity<String> createSelectChatRoom(@RequestBody ReqSelectChatRoom reqSelectChatRoom) {
+        String selectorUUID = reqSelectChatRoom.getSelectorUUID();
+        String selectedUUID = reqSelectChatRoom.getSelectedUUID();
+        chatRoomService.createOneToOneChatRoom(selectorUUID, selectedUUID);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
 }

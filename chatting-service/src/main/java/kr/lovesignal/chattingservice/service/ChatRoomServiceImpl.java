@@ -16,6 +16,8 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +115,47 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
 
         return chatRoom;
+    }
+
+    @Override
+    public void createOneToOneChatRoom(String selectorUUID, String selectedUUID) {
+        /*
+            고려해야 할 것.
+
+            1. 현재 몇 번째 선택인지.
+            2. 서로 지목 했는지.
+
+         */
+
+        // 현재 참여 중인 혼성 채팅방 찾기.
+        UUID memberUUID = commonUtils.getValidUUID(selectorUUID);
+        Member member = memberJpaRepository.findMemberByUUID(memberUUID);
+        List<ChatRoom> chatRooms = participantJpaRepository.findByMemberId(member.getMemberId());
+
+        ChatRoom meetingRoom = null;
+        for(ChatRoom chatRoom : chatRooms) {
+            if(chatRoom.getType().equals("MEETING")) {
+                meetingRoom = chatRoom;
+            }
+        }
+
+        // 혼성 채팅방이 현재 몇 번째 밤인지. 만들어진 시간이 16시 전후 언제인지
+        int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
+        int createdHour = meetingRoom.getCreatedDate().getHour();
+
+        // 혼성 채팅방이 16시 전에 생성됐을 때
+        if(createdHour < 16) {
+            // nightNumber 가 2면 마지막 선택
+            if(nightNumber == 2) {
+
+            }
+            // 선택의 시간 익명 채팅방
+            else {
+
+            }
+        }
+
+
     }
 
 

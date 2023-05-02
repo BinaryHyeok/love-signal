@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 public class ReqChatRoom {
 
-    private Long roomId;
     private String type;
     private String roomName;
     private String lastChat;
@@ -15,7 +14,6 @@ public class ReqChatRoom {
 
     public ChatRoom toEntity() {
         return ChatRoom.builder()
-                .roomId(this.getRoomId())
                 .type(this.getType())
                 .roomName(this.getRoomName())
                 .lastChat(this.getLastChat())

@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { footerIdx } from "../../../atom/footer";
 import Loading from "../../UI/Loading/LoadingSpinner";
 import Modal_portal from "../../UI/Modal/Modal_portal";
-import CheckTeam from "../../UI/Modal/CheckTeam";
+import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { member, team } from "../../../types/member";
 import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";

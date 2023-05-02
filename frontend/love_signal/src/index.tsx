@@ -13,3 +13,19 @@ root.render(
     </RecoilRoot>
   </>
 );
+
+// Service Worker 등록
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('/service-worker.js')
+//     .then(registration => {
+//       console.log('Service Worker registered.');
+
+//       // PushManager 구독 정보 등록
+//       registration.pushManager.getSubscription().then(subscription => {
+//         pushSubscription = subscription;
+//       });
+//     })
+//     .catch(error => {
+//       console.error('Service Worker registration failed:', error);
+//     });
+// }

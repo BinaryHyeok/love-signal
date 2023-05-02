@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  app:
+  frontend:
     build:
       context: ./love_signal
       dockerfile: Dockerfile.prod

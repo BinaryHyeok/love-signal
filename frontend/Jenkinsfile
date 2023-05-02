@@ -25,9 +25,10 @@ pipeline {
                             rm -rf /var/www/fe_develop
                             mkdir -p /var/www/fe_develop
                         "
-                        scp -r ${WORKSPACE}/frontend ubuntu@k8b309.p.ssafy.io:/var/www/fe_develop
+                        scp -r ${WORKSPACE}/frontend/build ubuntu@k8b309.p.ssafy.io:/var/www/fe_develop/frontend/build
+                        scp -r ${WORKSPACE}/frontend/love_signal ubuntu@k8b309.p.ssafy.io:/var/www/fe_develop/frontend/love_signal
                     """
-                }
+}
             }
         }
 

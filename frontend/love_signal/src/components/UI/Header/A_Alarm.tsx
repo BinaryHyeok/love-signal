@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./A_Logo.module.scss";
 
 const A_Alarm = () => {

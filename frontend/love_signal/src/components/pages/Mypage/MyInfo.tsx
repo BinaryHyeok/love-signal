@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import style from "./MyInfo.module.scss";
+import { useState } from "react";
+// import style from "./MyInfo.module.scss";
 import NickName from "./NickName";
 import Age from "./Age";
 import Introduce from "./Introduce";

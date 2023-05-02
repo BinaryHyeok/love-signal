@@ -1,4 +1,4 @@
-import style from "./A_Age.module.scss";
+// import style from "./A_Age.module.scss";
 
 type propsType = {
   age: number;

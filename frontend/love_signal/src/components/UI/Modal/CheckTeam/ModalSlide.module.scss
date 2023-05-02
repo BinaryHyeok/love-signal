@@ -1,0 +1,22 @@
+.swiperSlide {
+  text-align: center;
+  font-size: 18px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+}
+.swiperSlide img {
+  width: 100%;
+  height: 100%;
+  margin-top: 16px;
+  display: block;
+  z-index: 2;
+  border-radius: 10px;
+}
+
+// progressbar 컬러 수정해야함 !
+.swiperSlide > .swiper > .swiper-pagination > .swiper-pagination-progressbar {
+  background-color: red;
+}

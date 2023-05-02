@@ -12,6 +12,7 @@ import { member } from "../../../../types/member";
 import UserInfo from "./O_UserInfo";
 import SwiperManual from "./A_SwiperManual";
 import Exit from "./A_Exit";
+import ModalSlide from "./ModalSlide";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -51,10 +52,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
           modules={[Pagination, Navigation]}
           className={style.swiper}
         >
-          <SwiperSlide
-            className={style.swiperSlide}
-            style={{ borderRadius: "10px" }}
-          >
+          <SwiperSlide className={style.swiperSlide}>
             <UserInfo
               imgurl="/assets/girl1.png"
               nickname={member[0].nickname}

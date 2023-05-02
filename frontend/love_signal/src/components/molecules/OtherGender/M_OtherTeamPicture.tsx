@@ -12,7 +12,7 @@ const PictureBox: React.FC<propsType> = ({ viewDetail, idx, item }) => {
   return (
     <>
       <div className={style.otherPicture} onClick={() => viewDetail(idx)}>
-        {item.map((Image, index) => (
+        {item.map((_, index) => (
           <>
             <A_GenderImg index={index} />
           </>

@@ -8,32 +8,38 @@ const PROFILE_LIST_DUMMY: member[] = [
     nickname: "John",
     age: 26,
     description: "Hello.",
+    imgSrc:
+      "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
   },
-  {
-    nickname: "Tom",
-    age: 24,
-    description: "Helloooooooo",
-  },
+  // {
+  //   nickname: "Tom",
+  //   age: 24,
+  //   description: "Helloooooooo",
+  // },
 ];
+
+const MEMBER_LOADING_IMG = "/assets/member_loading.png";
 
 const O_TeamMemberList = () => {
   const [profileList, setProfileList] = useState<member[]>([]);
 
   useEffect(() => {
-    while (PROFILE_LIST_DUMMY.length < 3) {
-      PROFILE_LIST_DUMMY.push({
+    const newList = [...PROFILE_LIST_DUMMY];
+    while (newList.length < 3) {
+      newList.push({
         nickname: "LOADING",
         age: 0,
-        description: "팀원을 기다리는 중...",
+        description: "",
+        imgSrc: MEMBER_LOADING_IMG,
       });
     }
-    setProfileList([...PROFILE_LIST_DUMMY]);
+    setProfileList([...newList]);
   }, [PROFILE_LIST_DUMMY]);
 
   return (
     <ul className={style.userList}>
-      {PROFILE_LIST_DUMMY.map((profile, idx) => (
-        <M_TeamMemberItem key={idx} member={profile} />
+      {profileList.map((member, idx) => (
+        <M_TeamMemberItem key={idx} member={member} />
       ))}
     </ul>
   );

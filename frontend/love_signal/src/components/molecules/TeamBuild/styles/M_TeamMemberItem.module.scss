@@ -10,5 +10,9 @@ $w: 100px;
   &:nth-child(2n) {
     flex-direction: row-reverse;
     text-align: right;
+
+    p {
+      margin-left: calc(100% - 165px);
+    }
   }
 }

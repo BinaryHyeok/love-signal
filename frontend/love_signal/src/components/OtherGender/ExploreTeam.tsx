@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import style from "./ExploreTeam.module.scss";
 import { useRecoilState } from "recoil";
 import { footerIdx } from "../../atom/footer";
-import Codepen from "../UI/Loading/codepen";
+import Loading from "../UI/Loading/LoadingSpinner";
 import Modal_portal from "../UI/Modal/Modal_portal";
 import CheckTeam from "../UI/Modal/CheckTeam";
 import { member, team } from "../../types/member";
@@ -10,7 +10,6 @@ import OtherTeamDesc from "./OtherTeamDesc";
 import PictureBox from "./OtherTeamPicture";
 import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
 import RedHeartLine from "../UI/Common/RedHearLine";
-import Footer from "../UI/Footer/Footer";
 import { fetchList } from "../../api/othergender";
 
 const ExploreTeam = () => {
@@ -24,17 +23,9 @@ const ExploreTeam = () => {
   let [receiveList, setReceiveList] = useState<number>(10); //받아올 리스트 수.
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(true);
-    }, 100);
     setIdx(0);
-
     getList();
   }, []);
-
-  useEffect(() => {
-    console.log(uuidList);
-  }, [uuidList]);
 
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
@@ -122,7 +113,7 @@ const ExploreTeam = () => {
   } else {
     return (
       <>
-        <Codepen />
+        <Loading />
       </>
     );
   }

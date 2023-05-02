@@ -1,5 +1,7 @@
 import React, { useState, useRef, Dispatch, SetStateAction } from "react";
 import style from "./EditBtn.module.scss";
+import EditBtnImg from "./EditBtnImg";
+import EditBtnInput from "./EditBtnInput";
 const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024; // 5MB
 const ALLOW_FILE_EXTENSION = "jpg,jpeg,png";
 
@@ -85,17 +87,8 @@ const EditBtn: React.FC<propsType> = ({ fileImg, setFileImg }) => {
   };
   return (
     <>
-      <img
-        src="/assets/EditBtn.png"
-        className={style.EditBtn}
-        onClick={handleImageClick}
-      />
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        onChange={onChangeImg}
-      />
+      <EditBtnImg imgClick={handleImageClick} />
+      <EditBtnInput ref={fileInputRef} changImg={onChangeImg} />
     </>
   );
 };

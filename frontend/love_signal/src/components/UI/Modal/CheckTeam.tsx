@@ -26,6 +26,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
 
   const closeLeft = () => {
     setClose(!close);
+    console.log("나 왜 동작안하냐?");
   };
 
   return (
@@ -80,7 +81,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
             </div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <div className={style.image}>
+            <div className={style.image} onMouseDown={closeLeft}>
               <img src="/assets/girl2.png" alt="" />
             </div>
             <div className={style.profileBlack}>
@@ -96,7 +97,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
             </div>
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
-            <div className={style.image}>
+            <div className={style.image} onMouseDown={closeLeft}>
               <img src="/assets/girl3.png" alt="" />
             </div>
             <div className={style.profileBlack}>

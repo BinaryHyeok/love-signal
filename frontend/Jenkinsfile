@@ -8,14 +8,14 @@ pipeline {
 
     stages {
 
-        // stage('Build') {
-        //     steps {
-        //         dir('frontend/love_signal') {
-        //             sh 'npm install'
-        //             sh 'npm run build'
-        //         }
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                dir('frontend/love_signal') {
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
 
         stage('Copy files to remote server') {
             steps {

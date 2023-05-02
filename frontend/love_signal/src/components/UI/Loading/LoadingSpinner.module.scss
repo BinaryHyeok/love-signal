@@ -13,6 +13,7 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
   left: 0;
   right: 0;
   margin: auto;
+  z-index: 3;
   // heartbeat gfx
   &:after {
     content: "";

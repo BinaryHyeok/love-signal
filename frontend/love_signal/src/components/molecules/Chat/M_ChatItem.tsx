@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./styles/M_ChatItem.module.scss";
-import A_ChatItemImage from "../atoms/Chat/A_ChatItemImage";
+import A_ChatItemImage from "../../atoms/Chat/A_ChatItemImage";
 import M_ChatItemContent from "./M_ChatItemContent";
 
 type PropsType = {

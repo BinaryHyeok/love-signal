@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./styles/O_ChatList.module.scss";
-import M_ChatItem from "../molecules/M_ChatItem";
+import M_ChatItem from "../../molecules/Chat/M_ChatItem";
 import { useRecoilState } from "recoil";
-import { roomInfo } from "../../atom/chatRoom";
-import { footerIsOn } from "../../atom/footer";
+import { roomInfo } from "../../../atom/chatRoom";
+import { footerIsOn } from "../../../atom/footer";
 
 const DUMMY_CHATLIST = [
   {

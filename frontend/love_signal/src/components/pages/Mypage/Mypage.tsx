@@ -17,6 +17,7 @@ const Mypage = () => {
     <>
       <Header />
       <Image_Type_A />
+
       <Footer />
     </>
   );

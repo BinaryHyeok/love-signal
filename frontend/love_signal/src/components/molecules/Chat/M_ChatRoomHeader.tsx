@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./styles/M_ChatRoomHeader.module.scss";
-import A_ChatHeaderTitle from "../atoms/Chat/A_ChatHeaderTitle";
-import A_ChatHeaderExit from "../atoms/Chat/A_ChatHeaderExit";
+import A_ChatHeaderTitle from "../../atoms/Chat/A_ChatHeaderTitle";
+import A_ChatHeaderExit from "../../atoms/Chat/A_ChatHeaderExit";
 
 type PropsType = {
   onRoomExit: React.MouseEventHandler<HTMLButtonElement>;

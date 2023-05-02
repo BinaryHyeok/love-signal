@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import style from "./styles/Chat.module.scss";
-import T_Chat from "../templates/T_Chat";
+import T_Chat from "../../templates/Chat/T_Chat";
 import { useRecoilState } from "recoil";
-import { roomInfo } from "../../atom/chatRoom";
-import T_ChatRoom from "../templates/T_ChatRoom";
-import { footerIsOn } from "../../atom/footer";
-import { footerIdx } from "../../atom/footer";
+import { roomInfo } from "../../../atom/chatRoom";
+import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
+import { footerIsOn } from "../../../atom/footer";
+import { footerIdx } from "../../../atom/footer";
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);

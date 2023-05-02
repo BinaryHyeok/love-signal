@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./styles/M_ChatItemContent.module.scss";
-import A_ChatItemInfo from "../atoms/Chat/A_ChatItemInfo";
-import A_ChatItemPreview from "../atoms/Chat/A_ChatItemPreview";
+import A_ChatItemInfo from "../../atoms/Chat/A_ChatItemInfo";
+import A_ChatItemPreview from "../../atoms/Chat/A_ChatItemPreview";
 
 type PropsType = {
   id: string;

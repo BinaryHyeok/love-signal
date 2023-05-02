@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./styles/O_ChatTextList.module.scss";
-import M_ChatTextItem from "../molecules/M_ChatTextItem";
+import M_ChatTextItem from "../../molecules/Chat/M_ChatTextItem";
 
 type PropsType = {
   roomType?: string;

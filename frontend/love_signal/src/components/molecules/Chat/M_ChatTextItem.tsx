@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./styles/M_ChatTextItem.module.scss";
-import A_ChatText_TypeA from "../atoms/Chat/A_ChatText_TypeA";
-import A_ChatText_TypeB from "../atoms/Chat/A_ChatText_TypeB";
-import A_ChatSendTime from "../atoms/Chat/A_ChatSendTime";
-import A_ChatSenderImg from "../atoms/Chat/A_ChatSenderImg";
+import A_ChatText_TypeA from "../../atoms/Chat/A_ChatText_TypeA";
+import A_ChatText_TypeB from "../../atoms/Chat/A_ChatText_TypeB";
+import A_ChatSendTime from "../../atoms/Chat/A_ChatSendTime";
+import A_ChatSenderImg from "../../atoms/Chat/A_ChatSenderImg";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",

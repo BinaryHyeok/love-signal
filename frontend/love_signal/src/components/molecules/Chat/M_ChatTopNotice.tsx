@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./styles/M_Notice_Type_A.module.scss";
+import style from "./styles/M_ChatTopNotice.module.scss";
 
 type PropsType = {
   className?: string;
@@ -11,7 +11,7 @@ type PropsType = {
   color?: string;
 };
 
-const M_Notice_Type_A: React.FC<PropsType> = ({
+const M_ChatTopNotice: React.FC<PropsType> = ({
   className,
   icon,
   text,
@@ -36,4 +36,4 @@ const M_Notice_Type_A: React.FC<PropsType> = ({
   );
 };
 
-export default M_Notice_Type_A;
+export default M_ChatTopNotice;

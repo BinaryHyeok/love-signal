@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import style from "./MyTeamList.module.scss";
-import HeartLine from "../UI/Common/HeartLine";
-import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
+import { useState, useEffect } from "react";
+import style from "./styles/MyTeamList.module.scss";
+import HeartLine from "../../UI/Common/HeartLine";
+import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import MyTeamListItem from "./MyTeamListItem";
-import ApplyTeamList from "./ApplyTeamList";
+import ApplyTeamList from "../../SameGender/ApplyTeamList";
 
 type Profile = {
   name: string;

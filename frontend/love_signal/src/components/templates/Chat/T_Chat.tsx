@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./styles/T_Chat.module.scss";
-import M_Notice_Type_A from "../../molecules/Notice_Type_A";
+import M_Notice_Type_A from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatList from "../../organisms/Chat/O_ChatList";
 
 const T_Chat = () => {

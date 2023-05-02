@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
-import M_Notice_Type_A from "../../molecules/Notice_Type_A";
+import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";
 import M_ChatInputBox from "../../molecules/Chat/M_ChatInputBox";
 
@@ -12,7 +12,7 @@ type PropsType = {
 const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
   return (
     <div className={style.textContainer}>
-      <M_Notice_Type_A
+      <M_ChatTopNotice
         icon="/assets/notice_A.png"
         text="매일 저녁 10시에는 선택의 시간이 진행됩니다."
         width="90%"

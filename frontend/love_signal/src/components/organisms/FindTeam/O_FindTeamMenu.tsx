@@ -1,6 +1,6 @@
 import style from "./styles/O_FindTeamMenu.module.scss";
-import A_Heartline from "../atoms/Common/A_Heartline";
-import M_FindTeamMenuList from "../molecules/FindTeam/M_FindTeamMenuList";
+import A_Heartline from "../../atoms/Common/A_Heartline";
+import M_FindTeamMenuList from "../../molecules/FindTeam/M_FindTeamMenuList";
 
 const O_FindTeamMenu = () => {
   return (

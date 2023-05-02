@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./MyTeamListItem.module.scss";
+import style from "./styles/MyTeamListItem.module.scss";
 
 const MyTeamListItem = (props: any) => {
   return (

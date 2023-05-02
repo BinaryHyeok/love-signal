@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import style from "./MainBtn.module.scss";
-import Button_Type_A from "../UI/Common/Button_Type_A";
+import style from "./styles/M_MainBtn.module.scss";
+import Button_Type_A from "../../UI/Common/Button_Type_A";
 
 const MainBtn = () => {
   const navigate = useNavigate();

@@ -26,6 +26,10 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
 
   const closeLeft = () => {
     setClose(!close);
+  };
+
+  const mouseHandler = () => {
+    setClose(!close);
     console.log("나 왜 동작안하냐?");
   };
 
@@ -51,6 +55,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
           <SwiperSlide
             className={style.swiperSlide}
             style={{ borderRadius: "10px" }}
+            onMouseDown={mouseHandler}
           >
             <div className={style.image}>
               <img src="/assets/girl1.png" alt="" />

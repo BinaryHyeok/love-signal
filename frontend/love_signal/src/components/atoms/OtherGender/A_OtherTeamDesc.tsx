@@ -1,4 +1,4 @@
-import style from "./A_OtherTeamDesc.module.scss";
+import style from "./styles/A_OtherTeamDesc.module.scss";
 
 const A_OtherTeamDesc = () => {
   return (

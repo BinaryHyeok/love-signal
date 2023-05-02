@@ -1,6 +1,6 @@
-import { member } from "../../types/member";
-import A_GenderImg from "./A_GenderImg";
-import style from "./OtherTeamPicture.module.scss";
+import { member } from "../../../types/member";
+import A_GenderImg from "../../atoms/OtherGender/A_GenderImg";
+import style from "./styles/M_OtherTeamPicture.module.scss";
 
 type propsType = {
   viewDetail: (idx: number) => void;

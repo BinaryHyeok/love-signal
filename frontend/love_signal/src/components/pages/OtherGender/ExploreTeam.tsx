@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import style from "./ExploreTeam.module.scss";
+import style from "./styles/ExploreTeam.module.scss";
 import { useRecoilState } from "recoil";
-import { footerIdx } from "../../atom/footer";
-import Loading from "../UI/Loading/LoadingSpinner";
-import Modal_portal from "../UI/Modal/Modal_portal";
-import CheckTeam from "../UI/Modal/CheckTeam";
-import { member, team } from "../../types/member";
-import A_OtherTeamDesc from "./A_OtherTeamDesc";
-import PictureBox from "./OtherTeamPicture";
-import ListBoxWithImgTitle from "../UI/Common/ListBoxWithImgTitle";
-import RedHeartLine from "../UI/Common/RedHearLine";
-import { fetchList } from "../../api/othergender";
+import { footerIdx } from "../../../atom/footer";
+import Loading from "../../UI/Loading/LoadingSpinner";
+import Modal_portal from "../../UI/Modal/Modal_portal";
+import CheckTeam from "../../UI/Modal/CheckTeam";
+import { member, team } from "../../../types/member";
+import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
+import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
+import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
+import RedHeartLine from "../../UI/Common/RedHearLine";
+import { fetchList } from "../../../api/othergender";
 
 const ExploreTeam = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

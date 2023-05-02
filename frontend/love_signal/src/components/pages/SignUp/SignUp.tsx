@@ -1,10 +1,10 @@
-import style from "./SignUp.module.scss";
+import style from "./styles/SignUp.module.scss";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Input_Type_A from "../UI/Common/Input_Type_A";
-import Button_Type_A from "../UI/Common/Button_Type_A";
-import Image_Type_A from "../UI/Common/Image_Type_A";
+import Input_Type_A from "../../UI/Common/Input_Type_A";
+import Button_Type_A from "../../UI/Common/Button_Type_A";
+import Image_Type_A from "../../UI/Common/Image_Type_A";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");

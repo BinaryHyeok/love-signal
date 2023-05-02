@@ -1,4 +1,4 @@
-import style from "./A_MainImg.module.scss";
+import style from "./styles/A_MainImg.module.scss";
 
 const MainImg = () => {
   return (

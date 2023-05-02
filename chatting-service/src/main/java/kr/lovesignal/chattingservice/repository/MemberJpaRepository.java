@@ -11,4 +11,5 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
     Member findMemberByUUID(UUID userUUID);
     List<Member> findMemberByTeamId(long teamId);
 
+    Member findMemberByNickname(String nickname);
 }

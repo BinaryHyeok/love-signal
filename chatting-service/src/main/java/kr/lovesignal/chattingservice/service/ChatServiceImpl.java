@@ -111,11 +111,51 @@ public class ChatServiceImpl implements ChatService{
     }
 
     /**
-     * 이성 지목 완료 업데이트.
+     * 이성지목 완료 업데이트.
      */
     @Override
     public void updateSelectMessage(String roomUUID, String chatUUID) {
         chatRepository.updateSelectMessage(roomUUID, chatUUID);
+    }
+
+    /**
+     * 이성지목 결과 메세지 저장.
+     */
+    @Override
+    public void saveResultMessage(String roomUUID, String memberUUID, String oppositeNickname) {
+        // 멤버 객체 찾기.
+        UUID uuid = commonUtils.getValidUUID(memberUUID);
+        Member member = memberJpaRepository.findMemberByUUID(uuid);
+
+        // 이성 객체 찾기.
+        Member oppositeMember  = memberJpaRepository.findMemberByNickname(oppositeNickname);
+
+        // 이성지목 메세지 정보 필드 생성 및 저장.
+        List<String> nicknames = new ArrayList<>();
+        List<String> profileUrls = new ArrayList<>();
+
+        nicknames.add(member.getNickname());
+        nicknames.add(oppositeNickname);
+
+//        profileUrls.add();    사진 url 넣기.
+//        profileUrls.add();
+
+        // 이성지목 메세지 정보 객체 생성.
+        SelectOrShareInfo selectOrShareInfo = SelectOrShareInfo.builder()
+                .nicknames(nicknames)
+                .profileUrls(profileUrls)
+                .build();
+
+        // 요청 메세지 객체 생성 및 저장
+        ReqChatMessage reqChatMessage = ReqChatMessage.builder()
+                .roomUUID(roomUUID)
+                .type("RESULT")
+                .nickname("러브시그널")
+                .content("")
+                .selectOrShareInfo(selectOrShareInfo)
+                .build();
+
+        saveChatMessage(reqChatMessage);
     }
 
     /**

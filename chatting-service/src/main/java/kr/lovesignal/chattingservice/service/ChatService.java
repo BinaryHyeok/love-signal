@@ -15,4 +15,6 @@ public interface ChatService {
     void saveShareMessage(String userUUID, String oppositeTeamUUID);
 
     void updateSelectMessage(String roomUUID, String chatUUID);
+
+    void saveResultMessage(String roomUUID, String memberUUID, String oppositeNickname);
 }

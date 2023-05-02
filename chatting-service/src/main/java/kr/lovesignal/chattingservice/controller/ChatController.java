@@ -3,7 +3,7 @@ package kr.lovesignal.chattingservice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
-import kr.lovesignal.chattingservice.model.request.SelectMessageInfo;
+import kr.lovesignal.chattingservice.model.request.ReqSelectMessage;
 import kr.lovesignal.chattingservice.model.request.ReqShareInfo;
 import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.pubsub.RedisPublisher;
@@ -58,10 +58,15 @@ public class ChatController {
 
     @ApiOperation(value = "이성지목 시스템 메세지 업데이트", notes = "이성지목 시스템 메세지를 선택완료로 업데이트 한다.")
     @PutMapping("/chat/select")
-    public ResponseEntity<String> updateSelectMessage(@RequestBody SelectMessageInfo reqSelectChatMessage) {
-        String roomUUID = reqSelectChatMessage.getRoomUUID();
-        String chatUUID = reqSelectChatMessage.getChatUUID();
+    public ResponseEntity<String> updateSelectMessage(@RequestBody ReqSelectMessage reqSelectMessage) {
+        String roomUUID = reqSelectMessage.getRoomUUID();
+        String chatUUID = reqSelectMessage.getChatUUID();
+
+        String memberUUID = reqSelectMessage.getMemberUUID();
+        String oppositeNickname = reqSelectMessage.getOppositeNickname();
+
         chatService.updateSelectMessage(roomUUID, chatUUID);
+        chatService.saveResultMessage(roomUUID, memberUUID, oppositeNickname);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 

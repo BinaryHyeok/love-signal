@@ -72,7 +72,7 @@ public class ChatRepository {
         List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
         for(ResChatMessage resChatMessage : list) {
             if(resChatMessage.getUUID().equals(chatUUID)) {
-                resChatMessage.getSelectMessageInfo().setSelected("T");
+                resChatMessage.getSelectOrShareInfo().setSelected("T");
                 break;
             }
         }

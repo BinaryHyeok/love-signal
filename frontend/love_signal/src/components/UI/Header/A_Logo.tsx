@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import style from "./Logo.module.scss";
+import style from "./A_Logo.module.scss";
 
-const Logo = () => {
+const A_Logo = () => {
   const navigate = useNavigate();
 
   //로고를 눌렀을때 이성팀 찾기 페이지로 이동합니다.
@@ -17,4 +17,4 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default A_Logo;

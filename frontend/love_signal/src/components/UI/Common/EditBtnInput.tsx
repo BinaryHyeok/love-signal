@@ -1,23 +1,24 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-type propsType = {
-  ref: React.RefObject<HTMLInputElement>;
-  changImg: (
+type PropsType = {
+  changeImg: (
     e: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLFormElement>
   ) => void;
 };
 
-const EditBtnInput: React.FC<propsType> = ({ ref, changImg }) => {
-  return (
-    <>
-      <input
-        type="file"
-        ref={ref}
-        style={{ display: "none" }}
-        onChange={changImg}
-      />
-    </>
-  );
-};
+const EditBtnInput = forwardRef<HTMLInputElement, PropsType>(
+  ({ changeImg }: PropsType, ref) => {
+    return (
+      <>
+        <input
+          type="file"
+          ref={ref}
+          style={{ display: "none" }}
+          onChange={changeImg}
+        />
+      </>
+    );
+  }
+);
 
 export default EditBtnInput;

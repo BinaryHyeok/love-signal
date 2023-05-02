@@ -1,5 +1,3 @@
-import React, { Dispatch, SetStateAction } from "react";
-
 const Age = () => {
   return (
     <>

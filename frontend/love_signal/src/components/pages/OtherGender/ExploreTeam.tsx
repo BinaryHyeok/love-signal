@@ -5,7 +5,7 @@ import { footerIdx } from "../../../atom/footer";
 import Loading from "../../UI/Loading/LoadingSpinner";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
-import { member, team } from "../../../types/member";
+import { team } from "../../../types/member";
 import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
@@ -18,7 +18,7 @@ const ExploreTeam = () => {
   //팀 코드를 저장해줄 변수입니다.(또는 그 팀의 배열 위치?)
   const [teamNumber, setTeamNumber] = useState<number>(0);
   const [team, setTeam] = useState<team[]>([]);
-  const [idx, setIdx] = useRecoilState<number>(footerIdx);
+  const [, setIdx] = useRecoilState<number>(footerIdx);
   const [uuidList, setuuidList] = useState<string[]>([]);
   let [receiveList, setReceiveList] = useState<number>(10); //받아올 리스트 수.
   let [infinityScroll, setInfinityScroll] = useState<boolean>(true);

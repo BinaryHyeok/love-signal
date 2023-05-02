@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import style from "./CommonModal.module.scss";
-import Button_Type_A from "../Common/Button_Type_A";
+import ModalBox from "./ModalBox";
+// import Button_Type_A from "../Common/Button_Type_A";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -23,21 +24,12 @@ const MemberDetail: React.FC<propsType> = ({
   return (
     <div className={style.container}>
       <div className={style.background} onClick={closeModal}></div>
-      <div
-        className={style.modal}
-        style={{
-          width: `${width}`,
-          height: `${height}`,
-        }}
-      >
-        <img
-          src="/assets/exit.png"
-          className={style.exit}
-          alt="나가기"
-          onClick={closeModal}
-        />
-        <div>{children}</div>
-      </div>
+      <ModalBox
+        width={width}
+        height={height}
+        closeModal={closeModal}
+        children={children}
+      />
     </div>
   );
 };

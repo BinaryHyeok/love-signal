@@ -1,16 +1,14 @@
 import React, { useState, useRef, Dispatch, SetStateAction } from "react";
-import style from "./EditBtn.module.scss";
 import EditBtnImg from "./EditBtnImg";
 import EditBtnInput from "./EditBtnInput";
 const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024; // 5MB
 const ALLOW_FILE_EXTENSION = "jpg,jpeg,png";
 
 type propsType = {
-  fileImg: string;
   setFileImg: Dispatch<SetStateAction<string>>;
 };
 
-const EditBtn: React.FC<propsType> = ({ fileImg, setFileImg }) => {
+const EditBtn: React.FC<propsType> = ({ setFileImg }) => {
   const [file, setFile] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const onChangeImg = (
@@ -79,12 +77,31 @@ const EditBtn: React.FC<propsType> = ({ fileImg, setFileImg }) => {
     setFileImg(URL.createObjectURL(files));
   };
 
-  //사진 업로드가 들어갈 함수입니다.
   const handleImageClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
+
+  // axios 요청 함수.
+  // const onSubmitImg = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   console.log(file);
+  //   if (file) {
+  //     const formData = new FormData();
+  //     formData.append("image", file);
+  //     console.log(formData.get("image"));
+  //     await axios({
+  //       method: "post",
+  //       url: "/mypage/file",
+  //       data: formData,
+  //       headers: {
+  //         "X-Auth_Token": "AccessToken",
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //   }
+  // };
   return (
     <>
       <EditBtnImg imgClick={handleImageClick} />

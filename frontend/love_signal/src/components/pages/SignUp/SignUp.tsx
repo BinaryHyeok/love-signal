@@ -4,11 +4,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
-import Image_Type_A from "../../UI/Common/Image_Type_A";
+import M_Image_Type from "../../UI/Common/M_Image_Type";
 
 const SignUp = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email] = useState<string>("");
+  const [password] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [checkNickname, setCheckNickname] = useState<boolean>(false);
 
@@ -84,8 +84,8 @@ const SignUp = () => {
   return (
     <>
       <div className={`${style.Container} diagonal-gradient`}>
-        <img src="/assets/Logo2.png" height="100vh" />
-        <Image_Type_A />
+        <img src="/assets/Logo2.png" height="100vh" alt="로고" />
+        <M_Image_Type />
         <div className={style.userInfo}>
           <div className={style.nickName}>
             <Input_Type_A

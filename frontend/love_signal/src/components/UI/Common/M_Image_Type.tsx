@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
-import style from "./Image_Type_A.module.scss";
+import { useState } from "react";
+import style from "./M_Image_Type.module.scss";
 import EditBtn from "./EditBtn";
+import ProfileImg from "./ProfileImg";
 
 //마이페이지, 회원가입에 쓸 이미지
-const Image_Type_A = () => {
+const M_Image_Type = () => {
   const publicUrl = process.env.PUBLIC_URL;
   const filesample = `${publicUrl}/assets/girl5.png`;
   const [fileImg, setFileImg] = useState(`${filesample}`);
@@ -12,10 +13,8 @@ const Image_Type_A = () => {
       <div className={style.Container}>
         <div className={style.imgback}>
           <div className={style.imgBackGround}>
-            <div className={style.imgBackGround2}>
-              <img src={fileImg} className={style.myImg} />
-            </div>
-            <EditBtn fileImg={fileImg} setFileImg={setFileImg} />
+            <ProfileImg fileImg={fileImg} />
+            <EditBtn setFileImg={setFileImg} />
           </div>
         </div>
       </div>
@@ -23,4 +22,4 @@ const Image_Type_A = () => {
   );
 };
 
-export default Image_Type_A;
+export default M_Image_Type;

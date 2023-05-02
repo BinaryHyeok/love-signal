@@ -1,12 +1,12 @@
 import style from "./LoadingHeartContainer.module.scss";
-import LoadingTopHeart from "./LoadingTopHeart";
-import LoadingBottomHeart from "./LoadingBottomHeart";
+import A_LoadingTopHeart from "./A_LoadingTopHeart";
+import A_LoadingBottomHeart from "./A_LoadingBottomHeart";
 
 const LoadingHeartContainer = () => {
   return (
     <div className={`${style.heartContainer} diagonal-gradient`}>
-      <LoadingTopHeart />
-      <LoadingBottomHeart />
+      <A_LoadingTopHeart />
+      <A_LoadingBottomHeart />
     </div>
   );
 };

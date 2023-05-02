@@ -1,7 +1,7 @@
 import React from "react";
-import style from "./Logo.module.scss";
+import style from "./A_Logo.module.scss";
 
-const Alarm = () => {
+const A_Alarm = () => {
   return (
     <div className={style.logo}>
       <img src="/assets/Alarm.png" />
@@ -9,4 +9,4 @@ const Alarm = () => {
   );
 };
 
-export default Alarm;
+export default A_Alarm;

@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./GenderImg.module.scss";
+import style from "./A_GenderImg.module.scss";
 
 type propsType = {
   index: number;

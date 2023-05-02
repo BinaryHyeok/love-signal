@@ -88,7 +88,7 @@ const EditBtn: React.FC<propsType> = ({ fileImg, setFileImg }) => {
   return (
     <>
       <EditBtnImg imgClick={handleImageClick} />
-      <EditBtnInput ref={fileInputRef} changImg={onChangeImg} />
+      <EditBtnInput ref={fileInputRef} changeImg={onChangeImg} />
     </>
   );
 };

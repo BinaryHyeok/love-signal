@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import style from "./styles/T_ChatRoom.module.scss";
-import M_ChatRoomHeader from "../molecules/M_ChatRoomHeader";
-import O_ChatTextBox from "../organisms/O_ChatTextBox";
+import M_ChatRoomHeader from "../../molecules/Chat/M_ChatRoomHeader";
+import O_ChatTextBox from "../../organisms/Chat/O_ChatTextBox";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",

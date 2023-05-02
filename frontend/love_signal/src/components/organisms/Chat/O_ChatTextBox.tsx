@@ -1,8 +1,8 @@
 import React from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
-import M_Notice_Type_A from "../molecules/Notice_Type_A";
+import M_Notice_Type_A from "../../molecules/Notice_Type_A";
 import O_ChatTextList from "./O_ChatTextList";
-import M_ChatInputBox from "../molecules/M_ChatInputBox";
+import M_ChatInputBox from "../../molecules/Chat/M_ChatInputBox";
 
 type PropsType = {
   onTextSubmit(e: React.FormEvent<HTMLFormElement>): void;

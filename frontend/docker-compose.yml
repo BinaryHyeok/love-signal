@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - build:/app/build
+    environment:
+      - GENERATE_SOURCEMAP=false
     command: "npm run start"
     working_dir: /app
 

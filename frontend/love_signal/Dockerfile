@@ -8,4 +8,4 @@ RUN ["npm", "install"]
 
 COPY . /app
 
-RUN GENERATE_SOURCEMAP=false npm run build
+RUN ["npm", "run", "build"]

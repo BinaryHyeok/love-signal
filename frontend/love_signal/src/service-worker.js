@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 // PushManager 구독 정보 변수
 let pushSubscription = null;
 

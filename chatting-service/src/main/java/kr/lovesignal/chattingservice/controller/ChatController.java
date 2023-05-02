@@ -3,7 +3,9 @@ package kr.lovesignal.chattingservice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
+import kr.lovesignal.chattingservice.model.request.SelectMessageInfo;
 import kr.lovesignal.chattingservice.model.request.ReqShareInfo;
+import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.pubsub.RedisPublisher;
 import kr.lovesignal.chattingservice.service.ChatRoomService;
 import kr.lovesignal.chattingservice.service.ChatService;
@@ -41,7 +43,7 @@ public class ChatController {
 
     @ApiOperation(value = "채팅내역 조회", notes = "입장한 채팅방의 모든 채팅내역을 가져온다.")
     @GetMapping("/chat/messages")
-    public ResponseEntity<List<ReqChatMessage>> getChatMessages(String roomUUID) {
+    public ResponseEntity<List<ResChatMessage>> getChatMessages(String roomUUID) {
         return new ResponseEntity<>(chatService.getChatMessages(roomUUID), HttpStatus.OK);
     }
 
@@ -51,6 +53,15 @@ public class ChatController {
         String userUUID = reqShareInfo.getUserUUID();
         String oppositeTeamUUID = reqShareInfo.getTeamUUID();
         chatService.saveShareMessage(userUUID, oppositeTeamUUID);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "이성지목 시스템 메세지 업데이트", notes = "이성지목 시스템 메세지를 선택완료로 업데이트 한다.")
+    @PutMapping("/chat/select")
+    public ResponseEntity<String> updateSelectMessage(@RequestBody SelectMessageInfo reqSelectChatMessage) {
+        String roomUUID = reqSelectChatMessage.getRoomUUID();
+        String chatUUID = reqSelectChatMessage.getChatUUID();
+        chatService.updateSelectMessage(roomUUID, chatUUID);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 

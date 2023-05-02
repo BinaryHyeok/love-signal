@@ -1,6 +1,6 @@
 package kr.lovesignal.chattingservice.model.request;
 
-import kr.lovesignal.chattingservice.entity.ChatMessage;
+import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,15 +13,27 @@ import java.util.UUID;
 @Builder
 public class ReqChatMessage {
 
-    private int redis_message_id;
     private String roomUUID;
     private String type;
     private String nickname;
     private String content;
-    private int notReadPerson;
-    private String UUID;
-    private String createdDate;
-    private String updatedDate;
-    private String expired;
+
+    private SelectOrShareInfo selectOrShareInfo;
+
+    public ResChatMessage toResChatMessage() {
+        return ResChatMessage.builder()
+                .redis_message_id(0)
+                .roomUUID(this.roomUUID)
+                .type(this.type)
+                .nickname(this.nickname)
+                .content(this.content)
+                .notReadPerson(0)
+                .UUID(UUID.randomUUID().toString())
+                .createdDate(LocalDateTime.now().toString())
+                .updatedDate(LocalDateTime.now().toString())
+                .expired("F")
+                .selectOrShareInfo(this.selectOrShareInfo)
+                .build();
+    }
 
 }

@@ -2,6 +2,7 @@ package kr.lovesignal.chattingservice.repository;
 
 import kr.lovesignal.chattingservice.entity.ChatMessage;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
+import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,7 +20,7 @@ public class ChatRepository {
     private final String RoomMessageList = "RoomMessageList";
     private final RedisTemplate<String, Object> redisTemplate;
     private HashOperations<String, Long, ChatMessage> opsHashMessage;
-    private HashOperations<String, String, List<ReqChatMessage>> opsHashMessageList;
+    private HashOperations<String, String, List<ResChatMessage>> opsHashMessageList;
 
     @PostConstruct
     public void init() {
@@ -30,8 +31,8 @@ public class ChatRepository {
     /**
      * 메세지 조회
      */
-    public List<ReqChatMessage> getChatMessages(String roomUUID) {
-        List<ReqChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
+    public List<ResChatMessage> getChatMessages(String roomUUID) {
+        List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
         return list;
     }
 
@@ -39,13 +40,13 @@ public class ChatRepository {
     /**
      * 메세지 저장
      */
-    public void saveChatMessage(ReqChatMessage message) {
+    public void saveChatMessage(ResChatMessage message) {
         saveChatMessageToAll(message);
         saveChatMessageToRoom(message);
     }
 
-    public void saveChatMessageToAll(ReqChatMessage message) {
-        List<ReqChatMessage> list = opsHashMessageList.get(AllMessageList, "1");
+    public void saveChatMessageToAll(ResChatMessage message) {
+        List<ResChatMessage> list = opsHashMessageList.get(AllMessageList, "1");
         if(list == null) {
             list = new ArrayList<>();
         }
@@ -55,8 +56,8 @@ public class ChatRepository {
         opsHashMessageList.put(AllMessageList, "1", list);
     }
 
-    public void saveChatMessageToRoom(ReqChatMessage message) {
-        List<ReqChatMessage> list = opsHashMessageList.get(RoomMessageList, message.getRoomUUID());
+    public void saveChatMessageToRoom(ResChatMessage message) {
+        List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, message.getRoomUUID());
         if(list == null) {
             list = new ArrayList<>();
         }
@@ -67,4 +68,14 @@ public class ChatRepository {
     }
 
 
+    public void updateSelectMessage(String roomUUID, String chatUUID) {
+        List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
+        for(ResChatMessage resChatMessage : list) {
+            if(resChatMessage.getUUID().equals(chatUUID)) {
+                resChatMessage.getSelectMessageInfo().setSelected("T");
+                break;
+            }
+        }
+        opsHashMessageList.put(RoomMessageList, roomUUID, list);
+    }
 }

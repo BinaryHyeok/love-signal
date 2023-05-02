@@ -5,6 +5,7 @@ import style from "./styles/Mypage.module.scss";
 import { useRecoilState } from "recoil";
 import Header from "../../UI/Header/Header";
 import Image_Type_A from "../../UI/Common/Image_Type_A";
+import MyInfo from "./MyInfo";
 
 const Mypage = () => {
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
@@ -17,7 +18,7 @@ const Mypage = () => {
     <>
       <Header />
       <Image_Type_A />
-
+      <MyInfo />
       <Footer />
     </>
   );

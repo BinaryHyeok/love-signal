@@ -22,7 +22,7 @@ public class ChatRoomRepository {
         opsHashSelectRoomList = redisTemplate.opsForHash();
     }
 
-    public ResSelectChatRoom getResSelectChatRoom(String selectorUUID, String selectedUUID, String meetingRoomUUID) {
+    public ResSelectChatRoom checkResSelectChatRoom(String selectorUUID, String selectedUUID, String meetingRoomUUID) {
         // 리턴 껍데기 생성
         ResSelectChatRoom chatRoom = null;
 

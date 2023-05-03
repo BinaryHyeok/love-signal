@@ -160,42 +160,39 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         // 혼성 채팅방이 16시 전에 생성됐을 때
         if(createdHour < 16) {
-            // nightNumber 가 2 이면 마지막 선택 SIGNAL
-            if(nightNumber == 2) {
-
-            }
-            // nightNumber 가 0, 1 이면 익명 선택 SECRET
-            else {
-                secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, selector, selected);
-            }
+            // nightNumber 가 2 이면 마지막 선택 SIGNAL, nightNumber 가 0, 1 이면 익명 선택 SECRET
+            String roomType = nightNumber==2?"SIGNAL":"SECRET";
+            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
         }
         // 혼성 채팅방이 16시 이후에 생성됐을 때
         else if(createdHour >= 16) {
-            // nightNumber 가 3 이면 마지막 선택 SIGNAL
-            if(nightNumber == 3) {
-
-            }
-            // nightNumber 가 0,1,2 이면 익명 선택 SECRET
-            else {
-                secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, selector, selected);
-            }
+            // nightNumber 가 3 이면 마지막 선택 SIGNAL, nightNumber 가 0,1,2 이면 익명 선택 SECRET
+            String roomType = nightNumber==3?"SIGNAL":"SECRET";
+            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
         }
 
 
     }
 
+    /**
+     * createOneToOneChatRoom() 메서드에 사용되는 메서드
+     * 1일, 2일 차 선택의 시간에 채팅방 생성
+     */
     public void secretOneToOne(String selectorUUID, String selectedUUID, String meetingRoomUUID,
-                               Member selector, Member selected) {
+                               String type, Member selector, Member selected) {
+        // 내가 지목한 상대가 나를 지목해서 이미 채팅방이 만들었는지 조회.
         ResSelectChatRoom checkSelectChatRoom =
-                chatRoomRepository.getResSelectChatRoom(selectorUUID, selectedUUID, meetingRoomUUID);
+                chatRoomRepository.checkResSelectChatRoom(selectorUUID, selectedUUID, meetingRoomUUID);
 
+        // null 이 아니면 나를 지목한 것임. Love(양방향) 을 True 로 업데이트
         if(checkSelectChatRoom != null) {
             chatRoomRepository.updateResSelectChatRoom(meetingRoomUUID, checkSelectChatRoom.getUUID());
         }
+        // null 이면 나만 지목한 것임. 신규 채팅방 생성.
         else {
             ResSelectChatRoom resSelectChatRoom = ResSelectChatRoom.builder()
                     .UUID(UUID.randomUUID().toString())
-                    .type("SECRET")
+                    .type(type)
                     .roomName("")
                     .createdDate(LocalDateTime.now().toString())
                     .updatedDate(LocalDateTime.now().toString())
@@ -204,6 +201,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     .selected(selected)
                     .build();
 
+            // redis 에 저장.
             chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);
         }
     }

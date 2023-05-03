@@ -2,7 +2,6 @@ package kr.lovesignal.memberservice.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import kr.lovesignal.memberservice.model.request.DeleteMemberRequest;
 import kr.lovesignal.memberservice.model.request.SignInRequest;
 import kr.lovesignal.memberservice.model.request.SignUpRequest;
 import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
@@ -56,11 +55,11 @@ public class AuthController {
                 .body(successResponse);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{memberUUID}")
     @ApiOperation(value = "회원 탈퇴")
-    public ResponseEntity<SuccessResponse> deleteMember(@RequestBody DeleteMemberRequest deleteMemberRequest){
+    public ResponseEntity<SuccessResponse> deleteMember(@PathVariable String memberUUID){
 
-        SuccessResponse successResponse = authService.deleteMember(deleteMemberRequest);
+        SuccessResponse successResponse = authService.deleteMember(memberUUID);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

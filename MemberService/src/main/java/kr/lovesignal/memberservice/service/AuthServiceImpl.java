@@ -3,7 +3,6 @@ package kr.lovesignal.memberservice.service;
 import kr.lovesignal.memberservice.entity.MemberEntity;
 import kr.lovesignal.memberservice.exception.CustomException;
 import kr.lovesignal.memberservice.exception.ErrorCode;
-import kr.lovesignal.memberservice.model.request.DeleteMemberRequest;
 import kr.lovesignal.memberservice.model.request.SignInRequest;
 import kr.lovesignal.memberservice.model.request.SignUpRequest;
 import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
@@ -80,9 +79,9 @@ public class AuthServiceImpl implements AuthService{
     // 계정탈퇴
     @Override
     @Transactional
-    public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteMemberRequest) {
+    public SuccessResponse<String> deleteMember(String strMemberUUID) {
 
-        UUID UUID = commonUtils.getValidUUID(deleteMemberRequest.getMemberUUID());
+        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
 
         MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));

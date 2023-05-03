@@ -1,13 +1,10 @@
 package kr.lovesignal.memberservice.service;
 
-import kr.lovesignal.memberservice.model.request.DeleteMemberRequest;
 import kr.lovesignal.memberservice.model.request.SignInRequest;
 import kr.lovesignal.memberservice.model.request.SignUpRequest;
 import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
 import kr.lovesignal.memberservice.model.response.MemberResponse;
 import kr.lovesignal.memberservice.model.response.SuccessResponse;
-
-import javax.servlet.http.HttpServletRequest;
 
 public interface AuthService {
 
@@ -17,7 +14,7 @@ public interface AuthService {
 
     public SuccessResponse<String> updateMember(UpdateMemberRequest updateMemberRequest);
 
-    public SuccessResponse<String> deleteMember(DeleteMemberRequest deleteMemberRequest);
+    public SuccessResponse<String> deleteMember(String memberUUID);
 
     public SuccessResponse<MemberResponse> getMemberByUUID(String memberUUID);
 

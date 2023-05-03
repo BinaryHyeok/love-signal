@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import style from "./styles/O_ChatTextList.module.scss";
 import M_ChatTextItem from "../../molecules/Chat/M_ChatTextItem";
 
@@ -7,8 +7,22 @@ type PropsType = {
 };
 
 const O_ChatTextList: React.FC<PropsType> = ({ roomType }) => {
+  const chatList = useRef<HTMLUListElement>(null);
+
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      const viewportHeight = window.innerHeight;
+      const keyboardHeight =
+        viewportHeight - document.documentElement.clientHeight;
+
+      // chatList.current.height = chatList.current.height - keyboardHeight;
+    };
+  });
+
+  const resizeChatListHeight = () => {};
+
   return (
-    <ul className={style.textList}>
+    <ul className={style.textList} ref={chatList}>
       <M_ChatTextItem
         roomType={roomType}
         isMe={true}

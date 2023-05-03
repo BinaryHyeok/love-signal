@@ -57,4 +57,8 @@ public class ChatRoomRepository {
         }
         opsHashSelectRoomList.put(SELECT, meetingRoomUUID, list);
     }
+
+    public List<List<ResSelectChatRoom>> getHkeyValues() {
+        return opsHashSelectRoomList.values(SELECT);
+    }
 }

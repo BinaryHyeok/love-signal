@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -203,6 +204,75 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // redis 에 저장.
             chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);
+        }
+    }
+
+    /**
+     *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
+     */
+    @Scheduled(cron = "0 30 22 * * *")
+    public void redisToMysql() {
+        /*
+            1. Redis에서 List<HV> 조회.
+            2. 이중 for 문으로 List<HV> List<ChatRoom> 각 채팅방 순회
+         */
+        List<List<ResSelectChatRoom>> hKeyValues = chatRoomRepository.getHkeyValues();
+        for(List<ResSelectChatRoom> resSelectChatRoomList : hKeyValues) {
+            for(ResSelectChatRoom resSelectChatRoom : resSelectChatRoomList) {
+                // 익명 선택의 시간이면 양방향 여부 상관없이 채팅방 엔티티 저장
+                if(resSelectChatRoom.getType().equals("SECRET")) {
+                    ChatRoom chatRoom = resSelectChatRoom.toEntity();
+                    chatRoomJpaRepository.save(chatRoom);
+                }
+                // 마지막 선택의 시간이면 양방향 인것만 채팅방 엔티티 저장
+                else if(resSelectChatRoom.getType().equals("SIGNAL") && resSelectChatRoom.getLove().equals("T")) {
+                    ChatRoom chatRoom = resSelectChatRoom.toEntity();
+                    chatRoomJpaRepository.save(chatRoom);
+                }
+            }
+        }
+    }
+
+    /**
+     * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
+     * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
+     */
+    @Scheduled(cron = "0 30 11 * * *")
+    public void secretChatRoomExpiredT() {
+        List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
+        for(ChatRoom chatRoom : list) {
+            chatRoom.setExpired("T");
+            chatRoomJpaRepository.save(chatRoom);
+            List<Participant> participants = chatRoom.getParticipants();
+
+            for(Participant participant : participants) {
+                participant.setExpired("T");
+                participantJpaRepository.save(participant);
+            }
+        }
+    }
+
+    /**
+     * 동성혼성 채팅방 기간 만료
+     */
+    @Scheduled(cron = "0 0 11 * * *")
+    public void chatRoomExpired() {
+        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
+        for(ChatRoom meetingRoom : chatRooms) {
+            int createdHour = meetingRoom.getCreatedDate().getHour();
+            int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
+
+            if((createdHour < 16 && nightNumber == 2) || (createdHour >= 16 && nightNumber == 3)) {
+                meetingRoom.setExpired("T");
+                chatRoomJpaRepository.save(meetingRoom);
+                List<Participant> participants = meetingRoom.getParticipants();
+
+                for(Participant participant : participants) {
+                    participant.setExpired("T");
+                    participant.getMember().getTeam().setExpired("T");
+                    participantJpaRepository.save(participant);
+                }
+            }
         }
     }
 

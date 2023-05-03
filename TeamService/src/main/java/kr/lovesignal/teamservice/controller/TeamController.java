@@ -79,29 +79,40 @@ public class TeamController {
                 .body(successResponse);
     }
 
-    @GetMapping("/{teamUUID}/meeting")
+    @GetMapping("/{teamUUID}/received-meetings")
     @ApiOperation(value = "미팅 신청받은 목록 불러오기")
-    public ResponseEntity<SuccessResponse> getMeetingRequests(@PathVariable String teamUUID){
+    public ResponseEntity<SuccessResponse> getReceivedMeetings(@PathVariable String teamUUID){
 
-        SuccessResponse successResponse = teamService.getMeetingRequests(teamUUID);
+        SuccessResponse successResponse = teamService.getReceivedMeetings(teamUUID);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(successResponse);
     }
 
-    @PostMapping("/{teamUUID}/meeting/{oppositeTeamUUID}/request")
-    @ApiOperation(value = "미팅 신청")
-    public ResponseEntity<SuccessResponse> createMeetingRequest(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+    @GetMapping("/{teamUUID}/sent-meetings")
+    @ApiOperation(value = "미팅 신청한 목록 불러오기")
+    public ResponseEntity<SuccessResponse> getSentMeetings(@PathVariable String teamUUID){
 
-        SuccessResponse successResponse = teamService.createMeetingRequest(teamUUID, oppositeTeamUUID);
+        SuccessResponse successResponse = teamService.getSentMeetings(teamUUID);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(successResponse);
+    }
+
+    @PostMapping("/{teamUUID}/send-meeting/{oppositeTeamUUID}")
+    @ApiOperation(value = "미팅 신청")
+    public ResponseEntity<SuccessResponse> createMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+
+        SuccessResponse successResponse = teamService.createMeeting(teamUUID, oppositeTeamUUID);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(successResponse);
     }
 
-    @DeleteMapping("/{teamUUID}/meeting/{oppositeTeamUUID}/accpet")
+    @DeleteMapping("/{teamUUID}/accpet-meeting/{oppositeTeamUUID}")
     @ApiOperation(value = "미팅 수락")
     public ResponseEntity<SuccessResponse> accpetMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
 
@@ -112,7 +123,7 @@ public class TeamController {
                 .body(successResponse);
     }
 
-    @DeleteMapping("/{teamUUID}/meeting/{oppositeTeamUUID}/reject")
+    @DeleteMapping("/{teamUUID}/reject-meeting/{oppositeTeamUUID}")
     @ApiOperation(value = "미팅 거절")
     public ResponseEntity<SuccessResponse> rejectMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
 

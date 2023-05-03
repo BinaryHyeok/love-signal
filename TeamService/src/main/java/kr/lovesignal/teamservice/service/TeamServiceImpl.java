@@ -7,6 +7,7 @@ import kr.lovesignal.teamservice.exception.CustomException;
 import kr.lovesignal.teamservice.exception.ErrorCode;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
+import kr.lovesignal.teamservice.model.response.Team;
 import kr.lovesignal.teamservice.model.response.TeamResponse;
 import kr.lovesignal.teamservice.repository.MeetingRepository;
 import kr.lovesignal.teamservice.repository.MemberRepository;
@@ -115,21 +116,21 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<TeamResponse> getTeamByTeamUUID(String strTeamUUID) {
+    public SuccessResponse<Team> getTeamByTeamUUID(String strTeamUUID) {
 
         UUID UUID = commonUtils.getValidUUID(strTeamUUID);
 
         TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(UUID, "F", "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
-        TeamResponse teamResponse = makeTeam(findTeam);
+        Team team = makeTeam(findTeam);
 
-        return responseUtils.buildSuccessResponse(teamResponse);
+        return responseUtils.buildSuccessResponse(team);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<List<TeamResponse>> getOppositeGenderTeams(
+    public SuccessResponse<List<Team>> getOppositeGenderTeams(
             String gender,
             int size,
             GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest) {
@@ -145,14 +146,45 @@ public class TeamServiceImpl implements TeamService{
         // DB에서 사용하지 않은 모든 Team들을 뽑아서 섞은 후 20개뽑는다.
         List<TeamEntity> notUsedTeams = teamRepository.findTeamsNotInUUIDsByGenderAndNotExpiredAndNotMeeting(gender, usedUUIDs);
         Collections.shuffle(notUsedTeams);
-        int sendSize = notUsedTeams.size() < size ? sendSize = notUsedTeams.size() : size;
+
+        boolean isRemain = true;
+        int sendSize = size;
+        if(notUsedTeams.size() <= size){
+            isRemain = false;
+            sendSize = notUsedTeams.size();
+        }
         notUsedTeams = notUsedTeams.subList(0, sendSize);
 
         // 이성 팀 목록을 만든다.
-        List<TeamResponse> sendTeams = new ArrayList<>();
+        List<Team> sendTeams = new ArrayList<>();
         for(TeamEntity teamEntity : notUsedTeams){
-            TeamResponse teamResponse = makeTeam(teamEntity);
-            sendTeams.add(teamResponse);
+            Team team = makeTeam(teamEntity);
+            sendTeams.add(team);
+        }
+
+        TeamResponse teamResponse = TeamResponse.builder()
+                .hasRemainingTeam(isRemain)
+                .teams(sendTeams)
+                .build();
+
+        return responseUtils.buildSuccessResponse(teamResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SuccessResponse<List<Team>> getReceivedMeetings(String strReceiveTeamUUID) {
+
+        UUID receiveTeamUUID = commonUtils.getValidUUID(strReceiveTeamUUID);
+
+        TeamEntity receiveTeam = teamRepository.findByUUIDAndExpiredAndMeeting(receiveTeamUUID, "F", "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+
+        List<MeetingEntity> sendTeamEntities = meetingRepository.findByReceiveTeam(receiveTeam);
+
+        List<Team> sendTeams = new ArrayList<>();
+        for(MeetingEntity sendTeam : sendTeamEntities){
+            Team team = makeTeam(sendTeam.getSendTeam());
+            sendTeams.add(team);
         }
 
         return responseUtils.buildSuccessResponse(sendTeams);
@@ -160,33 +192,42 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<List<TeamResponse>> getMeetingRequests(String strTeamUUID) {
+    public SuccessResponse<List<Team>> getSentMeetings(String strSendTeamUUID) {
 
-        UUID UUID = commonUtils.getValidUUID(strTeamUUID);
+        UUID sendTeamUUID = commonUtils.getValidUUID(strSendTeamUUID);
 
-        TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(UUID, "F", "F")
+        TeamEntity sendTeam = teamRepository.findByUUIDAndExpiredAndMeeting(sendTeamUUID, "F", "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
-        List<MeetingEntity> proposeTeamEntities = meetingRepository.findByRequestTeam(findTeam);
+        List<MeetingEntity> receiveTeamEntities = meetingRepository.findBySendTeam(sendTeam);
 
-        List<TeamResponse> proposeTeams = new ArrayList<>();
-        for(MeetingEntity meetingEntity : proposeTeamEntities){
-            TeamResponse teamResponse = makeTeam(meetingEntity.getProposeTeam());
-            proposeTeams.add(teamResponse);
+        List<Team> receiveTeams = new ArrayList<>();
+        for(MeetingEntity receiveTeam : receiveTeamEntities){
+            Team team = makeTeam(receiveTeam.getReceiveTeam());
+            receiveTeams.add(team);
         }
 
-        return responseUtils.buildSuccessResponse(proposeTeams);
+        return responseUtils.buildSuccessResponse(receiveTeams);
     }
 
     @Override
     @Transactional
-    public SuccessResponse<String> createMeetingRequest(String strTeamUUID, String strOppositeTeamUUID) {
+    public SuccessResponse<String> createMeeting(String strSendTeamUUID, String strReceiveTeamUUID) {
 
-        List<TeamEntity> teams = getMeetingTeams(strTeamUUID, strOppositeTeamUUID);
+        List<TeamEntity> teams = getMeetingTeams(strSendTeamUUID, strReceiveTeamUUID);
+
+        TeamEntity sendTeam = teams.get(0);
+        TeamEntity receiveTeam = teams.get(1);
+
+        MeetingEntity findMeeting = meetingRepository.findBySendTeamAndReceiveTeam(sendTeam, receiveTeam);
+
+        if(null != findMeeting){
+            throw new CustomException(ErrorCode.ALREADY_SENT_MEETING);
+        }
 
         MeetingEntity saveMeeting = MeetingEntity.builder()
-                .proposeTeam(teams.get(0))
-                .requestTeam(teams.get(1))
+                .sendTeam(teams.get(0))
+                .receiveTeam(teams.get(1))
                 .build();
 
         meetingRepository.save(saveMeeting);
@@ -196,9 +237,9 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional
-    public SuccessResponse<String> accpetMeeting(String strTeamUUID, String strOppositeTeamUUID) {
+    public SuccessResponse<String> accpetMeeting(String strReceiveTeamUUID, String strSendTeamUUID) {
 
-        List<TeamEntity> teams = getMeetingTeams(strOppositeTeamUUID, strTeamUUID);
+        List<TeamEntity> teams = getMeetingTeams(strSendTeamUUID, strReceiveTeamUUID);
         for(TeamEntity team : teams){
             deleteAllMeeting(team);
             teamRepository.save(buildmeetingTeamEntity(team));
@@ -211,12 +252,17 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional
-    public SuccessResponse<String> rejectMeeting(String strTeamUUID, String strOppositeTeamUUID) {
+    public SuccessResponse<String> rejectMeeting(String strReceiveTeamUUID, String strSendTeamUUID) {
 
-        List<TeamEntity> teams = getMeetingTeams(strOppositeTeamUUID, strTeamUUID);
+        List<TeamEntity> teams = getMeetingTeams(strSendTeamUUID, strReceiveTeamUUID);
 
-        MeetingEntity deleteMeeting = meetingRepository.findByProposeTeamAndRequestTeam(teams.get(0), teams.get(1))
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCHING_TEAM));
+        TeamEntity sendTeam = teams.get(0);
+        TeamEntity receiveTeam = teams.get(1);
+        MeetingEntity deleteMeeting = meetingRepository.findBySendTeamAndReceiveTeam(sendTeam, receiveTeam);
+
+        if(null == deleteMeeting){
+            throw new CustomException(ErrorCode.NOT_MATCHING_TEAM);
+        }
 
         meetingRepository.delete(deleteMeeting);
 
@@ -273,34 +319,38 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Transactional(readOnly = true)
-    public TeamResponse makeTeam(TeamEntity teamEntity){
+    public Team makeTeam(TeamEntity teamEntity){
         List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(teamEntity, "F");
-        TeamResponse teamResponse = TeamResponse.buildTeamResponse(teamEntity, memberEntities);
-        return teamResponse;
+        Team team = Team.buildTeamResponse(teamEntity, memberEntities);
+        return team;
     }
 
     // 0 : 신청한 팀, 1 : 신청을 받은 팀
     @Transactional(readOnly = true)
-    public List<TeamEntity> getMeetingTeams(String strProposeTeamUUID, String strRequestTeamUUID){
-        UUID proposeTeamUUID = commonUtils.getValidUUID(strProposeTeamUUID);
-        UUID requestTeamUUID = commonUtils.getValidUUID(strRequestTeamUUID);
+    public List<TeamEntity> getMeetingTeams(String strSendTeamUUID, String strReceiveTeamUUID){
+        UUID sendTeamUUID = commonUtils.getValidUUID(strSendTeamUUID);
+        UUID receiveTeamUUID = commonUtils.getValidUUID(strReceiveTeamUUID);
 
-        TeamEntity proposeTeam = teamRepository.findByUUIDAndExpiredAndMeeting(proposeTeamUUID, "F", "F")
+        TeamEntity sendTeam = teamRepository.findByUUIDAndExpiredAndMeeting(sendTeamUUID, "F", "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
-        TeamEntity requestTeam = teamRepository.findByUUIDAndExpiredAndMeeting(requestTeamUUID, "F", "F")
+        TeamEntity receiveTeam = teamRepository.findByUUIDAndExpiredAndMeeting(receiveTeamUUID, "F", "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+
+        if(sendTeam.getGender().equals(receiveTeam.getGender())){
+            throw new CustomException(ErrorCode.CAN_NOT_MEETING_SAME_GENDER_TEAM);
+        }
 
         List<TeamEntity> teams = new ArrayList<>();
-        teams.add(proposeTeam);
-        teams.add(requestTeam);
+        teams.add(sendTeam);
+        teams.add(receiveTeam);
 
         return teams;
     }
 
     @Transactional
     public void deleteAllMeeting(TeamEntity team){
-        meetingRepository.deleteByRequestTeam(team);
-        meetingRepository.deleteByProposeTeam(team);
+        meetingRepository.deleteBySendTeam(team);
+        meetingRepository.deleteByReceiveTeam(team);
     }
 }

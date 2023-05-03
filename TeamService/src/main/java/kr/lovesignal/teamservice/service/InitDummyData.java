@@ -29,10 +29,10 @@ public class InitDummyData {
     public void InitDummyData(){
 
         // 팀 생성
-        for(int i = 1; i <= 20; i++){
+        for(int i = 1; i <= 40; i++){
             TeamEntity team = TeamEntity.builder()
                     .teamId(Integer.toUnsignedLong(i))
-                    .gender(i > 10 ? "M" : "F")
+                    .gender(i > 20 ? "F" : "M")
                     .memberCount(3)
                     .meeting("F")
                     .build();
@@ -41,9 +41,9 @@ public class InitDummyData {
         }
 
         // 남자 팀 가입 유저
-        Long manTeamId = 11L;
+        Long manTeamId = 1L;
         int idx = 1;
-        for(int i = 1; i <= 30; i++){
+        for(int i = 1; i <= 60; i++){
             LocalDate startDate = LocalDate.of(1990, 1, 1);
             LocalDate endDate = LocalDate.of(2003, 12, 31);
             long days = startDate.until(endDate, ChronoUnit.DAYS);
@@ -66,9 +66,9 @@ public class InitDummyData {
         }
 
 
-        Long womanTeamId = 1L;
+        Long womanTeamId = 21L;
         // 여자 팀 가입 유저
-        for(int i = 1; i <= 30; i++){
+        for(int i = 1; i <= 60; i++){
             LocalDate startDate = LocalDate.of(1990, 1, 1);
             LocalDate endDate = LocalDate.of(2003, 12, 31);
             long days = startDate.until(endDate, ChronoUnit.DAYS);
@@ -114,62 +114,62 @@ public class InitDummyData {
 
         // 미팅 연결
         MeetingEntity meeting1 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(21L, "F").get())
                 .build();
         meetingRepository.save(meeting1);
 
         MeetingEntity meeting2 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(22L, "F").get())
                 .build();
         meetingRepository.save(meeting2);
 
         MeetingEntity meeting3 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(3L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(23L, "F").get())
                 .build();
         meetingRepository.save(meeting3);
 
         MeetingEntity meeting4 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(12L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(21L, "F").get())
                 .build();
         meetingRepository.save(meeting4);
 
         MeetingEntity meeting5 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(12L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(22L, "F").get())
                 .build();
         meetingRepository.save(meeting5);
 
         MeetingEntity meeting6 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(15L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(6L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(23L, "F").get())
                 .build();
         meetingRepository.save(meeting6);
 
         MeetingEntity meeting7 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(4L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(17L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(24L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
                 .build();
         meetingRepository.save(meeting7);
 
         MeetingEntity meeting8 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(19L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(24L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(2L, "F").get())
                 .build();
         meetingRepository.save(meeting8);
 
         MeetingEntity meeting9 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(10L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(11L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(21L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(5L, "F").get())
                 .build();
         meetingRepository.save(meeting9);
 
         MeetingEntity meeting10 = MeetingEntity.builder()
-                .proposeTeam(teamRepository.findByTeamIdAndExpired(20L, "F").get())
-                .requestTeam(teamRepository.findByTeamIdAndExpired(1L, "F").get())
+                .sendTeam(teamRepository.findByTeamIdAndExpired(21L, "F").get())
+                .receiveTeam(teamRepository.findByTeamIdAndExpired(6L, "F").get())
                 .build();
         meetingRepository.save(meeting10);
 

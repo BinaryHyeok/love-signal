@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface MeetingRepository extends JpaRepository<MeetingEntity, Long> {
 
-    List<MeetingEntity> findByRequestTeam(TeamEntity requestTeam);
+    List<MeetingEntity> findBySendTeam(TeamEntity sendTeam);
 
-    List<MeetingEntity> findByProposeTeam(TeamEntity proposeTeam);
+    List<MeetingEntity> findByReceiveTeam(TeamEntity receiveTeam);
 
-    void deleteByRequestTeam(TeamEntity requestTeam);
+    void deleteBySendTeam(TeamEntity sendTeam);
 
-    void deleteByProposeTeam(TeamEntity proposeTeam);
+    void deleteByReceiveTeam(TeamEntity receiveTeam);
 
-    Optional<MeetingEntity> findByProposeTeamAndRequestTeam(TeamEntity proposeTeam, TeamEntity requestTeam);
+    MeetingEntity findBySendTeamAndReceiveTeam(TeamEntity sendTeam, TeamEntity receiveTeam);
 }

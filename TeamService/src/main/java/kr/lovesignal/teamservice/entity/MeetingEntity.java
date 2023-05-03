@@ -19,10 +19,10 @@ public class MeetingEntity{
     private Long meetingId;
 
     @ManyToOne
-    @JoinColumn(name = "propose_team", nullable = false)
-    private TeamEntity proposeTeam;
+    @JoinColumn(name = "send_team", nullable = false)
+    private TeamEntity sendTeam;
 
     @ManyToOne
-    @JoinColumn(name = "request_team", nullable = false)
-    private TeamEntity requestTeam;
+    @JoinColumn(name = "receive_team", nullable = false)
+    private TeamEntity receiveTeam;
 }

@@ -2,7 +2,7 @@ package kr.lovesignal.teamservice.service;
 
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
-import kr.lovesignal.teamservice.model.response.TeamResponse;
+import kr.lovesignal.teamservice.model.response.Team;
 
 import java.util.List;
 
@@ -18,19 +18,22 @@ public interface TeamService {
     public SuccessResponse<String> leaveTeam(String memberUUID);
 
     // 동성 팀 및 이성 팀 조회
-    public SuccessResponse<TeamResponse> getTeamByTeamUUID(String teamUUID);
+    public SuccessResponse<Team> getTeamByTeamUUID(String teamUUID);
 
     // 이성 팀 목록 조회
-    public SuccessResponse<List<TeamResponse>> getOppositeGenderTeams(
+    public SuccessResponse<List<Team>> getOppositeGenderTeams(
             String gender,
             int size,
             GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest);
 
     // 미팅 신청받은 목록 조회
-    public SuccessResponse<List<TeamResponse>> getMeetingRequests(String teamUUID);
+    public SuccessResponse<List<Team>> getReceivedMeetings(String teamUUID);
+
+    // 미팅 신청한 목록 조회
+    public SuccessResponse<List<Team>> getSentMeetings(String teamUUID);
 
     // 미팅 신청
-    public SuccessResponse<String> createMeetingRequest(String teamUUID, String oppositeTeamUUID);
+    public SuccessResponse<String> createMeeting(String teamUUID, String oppositeTeamUUID);
 
     // 미팅 수락
     public SuccessResponse<String> accpetMeeting(String teamUUID, String oppositeTeamUUID);

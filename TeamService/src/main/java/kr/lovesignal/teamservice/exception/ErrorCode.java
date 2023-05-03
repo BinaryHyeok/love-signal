@@ -29,6 +29,8 @@ public enum ErrorCode {
     ALREADY_JOIN_TEAM(HttpStatus.CONFLICT, "이미 팀에 가입 되어있습니다"),
     TEAM_IS_FULL(HttpStatus.CONFLICT, "팀의 정원이 가득 찼습니다"),
     CAN_NOT_JOIN_OPPOSITE_GENDER_TEAM (HttpStatus.CONFLICT, "성별이 다른 팀에 참가할 수 없습니다"),
+    CAN_NOT_MEETING_SAME_GENDER_TEAM(HttpStatus.CONFLICT, "성별이 같은 팀과 미팅을 할 수 없습니다"),
+    ALREADY_SENT_MEETING(HttpStatus.CONFLICT, "이미 미팅 신청한 팀입니다"),
 
 
 

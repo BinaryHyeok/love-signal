@@ -11,13 +11,7 @@ import java.util.List;
 @Builder
 public class TeamResponse {
 
-    private String teamUUID;
-    private List<Member> members;
+    boolean hasRemainingTeam;
+    private List<Team> teams;
 
-    public static TeamResponse buildTeamResponse(TeamEntity teamEntity, List<MemberEntity> memberEntities){
-        return TeamResponse.builder()
-                .teamUUID(teamEntity.getUUID().toString())
-                .members(Member.buildMembers(memberEntities))
-                .build();
-    }
 }

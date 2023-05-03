@@ -1,24 +1,40 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import style from "./styles/NickName.module.scss";
 
 type propsType = {
+  nickname: string;
   changeName: Dispatch<SetStateAction<boolean>>;
+  setMyNickName: Dispatch<SetStateAction<string>>;
 };
 
-const EditNickName: React.FC<propsType> = ({ changeName }) => {
+const EditNickName: React.FC<propsType> = ({
+  nickname,
+  changeName,
+  setMyNickName,
+}) => {
+  const [tmpNickName, setTmpNickName] = useState<string>(nickname);
   const ApplyNickName = () => {
     changeName(true);
+    setMyNickName(tmpNickName);
   };
+
+  const changeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setTmpNickName(target.value);
+  };
+
   return (
     <div className={style.containerEdit}>
       <div>닉네임</div>
       <div>
         <Input_Type_A
           type="text"
+          value={tmpNickName}
           id="닉네임변경해."
           className="writeNickName"
+          onChange={changeNickName}
         />
       </div>
       <div>

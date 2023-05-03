@@ -2,7 +2,6 @@ package kr.lovesignal.teamservice.entity;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 

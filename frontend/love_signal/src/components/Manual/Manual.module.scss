@@ -13,5 +13,12 @@
     background-image: url("../../../public/assets/cellphoneModal.png");
     background-repeat: no-repeat;
     background-size: cover;
+
+    .modalContainer {
+      display: flex;
+      // justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 }

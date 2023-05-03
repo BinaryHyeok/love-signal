@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./styles/A_ChatItemInfo.module.scss";
 
 type PropsType = {
@@ -6,14 +6,65 @@ type PropsType = {
   title: string;
   memberCount: string;
   lastMsgTime?: string;
+  showTimer: boolean;
 };
 
+let timer: NodeJS.Timer;
 const A_ChatItemInfo: React.FC<PropsType> = ({
   id,
   title,
   memberCount,
   lastMsgTime,
+  showTimer,
 }) => {
+  const [resTime, setResTime] = useState<string>("00:00:00");
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      getResTime();
+    }, 500);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const getResTime = () => {
+    const today = new Date();
+    const timeoutTime = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      23,
+      30
+    );
+
+    if (timeoutTime.getTime() <= today.getTime()) {
+      clearInterval(timer);
+      setResTime("00:00:00");
+      return;
+    }
+
+    let sec = timeoutTime.getSeconds() - today.getSeconds();
+    let min = timeoutTime.getMinutes() - today.getMinutes();
+    let hr = timeoutTime.getHours() - today.getHours();
+
+    if (sec < 0) {
+      sec += 60;
+      min--;
+    }
+    if (min < 0) {
+      min += 60;
+      hr--;
+    }
+
+    setResTime(
+      `${hr < 10 ? "0" + hr : hr}:${min < 10 ? "0" + min : min}:${
+        sec < 10 ? "0" + sec : sec
+      }`
+    );
+  };
+
   const timeForMatter = (str: string) => {
     const [s_date, s_time] = str.split(" ");
     const [year, month, date] = s_date.split("-");
@@ -40,7 +91,11 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
     <div className={style.infoBox}>
       <div className={style.titleBox}>
         <span className={style.title}>{title}</span>
-        <span className={style.count}>{memberCount}</span>
+        {showTimer ? (
+          <span className={style.timer}>{resTime}</span>
+        ) : (
+          <span className={style.count}>{memberCount}</span>
+        )}
       </div>
       <div className={style.time}>
         {lastMsgTime ? timeView(lastMsgTime) : ""}

@@ -30,6 +30,7 @@ body {
   user-select: none;
   width: 100%;
   height: 100%;
+  background-color: eef0f5;
 }
 
 code {
@@ -54,8 +55,8 @@ input {
 
 /* 헤더 공간을 비워주기 위한 메인 컨텐츠 패딩영역 */
 .inner-main {
-  padding-top: 64px;
-  height: calc(100vh - 64px);
+  padding: 64px 0;
+  height: 100vh;
 }
 
 /* 그라데이션이 들어간 배경색 */

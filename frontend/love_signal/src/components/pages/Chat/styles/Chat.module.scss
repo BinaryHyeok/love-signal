@@ -2,8 +2,13 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 128px);
   z-index: 1;
   position: fixed;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  &.expanded {
+    height: calc(100% - 64px) !important;
+  }
 }

@@ -24,7 +24,7 @@ public class MemberResponse {
                 .age(age)
                 .description(member.getDescription())
                 .teamUUID(member.getTeam() != null ? member.getTeam().getUUID().toString() : null)
-                .teamLeader(member.getTeamLeader() == "T" ? true : false)
+                .teamLeader(member.getTeamLeader().equals("T") ? true : false)
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
-// import style from "./styles/NickName.module.scss";
+import Button_Type_A from "../../UI/Common/Button_Type_A";
+import style from "./styles/NickName.module.scss";
 
 type propsType = {
   changeName: Dispatch<SetStateAction<boolean>>;
@@ -10,10 +11,14 @@ const NickName: React.FC<propsType> = ({ changeName }) => {
     changeName(false);
   };
   return (
-    <>
+    <div className={style.container}>
       <div>닉네임</div>
-      <button onClick={modifyNickName}>수정하기</button>
-    </>
+      <div>
+        <Button_Type_A width="72px" height="32px" onClick={modifyNickName}>
+          <img src="/assets/EditBtn.png" alt="" className={style.img} />
+        </Button_Type_A>
+      </div>
+    </div>
   );
 };
 

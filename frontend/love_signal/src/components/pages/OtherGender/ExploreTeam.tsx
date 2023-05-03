@@ -12,7 +12,7 @@ import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import RedHeartLine from "../../UI/Common/RedHearLine";
 import { fetchList } from "../../../api/othergender";
 
-const NUMBER = 5;
+const NUMBER = 5; //한번에 받아올 리스트의 수
 
 const ExploreTeam = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,12 +20,12 @@ const ExploreTeam = () => {
   //팀 코드를 저장해줄 변수입니다.(또는 그 팀의 배열 위치?)
   const [teamNumber, setTeamNumber] = useState<number>(0);
   const [team, setTeam] = useState<team[]>([]);
-  const [, setIdx] = useRecoilState<number>(footerIdx);
-  const [uuidList, setuuidList] = useState<string[]>([]);
-  let [addNum, setaddNum] = useState<number>(NUMBER);
+  const [, setIdx] = useRecoilState<number>(footerIdx); //내 footer의 상태를 변경시켜줄 recoil입니다.
+  const [uuidList, setuuidList] = useState<string[]>([]); //백에게 그동안 내가 받은 팀들의 UUID를 담아줄 state입니다.
+  let [addNum, setaddNum] = useState<number>(NUMBER); //다음번에 추가시켜줄 리스트 수.
   let [receiveList, setReceiveList] = useState<number>(NUMBER); //받아올 리스트 수.
-  let [infinityScroll, setInfinityScroll] = useState<boolean>(true);
-  let [lastList, setLastList] = useState<boolean>(true);
+  let [infinityScroll, setInfinityScroll] = useState<boolean>(true); //일정 스크롤 이상내려가면 false로 바뀌고 axios요청이 성공하면 true로 다시변경.(무한스크롤)
+  let [lastList, setLastList] = useState<boolean>(true); //백에서 더이상 받아올 팀이 없는지 확인해줄 state.
 
   useEffect(() => {
     setIdx(0);
@@ -34,8 +34,6 @@ const ExploreTeam = () => {
 
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
-    console.log(uuidList);
-
     await fetchList("M", receiveList, uuidList)
       .then((res) => {
         setInfinityScroll(false);
@@ -50,18 +48,21 @@ const ExploreTeam = () => {
       })
       .catch((err) => {
         console.log(err);
+        //axios에러가 떴을때 해줄 것.
         setTimeout(() => {
           setIsLoading(true);
         }, 5000);
       });
   };
 
+  //UUID를 추가시켜주는 함수입니다.
   const adduuidList = (teamList: team[]) => {
     teamList.forEach((item) => {
       setuuidList((uuidList) => [...uuidList, item.teamUUID]);
     });
   };
 
+  //팀을 추가시켜주는 함수입니다.
   const addmemberList = (teamList: team[]) => {
     teamList.forEach((item) => {
       setTeam((team) => [...team, item]);
@@ -75,14 +76,13 @@ const ExploreTeam = () => {
     setVisible(!visible);
   };
 
+  //무한스크롤이 구현되어있는 함수입니다.
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
 
     const isEnd =
       Math.round(target.scrollTop + target.clientHeight) >
       target.scrollHeight - 100;
-
-    console.log(isEnd);
 
     if (isEnd && !infinityScroll && lastList) {
       setInfinityScroll(true);

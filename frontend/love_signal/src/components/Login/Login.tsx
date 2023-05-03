@@ -46,6 +46,9 @@ const Login = () => {
           className={style.loginTextform}
           placeholder="test@test.com"
         />
+        <div>
+          새롭게 코드가 추가되고 푸시되면 자동배포가 되는지 cicd 테스트용임ㅋ
+        </div>
         <input
           type="password"
           id="email"

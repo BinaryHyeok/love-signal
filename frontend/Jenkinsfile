@@ -1,0 +1,70 @@
+// Jenkinsfile
+pipeline {
+    agent any
+
+    stages {
+        stage('Copy files') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        ssh ubuntu@k8b309.p.ssafy.io "
+                            rm -rf /home/ubuntu/fe_develop
+                        "
+                        scp -r ${WORKSPACE} ubuntu@k8b309.p.ssafy.io:/home/ubuntu
+                    """
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        ssh ubuntu@k8b309.p.ssafy.io "
+                            cd /home/ubuntu/fe_develop/frontend
+                            docker compose -f docker-compose.yml down
+                            sudo docker volume rm frontend_build
+                            sudo docker volume create frontend_build
+                            docker compose -f docker-compose.yml build
+                            docker compose -f docker-compose.yml up -d
+                        "
+                    """
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh '''
+                        ssh ubuntu@k8b309.p.ssafy.io "
+                            sudo rm -rf /var/www/app
+                            sudo mkdir /var/www/app
+                            sudo cp -r /var/lib/docker/volumes/frontend_build/_data/. /var/www/app/
+                            sudo service nginx restart
+                        "
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            mattermostSend(
+                color: 'good',
+                message: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})",
+                channel: 'jenkins-bot',
+                endpoint: 'https://meeting.ssafy.com/hooks/pzxo89wfpt8c9pzqnymyes9gwc'
+            )
+        }
+        failure {
+            mattermostSend(
+                color: 'danger',
+                message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})",
+                channel: 'jenkins-bot',
+                endpoint: 'https://meeting.ssafy.com/hooks/pzxo89wfpt8c9pzqnymyes9gwc'
+            )
+        }
+    }
+}

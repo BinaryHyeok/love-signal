@@ -65,8 +65,8 @@ public class ChatServiceImpl implements ChatService{
 
         // 이성팀 멤버 리스트 조회
         UUID teamUUID = commonUtils.getValidUUID(oppositeTeamUUID);
-        Team team = teamJpaRepository.findByTeamUUID(teamUUID);
-        List<Member> oppositeMembers = memberJpaRepository.findMemberByTeamId(team.getTeamId());
+        Team team = teamJpaRepository.findByUUID(teamUUID);
+        List<Member> oppositeMembers = memberJpaRepository.findMemberByTeam(team);
 
         // SelectOrShareInfo 객체 생성
         List<String> nicknames = new ArrayList<>();
@@ -157,9 +157,7 @@ public class ChatServiceImpl implements ChatService{
                 .build();
 
         saveChatMessage(reqChatMessage);
-        /*
-            memberUUID,
-         */
+
     }
 
     /**

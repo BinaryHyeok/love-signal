@@ -93,4 +93,10 @@ public class ChatRepository {
             opsHashMessageList.put(RoomMessageList, roomUUID, resChatMessages);
         }
     }
+
+    public String bringLastChatMessage(String roomUUID) {
+        List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
+        ResChatMessage lastMessage = list.get(list.size()-1);
+        return lastMessage.getContent();
+    }
 }

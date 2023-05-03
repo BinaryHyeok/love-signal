@@ -4,8 +4,11 @@ import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
 import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
+import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
+import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
 import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
+import kr.lovesignal.chattingservice.repository.ChatRepository;
 import kr.lovesignal.chattingservice.repository.ChatRoomJpaRepository;
 import kr.lovesignal.chattingservice.repository.MemberJpaRepository;
 import kr.lovesignal.chattingservice.repository.ParticipantJpaRepository;
@@ -36,6 +39,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private Map<String, ChannelTopic> topics;
 
     private final CommonUtils commonUtils;
+    private final ChatRepository chatRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final ParticipantJpaRepository participantJpaRepository;
@@ -54,19 +58,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         List<ResChatRoom> chatRoomList = new ArrayList<>();
 
         for(ChatRoom chatRoom : list) {
-            ResChatRoom resChatRoomDto = ResChatRoom.toDto(chatRoom);
-            chatRoomList.add(resChatRoomDto);
+            ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
+            String roomUUID = chatRoom.getUUID().toString();
+            String lastMessage = chatRepository.bringLastChatMessage(roomUUID);
+            resChatRoom.setLastChat(lastMessage);
+            chatRoomList.add(resChatRoom);
         }
 
         return chatRoomList;
     }
 
     @Override
-    public ResChatRoom getChatRoom(String roomUUID) {
+    public ResEnterChatRoom getChatRoom(String roomUUID) {
         UUID uuid = commonUtils.getValidUUID(roomUUID);
         ChatRoom chatRoom = chatRoomJpaRepository.findByUUID(uuid);
-        ResChatRoom reschatRoomDto = ResChatRoom.toDto(chatRoom);
-        return reschatRoomDto;
+        ResEnterChatRoom resEnterChatRoom = ResEnterChatRoom.toDto(chatRoom);
+        return resEnterChatRoom;
     }
 
 
@@ -75,8 +82,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      */
 
     @Override
-    public ChatRoom createSystemChatroom(ReqChatRoom reqChatRoom, String userUUID) {
-        ChatRoom chatRoom = reqChatRoom.toEntity();
+    public ChatRoom createSystemChatroom(String userUUID) {
+        ChatRoom chatRoom = ChatRoom.builder()
+                        .type("SYSTEM")
+                        .roomName("러브시그널")
+                        .build();
+
         chatRoomJpaRepository.save(chatRoom);
 
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findAll();
@@ -97,9 +108,16 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public ChatRoom createSameGenderChatRoom(ReqChatRoom reqChatRoom, List<String> userUUIDs) {
-        ChatRoom chatRoom = reqChatRoom.toEntity();
+    public ChatRoom createSameGenderChatRoom(List<String> userUUIDs) {
+
+        ChatRoom chatRoom = ChatRoom.builder()
+                        .type("MEETING")
+                        .roomName("두근두근 시그널 보내")
+                        .build();
         chatRoomJpaRepository.save(chatRoom);
+
+        List<ChatRoom> chatRooms = chatRoomJpaRepository.findAll();
+        Long chatRoomId = chatRooms.get(chatRooms.size() - 1).getRoomId();
 
         for(String userUUID : userUUIDs) {
             UUID uuid = commonUtils.getValidUUID(userUUID);
@@ -107,7 +125,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             Participant participant  = Participant.builder()
                     .memberId(member.getMemberId())
-                    .chatroomId(chatRoom.getRoomId())
+                    .chatroomId(chatRoomId)
                     .member(member) // 추가
                     .chatRoom(chatRoom) // 추가
                     .build();
@@ -139,7 +157,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             }
         }
 
-        // 혼성 채팅방이 현재 몇 번째 밤인지. 만들어진 시간이 16시 전후 언제인지
+        // 만들어진 시간이 16시 전인지 후인지. 혼성 채팅방이 현재 몇 번째 밤인지.
         int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
         int createdHour = meetingRoom.getCreatedDate().getHour();
 

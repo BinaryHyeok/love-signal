@@ -10,19 +10,17 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-public class ResChatRoom {
+public class ResEnterChatRoom {
 
     private String UUID;
     private String type;
     private String roomName;
-    private String lastChat;
-    private int notReadChat;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private String expired;
 
-    public static ResChatRoom toDto(ChatRoom chatRoom) {
-        return ResChatRoom.builder()
+    public static ResEnterChatRoom toDto(ChatRoom chatRoom) {
+        return ResEnterChatRoom.builder()
                 .UUID(chatRoom.getUUID().toString())
                 .type(chatRoom.getType())
                 .roomName(chatRoom.getRoomName())
@@ -31,6 +29,5 @@ public class ResChatRoom {
                 .expired(chatRoom.getExpired())
                 .build();
     }
-
 
 }

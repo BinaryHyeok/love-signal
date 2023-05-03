@@ -16,8 +16,6 @@ public class ReqChatRoom {
         return ChatRoom.builder()
                 .type(this.getType())
                 .roomName(this.getRoomName())
-                .lastChat(this.getLastChat())
-                .notReadChat(this.getNotReadChat())
                 .build();
     }
 

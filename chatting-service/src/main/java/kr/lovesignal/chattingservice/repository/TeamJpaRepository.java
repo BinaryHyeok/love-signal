@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface TeamJpaRepository extends JpaRepository<Team, Long> {
 
-    Team findByTeamUUID(UUID uuid);
+    Team findByUUID(UUID uuid);
 
 }

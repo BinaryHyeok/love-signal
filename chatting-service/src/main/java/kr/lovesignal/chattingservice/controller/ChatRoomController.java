@@ -2,10 +2,11 @@ package kr.lovesignal.chattingservice.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
-import kr.lovesignal.chattingservice.model.request.ReqChatRoomInfo;
 import kr.lovesignal.chattingservice.model.request.ReqSelectChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
+import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
 import kr.lovesignal.chattingservice.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class ChatRoomController {
 
     @ApiOperation(value = "채팅방 상세 조회", notes = "채팅방에 입장했을 때 채팅방 불러오기")
     @GetMapping("/{roomId}")
-    public ResponseEntity<ResChatRoom> getChatRoom(@PathVariable String roomUUID) {
+    public ResponseEntity<ResEnterChatRoom> getChatRoom(@PathVariable String roomUUID) {
         return new ResponseEntity<>(chatRoomService.getChatRoom(roomUUID), HttpStatus.OK);
     }
 
@@ -46,17 +47,16 @@ public class ChatRoomController {
      */
     @ApiOperation(value = "시스템 채팅방 생성", notes = "선택의 시간 때 사용할 시스템 채팅방 생성")
     @PostMapping("/System/{userUUID}")
-    public ResponseEntity<String> createSystemChatRoom(@RequestBody ReqChatRoom chatRoomDto, @PathVariable String userUUID){
-        chatRoomService.createSystemChatroom(chatRoomDto, userUUID);
+    public ResponseEntity<String> createSystemChatRoom(@PathVariable String userUUID){
+        chatRoomService.createSystemChatroom(userUUID);
         return new ResponseEntity<>(SUCCESS, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "동성 및 혼성 채팅방 생성", notes = "동성 및 혼성 채팅방 생성 후 유저들 입장")
     @PostMapping("/SameOrAllGender")
-    public ResponseEntity<String> createSameGenderChatRoom(@RequestBody ReqChatRoomInfo chatRoomInfoDto) {
-        List<String> userUUIDs = chatRoomInfoDto.getUserUUIDs();
-        ReqChatRoom chatRoomDto = chatRoomInfoDto.getChatRoomDto();
-        chatRoomService.createSameGenderChatRoom(chatRoomDto, userUUIDs);
+    public ResponseEntity<String> createSameGenderChatRoom(@RequestBody List<String> memberUUIDs) {
+        List<String> userUUIDs = memberUUIDs;
+        chatRoomService.createSameGenderChatRoom(memberUUIDs);
         return new ResponseEntity<>(SUCCESS, HttpStatus.CREATED);
     }
 

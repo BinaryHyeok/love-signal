@@ -1,9 +1,6 @@
 package kr.lovesignal.chattingservice.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -31,9 +28,10 @@ public class Member extends BaseEntity{
     private char help;
 
     @ManyToOne
-    @JoinColumn(name = "teamId", insertable = false, updatable = false)
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
     private Team team;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Participant> participants = new ArrayList<>();
 

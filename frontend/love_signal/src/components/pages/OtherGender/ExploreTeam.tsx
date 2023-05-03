@@ -12,6 +12,8 @@ import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import RedHeartLine from "../../UI/Common/RedHearLine";
 import { fetchList } from "../../../api/othergender";
 
+const NUMBER = 5;
+
 const ExploreTeam = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
@@ -20,8 +22,10 @@ const ExploreTeam = () => {
   const [team, setTeam] = useState<team[]>([]);
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [uuidList, setuuidList] = useState<string[]>([]);
-  let [receiveList, setReceiveList] = useState<number>(10); //받아올 리스트 수.
+  let [addNum, setaddNum] = useState<number>(NUMBER);
+  let [receiveList, setReceiveList] = useState<number>(NUMBER); //받아올 리스트 수.
   let [infinityScroll, setInfinityScroll] = useState<boolean>(true);
+  let [lastList, setLastList] = useState<boolean>(true);
 
   useEffect(() => {
     setIdx(0);
@@ -30,14 +34,19 @@ const ExploreTeam = () => {
 
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
+    console.log(uuidList);
+
     await fetchList("M", receiveList, uuidList)
       .then((res) => {
         setInfinityScroll(false);
-        addmemberList(res.data.body);
-        adduuidList(res.data.body);
+        addmemberList(res.data.body.teams);
+        adduuidList(res.data.body.teams);
+        const length = res.data.body.teams.length;
+        setaddNum(length);
         setIsLoading(true);
-        setReceiveList(receiveList + 10);
+        setReceiveList(addNum);
         setInfinityScroll(false);
+        setLastList(res.data.body.hasRemainingTeam);
       })
       .catch((err) => {
         console.log(err);
@@ -75,7 +84,7 @@ const ExploreTeam = () => {
 
     console.log(isEnd);
 
-    if (isEnd && !infinityScroll) {
+    if (isEnd && !infinityScroll && lastList) {
       setInfinityScroll(true);
       getList();
     }

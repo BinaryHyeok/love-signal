@@ -82,10 +82,19 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <div className={style.box}>
       <div className={`${style.Container} diagonal-gradient`}>
-        <img src="/assets/logo.png" height="100vh" alt="로고" />
-        <M_Image_Type />
+        <div>
+          <img
+            src="/assets/logo.png"
+            height="100vh"
+            alt="로고"
+            className={style.img}
+          />
+        </div>
+        <div>
+          <M_Image_Type />
+        </div>
         <div className={style.userInfo}>
           <div className={style.nickName}>
             <Input_Type_A
@@ -99,25 +108,27 @@ const SignUp = () => {
             <Button_Type_A
               className="dupleCheck"
               width="96px"
-              height="24px"
-              background="#ffffff"
+              height="32px"
+              background="#FBCED3"
               onClick={duplecheck}
               disabled={true}
-              children="중복확인"
-            />
+            >
+              중복확인
+            </Button_Type_A>
           </div>
           <Button_Type_A
             className="dupleCheck"
-            width="180px"
+            width="236px"
             height="32px"
-            background="#ffffff"
+            background="#FBCED3"
             onClick={signup}
             disabled={true}
-            children="회원가입"
-          />
+          >
+            회원가입
+          </Button_Type_A>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

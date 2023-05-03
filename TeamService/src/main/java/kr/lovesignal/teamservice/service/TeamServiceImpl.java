@@ -136,16 +136,24 @@ public class TeamServiceImpl implements TeamService{
             GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest) {
 
         // Frontend에서 보낸 사용한 UUID를 String에서 UUID 형식으로 변경한다.
-        List<UUID> usedUUIDs = null;
+        List<UUID> usedUUIDs;
+        List<TeamEntity> notUsedTeams;
         if(getOppositeGenderTeamsRequest.getTeamUUIDList() != null && getOppositeGenderTeamsRequest.getTeamUUIDList().size() > 0){
             usedUUIDs = getOppositeGenderTeamsRequest.getTeamUUIDList().stream()
                     .map((strUUID -> commonUtils.getValidUUID(strUUID)))
                     .collect(Collectors.toList());
+
+            notUsedTeams = teamRepository.findTeamsNotInUUIDsByGenderAndNotExpiredAndNotMeeting(gender, usedUUIDs);
+
         }
+        else{
+            notUsedTeams = teamRepository.findTeamsByGenderAndNotExpiredAndNotMeeting(gender);
+
+        }
+        Collections.shuffle(notUsedTeams);
 
         // DB에서 사용하지 않은 모든 Team들을 뽑아서 섞은 후 20개뽑는다.
-        List<TeamEntity> notUsedTeams = teamRepository.findTeamsNotInUUIDsByGenderAndNotExpiredAndNotMeeting(gender, usedUUIDs);
-        Collections.shuffle(notUsedTeams);
+
 
         boolean isRemain = true;
         int sendSize = size;

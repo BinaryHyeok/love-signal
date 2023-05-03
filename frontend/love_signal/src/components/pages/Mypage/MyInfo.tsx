@@ -10,8 +10,8 @@ const MyInfo = () => {
   const [changeName, setChangeName] = useState<boolean>(true); //이름 바꿔줄 state
   const [changeIntroduce, setChangeIntroduce] = useState<boolean>(true); //자기소개 바꿔줄 state
   return (
-    <>
-      <div>
+    <div className={style.container}>
+      <div className={style.containerNickname}>
         {changeName ? (
           <NickName changeName={setChangeName} />
         ) : (
@@ -26,7 +26,7 @@ const MyInfo = () => {
           <EditIntroduce changeIntroduce={setChangeIntroduce} />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

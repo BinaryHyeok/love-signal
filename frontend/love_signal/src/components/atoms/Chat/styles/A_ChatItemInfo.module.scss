@@ -6,6 +6,8 @@
 
   .titleBox {
     font-weight: 700;
+    display: flex;
+    align-items: center;
 
     .title {
     }
@@ -13,6 +15,12 @@
     .count {
       margin-left: 16px;
       color: #797979;
+    }
+
+    .timer {
+      margin-left: 8px;
+      color: #fb659f;
+      font-size: 0.6rem;
     }
   }
 

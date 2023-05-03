@@ -11,7 +11,7 @@ const A_Logo = () => {
 
   return (
     <div className={style.logo}>
-      <img src="/assets/logo2.png" onClick={goMain} />
+      <img src="/assets/logo2.png" onClick={goMain} alt="로고" />
     </div>
   );
 };

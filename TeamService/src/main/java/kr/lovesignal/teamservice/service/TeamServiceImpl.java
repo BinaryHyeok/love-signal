@@ -152,9 +152,6 @@ public class TeamServiceImpl implements TeamService{
         }
         Collections.shuffle(notUsedTeams);
 
-        // DB에서 사용하지 않은 모든 Team들을 뽑아서 섞은 후 20개뽑는다.
-
-
         boolean isRemain = true;
         int sendSize = size;
         if(notUsedTeams.size() <= size){

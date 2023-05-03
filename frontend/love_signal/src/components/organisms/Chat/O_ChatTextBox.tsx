@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
 import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";
@@ -10,6 +10,33 @@ type PropsType = {
 };
 
 const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
+  const ORG_LIST_HEIGHT = window.innerHeight - 72;
+  const [listHeight, setListHeight] = useState(ORG_LIST_HEIGHT);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const viewportHeight = window.innerHeight;
+      const keyboardHeight =
+        viewportHeight - document.documentElement.clientHeight;
+
+      resizeChatListHeight(ORG_LIST_HEIGHT - keyboardHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const resizeChatListHeight = (newHeight: number) => {
+    setListHeight(newHeight);
+  };
+
+  const handleFocusOut = () => {
+    resizeChatListHeight(ORG_LIST_HEIGHT);
+  };
+
   return (
     <div className={style.textContainer}>
       <M_ChatTopNotice
@@ -20,10 +47,16 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
         doTimeCount={roomType === "ANONYMOUS" ? true : false}
         className={style.topNotice}
       />
-      <O_ChatTextList roomType={roomType} />
+      <O_ChatTextList
+        roomType={roomType}
+        listHeight={listHeight}
+        resizeChatListHeight={resizeChatListHeight}
+        ORG_LIST_HEIGHT={ORG_LIST_HEIGHT}
+      />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}
         isDisabled={roomType === "NOTICE" ? true : false}
+        onFocusOut={handleFocusOut}
       />
     </div>
   );

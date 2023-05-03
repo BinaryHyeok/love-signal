@@ -3,7 +3,7 @@ import style from "./A_Logo.module.scss";
 const A_Alarm = () => {
   return (
     <div className={style.logo}>
-      <img src="/assets/Alarm.png" alt="도움말" />
+      <img src="/assets/alarm.png" alt="도움말" />
     </div>
   );
 };

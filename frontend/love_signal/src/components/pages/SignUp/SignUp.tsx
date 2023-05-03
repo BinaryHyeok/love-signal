@@ -84,7 +84,7 @@ const SignUp = () => {
   return (
     <>
       <div className={`${style.Container} diagonal-gradient`}>
-        <img src="/assets/Logo2.png" height="100vh" alt="로고" />
+        <img src="/assets/logo.png" height="100vh" alt="로고" />
         <M_Image_Type />
         <div className={style.userInfo}>
           <div className={style.nickName}>

@@ -15,30 +15,18 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
   const [listHeight, setListHeight] = useState<number>(orgListHeight);
 
   useEffect(() => {
-    setOrgListHeight(textContainer.current?.offsetHeight || 0);
-
-    const handleResize = () => {
-      const viewportHeight = window.innerHeight;
-      const keyboardHeight =
-        viewportHeight - document.documentElement.clientHeight;
-
-      resizeChatListHeight(orgListHeight - keyboardHeight);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    const parentHeight = textContainer.current?.offsetHeight || 0;
+    setOrgListHeight(parentHeight);
+    setListHeight(parentHeight);
   }, []);
 
   const resizeChatListHeight = (newHeight: number) => {
-    alert(orgListHeight + " " + newHeight);
     setListHeight(newHeight);
   };
 
   const handleFocusOut = () => {
-    resizeChatListHeight(orgListHeight);
+    console.log(orgListHeight);
+    // resizeChatListHeight(orgListHeight);
   };
 
   return (
@@ -53,9 +41,9 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
       />
       <O_ChatTextList
         roomType={roomType}
-        listHeight={listHeight}
         resizeChatListHeight={resizeChatListHeight}
-        orgListHeight={orgListHeight}
+        height={listHeight}
+        setOrgListHeight={setOrgListHeight}
       />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}

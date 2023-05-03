@@ -7,19 +7,19 @@ import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
+import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
 import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
-import kr.lovesignal.chattingservice.repository.ChatRepository;
-import kr.lovesignal.chattingservice.repository.ChatRoomJpaRepository;
-import kr.lovesignal.chattingservice.repository.MemberJpaRepository;
-import kr.lovesignal.chattingservice.repository.ParticipantJpaRepository;
+import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     private final CommonUtils commonUtils;
     private final ChatRepository chatRepository;
+    private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final ParticipantJpaRepository participantJpaRepository;
@@ -137,25 +138,21 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     public void createOneToOneChatRoom(String selectorUUID, String selectedUUID) {
-        /*
-            고려해야 할 것.
-
-            1. 현재 몇 번째 선택인지.
-            2. 서로 지목 했는지.
-
-         */
+        // selector , selected 각각 Member 객체 찾아오기.
+        UUID uuid = commonUtils.getValidUUID(selectorUUID);
+        UUID uuid2 = commonUtils.getValidUUID(selectedUUID);
+        Member selector = memberJpaRepository.findMemberByUUID(uuid);
+        Member selected = memberJpaRepository.findMemberByUUID(uuid2);
 
         // 현재 참여 중인 혼성 채팅방 찾기.
-        UUID memberUUID = commonUtils.getValidUUID(selectorUUID);
-        Member member = memberJpaRepository.findMemberByUUID(memberUUID);
-        List<ChatRoom> chatRooms = participantJpaRepository.findByMemberId(member.getMemberId());
-
+        List<ChatRoom> chatRooms = participantJpaRepository.findByMemberId(selector.getMemberId());
         ChatRoom meetingRoom = null;
         for(ChatRoom chatRoom : chatRooms) {
             if(chatRoom.getType().equals("MEETING")) {
                 meetingRoom = chatRoom;
             }
         }
+        String meetingRoomUUID = meetingRoom.getUUID().toString();
 
         // 만들어진 시간이 16시 전인지 후인지. 혼성 채팅방이 현재 몇 번째 밤인지.
         int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
@@ -163,17 +160,52 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         // 혼성 채팅방이 16시 전에 생성됐을 때
         if(createdHour < 16) {
-            // nightNumber 가 2면 마지막 선택
+            // nightNumber 가 2 이면 마지막 선택 SIGNAL
             if(nightNumber == 2) {
 
             }
-            // 선택의 시간 익명 채팅방
+            // nightNumber 가 0, 1 이면 익명 선택 SECRET
             else {
+                secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, selector, selected);
+            }
+        }
+        // 혼성 채팅방이 16시 이후에 생성됐을 때
+        else if(createdHour >= 16) {
+            // nightNumber 가 3 이면 마지막 선택 SIGNAL
+            if(nightNumber == 3) {
 
+            }
+            // nightNumber 가 0,1,2 이면 익명 선택 SECRET
+            else {
+                secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, selector, selected);
             }
         }
 
 
+    }
+
+    public void secretOneToOne(String selectorUUID, String selectedUUID, String meetingRoomUUID,
+                               Member selector, Member selected) {
+        ResSelectChatRoom checkSelectChatRoom =
+                chatRoomRepository.getResSelectChatRoom(selectorUUID, selectedUUID, meetingRoomUUID);
+
+        if(checkSelectChatRoom != null) {
+            chatRoomRepository.updateResSelectChatRoom(meetingRoomUUID, checkSelectChatRoom.getUUID());
+        }
+        else {
+            ResSelectChatRoom resSelectChatRoom = ResSelectChatRoom.builder()
+                    .UUID(UUID.randomUUID().toString())
+                    .type("SECRET")
+                    .roomName("")
+                    .createdDate(LocalDateTime.now().toString())
+                    .updatedDate(LocalDateTime.now().toString())
+                    .expired("F")
+                    .selector(selector)
+                    .selected(selected)
+                    .build();
+
+            chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);
+        }
     }
 
 

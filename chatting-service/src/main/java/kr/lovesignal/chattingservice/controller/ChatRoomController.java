@@ -2,9 +2,7 @@ package kr.lovesignal.chattingservice.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import kr.lovesignal.chattingservice.entity.Member;
-import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
-import kr.lovesignal.chattingservice.model.request.ReqSelectChatRoom;
+import kr.lovesignal.chattingservice.model.request.ReqSelectInfo;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
 import kr.lovesignal.chattingservice.service.ChatRoomService;
@@ -62,9 +60,9 @@ public class ChatRoomController {
 
     @ApiOperation(value = "이성지목 1:1 채팅방 생성", notes = "이성을 지목하여 익명 혹은 영구 1:1 채팅방이 생성된다.")
     @PostMapping("/OneToOne")
-    public ResponseEntity<String> createSelectChatRoom(@RequestBody ReqSelectChatRoom reqSelectChatRoom) {
-        String selectorUUID = reqSelectChatRoom.getSelectorUUID();
-        String selectedUUID = reqSelectChatRoom.getSelectedUUID();
+    public ResponseEntity<String> createSelectChatRoom(@RequestBody ReqSelectInfo reqSelectInfo) {
+        String selectorUUID = reqSelectInfo.getSelectorUUID();
+        String selectedUUID = reqSelectInfo.getSelectedUUID();
         chatRoomService.createOneToOneChatRoom(selectorUUID, selectedUUID);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }

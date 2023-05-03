@@ -7,11 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ReqSelectChatRoom {
+public class ReqSelectInfo {
 
     private String selectorUUID;
     private String selectedUUID;
-    @Builder.Default
-    private String love = "F";
 
 }

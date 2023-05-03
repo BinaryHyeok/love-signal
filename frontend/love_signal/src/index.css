@@ -14,9 +14,9 @@
   font-style: normal;
 }
 
-:root {
+/* :root {
   height: 100vh;
-}
+} */
 
 html {
   width: 100%;
@@ -48,6 +48,18 @@ code {
 
 main {
   height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+#modal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 input {

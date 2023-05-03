@@ -33,9 +33,8 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
     setClose(!close);
   };
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    console.log("나 실행되냐?");
+  const closeManual = () => {
+    setClose(true);
   };
 
   return (
@@ -47,6 +46,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
           pagination={{
             type: "progressbar",
           }}
+          onSlideChange={closeManual}
           loop={true}
           // navigation={true}
           modules={[Pagination, Navigation]}
@@ -61,10 +61,7 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
             />
             {!close && <SwiperManual closeLeft={closeLeft} />}
           </SwiperSlide>
-          <SwiperSlide
-            className={style.swiperSlide}
-            onMouseDown={handleMouseDown}
-          >
+          <SwiperSlide className={style.swiperSlide}>
             <UserInfo
               imgurl="/assets/girl2.png"
               nickname={member[1].nickname}

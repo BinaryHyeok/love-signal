@@ -6,24 +6,22 @@ type PropsType = {
   roomType?: string;
   listHeight: number;
   resizeChatListHeight: (param: number) => void;
-  ORG_LIST_HEIGHT: number;
+  orgListHeight: number;
 };
 
 const O_ChatTextList: React.FC<PropsType> = ({
   roomType,
   listHeight,
   resizeChatListHeight,
-  ORG_LIST_HEIGHT,
+  orgListHeight,
 }) => {
-  const chatList = useRef<HTMLUListElement>(null);
-
   useEffect(() => {
     const handleResize = () => {
       const viewportHeight = window.innerHeight;
       const keyboardHeight =
         viewportHeight - document.documentElement.clientHeight;
 
-      resizeChatListHeight(ORG_LIST_HEIGHT - keyboardHeight);
+      resizeChatListHeight(orgListHeight - keyboardHeight);
     };
 
     window.addEventListener("resize", handleResize);
@@ -34,11 +32,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
   }, []);
 
   return (
-    <ul
-      className={style.textList}
-      ref={chatList}
-      style={{ height: listHeight }}
-    >
+    <ul className={style.textList} style={{ height: listHeight }}>
       <M_ChatTextItem
         roomType={roomType}
         isMe={true}

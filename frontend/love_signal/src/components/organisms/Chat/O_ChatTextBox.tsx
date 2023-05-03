@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
 import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";
@@ -10,16 +10,19 @@ type PropsType = {
 };
 
 const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
-  const ORG_LIST_HEIGHT = window.innerHeight - 72;
-  const [listHeight, setListHeight] = useState(ORG_LIST_HEIGHT);
+  const textContainer = useRef<HTMLDivElement>(null);
+  const [orgListHeight, setOrgListHeight] = useState<number>(0);
+  const [listHeight, setListHeight] = useState<number>(orgListHeight);
 
   useEffect(() => {
+    setOrgListHeight(textContainer.current?.offsetHeight || 0);
+
     const handleResize = () => {
       const viewportHeight = window.innerHeight;
       const keyboardHeight =
         viewportHeight - document.documentElement.clientHeight;
 
-      resizeChatListHeight(ORG_LIST_HEIGHT - keyboardHeight);
+      resizeChatListHeight(orgListHeight - keyboardHeight);
     };
 
     window.addEventListener("resize", handleResize);
@@ -30,15 +33,16 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
   }, []);
 
   const resizeChatListHeight = (newHeight: number) => {
+    alert(orgListHeight + " " + newHeight);
     setListHeight(newHeight);
   };
 
   const handleFocusOut = () => {
-    resizeChatListHeight(ORG_LIST_HEIGHT);
+    resizeChatListHeight(orgListHeight);
   };
 
   return (
-    <div className={style.textContainer}>
+    <div className={style.textContainer} ref={textContainer}>
       <M_ChatTopNotice
         icon="/assets/notice_A.png"
         text="매일 저녁 10시에는 선택의 시간이 진행됩니다."
@@ -51,7 +55,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
         roomType={roomType}
         listHeight={listHeight}
         resizeChatListHeight={resizeChatListHeight}
-        ORG_LIST_HEIGHT={ORG_LIST_HEIGHT}
+        orgListHeight={orgListHeight}
       />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}

@@ -14,7 +14,7 @@ const A_ChatPeopleImage: React.FC<PropsType> = ({ imgs }) => {
       {imgs.map((item, idx) => {
         if (idx < 4)
           return (
-            <div className={`${style.imgCover} ${style[name]}`}>
+            <div className={`${style.imgCover} ${style[name]}`} key={idx}>
               <img src={item} />
             </div>
           );

@@ -17,6 +17,7 @@ const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onTextSubmit }) => {
 
   const textSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (text.trim().length < 1) return;
     onTextSubmit(text);
     setText("");
   };

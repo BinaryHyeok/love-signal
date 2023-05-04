@@ -5,7 +5,16 @@ import { useNavigate } from "react-router-dom";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import M_Image_Type from "../../UI/Common/M_Image_Type";
+import A_SignUp_Desc1 from "./A_SignUp_Desc1";
 import Introduce from "../Mypage/Introduce";
+import A_SignUp_Desc2 from "./A_SignUp_Desc2";
+import A_SignUp_Desc3 from "./A_SignUp_Desc3";
+import A_SignUp_Desc4 from "./A_SignUp_Desc4";
+import M_SignUp_Profile from "./M_SignUp_Profile";
+import M_SignUp_Birth from "./M_SignUp_Birth";
+import M_SignUp_Nickname from "./M_SignUp_Nickname";
+import A_MainLogo from "./A_MainLogo";
+import M_SignUp_Introduce from "./M_SignUp_Introduce";
 
 const SignUp = () => {
   const [email] = useState<string>("");
@@ -102,163 +111,31 @@ const SignUp = () => {
     <div className={style.box}>
       <div className={`${style.Container} diagonal-gradient`}>
         <div className={style.center}>
-          <div className={style.logo}>
-            <img
-              src="/assets/logo.png"
-              height="100vh"
-              alt="로고"
-              className={style.img}
-            />
-          </div>
+          <A_MainLogo />
           {!checkProfileOk && !checkNickOk && !checkBirthOk && (
-            <div>
-              <div className={style.text}>
-                여러분은 입주 전, 해야할 일이 있습니다.
-                <br />
-                <br />
-                <span className={style.bold}>첫번째 시그널,</span>
-                <br />
-                <br />
-                자신을 잘 드러낼 수 있는
-                <br />
-                <span className={style.bold}>프로필 사진</span>을
-                등록해야합니다.
-                <br />
-              </div>
-              <div>
-                <M_Image_Type />
-              </div>
-              <div className={style.checkBtn}>
-                <Button_Type_A
-                  className="dupleCheck"
-                  width="236px"
-                  height="32px"
-                  background="#FBCED3"
-                  onClick={handleProfile}
-                >
-                  확인
-                </Button_Type_A>
-              </div>
-            </div>
+            <M_SignUp_Profile onClick={handleProfile} />
           )}
           {checkProfileOk && !checkNickOk && !checkBirthOk && (
-            <div className={style.userInfo}>
-              <div className={style.text}>
-                <span className={style.bold}>두번째 시그널,</span>
-                <br />
-                <br />
-                자신을 가장 잘 나타낼 수 있는
-                <br />
-                <span className={style.bold}>닉네임</span>을 설정해야합니다.
-                <br />
-              </div>
-              <div className={style.nickName}>
-                <div>
-                  <Input_Type_A
-                    className="writeNickName"
-                    type="text"
-                    id="nickName"
-                    value={nickname}
-                    onChange={handleChangeNickname}
-                    placeholder="닉네임은여덟글자"
-                  />
-                </div>
-                <div>
-                  <Button_Type_A
-                    className="dupleCheck"
-                    width="80px"
-                    height="32px"
-                    background="#FBCED3"
-                    onClick={duplecheck}
-                    // disabled={true}
-                  >
-                    중복확인
-                  </Button_Type_A>
-                </div>
-              </div>
-              <div className={style.checkBtn}>
-                <Button_Type_A
-                  className="dupleCheck"
-                  width="236px"
-                  height="32px"
-                  background="#FBCED3"
-                  onClick={handleNickname}
-                >
-                  확인
-                </Button_Type_A>
-              </div>
-            </div>
+            <M_SignUp_Nickname
+              nickname={nickname}
+              onClick1={duplecheck}
+              onClick2={handleNickname}
+              onChange={handleChangeNickname}
+            />
           )}
           {checkProfileOk && checkNickOk && !checkBirthOk && (
-            <div className={style.userInfo}>
-              <div className={style.text}>
-                <span className={style.bold}>세번째 시그널,</span>
-                <br />
-                <br />
-                자신이 <span className={style.bold}>태어난 년도</span>를
-                입력해주세요
-                <br />
-              </div>
-              <div className={style.nickName}>
-                <div>
-                  <Input_Type_A
-                    className="writeBirth"
-                    type="text"
-                    id="birthYear"
-                    value={birth}
-                    onChange={handleChangeNickname}
-                    placeholder="2023"
-                  />
-                </div>
-              </div>
-              <div className={style.checkBtn}>
-                <Button_Type_A
-                  className="dupleCheck"
-                  width="236px"
-                  height="32px"
-                  background="#FBCED3"
-                  onClick={handleBirth}
-                >
-                  확인
-                </Button_Type_A>
-              </div>
-            </div>
+            <M_SignUp_Birth
+              birth={birth}
+              onClick={handleBirth}
+              onChange={handleChangeNickname}
+            />
           )}
           {checkProfileOk && checkNickOk && checkBirthOk && (
-            <div className={style.userInfo}>
-              <div className={style.text}>
-                <span className={style.bold}>마지막 시그널,</span>
-                <br />
-                <br />
-                <span className={style.bold}>자유롭게</span> 자신을{" "}
-                <span className={style.bold}>표현</span>해보세요.
-                <br />
-              </div>
-              <div className={style.nickName}>
-                <div>
-                  <Input_Type_A
-                    className="writeIntroduce"
-                    type="text"
-                    id="description"
-                    value={description}
-                    onChange={handleChangeNickname}
-                    placeholder={description}
-                  />
-                </div>
-              </div>
-              <div className={style.checkBtn}>
-                <Button_Type_A
-                  className="dupleCheck"
-                  width="236px"
-                  height="32px"
-                  background="#FBCED3"
-                  onClick={signup}
-                  disabled={true}
-                >
-                  회원가입
-                </Button_Type_A>
-              </div>
-            </div>
+            <M_SignUp_Introduce
+              description={description}
+              onClick={signup}
+              onChange={handleChangeNickname}
+            />
           )}
         </div>
       </div>

@@ -14,7 +14,7 @@ public interface ChatRoomService {
     ChannelTopic getTopic(String roomId);
     ChatRoom createSystemChatroom(String memberUUID);
 
-    ChatRoom createSameGenderChatRoom(List<String> memberUUIDs);
+    ChatRoom createSameOrAllGenderChatRoom(List<String> memberUUIDs);
 
     void createOneToOneChatRoom(String selectorUUID, String selectedUUID);
 

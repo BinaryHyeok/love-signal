@@ -118,7 +118,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public ChatRoom createSameGenderChatRoom(List<String> userUUIDs) {
+    public ChatRoom createSameOrAllGenderChatRoom(List<String> userUUIDs) {
 
         String type = userUUIDs.size()==3? "TEAM":"MEETING";
         String roomName = type.equals("TEAM")?"애인 없는 사람들 모임 ㅋ":"두근두근 시그널 보내고 짝 찾기 ㅋ";

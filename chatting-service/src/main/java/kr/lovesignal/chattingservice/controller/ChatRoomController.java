@@ -52,9 +52,9 @@ public class ChatRoomController {
 
     @ApiOperation(value = "동성 및 혼성 채팅방 생성", notes = "동성 및 혼성 채팅방 생성 후 유저들 입장")
     @PostMapping("/SameOrAllGender")
-    public ResponseEntity<String> createSameGenderChatRoom(@RequestBody List<String> memberUUIDs) {
+    public ResponseEntity<String> createSameOrAllGenderChatRoom(@RequestBody List<String> memberUUIDs) {
         List<String> userUUIDs = memberUUIDs;
-        chatRoomService.createSameGenderChatRoom(memberUUIDs);
+        chatRoomService.createSameOrAllGenderChatRoom(memberUUIDs);
         return new ResponseEntity<>(SUCCESS, HttpStatus.CREATED);
     }
 

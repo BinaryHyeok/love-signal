@@ -1,6 +1,7 @@
 package kr.lovesignal.teamservice.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name ="member")
@@ -47,4 +50,8 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "team_leader", nullable = false, length = 1)
     @ColumnDefault("'F'")
     private String teamLeader;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<ParticipantEntity> participants = new ArrayList<>();
 }

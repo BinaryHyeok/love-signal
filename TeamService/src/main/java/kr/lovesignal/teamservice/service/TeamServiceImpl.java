@@ -17,6 +17,9 @@ import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -31,6 +34,7 @@ public class TeamServiceImpl implements TeamService{
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
     private final MeetingRepository meetingRepository;
+    private final WebClient webClient;
 
     @Override
     @Transactional
@@ -61,7 +65,7 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional
-    public SuccessResponse<String> JoinTeam(String strTeamUUID, String strMemberUUID) {
+    public int JoinTeam(String strTeamUUID, String strMemberUUID) {
         UUID teamUUID = commonUtils.getValidUUID(strTeamUUID);
         UUID memberUUID = commonUtils.getValidUUID(strMemberUUID);
 
@@ -85,7 +89,7 @@ public class TeamServiceImpl implements TeamService{
         MemberEntity saveMember = buildMemberEntityWithTeam(findMember, saveTeam, false);
         memberRepository.save(saveMember);
 
-        return responseUtils.buildSuccessResponse("팀에 가입되었습니다.");
+        return saveTeam.getMemberCount();
     }
 
     @Override
@@ -103,7 +107,7 @@ public class TeamServiceImpl implements TeamService{
 
         // 해당 팀원 수를 하나 줄인다. 0일 경우에 팀은 해체된다.
         TeamEntity saveTeam = buildTeamEntityUpdateMember(findMember.getTeam(), false);
-        if(0 >= saveTeam.getMemberCount()){
+        if(saveTeam.getMemberCount() <= 0){
             saveTeam.setExpired("T");
         }
         teamRepository.save(saveTeam);
@@ -120,7 +124,7 @@ public class TeamServiceImpl implements TeamService{
 
         UUID UUID = commonUtils.getValidUUID(strTeamUUID);
 
-        TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(UUID, "F", "F")
+        TeamEntity findTeam = teamRepository.findByUUIDAndExpired(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
 
         Team team = makeTeam(findTeam);
@@ -242,17 +246,13 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional
-    public SuccessResponse<String> accpetMeeting(String strReceiveTeamUUID, String strSendTeamUUID) {
+    public void accpetMeeting(String strReceiveTeamUUID, String strSendTeamUUID) {
 
         List<TeamEntity> teams = getMeetingTeams(strSendTeamUUID, strReceiveTeamUUID);
         for(TeamEntity team : teams){
             deleteAllMeeting(team);
             teamRepository.save(buildmeetingTeamEntity(team));
         }
-
-        // WebClinet로 성사되었다고 보내기
-
-        return responseUtils.buildSuccessResponse("미팅이 성사되었습니다.");
     }
 
     @Override
@@ -357,5 +357,41 @@ public class TeamServiceImpl implements TeamService{
     public void deleteAllMeeting(TeamEntity team){
         meetingRepository.deleteBySendTeam(team);
         meetingRepository.deleteByReceiveTeam(team);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> makeChatRoomMembers(String strTeamUUID){
+        UUID teamUUID = commonUtils.getValidUUID(strTeamUUID);
+
+        TeamEntity findTeam = teamRepository.findByUUIDAndExpired(teamUUID, "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+
+        List<MemberEntity> findMembers = memberRepository.findByTeamAndExpired(findTeam, "F");
+
+        List<String> memberUUIDs = new ArrayList<>();
+        for(MemberEntity member : findMembers){
+            memberUUIDs.add(member.getUUID().toString());
+        }
+
+        return memberUUIDs;
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> makeChatRoomMembers(String strTeamUUID, String strOppositeTeamUUID){
+        List<String> memberUUIDs = new ArrayList<>();
+        memberUUIDs.addAll(makeChatRoomMembers(strTeamUUID));
+        memberUUIDs.addAll(makeChatRoomMembers(strOppositeTeamUUID));
+
+        return memberUUIDs;
+    }
+
+    public void createTeamChatApi(List<String> memberUUIDs){
+        String uri = "/chatRoom/SameOrAllGender";
+        webClient.post()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
     }
 }

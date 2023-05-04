@@ -5,11 +5,14 @@ import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.service.TeamService;
+import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -33,13 +36,18 @@ public class TeamController {
 
     @PostMapping("/{teamUUID}/join/{memberUUID}")
     @ApiOperation(value = "팀 참가")
-    public ResponseEntity<SuccessResponse> joinTeam(@PathVariable String teamUUID, @PathVariable String memberUUID){
+    public ResponseEntity<String> joinTeam(@PathVariable String teamUUID, @PathVariable String memberUUID){
 
-        SuccessResponse successResponse = teamService.JoinTeam(teamUUID, memberUUID);
+        int memberCount = teamService.JoinTeam(teamUUID, memberUUID);
+
+        if(memberCount == 3){
+            List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID);
+            teamService.createTeamChatApi(memberUUIDs);
+        }
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body("팀에 참가하였습니다.");
     }
 
     @DeleteMapping("/{memberUUID}")
@@ -114,13 +122,16 @@ public class TeamController {
 
     @DeleteMapping("/{teamUUID}/accpet-meeting/{oppositeTeamUUID}")
     @ApiOperation(value = "미팅 수락")
-    public ResponseEntity<SuccessResponse> accpetMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+    public ResponseEntity<String> accpetMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
 
-        SuccessResponse successResponse = teamService.accpetMeeting(teamUUID, oppositeTeamUUID);
+        teamService.accpetMeeting(teamUUID, oppositeTeamUUID);
+
+        List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID, oppositeTeamUUID);
+        teamService.createTeamChatApi(memberUUIDs);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body("미팅이 수락 되었습니다.");
     }
 
     @DeleteMapping("/{teamUUID}/reject-meeting/{oppositeTeamUUID}")

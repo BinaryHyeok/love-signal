@@ -31,7 +31,9 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
     List<TeamEntity> findTeamsByGenderAndNotExpiredAndNotMeeting(
             @Param("gender") String gender);
 
-     Optional<TeamEntity> findByUUIDAndExpiredAndMeeting(UUID UUID, String expired, String Meeting);
+     Optional<TeamEntity> findByUUIDAndExpired(UUID UUID, String expired);
+
+     Optional<TeamEntity>findByUUIDAndExpiredAndMeeting(UUID UUID, String expired, String meeting);
 
      Optional<TeamEntity> findByTeamIdAndExpired(Long TeamId, String expired);
 

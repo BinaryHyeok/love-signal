@@ -4,8 +4,8 @@ import style from "./styles/M_FindTeamMenuList.module.scss";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CommonModal from "../../UI/Modal/CommonModal";
-import Input_Type_A from "../../UI/Common/Input_Type_A";
 import M_ModalFindTeamWithCode from "./M_ModalFindTeamWithCode";
+import { create } from "domain";
 
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
@@ -28,6 +28,16 @@ const M_FindTeamMenuList = () => {
     navigate("/Samegender/MyTeam");
   };
 
+  // 새로운 방을 생성해서 이동
+  const createRoom = () => {
+    // 요청이 끝날 때까지 로딩화면
+    navigate("/loading");
+    // 새로운 방을 생성하기 위한 axios 요청이 완료되면 이동(비동기 통신 종료 시)
+    setTimeout(() => {
+      navigate("/samegender/build");
+    }, 3000);
+  };
+
   return (
     <>
       <div className={style.menuList}>
@@ -35,10 +45,7 @@ const M_FindTeamMenuList = () => {
           <img src="/assets/LIGHTENING.png" />
           빠른 매칭 <img src="/assets/LIGHTENING.png" />
         </Button_Type_A>
-        <Button_Type_A
-          className={style.menu}
-          onClick={openRoomCodeModalHandler}
-        >
+        <Button_Type_A className={style.menu} onClick={createRoom}>
           <img src="/assets/SWEET_HOME.png" />
           룸 생성하기
           <img src="/assets/SWEET_HOME.png" />

@@ -14,8 +14,7 @@ const Introduce: React.FC<propsType> = ({ myIntroduce, changeIntroduce }) => {
   return (
     <div>
       <div>자기소개</div>
-      <div className={style.introduceText}></div>
-      <div>{myIntroduce}</div>
+      <div className={style.introduceText}>{myIntroduce}</div>
       <div>
         <Button_Type_A
           onClick={modifyIntroduce}

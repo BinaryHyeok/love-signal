@@ -5,6 +5,7 @@ import Age from "./Age";
 import Introduce from "./Introduce";
 import EditNickName from "./EditNickName";
 import EditIntroduce from "./EditIntroduce";
+import style from "./styles/MyInfo.module.scss";
 
 const MyInfo = () => {
   const [changeName, setChangeName] = useState<boolean>(true); //이름 바꿔줄 state
@@ -13,7 +14,7 @@ const MyInfo = () => {
   const [myIntroduce, setMyIntroduce] = useState<string>("내가 프론트 리더");
   return (
     <>
-      <div>
+      <div className={style.container}>
         {changeName ? (
           <NickName nickname={myNickName} changeName={setChangeName} />
         ) : (

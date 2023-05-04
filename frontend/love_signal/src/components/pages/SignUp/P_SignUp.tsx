@@ -16,7 +16,7 @@ import M_SignUp_Nickname from "./M_SignUp_Nickname";
 import A_MainLogo from "./A_MainLogo";
 import M_SignUp_Introduce from "./M_SignUp_Introduce";
 
-const SignUp = () => {
+const P_SignUp = () => {
   const [email] = useState<string>("");
   const [password] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
@@ -143,4 +143,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default P_SignUp;

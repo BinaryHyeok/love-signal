@@ -1,21 +1,5 @@
 import axios from "axios";
 
-export const changeMyInfo = async (
-  memberUUID: string,
-  nickname: string,
-  description: string
-) => {
-  return await axios({
-    method: "put",
-    url: "http://localhost:9005/member",
-    data: {
-      memberUUID: memberUUID,
-      nickname: nickname,
-      description: description,
-    },
-  });
-};
-
 export const changeMyImg = async () => {
   return await axios({
     method: "post",

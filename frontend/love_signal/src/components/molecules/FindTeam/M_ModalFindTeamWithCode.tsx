@@ -1,0 +1,39 @@
+import React from "react";
+import style from "./styles/M_ModalFindTeamWithCode.module.scss";
+import Input_Type_A from "../../UI/Common/Input_Type_A";
+import Button_Type_B from "../../UI/Common/Button_Type_B";
+import HeartLine from "../../UI/Common/HeartLine";
+import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
+
+type PropsType = {
+  enterTeam: () => void;
+};
+
+const M_ModalFindTeamWithCode: React.FC<PropsType> = ({ enterTeam }) => {
+  return (
+    <div className={style.modalContent}>
+      <HeartLine type="blue" count="3" />
+      <span>
+        <A_TextHighlight color="blue">룸 코드</A_TextHighlight>로 입장하기
+      </span>
+      <Input_Type_A
+        type="text"
+        id="팀코드"
+        className="writeTeamcode"
+        width="216px"
+        background="#D9D9D9"
+        margin="8px 0 16px 0"
+      />
+      <Button_Type_B
+        width="120px"
+        height="30px"
+        background="#CAD9FF"
+        onClick={enterTeam}
+      >
+        입장하기
+      </Button_Type_B>
+    </div>
+  );
+};
+
+export default M_ModalFindTeamWithCode;

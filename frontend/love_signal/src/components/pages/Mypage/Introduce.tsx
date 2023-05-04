@@ -3,10 +3,11 @@ import Button_Type_A from "../../UI/Common/Button_Type_A";
 import style from "./styles/Introduce.module.scss";
 
 type propsType = {
+  myIntroduce: string;
   changeIntroduce: Dispatch<SetStateAction<boolean>>;
 };
 
-const Introduce: React.FC<propsType> = ({ changeIntroduce }) => {
+const Introduce: React.FC<propsType> = ({ myIntroduce, changeIntroduce }) => {
   const modifyIntroduce = () => {
     changeIntroduce(false);
   };
@@ -14,6 +15,7 @@ const Introduce: React.FC<propsType> = ({ changeIntroduce }) => {
     <div>
       <div>자기소개</div>
       <div className={style.introduceText}></div>
+      <div>{myIntroduce}</div>
       <div>
         <Button_Type_A
           onClick={modifyIntroduce}

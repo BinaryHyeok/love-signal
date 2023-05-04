@@ -14,6 +14,10 @@
   font-style: normal;
 }
 
+/* :root {
+  height: 100vh;
+} */
+
 html {
   width: 100%;
   height: 100%;
@@ -30,7 +34,7 @@ body {
   user-select: none;
   width: 100%;
   height: 100%;
-  background-color: eef0f5;
+  background-color: #eef0f5;
 }
 
 code {
@@ -43,7 +47,19 @@ code {
 }
 
 main {
-  min-height: 100vh;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+#modal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 input {
@@ -56,7 +72,7 @@ input {
 /* 헤더 공간을 비워주기 위한 메인 컨텐츠 패딩영역 */
 .inner-main {
   padding: 64px 0;
-  height: 100vh;
+  height: 100%;
 }
 
 /* 그라데이션이 들어간 배경색 */

@@ -24,13 +24,15 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<SuccessResponse> signUp(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequest signUpRequest){
 
-        SuccessResponse successResponse = authService.registerMember(signUpRequest);
+        String strMemberUUID = authService.registerMember(signUpRequest);
+
+        authService.createSystemChatRoomApi(strMemberUUID);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(successResponse);
+                .body("회원가입 되었습니다.");
     }
 
     @PostMapping("/sign-in")

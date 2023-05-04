@@ -14,6 +14,8 @@ import kr.lovesignal.memberservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -30,18 +32,19 @@ public class AuthServiceImpl implements AuthService{
     private final CommonUtils commonUtils;
     private final MemberRepository memberRepository;
 
+    private final WebClient webClient;
+
 
     // 회원가입
     @Override
     @Transactional
-    public SuccessResponse<String> registerMember(SignUpRequest signUpRequest) {
+    public String registerMember(SignUpRequest signUpRequest) {
 
         MemberEntity saveMember = signUpRequest.toEntity();
 
         memberRepository.save(saveMember);
 
-        return responseUtil.buildSuccessResponse("회원가입 되었습니다.");
-
+        return saveMember.getUUID().toString();
     }
 
     // 로그인
@@ -122,4 +125,12 @@ public class AuthServiceImpl implements AuthService{
     }
 
 
+    public void createSystemChatRoomApi(String strMemberUUID){
+        String uri = "/chatRoom/System/" + strMemberUUID;
+        webClient.post()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
+    }
 }

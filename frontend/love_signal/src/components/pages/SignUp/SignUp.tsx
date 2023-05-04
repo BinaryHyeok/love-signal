@@ -227,7 +227,7 @@ const SignUp = () => {
           {checkProfileOk && checkNickOk && checkBirthOk && (
             <div className={style.userInfo}>
               <div className={style.text}>
-                <span className={style.bold}>네번째 시그널,</span>
+                <span className={style.bold}>마지막 시그널,</span>
                 <br />
                 <br />
                 <span className={style.bold}>자유롭게</span> 자신을{" "}

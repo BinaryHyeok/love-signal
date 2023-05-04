@@ -1,86 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./styles/O_ChatTextList.module.scss";
 import M_ChatTextItem from "../../molecules/Chat/M_ChatTextItem";
+import { chat } from "../../../types/chat";
 
 type PropsType = {
-  roomType?: string;
+  ulRef: React.RefObject<HTMLUListElement>;
+  chatList: chat[];
 };
 
-const O_ChatTextList: React.FC<PropsType> = ({ roomType }) => {
+const O_ChatTextList: React.FC<PropsType> = ({ ulRef, chatList }) => {
   return (
-    <ul className={style.textList}>
-      <M_ChatTextItem
-        roomType={roomType}
-        isMe={true}
-        text={"안녕하세요"}
-        sendTime={"2023-04-30 11:58:38"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
-      <M_ChatTextItem
-        roomType={roomType}
-        text={"반가워요~~"}
-        sender={"Tom"}
-        sendTime={"2023-04-30 12:02:12"}
-      />
+    <ul className={style.textList} ref={ulRef}>
+      {chatList.map((item, idx) => (
+        <M_ChatTextItem
+          key={idx}
+          roomType={item.roomType}
+          isMe={item.isMe}
+          text={item.text}
+          sendTime={item.sendTime}
+        />
+      ))}
     </ul>
   );
 };

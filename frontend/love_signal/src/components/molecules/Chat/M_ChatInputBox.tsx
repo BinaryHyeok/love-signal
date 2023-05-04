@@ -4,12 +4,11 @@ import A_ChatInput from "../../atoms/Chat/A_ChatInput";
 import A_ChatSendBtn from "../../atoms/Chat/A_ChatSendBtn";
 
 type PropsType = {
-  onTextSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isDisabled: boolean;
-  onFocusOut: () => void;
+  onTextSubmit: (text: string) => void;
 };
 
-const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onFocusOut }) => {
+const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onTextSubmit }) => {
   const [text, setText] = useState("");
 
   const textChangeHanlder = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +17,7 @@ const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onFocusOut }) => {
 
   const textSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(text);
+    onTextSubmit(text);
     setText("");
   };
 
@@ -28,7 +27,6 @@ const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onFocusOut }) => {
         onChange={textChangeHanlder}
         text={text}
         isDisabled={isDisabled}
-        onFocusOut={onFocusOut}
       />
       <A_ChatSendBtn />
     </form>

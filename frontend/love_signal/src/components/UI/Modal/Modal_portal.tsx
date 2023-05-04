@@ -7,9 +7,14 @@ interface ProtalProps {
 
 const Modal_portal = ({ children }: ProtalProps) => {
   const [mounted, setMounted] = useState(false);
+  const modal = document.querySelector("#modal");
   useEffect(() => {
     setMounted(true);
-    return () => setMounted(false);
+    modal?.classList.add("open");
+    return () => {
+      setMounted(false);
+      modal?.classList.remove("open");
+    };
   }, []);
 
   return mounted

@@ -4,14 +4,14 @@ import M_ChatTextItem from "../../molecules/Chat/M_ChatTextItem";
 
 type PropsType = {
   roomType?: string;
-  resizeChatListHeight: (param: number) => void;
+  onResize: (param: number) => void;
   height: number;
   setOrgListHeight: (param: number) => void;
 };
 
 const O_ChatTextList: React.FC<PropsType> = ({
   roomType,
-  resizeChatListHeight,
+  onResize,
   height,
   setOrgListHeight,
 }) => {
@@ -27,7 +27,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
       const keyboardHeight =
         viewportHeight - document.documentElement.clientHeight;
 
-      // resizeChatListHeight(orgListHeight - keyboardHeight);
+      // onResize(orgListHeight - keyboardHeight);
     };
 
     window.addEventListener("resize", handleResize);

@@ -60,6 +60,11 @@ main {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: -1;
+}
+
+#modal.open {
+  z-index: 10;
 }
 
 input {
@@ -71,8 +76,13 @@ input {
 
 /* 헤더 공간을 비워주기 위한 메인 컨텐츠 패딩영역 */
 .inner-main {
-  padding: 64px 0;
+  padding: 0;
   height: 100%;
+}
+
+.inner-main > div {
+  height: 100%;
+  padding: 64px 0;
 }
 
 /* 그라데이션이 들어간 배경색 */

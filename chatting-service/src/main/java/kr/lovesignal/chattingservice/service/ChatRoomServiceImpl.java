@@ -3,6 +3,7 @@ package kr.lovesignal.chattingservice.service;
 import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
+import kr.lovesignal.chattingservice.entity.RoomType;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
@@ -119,9 +120,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoom createSameGenderChatRoom(List<String> userUUIDs) {
 
+        String type = userUUIDs.size()==3? "TEAM":"MEETING";
+        String roomName = type.equals("TEAM")?"애인 없는 사람들 모임 ㅋ":"두근두근 시그널 보내고 짝 찾기 ㅋ";
+
         ChatRoom chatRoom = ChatRoom.builder()
-                        .type("MEETING")
-                        .roomName("두근두근 시그널 보내")
+                        .type(type)
+                        .roomName(roomName)
                         .build();
         chatRoomJpaRepository.save(chatRoom);
 

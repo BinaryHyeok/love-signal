@@ -56,12 +56,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findMemberByUUID(uuid);
 
-        List<ChatRoom> list = participantJpaRepository.findByMemberId(member.getMemberId());
+        List<Participant> participants = member.getParticipants();
         List<ResChatRoom> chatRoomList = new ArrayList<>();
 
-        for(ChatRoom chatRoom : list) {
-            ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
-            String roomUUID = chatRoom.getUUID().toString();
+        for(Participant participant : participants) {
+            ResChatRoom resChatRoom = ResChatRoom.toDto(participant.getChatRoom());
+            String roomUUID = participant.getChatRoom().getUUID().toString();
             String lastMessage = chatRepository.bringLastChatMessage(roomUUID);
             resChatRoom.setLastChat(lastMessage);
             chatRoomList.add(resChatRoom);
@@ -99,8 +99,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         Member member = memberJpaRepository.findMemberByUUID(uuid);
 
         Participant participant = Participant.builder()
-                .memberId(member.getMemberId())
-                .chatroomId(chatRoomId)
                 .member(member) // 추가
                 .chatRoom(chatRoom) // 추가
                 .build();
@@ -126,8 +124,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             Member member = memberJpaRepository.findMemberByUUID(uuid);
 
             Participant participant  = Participant.builder()
-                    .memberId(member.getMemberId())
-                    .chatroomId(chatRoomId)
                     .member(member) // 추가
                     .chatRoom(chatRoom) // 추가
                     .build();
@@ -146,11 +142,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         Member selected = memberJpaRepository.findMemberByUUID(uuid2);
 
         // 현재 참여 중인 혼성 채팅방 찾기.
-        List<ChatRoom> chatRooms = participantJpaRepository.findByMemberId(selector.getMemberId());
+        List<Participant> participants = selector.getParticipants();
         ChatRoom meetingRoom = null;
-        for(ChatRoom chatRoom : chatRooms) {
-            if(chatRoom.getType().equals("MEETING")) {
-                meetingRoom = chatRoom;
+        for(Participant participant : participants) {
+            if(participant.getChatRoom().getType().equals("MEETING")) {
+                meetingRoom = participant.getChatRoom();
             }
         }
         String meetingRoomUUID = meetingRoom.getUUID().toString();

@@ -39,6 +39,7 @@ public abstract class BaseEntity {
         createdDate = now;
         updatedDate = now;
         UUID = UUID.randomUUID();
+        expired = "F";
     }
 
     @PreUpdate

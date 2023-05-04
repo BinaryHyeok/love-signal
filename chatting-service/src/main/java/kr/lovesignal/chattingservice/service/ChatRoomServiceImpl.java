@@ -3,8 +3,6 @@ package kr.lovesignal.chattingservice.service;
 import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
-import kr.lovesignal.chattingservice.model.request.ReqChatRoom;
-import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
@@ -12,7 +10,6 @@ import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
 import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -78,6 +75,21 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return resEnterChatRoom;
     }
 
+    /**
+     * 채팅방 나가기
+     */
+    @Override
+    public void exitChatRoom(String strMemberUUID, String strRoomUUID) {
+        UUID memberUUID = commonUtils.getValidUUID(strMemberUUID);
+        UUID roomUUID = commonUtils.getValidUUID(strRoomUUID);
+
+        Member member = memberJpaRepository.findMemberByUUID(memberUUID);
+        ChatRoom chatRoom = chatRoomJpaRepository.findByUUID(roomUUID);
+
+        Participant participant = participantJpaRepository.findByMemberAndChatRoom(member, chatRoom);
+        participant.setExpired("T");
+        participantJpaRepository.save(participant);
+    }
 
     /**
      * 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
@@ -274,7 +286,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
 
     /**
-     * 채팅방 입장 : redis에 topic을 만들고 pub/sub 통신을 하기 위해 리스너를 설정한다.
+     * 채팅방 입장 (웹소켓 연결) : redis에 topic을 만들고 pub/sub 통신을 하기 위해 리스너를 설정한다.
      */
 
     public void enterChatRoom(String roomUUID) {
@@ -289,4 +301,5 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return topics.get(roomId);
     }
 }
+
 

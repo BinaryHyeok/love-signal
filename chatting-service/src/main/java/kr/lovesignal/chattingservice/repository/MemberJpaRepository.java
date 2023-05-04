@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface MemberJpaRepository extends JpaRepository<Member, Long> {
 
-    Member findMemberByUUID(UUID userUUID);
+    Member findMemberByUUID(UUID memberUUID);
     List<Member> findMemberByTeam(Team team);
 
     Member findMemberByNickname(String nickname);

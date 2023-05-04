@@ -21,4 +21,6 @@ public interface ChatRoomService {
     List<ResChatRoom> getChatRoomList(String userUUID);
 
     ResEnterChatRoom getChatRoom(String roomUUID);
+
+    void exitChatRoom(String memberUUID, String roomUUID);
 }

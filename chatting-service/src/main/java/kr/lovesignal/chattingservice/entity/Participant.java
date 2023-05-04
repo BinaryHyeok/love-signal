@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "participant")
 @Getter
 @Setter
 @SuperBuilder

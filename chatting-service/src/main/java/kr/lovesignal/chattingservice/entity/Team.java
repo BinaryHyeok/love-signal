@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "team")
 @Getter
 @Setter
 @DynamicInsert

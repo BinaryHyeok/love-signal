@@ -7,9 +7,16 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-//멤버의 UUID를 넣어줄 recoil입니다.
+//멤버의 개인UUID를 넣어줄 recoil입니다.
 export const myMemberUUID = atom<string>({
   key: "memberUUID",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+//멤버의 팀UUID를 넣어줄 recoil입니다.
+export const myTeamUUID = atom<string>({
+  key: "teamUUID",
   default: "",
   effects_UNSTABLE: [persistAtom],
 });

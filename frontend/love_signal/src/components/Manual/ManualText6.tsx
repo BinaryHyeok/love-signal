@@ -25,7 +25,7 @@ const ManualText6 = () => {
       <img src="/assets/logo.png" className={style.logo} /> <br />
       <span className={style.TextBold}>지금 </span>
       <span className="text-red">시작</span>
-      <span className={style.TextBold}>시작합니다.</span>
+      <span className={style.TextBold}>합니다.</span>
     </div>
   );
 };

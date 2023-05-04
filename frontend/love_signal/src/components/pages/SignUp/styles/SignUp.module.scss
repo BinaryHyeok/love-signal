@@ -1,25 +1,38 @@
-.box {
-  margin: auto 0;
-  .Container {
-    margin: auto 0;
-    display: flex;
+.Container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  .center {
+    margin-top: 40px;
+  }
+  .bold {
+    font-weight: 700;
+  }
+  .text {
+    text-align: center;
+  }
+  .checkBtn > button {
+    margin: 0 auto;
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+  .img {
+    width: 108px;
+    height: 40px;
+  }
+  .userInfo {
+    // display: flex;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
     align-items: center;
-    .img {
-      width: 108px;
-      height: 40px;
-    }
-    .userInfo {
+    .nickName {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      .nickName {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.8rem;
-      }
+      justify-content: space-between;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
     }
   }
 }

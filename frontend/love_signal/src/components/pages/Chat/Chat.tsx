@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import style from "./styles/Chat.module.scss";
 import T_Chat from "../../templates/Chat/T_Chat";
 import { useRecoilState } from "recoil";
@@ -6,11 +6,83 @@ import { roomInfo } from "../../../atom/chatRoom";
 import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
+import { chat } from "../../../types/chat";
+
+const DUMMY_CHAT_LIST: chat[] = [
+  {
+    isMe: true,
+    text: "안녕하세요",
+    sendTime: "2023-04-30 11:58:38",
+  },
+  {
+    isMe: false,
+    text: "반가워요~~",
+    sender: "Tom",
+    sendTime: "2023-04-30 12:02:12",
+  },
+  {
+    isMe: true,
+    text: "안녕하세요",
+    sendTime: "2023-04-30 11:58:38",
+  },
+  {
+    isMe: false,
+    text: "반가워요~~",
+    sender: "Tom",
+    sendTime: "2023-04-30 12:02:12",
+  },
+  {
+    isMe: true,
+    text: "안녕하세요",
+    sendTime: "2023-04-30 11:58:38",
+  },
+  {
+    isMe: false,
+    text: "반가워요~~",
+    sender: "Tom",
+    sendTime: "2023-04-30 12:02:12",
+  },
+  {
+    isMe: true,
+    text: "안녕하세요",
+    sendTime: "2023-04-30 11:58:38",
+  },
+  {
+    isMe: false,
+    text: "반가워요~~",
+    sender: "Tom",
+    sendTime: "2023-04-30 12:02:12",
+  },
+  {
+    isMe: true,
+    text: "안녕하세요",
+    sendTime: "2023-04-30 11:58:38",
+  },
+  {
+    isMe: false,
+    text: "반가워요~~",
+    sender: "Tom",
+    sendTime: "2023-04-30 12:02:12",
+  },
+  {
+    isMe: true,
+    text: "안녕하세요",
+    sendTime: "2023-04-30 11:58:38",
+  },
+  {
+    isMe: false,
+    text: "반가워요~~",
+    sender: "Tom",
+    sendTime: "2023-04-30 12:02:12",
+  },
+];
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [_, setFooterIsOn] = useRecoilState(footerIsOn);
+
+  const [chatList, setChatList] = useState<chat[]>([...DUMMY_CHAT_LIST]);
 
   useEffect(() => {
     setIdx(2);
@@ -20,9 +92,34 @@ const Chat = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const typeAdded = chatList.map((item) => ({
+      ...item,
+      roomType: selectedRoom.type,
+    }));
+    setChatList([...typeAdded]);
+  }, [selectedRoom]);
+
   const roomExitHandler = () => {
     setSelectedRoom({});
     setFooterIsOn(true);
+  };
+
+  const textSendHandler = (text: string) => {
+    if (text.trim().length < 1) return;
+
+    const now = new Date();
+    const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
+    setChatList(() => [
+      ...chatList,
+      {
+        roomType: selectedRoom.type,
+        isMe: true,
+        text: text,
+        sender: "Tom",
+        sendTime: currTime,
+      },
+    ]);
   };
 
   return (
@@ -35,6 +132,8 @@ const Chat = () => {
         count={selectedRoom.memberCount}
         roomExitHandler={roomExitHandler}
         roomType={selectedRoom.type}
+        chatList={chatList}
+        onTextSend={textSendHandler}
       />
       <T_Chat />
     </div>

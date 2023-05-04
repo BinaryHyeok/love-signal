@@ -23,6 +23,7 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
     width: 100%;
     height: 100%;
     position: absolute;
+    top: 44%;
     animation: 5s pulse infinite linear;
   }
   // flat opaque line
@@ -34,6 +35,7 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
     right: 2px;
     bottom: 0;
     top: 16px; // the SVG isn't exacly centered..
+    top: 44%;
     margin: auto;
     height: $strokeWidth;
   }

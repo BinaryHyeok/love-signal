@@ -7,6 +7,9 @@
   padding: 6px 16px;
   display: flex;
   align-items: center;
+  position: absolute;
+  top: 8px;
+  z-index: 2;
 
   img {
     height: 1.1rem;

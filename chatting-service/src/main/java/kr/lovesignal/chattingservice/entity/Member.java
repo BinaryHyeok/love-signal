@@ -2,6 +2,7 @@ package kr.lovesignal.chattingservice.entity;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -18,17 +19,33 @@ public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id", columnDefinition = "INT UNSIGNED")
     private Long memberId;
+
+    @Column(name = "login_id", nullable = false, unique = true)
     private String loginId;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "nickname", nullable = false, length = 20)
     private String nickname;
-    private char gender;
+
+    @Column(name = "gender", nullable = false, length = 1)
+    private String gender;
+
+    @Column(name = "birth", nullable = false, length = 8)
     private String birth;
+
+    @Column(name = "description", nullable = true, length = 120)
     private String description;
-    private char help;
+
+    @Column(name = "team_leader", nullable = false, length = 1)
+    @ColumnDefault("'F'")
+    private String teamLeader;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
+    @JoinColumn(name = "team_id", nullable = true)
     private Team team;
 
     @Builder.Default

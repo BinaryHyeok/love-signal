@@ -192,7 +192,7 @@ public class ChatServiceImpl implements ChatService{
                     Member member = participant.getMember();
                     members.add(member);
 
-                    if(member.getGender() == 'M') {
+                    if(member.getGender().equals("M")) {
                         maleNicknames.add(member.getNickname());
 //                        maleProfileUrls.add() 여기에는 url 주소
                     }
@@ -222,7 +222,7 @@ public class ChatServiceImpl implements ChatService{
                             reqChatMessage.setRoomUUID(findSystemChatRoom.getUUID().toString());
 
                             // 닉네임과 사진이 있는 SelectOrShareInfo 객체 생성후 Req 메세지에 주입.
-                            if(member.getGender() == 'M') {
+                            if(member.getGender().equals("M")) {
                                 setSelctInfo(femaleNicknames, femaleProfileUrls, reqChatMessage);
                             }
                             else {

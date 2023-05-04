@@ -20,11 +20,12 @@ public class Participant extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long participantId;
+    @Column(name = "member_id", columnDefinition = "INT UNSIGNED")
     private Long memberId;
     private Long chatroomId;
 
     @ManyToOne
-    @JoinColumn(name = "memberId", insertable = false, updatable = false)
+    @JoinColumn(name = "member_id", insertable = false, updatable = false)
     private Member member;
 
     @ManyToOne

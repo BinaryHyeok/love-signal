@@ -12,7 +12,6 @@ import { member } from "../../../../types/member";
 import UserInfo from "./O_UserInfo";
 import SwiperManual from "./A_SwiperManual";
 import Exit from "./A_Exit";
-import ModalSlide from "./ModalSlide";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -35,6 +34,16 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
 
   const closeManual = () => {
     setClose(true);
+  };
+
+  //공유하기 버튼
+  const shareTeam = () => {
+    alert("임시 공유하기 버튼 함수입니다.");
+  };
+
+  //신청하기 버튼
+  const applyTeam = () => {
+    alert("임시 신청하기 버튼 함수입니다.");
   };
 
   return (
@@ -84,10 +93,16 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
             height="32px"
             background="#CAD9FF"
             className={style.button}
+            onClick={shareTeam}
           >
             <img src="/assets/share.png" alt="" />
           </ButtonTypeA>
-          <ButtonTypeA width="104px" height="32px" background="#FBCED3">
+          <ButtonTypeA
+            width="104px"
+            height="32px"
+            background="#FBCED3"
+            onClick={applyTeam}
+          >
             <img src="/assets/send_invite.png" alt="" />
           </ButtonTypeA>
         </div>

@@ -1,7 +1,4 @@
-$modal: #eef0f5;
 $background: rgba(0, 0, 0, 0.4);
-$box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
-  2px 2px 10px rgba(0, 0, 0, 0.5);
 
 .container {
   position: absolute;
@@ -18,25 +15,5 @@ $box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
     background: $background;
     z-index: 3;
     backdrop-filter: blur(2px);
-  }
-  .modal {
-    width: 304px;
-    height: 500px;
-    background: $modal;
-    box-shadow: $box-shadow;
-    border-radius: 10px;
-    position: absolute;
-    display: flex;
-    z-index: 4;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .exit {
-      width: 16px;
-      height: 16px;
-      position: absolute;
-      top: 12px;
-      right: 12px;
-    }
   }
 }

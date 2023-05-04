@@ -10,7 +10,7 @@ import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import RedHeartLine from "../../UI/Common/RedHearLine";
-import { fetchList } from "../../../api/othergender";
+import { getOtherGenderTeam } from "../../../api/team";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -34,7 +34,7 @@ const ExploreTeam = () => {
 
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
-    await fetchList("M", receiveList, uuidList)
+    await getOtherGenderTeam("M", receiveList, uuidList)
       .then((res) => {
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);

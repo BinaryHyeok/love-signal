@@ -7,14 +7,16 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-export const footerIdx = atom<number>({
-  key: "footerIdx",
-  default: 0,
+//멤버의 개인UUID를 넣어줄 recoil입니다.
+export const myMemberUUID = atom<string>({
+  key: "memberUUID",
+  default: "",
   effects_UNSTABLE: [persistAtom],
 });
 
-export const footerIsOn = atom<boolean>({
-  key: "footerIsOn",
-  default: true,
+//멤버의 팀UUID를 넣어줄 recoil입니다.
+export const myTeamUUID = atom<string>({
+  key: "teamUUID",
+  default: "",
   effects_UNSTABLE: [persistAtom],
 });

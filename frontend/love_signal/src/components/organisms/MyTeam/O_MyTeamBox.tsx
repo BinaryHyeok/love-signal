@@ -5,6 +5,11 @@ import { member } from "../../../types/member";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import O_ApplyTeamList from "./O_ApplyTeamList";
 
+type propsType = {
+  isLeader: boolean;
+  haveOppositeTeam: boolean;
+};
+
 const MEMBER_LIST_DUMMY: member[] = [
   {
     nickname: "John",
@@ -60,7 +65,7 @@ const DUMMY_APPLY_LIST: member[][] = [
   ],
 ];
 
-const O_MyTeamBox = () => {
+const O_MyTeamBox: React.FC<propsType> = ({ isLeader, haveOppositeTeam }) => {
   const [memberList, setMemberList] = useState<member[]>([]);
   const [applyList, setApplyList] = useState<member[][]>([]);
 
@@ -82,7 +87,11 @@ const O_MyTeamBox = () => {
         }
         type="blue"
       >
-        <O_ApplyTeamList applyTeamList={applyList} />
+        <O_ApplyTeamList
+          applyTeamList={applyList}
+          isLeader={isLeader}
+          haveOppositeTeam={haveOppositeTeam}
+        />
       </ListBoxWithImgTitle>
     </div>
   );

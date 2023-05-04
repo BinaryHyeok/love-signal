@@ -3,8 +3,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import "./Manual.css";
 
-import { Pagination } from "swiper";
+import { Pagination, Mousewheel } from "swiper";
 
 import ManualImg from "./ManualImg";
 import ManualText1 from "./ManualText1";
@@ -23,26 +24,55 @@ const Manual = () => {
           <Swiper
             pagination={{
               dynamicBullets: true,
+              clickable: true,
             }}
-            modules={[Pagination]}
+            mousewheel={{
+              invert: true,
+            }}
+            modules={[Pagination, Mousewheel]}
             className="mySwiper"
           >
+            <SwiperSlide className={style.swiperSlide}>
+              <div className={style.modalContainer}>
+                <ManualTitle />
+                <ManualText1 />
+                <ManualImg num="1" />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className={style.modalContainer}>
+                <ManualTitle />
+                <ManualText2 />
+                <ManualImg num="2" />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className={style.modalContainer}>
+                <ManualTitle />
+                <ManualText3 />
+                <ManualImg num="3" />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className={style.modalContainer}>
+                <ManualTitle />
+                <ManualText4 />
+                <ManualImg num="4" />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className={style.modalContainer}>
+                <ManualTitle />
+                <ManualText5 />
+                <ManualImg num="5" />
+              </div>
+            </SwiperSlide>
             <SwiperSlide>
               <div className={style.modalContainer}>
                 <ManualTitle />
                 <ManualText6 />
-                {/* <ManualImg num="5" /> */}
               </div>
-              ;
             </SwiperSlide>
-            <SwiperSlide>Slide 2</SwiperSlide>
-            <SwiperSlide>Slide 3</SwiperSlide>
-            <SwiperSlide>Slide 4</SwiperSlide>
-            <SwiperSlide>Slide 5</SwiperSlide>
-            <SwiperSlide>Slide 6</SwiperSlide>
-            <SwiperSlide>Slide 7</SwiperSlide>
-            <SwiperSlide>Slide 8</SwiperSlide>
-            <SwiperSlide>Slide 9</SwiperSlide>
           </Swiper>
         </div>
       </div>

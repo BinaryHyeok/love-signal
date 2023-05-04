@@ -26,9 +26,7 @@ const Chat = () => {
   };
 
   return (
-    <div
-      className={`${style.container} ${selectedRoom.id ? style.expanded : ""}`}
-    >
+    <div className={`${style.container}`}>
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       <T_ChatRoom
         className={`${selectedRoom.id ? "slide-in-enter" : ""} common-bg`}

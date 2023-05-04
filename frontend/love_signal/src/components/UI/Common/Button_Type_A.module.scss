@@ -6,10 +6,13 @@
   border-radius: 40px;
   border: none;
   padding: 8px;
-  font-weight: 500;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: "GmarketSansTTFLight";
+  // font-size: 1.05rem;
+  color: #000;
+  cursor: pointer;
   background-color: rgb(239, 240, 245);
-  box-shadow: -3px -3px 10px rgba(255, 255, 255, 0.8),
+  box-shadow: -3px -3px 10px rgba(255, 255, 255, 0.6),
     5px 5px 20px rgba(77, 63, 83, 0.7);
 
   &:hover {

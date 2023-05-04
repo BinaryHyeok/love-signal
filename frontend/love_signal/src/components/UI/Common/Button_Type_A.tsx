@@ -5,6 +5,7 @@ type propsType = {
   width?: string;
   height?: string;
   background?: string;
+  borderRadius?: string;
   onClick?: () => void;
   disabled?: boolean;
   children?: any;
@@ -15,6 +16,7 @@ const Button_Type_A: React.FC<propsType> = ({
   width,
   height,
   background,
+  borderRadius,
   onClick,
   disabled,
   children,
@@ -26,6 +28,7 @@ const Button_Type_A: React.FC<propsType> = ({
         width: `${width}`,
         height: `${height}`,
         background: `${background}`,
+        borderRadius: `${borderRadius}`,
       }}
       onClick={onClick}
       disabled={disabled}

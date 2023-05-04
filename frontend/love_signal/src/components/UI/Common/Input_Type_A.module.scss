@@ -4,12 +4,26 @@
   border-radius: 10px;
   border: none;
   padding: 8px;
+  font-size: 13px;
+  font-family: "GmarketSansTTFLight";
+  box-shadow: -3px -3px 10px rgba(255, 255, 255, 0.8),
+    5px 5px 20px rgba(77, 63, 83, 0.7);
+}
+
+.writeBirth {
+  width: 236px;
+  height: 32px;
+  border-radius: 10px;
+  border: none;
+  padding: 8px;
+  font-size: 13px;
+  font-family: "GmarketSansTTFLight";
   box-shadow: -3px -3px 10px rgba(255, 255, 255, 0.8),
     5px 5px 20px rgba(77, 63, 83, 0.7);
 }
 
 .writeIntroduce {
-  width: 100%;
+  width: 236px;
   height: 156px;
   border-radius: 20px;
   border: none;

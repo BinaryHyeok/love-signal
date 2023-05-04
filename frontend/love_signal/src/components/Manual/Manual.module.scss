@@ -16,9 +16,25 @@
 
     .modalContainer {
       display: flex;
+      margin-top: 100px;
       // justify-content: center;
       flex-direction: column;
       align-items: center;
     }
   }
+}
+
+.mySwiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiperSlide {
+  text-align: center;
+  font-size: 18px;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

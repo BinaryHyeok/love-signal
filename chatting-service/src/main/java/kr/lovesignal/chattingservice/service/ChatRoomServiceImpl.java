@@ -104,9 +104,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         chatRoomJpaRepository.save(chatRoom);
 
-        List<ChatRoom> chatRooms = chatRoomJpaRepository.findAll();
-        Long chatRoomId = chatRooms.get(chatRooms.size() - 1).getRoomId();
-
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findMemberByUUID(uuid);
 

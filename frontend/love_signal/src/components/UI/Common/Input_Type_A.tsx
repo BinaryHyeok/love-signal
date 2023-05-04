@@ -8,6 +8,9 @@ type PropsType = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  width?: string;
+  background?: string;
+  margin?: string;
 };
 
 const Input_Type_A: React.FC<PropsType> = ({
@@ -17,9 +20,12 @@ const Input_Type_A: React.FC<PropsType> = ({
   value,
   onChange,
   placeholder,
+  width,
+  margin,
+  background,
 }) => {
   return (
-    <div>
+    <div style={{ width, margin }}>
       <input
         type={type}
         id={id}
@@ -27,6 +33,7 @@ const Input_Type_A: React.FC<PropsType> = ({
         onChange={onChange}
         className={`${style[className]}`}
         placeholder={placeholder}
+        style={{ background }}
       />
     </div>
   );

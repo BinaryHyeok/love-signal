@@ -17,7 +17,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
   useEffect(() => {}, []);
 
   const handleResize = (newHeight: number) => {
-    setListHeight(newHeight);
+    // setListHeight(newHeight);
   };
 
   const handleFocusOut = () => {
@@ -31,16 +31,11 @@ const O_ChatTextBox: React.FC<PropsType> = ({ onTextSubmit, roomType }) => {
         icon="/assets/notice_A.png"
         text="매일 저녁 10시에는 선택의 시간이 진행됩니다."
         width="90%"
-        background="rgba(197, 197, 197, 0.5)"
+        background="rgba(197, 197, 197, 1)"
         doTimeCount={roomType === "ANONYMOUS" ? true : false}
         className={style.topNotice}
       />
-      <O_ChatTextList
-        roomType={roomType}
-        onResize={handleResize}
-        height={listHeight}
-        setOrgListHeight={setOrgListHeight}
-      />
+      <O_ChatTextList roomType={roomType} />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}
         isDisabled={roomType === "NOTICE" ? true : false}

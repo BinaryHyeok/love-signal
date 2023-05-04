@@ -10,7 +10,7 @@ import O_FindTeamMenu from "../../organisms/FindTeam/O_FindTeamMenu";
 
 const FindTeam = () => {
   const navigate = useNavigate();
-  const [idx, setIdx] = useRecoilState<number>(footerIdx);
+  const [, setIdx] = useRecoilState<number>(footerIdx);
   const [teamUUID] = useRecoilState<string>(myTeamUUID);
   useEffect(() => {
     setIdx(1);

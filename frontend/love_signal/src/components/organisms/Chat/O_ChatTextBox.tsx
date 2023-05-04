@@ -24,7 +24,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         icon="/assets/notice_A.png"
         text="매일 저녁 10시에는 선택의 시간이 진행됩니다."
         width="90%"
-        background="rgba(197, 197, 197, 1)"
+        background="rgba(235, 235, 235, 0.8)"
         doTimeCount={roomType === "ANONYMOUS" ? true : false}
         className={style.topNotice}
       />

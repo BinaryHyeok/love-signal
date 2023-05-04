@@ -19,76 +19,9 @@ type PropsType = {
   count?: string;
   roomExitHandler: React.MouseEventHandler<HTMLElement>;
   roomType?: string;
+  chatList: chat[];
+  onTextSend: (text: string) => void;
 };
-
-const DUMMY_CHAT_LIST: chat[] = [
-  {
-    isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
-  },
-];
 
 const T_ChatRoom: React.FC<PropsType> = ({
   className,
@@ -97,37 +30,17 @@ const T_ChatRoom: React.FC<PropsType> = ({
   count,
   roomExitHandler,
   roomType,
+  chatList,
+  onTextSend,
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
 
-  const [chatList, setChatList] = useState<chat[]>([...DUMMY_CHAT_LIST]);
-
   useEffect(() => {
-    const typeAdded = chatList.map((item) => ({
-      ...item,
-      roomType: roomType,
-    }));
-    setChatList([...typeAdded]);
-
     if (ulRef.current) {
       ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
     }
   }, [chatList]);
-
-  const textSendHandler = (text: string) => {
-    const now = new Date();
-    const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
-    setChatList(() => [
-      ...chatList,
-      {
-        isMe: true,
-        text: text,
-        sender: "Tom",
-        sendTime: currTime,
-      },
-    ]);
-  };
 
   return (
     <div className={`${style.chatRoom} ${className}`} ref={box_chatRoom}>
@@ -139,7 +52,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
         background={roomType ? ENUM_BACKGROUND[roomType] : ""}
       />
       <O_ChatTextBox
-        onTextSubmit={textSendHandler}
+        onTextSubmit={onTextSend}
         roomType={roomType}
         ulRef={ulRef}
         chatList={chatList}

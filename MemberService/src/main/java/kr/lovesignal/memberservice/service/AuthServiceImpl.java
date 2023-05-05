@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.lang.reflect.Member;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -99,7 +100,7 @@ public class AuthServiceImpl implements AuthService{
     // 멤버조회
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<MemberResponse> getMemberByUUID(String memberUUID) {
+    public MemberResponse getMemberByUUID(String memberUUID) {
 
         UUID UUID = commonUtils.getValidUUID(memberUUID);
 
@@ -109,7 +110,7 @@ public class AuthServiceImpl implements AuthService{
         int age = commonUtils.calculateAge(findMember.getBirth());
         MemberResponse memberResponse = MemberResponse.toDto(findMember, age);
 
-        return responseUtil.buildSuccessResponse(memberResponse);
+        return memberResponse;
     }
 
     @Override
@@ -125,12 +126,23 @@ public class AuthServiceImpl implements AuthService{
     }
 
 
+    @Override
     public void createSystemChatRoomApi(String strMemberUUID){
-        String uri = "/chatRoom/System/" + strMemberUUID;
+        String uri = "http://localhost:8080/chatRoom/System/" + strMemberUUID;
         webClient.post()
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(String.class)
                 .subscribe();
+    }
+
+    @Override
+    public Mono<MemberResponse> getProfileImageByMemberApi(MemberResponse memberResponse){
+        String uri = "http://localhost:9010/file/profile";
+        return webClient.post()
+                .uri(uri)
+                .bodyValue(memberResponse)
+                .retrieve()
+                .bodyToMono(MemberResponse.class);
     }
 }

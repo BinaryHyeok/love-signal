@@ -6,6 +6,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberResponse {
 
     private String memberUUID;
@@ -15,6 +17,7 @@ public class MemberResponse {
     private String description;
     private String teamUUID;
     private boolean teamLeader;
+    private String profileImage;
 
     public static MemberResponse toDto(MemberEntity member, int age){
         return MemberResponse.builder()

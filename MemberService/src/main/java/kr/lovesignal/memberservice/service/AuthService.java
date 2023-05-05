@@ -5,8 +5,7 @@ import kr.lovesignal.memberservice.model.request.SignUpRequest;
 import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
 import kr.lovesignal.memberservice.model.response.MemberResponse;
 import kr.lovesignal.memberservice.model.response.SuccessResponse;
-
-import java.util.UUID;
+import reactor.core.publisher.Mono;
 
 public interface AuthService {
 
@@ -18,10 +17,12 @@ public interface AuthService {
 
     public SuccessResponse<String> deleteMember(String memberUUID);
 
-    public SuccessResponse<MemberResponse> getMemberByUUID(String memberUUID);
+    public MemberResponse getMemberByUUID(String memberUUID);
 
     public SuccessResponse<String> checkNicknameDuplicate(String nickname);
 
     public void createSystemChatRoomApi(String strMemberUUID);
+
+    public Mono<MemberResponse> getProfileImageByMemberApi(MemberResponse memberResponse);
 
 }

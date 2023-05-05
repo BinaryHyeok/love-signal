@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.memberservice.model.request.SignInRequest;
 import kr.lovesignal.memberservice.model.request.SignUpRequest;
 import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
+import kr.lovesignal.memberservice.model.response.MemberResponse;
 import kr.lovesignal.memberservice.model.response.SuccessResponse;
 import kr.lovesignal.memberservice.service.AuthService;
+import kr.lovesignal.memberservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final ResponseUtils responseUtils;
 
     @PostMapping("/sign-up")
     @ApiOperation(value = "회원가입")
@@ -72,11 +75,12 @@ public class AuthController {
     @ApiOperation(value = "회원정보 조회")
     public ResponseEntity<SuccessResponse> getMemberById(@PathVariable String memberUUID){
 
-        SuccessResponse successResponse = authService.getMemberByUUID(memberUUID);
+        MemberResponse memberResponse = authService.getMemberByUUID(memberUUID);
+        MemberResponse memberResponseResult = authService.getProfileImageByMemberApi(memberResponse).block();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body(responseUtils.buildSuccessResponse(memberResponseResult));
     }
 
     @GetMapping("/check/nickname/{nickname}")

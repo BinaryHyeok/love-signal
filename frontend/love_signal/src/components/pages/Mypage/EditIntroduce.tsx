@@ -6,17 +6,22 @@ import style from "./styles/EditIntroduce.module.scss";
 type propsType = {
   myIntroduce: string;
   changeIntroduce: Dispatch<SetStateAction<boolean>>;
+  applyInfo: boolean;
+  setApplyInfo: Dispatch<SetStateAction<boolean>>;
   setMyIntroduce: Dispatch<SetStateAction<string>>;
 };
 
 const EditIntroduce: React.FC<propsType> = ({
   myIntroduce,
   changeIntroduce,
+  applyInfo,
+  setApplyInfo,
   setMyIntroduce,
 }) => {
   const [tmpMyIntroduce, setTmpMyIntroduce] = useState<string>(myIntroduce);
   const ApplyIntroduce = () => {
     changeIntroduce(true);
+    setApplyInfo(!applyInfo);
     setMyIntroduce(tmpMyIntroduce);
   };
 

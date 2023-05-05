@@ -100,6 +100,7 @@ const ExploreTeam = () => {
               setVisible={setVisible}
               visible={visible}
               member={team[teamNumber].members}
+              oppositeTeamUUID={team[teamNumber].teamUUID}
             />
           </Modal_portal>
         ) : (

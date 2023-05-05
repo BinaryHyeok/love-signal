@@ -8,19 +8,28 @@ import { Pagination, Navigation } from "swiper";
 
 import ButtonTypeA from "../../Common/Button_Type_A";
 import { member } from "../../../../types/member";
+import { applyMeeting } from "../../../../api/team";
+import { myTeamUUID } from "../../../../atom/member";
 
 import UserInfo from "./O_UserInfo";
 import SwiperManual from "./A_SwiperManual";
 import Exit from "./A_Exit";
+import { useRecoilState } from "recoil";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
   member: member[];
+  oppositeTeamUUID: string;
 };
 
-const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
-  console.log(member);
+const CheckTeam: React.FC<propsType> = ({
+  setVisible,
+  visible,
+  member,
+  oppositeTeamUUID,
+}) => {
+  const [myUUID] = useRecoilState<string>(myTeamUUID);
 
   const [close, setClose] = useState(false);
 
@@ -43,7 +52,15 @@ const CheckTeam: React.FC<propsType> = ({ setVisible, visible, member }) => {
 
   //신청하기 버튼
   const applyTeam = () => {
-    alert("임시 신청하기 버튼 함수입니다.");
+    applyMeeting(myUUID, oppositeTeamUUID)
+      .then((res) => {
+        console.log(res);
+        console.log("신청완료.");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("신청이 안됐네..");
+      });
   };
 
   return (

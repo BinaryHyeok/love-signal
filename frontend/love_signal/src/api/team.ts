@@ -63,7 +63,7 @@ export const getOtherGenderTeam = async (
 };
 
 //미팅 신청받은 목록 불러오기
-export const recivemeetingList = async (teamUUID: string) => {
+export const receivemeetingList = async (teamUUID: string) => {
   return await axios({
     method: "get",
     url: `http://localhost:9005/team/${teamUUID}/received-meetings`,

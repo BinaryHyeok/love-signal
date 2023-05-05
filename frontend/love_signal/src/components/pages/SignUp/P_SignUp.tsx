@@ -15,6 +15,7 @@ import M_SignUp_Birth from "./M_SignUp_Birth";
 import M_SignUp_Nickname from "./M_SignUp_Nickname";
 import A_MainLogo from "./A_MainLogo";
 import M_SignUp_Introduce from "./M_SignUp_Introduce";
+import { duplicateCheck } from "../../../api/auth";
 
 const P_SignUp = () => {
   const [email] = useState<string>("");
@@ -31,16 +32,6 @@ const P_SignUp = () => {
   const description: string = "나는 손종효다";
   const gender: string = "M";
   const help: string = "T";
-
-  // const handleChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const target = e.target as HTMLInputElement;
-  //   setEmail(target.value);
-  // };
-
-  // const handleChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const target = e.target as HTMLInputElement;
-  //   setPassword(target.value);
-  // };
 
   const handleProfile = () => {
     setCheckProfileOk(!checkProfileOk);
@@ -62,21 +53,15 @@ const P_SignUp = () => {
 
   //중복확인 해주는 함수입니다.
   const duplecheck = () => {
-    console.log("!");
-    axios
-      .get(`http://localhost:8888/member/auth/check/nickname/${nickname}`)
-      .then((response) => {
-        //여기로 와서 만약 response가 중복되지 않은것을 알려주었다면?
-
-        if (response) {
-          setCheckNickname(true); //중복확인 체크하기.
-          console.log(response);
-        }
+    duplicateCheck(nickname)
+      .then((res) => {
+        console.log(res);
+        //닉네임 중복확인입니다.
+        setCheckNickname(true); //중복확인 체크되었다는걸 말해줌.
       })
       .catch((err) => {
-        console.log(err.response.data.message);
-
-        console.log(err); //에러발생!
+        console.log(err);
+        //이미 있는 닉네임이면 안돼.
       });
   };
 

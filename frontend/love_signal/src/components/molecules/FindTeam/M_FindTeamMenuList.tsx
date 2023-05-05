@@ -5,11 +5,16 @@ import Button_Type_A from "../../UI/Common/Button_Type_A";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CommonModal from "../../UI/Modal/CommonModal";
 import M_ModalFindTeamWithCode from "./M_ModalFindTeamWithCode";
-import { create } from "domain";
+import { joinTeam } from "../../../api/team";
+import { myMemberUUID } from "../../../atom/member";
+import { useRecoilState } from "recoil";
+import { makeTeam } from "../../../api/team";
 
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState<boolean>(false);
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [enterTeamUUID, setEnterTeamUUID] = useState<string>("");
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
   useEffect(() => {}, [visible]);
@@ -25,13 +30,24 @@ const M_FindTeamMenuList = () => {
   //팀으로 입장.(임시);
   const enterTeam = () => {
     //여기에서 axios요청을해서 해당 팀으로 입장.
+    joinTeam(myUUID, enterTeamUUID)
+      .then((res) => {})
+      .catch((err) => {});
     navigate("/Samegender/MyTeam");
   };
 
   // 새로운 방을 생성해서 이동
+  // 여기서 궁금한거. 내 팀코드 입력해야 하는 부분이 필요하지 않을까요? 라는 생각.
   const createRoom = () => {
     // 요청이 끝날 때까지 로딩화면
     navigate("/loading");
+    makeTeam(myUUID)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // 새로운 방을 생성하기 위한 axios 요청이 완료되면 이동(비동기 통신 종료 시)
     setTimeout(() => {
       navigate("/samegender/build");
@@ -67,7 +83,10 @@ const M_FindTeamMenuList = () => {
             width="304px"
             height="200px"
           >
-            <M_ModalFindTeamWithCode enterTeam={enterTeam} />
+            <M_ModalFindTeamWithCode
+              enterTeam={enterTeam}
+              setEnterTeamUUID={setEnterTeamUUID}
+            />
           </CommonModal>
         </Modal_portal>
       )}

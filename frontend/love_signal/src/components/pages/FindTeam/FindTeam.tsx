@@ -7,6 +7,8 @@ import style from "./styles/FindTeam.module.scss";
 import T_FindTeam from "../../templates/FindTeam/T_FindTeam";
 import M_FindTeamDesc from "../../molecules/FindTeam/M_FindTeamDesc";
 import O_FindTeamMenu from "../../organisms/FindTeam/O_FindTeamMenu";
+import { withdrawTeam } from "../../../api/team";
+import { myMemberUUID } from "../../../atom/member";
 
 const FindTeam = () => {
   const navigate = useNavigate();
@@ -19,6 +21,14 @@ const FindTeam = () => {
       navigate("/Samegender/Myteam");
     }
   }, []);
+
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  //팀 탈퇴를 해주는 Axios요청입니다.
+  const deleteTeam = () => {
+    withdrawTeam(myUUID)
+      .then((res) => {})
+      .catch((err) => {});
+  };
 
   return (
     <div className={`${style.container}`}>

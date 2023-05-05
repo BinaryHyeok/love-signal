@@ -6,18 +6,23 @@ import style from "./styles/NickName.module.scss";
 type propsType = {
   nickname: string;
   changeName: Dispatch<SetStateAction<boolean>>;
+  applyInfo: boolean;
+  setApplyInfo: Dispatch<SetStateAction<boolean>>;
   setMyNickName: Dispatch<SetStateAction<string>>;
 };
 
 const EditNickName: React.FC<propsType> = ({
   nickname,
   changeName,
+  applyInfo,
+  setApplyInfo,
   setMyNickName,
 }) => {
   const [tmpNickName, setTmpNickName] = useState<string>(nickname);
   const ApplyNickName = () => {
     changeName(true);
     setMyNickName(tmpNickName);
+    setApplyInfo(!applyInfo);
   };
 
   const changeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {

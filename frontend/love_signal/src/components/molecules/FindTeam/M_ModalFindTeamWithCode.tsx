@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/M_ModalFindTeamWithCode.module.scss";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
 import Button_Type_B from "../../UI/Common/Button_Type_B";
@@ -7,9 +7,17 @@ import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
 
 type PropsType = {
   enterTeam: () => void;
+  setEnterTeamUUID: Dispatch<SetStateAction<string>>;
 };
 
-const M_ModalFindTeamWithCode: React.FC<PropsType> = ({ enterTeam }) => {
+const M_ModalFindTeamWithCode: React.FC<PropsType> = ({
+  enterTeam,
+  setEnterTeamUUID,
+}) => {
+  const writeTeamCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setEnterTeamUUID(target.value);
+  };
   return (
     <div className={style.modalContent}>
       <HeartLine type="blue" count="3" />
@@ -23,6 +31,7 @@ const M_ModalFindTeamWithCode: React.FC<PropsType> = ({ enterTeam }) => {
         width="216px"
         background="#D9D9D9"
         margin="8px 0 16px 0"
+        onChange={writeTeamCode}
       />
       <Button_Type_B
         width="120px"

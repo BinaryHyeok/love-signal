@@ -33,7 +33,7 @@ export const inquireMember = async (memberUUID: string) => {
   });
 };
 
-export const duplicateChekc = async (nickname: string) => {
+export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
     url: `http://localhost9005/member/check/nickname/${nickname}`,

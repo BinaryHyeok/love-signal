@@ -4,6 +4,10 @@ import M_MyTeamList from "../../molecules/MyTeam/M_MyTeamList";
 import { member } from "../../../types/member";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import O_ApplyTeamList from "./O_ApplyTeamList";
+import { getMyTeam } from "../../../api/team";
+import { receivemeetingList } from "../../../api/team";
+import { myTeamUUID } from "../../../atom/member";
+import { useRecoilState } from "recoil";
 
 type propsType = {
   isLeader: boolean;
@@ -68,11 +72,26 @@ const DUMMY_APPLY_LIST: member[][] = [
 const O_MyTeamBox: React.FC<propsType> = ({ isLeader, haveOppositeTeam }) => {
   const [memberList, setMemberList] = useState<member[]>([]);
   const [applyList, setApplyList] = useState<member[][]>([]);
+  const [TeamUUID] = useRecoilState<string>(myTeamUUID);
 
   useEffect(() => {
+    getMyTeam(TeamUUID)
+      .then((res) => {
+        // setMemberList(res.data); 여기서 axios로 우리 팀 받아오기.
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    receivemeetingList(TeamUUID)
+      .then((res) => {
+        // setApplyList(res.data); 여기서 axios로 신청 받은 목록 불러오기.
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setMemberList([...MEMBER_LIST_DUMMY]);
     setApplyList([...DUMMY_APPLY_LIST]);
-  }, [MEMBER_LIST_DUMMY]);
+  }, []);
 
   return (
     <div className={style.content}>

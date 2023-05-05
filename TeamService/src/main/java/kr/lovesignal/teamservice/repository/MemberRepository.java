@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    Optional<MemberEntity> findByLoginIdAndExpiredLike(String loginId, String expired);
+    Optional<MemberEntity> findByLoginIdAndExpired(String loginId, String expired);
 
-    Optional<MemberEntity> findByUUIDAndExpiredLike(UUID UUID, String expired);
+    Optional<MemberEntity> findByUUIDAndExpired(UUID UUID, String expired);
 
-    MemberEntity findByNicknameAndExpiredLike(String nickname, String expired);
+    MemberEntity findByNicknameAndExpired(String nickname, String expired);
 
     List<MemberEntity> findByTeamAndExpired(TeamEntity team, String expired);
 }

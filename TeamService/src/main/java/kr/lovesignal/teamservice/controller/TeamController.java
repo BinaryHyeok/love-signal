@@ -4,7 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
+import kr.lovesignal.teamservice.model.response.Team;
+import kr.lovesignal.teamservice.model.response.TeamResponse;
 import kr.lovesignal.teamservice.service.TeamService;
+import kr.lovesignal.teamservice.service.WebClientService;
 import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,8 @@ import java.util.List;
 public class TeamController {
 
     private final TeamService teamService;
+    private final WebClientService webClientService;
+    private final ResponseUtils responseUtils;
 
     @PostMapping("/{memberUUID}")
     @ApiOperation(value = "팀 생성")
@@ -42,7 +47,7 @@ public class TeamController {
 
         if(memberCount == 3){
             List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID);
-            teamService.createTeamChatApi(memberUUIDs);
+            webClientService.makeChatRoomApi(memberUUIDs);
         }
 
         return ResponseEntity
@@ -52,24 +57,52 @@ public class TeamController {
 
     @DeleteMapping("/{memberUUID}")
     @ApiOperation(value = "팀 탈퇴")
-    public ResponseEntity<SuccessResponse> deleteTeam(@PathVariable String memberUUID){
+    public ResponseEntity<String> leaveTeam(@PathVariable String memberUUID){
 
-        SuccessResponse successResponse = teamService.leaveTeam(memberUUID);
+        boolean[] result = teamService.leaveTeam(memberUUID);
+        boolean isMeeting = result[0];
+        boolean isRemainTeam = result[1];
+        boolean isBuilding = result[2];
+
+        List<String> memberUUIDs;
+        String type;
+        if(isMeeting) {
+            type = "MEETING";
+            if (isRemainTeam) {
+                // 한사람이 모든 채팅방에서 나간다.
+                memberUUIDs = teamService.deleteMemberFromTeam(memberUUID);
+            }
+            else{
+                // 미팅과 팀 해체 및 모든 채팅방에서 나간다.
+                memberUUIDs = teamService.deleteMeetingTeam(memberUUID);
+            }
+        }
+        else{
+            //팀 해체
+            type = "TEAM";
+            memberUUIDs = teamService.deleteTeamByMember(memberUUID);
+        }
+
+        if(isBuilding){
+
+        }
+
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body("팀에서 탈퇴하였습니다.");
     }
 
     @GetMapping("/{teamUUID}")
     @ApiOperation(value = "팀 조회")
     public ResponseEntity<SuccessResponse> getTeamByTeamUUID(@PathVariable String teamUUID){
 
-        SuccessResponse successResponse = teamService.getTeamByTeamUUID(teamUUID);
+        Team team = teamService.getTeamByTeamUUID(teamUUID);
+        Team teamResult = webClientService.getProfileImagesByTeamApi(team).block();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body(responseUtils.buildSuccessResponse(teamResult));
     }
 
     //이성팀불러오기
@@ -80,33 +113,36 @@ public class TeamController {
             @RequestParam int size,
             @RequestBody GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest){
 
-        SuccessResponse successResponse = teamService.getOppositeGenderTeams(gender, size, getOppositeGenderTeamsRequest);
+        TeamResponse teamResponse = teamService.getOppositeGenderTeams(gender, size, getOppositeGenderTeamsRequest);
+        TeamResponse teamResponseResult = webClientService.getProfileImagesByTeamsApi(teamResponse).block();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body(responseUtils.buildSuccessResponse(teamResponseResult));
     }
 
     @GetMapping("/{teamUUID}/received-meetings")
     @ApiOperation(value = "미팅 신청받은 목록 불러오기")
     public ResponseEntity<SuccessResponse> getReceivedMeetings(@PathVariable String teamUUID){
 
-        SuccessResponse successResponse = teamService.getReceivedMeetings(teamUUID);
+        TeamResponse teamResponse = teamService.getReceivedMeetings(teamUUID);
+        TeamResponse teamResponseResult = webClientService.getProfileImagesByTeamsApi(teamResponse).block();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body(responseUtils.buildSuccessResponse(teamResponseResult));
     }
 
     @GetMapping("/{teamUUID}/sent-meetings")
     @ApiOperation(value = "미팅 신청한 목록 불러오기")
     public ResponseEntity<SuccessResponse> getSentMeetings(@PathVariable String teamUUID){
 
-        SuccessResponse successResponse = teamService.getSentMeetings(teamUUID);
+        TeamResponse teamResponse = teamService.getSentMeetings(teamUUID);
+        TeamResponse teamResponseResult = webClientService.getProfileImagesByTeamsApi(teamResponse).block();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(successResponse);
+                .body(responseUtils.buildSuccessResponse(teamResponseResult));
     }
 
     @PostMapping("/{teamUUID}/send-meeting/{oppositeTeamUUID}")
@@ -127,7 +163,7 @@ public class TeamController {
         teamService.accpetMeeting(teamUUID, oppositeTeamUUID);
 
         List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID, oppositeTeamUUID);
-        teamService.createTeamChatApi(memberUUIDs);
+        webClientService.makeChatRoomApi(memberUUIDs);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -1,15 +1,18 @@
 package kr.lovesignal.teamservice.service;
 
 import kr.lovesignal.teamservice.entity.MeetingEntity;
+import kr.lovesignal.teamservice.entity.MeetingTeamEntity;
 import kr.lovesignal.teamservice.entity.MemberEntity;
 import kr.lovesignal.teamservice.entity.TeamEntity;
 import kr.lovesignal.teamservice.exception.CustomException;
 import kr.lovesignal.teamservice.exception.ErrorCode;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
+import kr.lovesignal.teamservice.model.response.Member;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.model.response.Team;
 import kr.lovesignal.teamservice.model.response.TeamResponse;
 import kr.lovesignal.teamservice.repository.MeetingRepository;
+import kr.lovesignal.teamservice.repository.MeetingTeamRepository;
 import kr.lovesignal.teamservice.repository.MemberRepository;
 import kr.lovesignal.teamservice.repository.TeamRepository;
 import kr.lovesignal.teamservice.util.CommonUtils;
@@ -34,7 +37,7 @@ public class TeamServiceImpl implements TeamService{
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
     private final MeetingRepository meetingRepository;
-    private final WebClient webClient;
+    private final MeetingTeamRepository meetingTeamRepository;
 
     @Override
     @Transactional
@@ -42,7 +45,7 @@ public class TeamServiceImpl implements TeamService{
 
         UUID UUID = commonUtils.getValidUUID(strMemberUUID);
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpired(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if(hasTeam(findMember)){
@@ -76,7 +79,7 @@ public class TeamServiceImpl implements TeamService{
             throw new CustomException(ErrorCode.TEAM_IS_FULL);
         }
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(memberUUID, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpired(memberUUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if(!findMember.getGender().equals(findTeam.getGender())){
@@ -94,33 +97,33 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional
-    public SuccessResponse<String> leaveTeam(String strMemberUUID) {
+    public boolean[] leaveTeam(String strMemberUUID) {
 
         UUID UUID = commonUtils.getValidUUID(strMemberUUID);
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpired(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if(!hasTeam(findMember)){
             throw new CustomException(ErrorCode.NOT_HAVE_TEAM);
         }
 
-        // 해당 팀원 수를 하나 줄인다. 0일 경우에 팀은 해체된다.
-        TeamEntity saveTeam = buildTeamEntityUpdateMember(findMember.getTeam(), false);
-        if(saveTeam.getMemberCount() <= 0){
-            saveTeam.setExpired("T");
+        boolean isMeeting = false;
+        boolean isRemainTeam = findMember.getTeam().getMemberCount() - 1 > 0 ? true : false;
+        boolean isBuilding = findMember.getTeam().getMemberCount() == 3 ? true : false;
+
+        // 미팅 중이라면 혼자만 탈퇴
+        if("T".equals(findMember.getTeam().getMeeting())){
+            isMeeting = true;
+            isBuilding = true;
         }
-        teamRepository.save(saveTeam);
 
-        MemberEntity saveMember = buildMemberEntityWithTeam(findMember, null, false);
-        memberRepository.save(saveMember);
-
-        return responseUtils.buildSuccessResponse("팀에서 탈퇴했습니다.");
+        return new boolean[]{isMeeting, isRemainTeam, isBuilding};
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<Team> getTeamByTeamUUID(String strTeamUUID) {
+    public Team getTeamByTeamUUID(String strTeamUUID) {
 
         UUID UUID = commonUtils.getValidUUID(strTeamUUID);
 
@@ -129,12 +132,12 @@ public class TeamServiceImpl implements TeamService{
 
         Team team = makeTeam(findTeam);
 
-        return responseUtils.buildSuccessResponse(team);
+        return team;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<List<Team>> getOppositeGenderTeams(
+    public TeamResponse getOppositeGenderTeams(
             String gender,
             int size,
             GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest) {
@@ -165,23 +168,23 @@ public class TeamServiceImpl implements TeamService{
         notUsedTeams = notUsedTeams.subList(0, sendSize);
 
         // 이성 팀 목록을 만든다.
-        List<Team> sendTeams = new ArrayList<>();
+        List<Team> teams = new ArrayList<>();
         for(TeamEntity teamEntity : notUsedTeams){
             Team team = makeTeam(teamEntity);
-            sendTeams.add(team);
+            teams.add(team);
         }
 
         TeamResponse teamResponse = TeamResponse.builder()
                 .hasRemainingTeam(isRemain)
-                .teams(sendTeams)
+                .teams(teams)
                 .build();
 
-        return responseUtils.buildSuccessResponse(teamResponse);
+        return teamResponse;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<List<Team>> getReceivedMeetings(String strReceiveTeamUUID) {
+    public TeamResponse getReceivedMeetings(String strReceiveTeamUUID) {
 
         UUID receiveTeamUUID = commonUtils.getValidUUID(strReceiveTeamUUID);
 
@@ -196,12 +199,17 @@ public class TeamServiceImpl implements TeamService{
             sendTeams.add(team);
         }
 
-        return responseUtils.buildSuccessResponse(sendTeams);
+        TeamResponse teamResponse = TeamResponse.builder()
+                .hasRemainingTeam(true)
+                .teams(sendTeams)
+                .build();
+
+        return teamResponse;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<List<Team>> getSentMeetings(String strSendTeamUUID) {
+    public TeamResponse getSentMeetings(String strSendTeamUUID) {
 
         UUID sendTeamUUID = commonUtils.getValidUUID(strSendTeamUUID);
 
@@ -216,7 +224,12 @@ public class TeamServiceImpl implements TeamService{
             receiveTeams.add(team);
         }
 
-        return responseUtils.buildSuccessResponse(receiveTeams);
+        TeamResponse teamResponse = TeamResponse.builder()
+                .hasRemainingTeam(true)
+                .teams(receiveTeams)
+                .build();
+
+        return teamResponse;
     }
 
     @Override
@@ -249,9 +262,29 @@ public class TeamServiceImpl implements TeamService{
     public void accpetMeeting(String strReceiveTeamUUID, String strSendTeamUUID) {
 
         List<TeamEntity> teams = getMeetingTeams(strSendTeamUUID, strReceiveTeamUUID);
+
+        TeamEntity maleTeam = null;
+        TeamEntity femaleTeam = null;
+
+        for(TeamEntity team : teams){
+            if("M".equals(team.getGender())){
+                maleTeam = team;
+            }
+            else{
+                femaleTeam = team;
+            }
+        }
+
+        MeetingTeamEntity saveMeetingTeam = MeetingTeamEntity.builder()
+                .maleTeam(maleTeam)
+                .femaleTeam(femaleTeam)
+                .build();
+
+        meetingTeamRepository.save(saveMeetingTeam);
+
         for(TeamEntity team : teams){
             deleteAllMeeting(team);
-            teamRepository.save(buildmeetingTeamEntity(team));
+            teamRepository.save(buildMeetingTeamEntity(team));
         }
     }
 
@@ -310,7 +343,7 @@ public class TeamServiceImpl implements TeamService{
                 .build();
     }
 
-    public TeamEntity buildmeetingTeamEntity(TeamEntity team){
+    public TeamEntity buildMeetingTeamEntity(TeamEntity team){
         return TeamEntity.builder()
                 .teamId(team.getTeamId())
                 .gender(team.getGender())
@@ -385,13 +418,106 @@ public class TeamServiceImpl implements TeamService{
         return memberUUIDs;
     }
 
-    public void createTeamChatApi(List<String> memberUUIDs){
-        String uri = "/chatRoom/SameOrAllGender";
-        webClient.post()
-                .uri(uri)
-                .bodyValue(memberUUIDs)
-                .retrieve()
-                .bodyToMono(String.class)
-                .subscribe();
+
+
+    @Transactional
+    public List<String> deleteMemberFromTeam(String strMemberUUID){
+        List<String> memberUUIDs = new ArrayList<>();
+
+        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+
+        MemberEntity leaveMember = memberRepository.findByUUIDAndExpired(UUID, "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        TeamEntity saveTeam = buildTeamEntityUpdateMember(leaveMember.getTeam(), false);
+        teamRepository.save(saveTeam);
+
+        MemberEntity saveMember = buildMemberEntityWithTeam(leaveMember, null, false);
+        memberRepository.save(saveMember);
+
+        memberUUIDs.add(strMemberUUID);
+        return memberUUIDs;
+    }
+
+    @Transactional
+    public List<String> deleteMeetingTeam(String strMemberUUID){
+        List<String> memberUUIDs = new ArrayList<>();
+
+        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+
+        MemberEntity leaveMember = memberRepository.findByUUIDAndExpired(UUID, "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        MeetingTeamEntity meetingTeam = findMeetingTeam(leaveMember.getTeam());
+        TeamEntity maleTeam = meetingTeam.getMaleTeam();
+        TeamEntity femaleTeam = meetingTeam.getFemaleTeam();
+
+        memberUUIDs.addAll(terminateTeam(maleTeam));
+        memberUUIDs.addAll(terminateTeam(femaleTeam));
+
+        MeetingTeamEntity expiredMeetingTeam = MeetingTeamEntity.builder()
+                .meetingTeamId(meetingTeam.getMeetingTeamId())
+                .maleTeam(maleTeam)
+                .femaleTeam(femaleTeam)
+                .UUID(meetingTeam.getUUID())
+                .createdDate(meetingTeam.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .expired("T")
+                .build();
+
+        meetingTeamRepository.save(expiredMeetingTeam);
+
+        return memberUUIDs;
+    }
+
+    @Transactional(readOnly = true)
+    public MeetingTeamEntity findMeetingTeam(TeamEntity team){
+        MeetingTeamEntity meetingTeam;
+        if("M".equals(team.getGender())){
+            meetingTeam = meetingTeamRepository.findByMaleTeamAndExpired(team, "F")
+                    .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+        }
+        else{
+            meetingTeam = meetingTeamRepository.findByFemaleTeamAndExpired(team, "F")
+                    .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+        }
+
+        return meetingTeam;
+    }
+
+    @Transactional
+    public List<String> deleteTeamByMember(String strMemberUUID){
+        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+
+        MemberEntity leaveMember = memberRepository.findByUUIDAndExpired(UUID, "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return terminateTeam(leaveMember.getTeam());
+    }
+
+    @Transactional
+    public List<String> terminateTeam(TeamEntity team){
+        List<String> memberUUIDs = new ArrayList<>();
+        List<MemberEntity> members = memberRepository.findByTeamAndExpired(team, "F");
+
+        for(MemberEntity member : members){
+            memberUUIDs.add(member.getUUID().toString());
+            MemberEntity saveMember = buildMemberEntityWithTeam(member, null, false);
+            memberRepository.save(saveMember);
+        }
+
+        TeamEntity saveTeam = TeamEntity.builder()
+                .teamId(team.getTeamId())
+                .gender(team.getGender())
+                .memberCount(0)
+                .meeting(team.getMeeting())
+                .UUID(team.getUUID())
+                .createdDate(team.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .expired("T")
+                .build();
+        teamRepository.save(saveTeam);
+
+        return memberUUIDs;
     }
 }

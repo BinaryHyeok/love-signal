@@ -3,6 +3,7 @@ package kr.lovesignal.teamservice.service;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.model.response.Team;
+import kr.lovesignal.teamservice.model.response.TeamResponse;
 
 import java.util.List;
 
@@ -15,22 +16,22 @@ public interface TeamService {
     public int JoinTeam(String teamUUID, String memberUUID);
 
     //동성 팀 탈퇴
-    public SuccessResponse<String> leaveTeam(String memberUUID);
+    public boolean[] leaveTeam(String memberUUID);
 
     // 동성 팀 및 이성 팀 조회
-    public SuccessResponse<Team> getTeamByTeamUUID(String teamUUID);
+    public Team getTeamByTeamUUID(String teamUUID);
 
     // 이성 팀 목록 조회
-    public SuccessResponse<List<Team>> getOppositeGenderTeams(
+    public TeamResponse getOppositeGenderTeams(
             String gender,
             int size,
             GetOppositeGenderTeamsRequest getOppositeGenderTeamsRequest);
 
     // 미팅 신청받은 목록 조회
-    public SuccessResponse<List<Team>> getReceivedMeetings(String teamUUID);
+    public TeamResponse getReceivedMeetings(String teamUUID);
 
     // 미팅 신청한 목록 조회
-    public SuccessResponse<List<Team>> getSentMeetings(String teamUUID);
+    public TeamResponse getSentMeetings(String teamUUID);
 
     // 미팅 신청
     public SuccessResponse<String> createMeeting(String teamUUID, String oppositeTeamUUID);
@@ -45,5 +46,10 @@ public interface TeamService {
 
     public List<String> makeChatRoomMembers(String teamUUID, String oppositeTeamUUID);
 
-    public void createTeamChatApi(List<String> memberUUIDs);
+    public List<String> deleteMemberFromTeam(String strMemberUUID);
+
+    public List<String> deleteMeetingTeam(String strMemberUUID);
+
+    public List<String> deleteTeamByMember(String strMemberUUID);
+
 }

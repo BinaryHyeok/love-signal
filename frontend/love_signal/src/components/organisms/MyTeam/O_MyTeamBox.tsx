@@ -19,16 +19,19 @@ const MEMBER_LIST_DUMMY: member[] = [
     nickname: "John",
     age: 26,
     description: "Hello.",
+    profileImage: "/assets/girl1.png",
   },
   {
     nickname: "Tom",
     age: 24,
     description: "Helloooooooo",
+    profileImage: "/assets/girl2.png",
   },
   {
     nickname: "James",
     age: 29,
     description: "WTF",
+    profileImage: "/assets/girl3.png",
   },
 ];
 
@@ -38,16 +41,19 @@ const DUMMY_APPLY_LIST: member[][] = [
       nickname: "John",
       age: 26,
       description: "Hello.",
+      profileImage: "/assets/girl1.png",
     },
     {
       nickname: "Tom",
       age: 24,
       description: "Helloooooooo",
+      profileImage: "/assets/girl2.png",
     },
     {
       nickname: "James",
       age: 29,
       description: "WTF",
+      profileImage: "/assets/girl3.png",
     },
   ],
   [
@@ -55,16 +61,19 @@ const DUMMY_APPLY_LIST: member[][] = [
       nickname: "John",
       age: 26,
       description: "Hello.",
+      profileImage: "/assets/girl1.png",
     },
     {
       nickname: "Tom",
       age: 24,
       description: "Helloooooooo",
+      profileImage: "/assets/girl2.png",
     },
     {
       nickname: "James",
       age: 29,
       description: "WTF",
+      profileImage: "/assets/girl3.png",
     },
   ],
 ];

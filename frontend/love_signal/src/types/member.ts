@@ -7,7 +7,7 @@ export type member = {
   nickname: string;
   age: number;
   description: string;
-  imgSrc?: string;
+  profileImage: string;
 };
 
 //회원정보 조회시에 받아오는 데이터(굳이 필요한가 의문)

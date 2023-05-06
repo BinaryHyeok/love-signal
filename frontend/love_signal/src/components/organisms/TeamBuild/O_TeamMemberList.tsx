@@ -8,7 +8,7 @@ const PROFILE_LIST_DUMMY: member[] = [
     nickname: "John",
     age: 26,
     description: "Hello.",
-    imgSrc:
+    profileImage:
       "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
   },
   // {
@@ -30,7 +30,7 @@ const O_TeamMemberList = () => {
         nickname: "LOADING",
         age: 0,
         description: "",
-        imgSrc: MEMBER_LOADING_IMG,
+        profileImage: MEMBER_LOADING_IMG,
       });
     }
     setProfileList([...newList]);

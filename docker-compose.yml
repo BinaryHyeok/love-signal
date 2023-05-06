@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+  # Database / MySQL
+  mysql:
+    image: "mysql:8.0"
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ssafy
+      MYSQL_DATABASE: love
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+    networks:
+      - backend
+
+  # Database / Redis
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: always
+    networks:
+      - backend
+
+  # Eureka Server
+  discoveryservice:
+    image: cloud/discoveryservice:latest
+    container_name: discoveryservice
+    build:
+      context: ./cloud/discoveryservice
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - backend
+
+  # API Gateway
+  apigateway:
+    image: cloud/apigateway:latest
+    container_name: apigateway
+    build:
+      context: ./cloud/apigateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - discoveryservice
+    restart: always
+    networks:
+      - backend
+
+  # Spring Cloud Config Server
+  config:
+    image: cloud/config:latest
+    container_name: config
+    build:
+      context: ./cloud/config
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    depends_on:
+      - discoveryservice
+    restart: always
+    networks:
+      - backend
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  backend:

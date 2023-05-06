@@ -7,9 +7,9 @@ import A_ChatSenderImg from "../../atoms/Chat/A_ChatSenderImg";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
-  NOTICE: "#fafbce",
+  SYSTEM: "#fafbce",
   GROUP: "#fbced3",
-  ANONYMOUS: "#dccefb",
+  SECRET: "#dccefb",
 };
 
 type PropsType = {

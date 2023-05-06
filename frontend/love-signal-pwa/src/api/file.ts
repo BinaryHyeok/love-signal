@@ -1,10 +1,14 @@
 import axios from "axios";
 
-export const changeMyImg = async () => {
+//사진 변경하기.
+export const changeMyImg = async (memberUUID: string, file: any) => {
   return await axios({
     method: "post",
-    url: "http://localhost:9005/file/profile",
-    data: {},
+    url: `http://localhost:9010/file/profile/${memberUUID}`,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    data: file,
   });
 };
 

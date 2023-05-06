@@ -6,9 +6,9 @@ import { chat } from "../../../types/chat";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
-  NOTICE: "#fafbce",
-  GROUP: "#fbced3",
-  ANONYMOUS: "#dccefb",
+  SYSTEM: "#fafbce",
+  MEETING: "#fbced3",
+  SECRET: "#dccefb",
 };
 
 Object.freeze(ENUM_BACKGROUND);
@@ -35,6 +35,20 @@ const T_ChatRoom: React.FC<PropsType> = ({
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    window.addEventListener("resize", unitHeightSetHandler);
+    window.addEventListener("touchend", unitHeightSetHandler);
+    return () => {
+      window.removeEventListener("resize", unitHeightSetHandler);
+      window.removeEventListener("touchend", unitHeightSetHandler);
+    };
+  });
+
+  const unitHeightSetHandler = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
 
   useEffect(() => {
     if (ulRef.current) {

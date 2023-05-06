@@ -1,0 +1,17 @@
+.menuList {
+  display: flex;
+  flex-direction: column;
+
+  .menu {
+    margin: 16px 0;
+    width: 200px;
+    padding: 14px 24px;
+    border-radius: 40px;
+    font-size: 1.05rem;
+
+    img {
+      height: 1.4rem;
+      margin: 0 2px;
+    }
+  }
+}

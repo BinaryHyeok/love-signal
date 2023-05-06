@@ -1,0 +1,19 @@
+.acceptBtnList {
+  width: 25%;
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    margin: 4px 0;
+  }
+
+  img {
+    height: 1.6rem;
+  }
+}

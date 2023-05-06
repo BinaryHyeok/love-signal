@@ -1,0 +1,8 @@
+.contentBox {
+  width: calc(100% - 80px);
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 12px 8px 8px 8px;
+}

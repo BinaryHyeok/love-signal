@@ -1,0 +1,26 @@
+$profile: #fff;
+
+.swipeLeft {
+  margin-top: 16px;
+  padding-top: 40px;
+  width: 100%;
+  height: 94%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2.5px);
+  position: absolute;
+  z-index: 4;
+  border-radius: 10px;
+
+  .swipeLetter {
+    color: $profile;
+    text-align: center;
+    z-index: 5;
+    padding-top: 8px;
+  }
+
+  .swipeLeftIcon {
+    width: 104px;
+    display: flex;
+    margin: 0 auto;
+  }
+}

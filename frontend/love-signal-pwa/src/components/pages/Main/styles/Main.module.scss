@@ -1,0 +1,7 @@
+.MainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+}

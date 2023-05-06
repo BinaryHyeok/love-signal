@@ -1,0 +1,117 @@
+$modal: #eef0f5;
+$background: rgba(0, 0, 0, 0.4);
+$box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
+  2px 2px 10px rgba(0, 0, 0, 0.5);
+$profile: #fff;
+
+.container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+
+  .background {
+    width: 100%;
+    height: 100%;
+    background: $background;
+    z-index: 3;
+    backdrop-filter: blur(2px);
+  }
+  .modal {
+    width: 304px;
+    height: 500px;
+    background: $modal;
+    box-shadow: $box-shadow;
+    border-radius: 10px;
+    position: absolute;
+    display: flex;
+    z-index: 4;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .exit {
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
+  }
+
+  //캐러셀
+
+  .swiper {
+    width: 80%;
+    border-radius: 0 0 10px 10px;
+    height: 350px;
+
+    .swiperSlide {
+      text-align: center;
+      font-size: 18px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      object-fit: cover;
+    }
+    .swiperSlide img {
+      width: 100%;
+      height: 100%;
+      margin-top: 16px;
+      display: block;
+      z-index: 2;
+      border-radius: 10px;
+    }
+
+    // progressbar 컬러 수정해야함 !
+    .swiperSlide
+      > .swiper
+      > .swiper-pagination
+      > .swiper-pagination-progressbar {
+      background-color: red;
+    }
+
+    // 처음 슬라이드
+    .swipeLeft {
+      margin-top: 16px;
+      padding-top: 40px;
+      width: 100%;
+      height: 94%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(2.5px);
+      position: absolute;
+      z-index: 4;
+      border-radius: 10px;
+
+      .swipeLetter {
+        color: $profile;
+        text-align: center;
+        z-index: 5;
+        padding-top: 8px;
+      }
+
+      .swipeLeftIcon {
+        width: 104px;
+        display: flex;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  // 버튼
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+
+    .button {
+      margin-right: 32px;
+    }
+    img {
+      width: 24px;
+    }
+  }
+}

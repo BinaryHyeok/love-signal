@@ -1,0 +1,14 @@
+.mainImg {
+  width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  position: relative;
+  left: 4px;
+  margin: 0 auto;
+
+  img {
+    width: 100%;
+  }
+}

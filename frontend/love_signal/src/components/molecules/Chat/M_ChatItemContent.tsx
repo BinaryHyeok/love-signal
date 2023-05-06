@@ -14,7 +14,7 @@ const M_ChatItemContent: React.FC<PropsType> = ({ room, showTimer }) => {
     <div className={style.contentBox}>
       <A_ChatItemInfo
         id={room.id}
-        title={room.title}
+        title={room.roomName}
         memberCount={room.memberCount}
         lastMsgTime={room.lastMsgTime}
         showTimer={showTimer}

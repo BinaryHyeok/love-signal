@@ -10,7 +10,7 @@ export type room = {
   //
   UUID?: string;
   type: string;
-  roomName?: string;
+  roomName: string;
   lastChat?: string;
   notReadChat?: string; // number일 수도 있음
   createdDate?: string; // back에서 localDateTime으로 보내줌

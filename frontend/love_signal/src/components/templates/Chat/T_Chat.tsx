@@ -16,6 +16,7 @@ const T_Chat = () => {
     axios.get("http://localhost:8080/chatRoom/" + uuid).then((res) => {
       const result = res.data;
       const json: room[] = result;
+      console.log(json);
       setRoomList(() => [...json]);
       // [
       //   {

@@ -3,7 +3,7 @@ version: "3"
 services:
   frontend:
     build:
-      context: ./love_signal
+      context: ./love-signal-pwa
       dockerfile: Dockerfile
     volumes:
       - build:/app/build

@@ -80,7 +80,7 @@ const CheckTeam: React.FC<propsType> = ({
         >
           <SwiperSlide className={style.swiperSlide}>
             <UserInfo
-              imgurl="/assets/girl1.png"
+              profileImage={member[0].profileImage}
               nickname={member[0].nickname}
               age={member[0].age}
               description={member[0].description}
@@ -89,7 +89,7 @@ const CheckTeam: React.FC<propsType> = ({
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
             <UserInfo
-              imgurl="/assets/girl2.png"
+              profileImage={member[1].profileImage}
               nickname={member[1].nickname}
               age={member[1].age}
               description={member[1].description}
@@ -97,7 +97,7 @@ const CheckTeam: React.FC<propsType> = ({
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
             <UserInfo
-              imgurl="/assets/girl3.png"
+              profileImage={member[2].profileImage}
               nickname={member[2].nickname}
               age={member[2].age}
               description={member[2].description}

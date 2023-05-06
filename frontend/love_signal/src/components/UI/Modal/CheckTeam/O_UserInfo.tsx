@@ -3,21 +3,21 @@ import Image from "./A_Image";
 import Profile from "./M_Profile";
 
 type propsType = {
-  imgurl: string;
+  profileImage: string;
   nickname: string;
   age: number;
   description: string;
 };
 
 const O_UserInfo: React.FC<propsType> = ({
-  imgurl,
+  profileImage,
   nickname,
   age,
   description,
 }) => {
   return (
     <>
-      <Image imgurl={imgurl} />
+      <Image profileImage={profileImage} />
       <Profile nickname={nickname} age={age} description={description} />
     </>
   );

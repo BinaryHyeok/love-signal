@@ -59,9 +59,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_cloud
-                            docker compose -f docker-compose.yml down
-                            docker compose -f docker-compose.yml build
-                            docker compose -f docker-compose.yml up -d
+                            docker compose -f docker-compose.yml stop mysql redis discoveryservice apigateway config
+                            docker compose -f docker-compose.yml rm -f mysql redis discoveryservice apigateway config
+                            docker compose -f docker-compose.yml build mysql redis discoveryservice apigateway config
+                            docker compose -f docker-compose.yml up -d mysql redis discoveryservice apigateway config
                         "
                     """
                 }

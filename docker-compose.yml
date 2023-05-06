@@ -30,10 +30,10 @@ services:
 
   # Eureka Server
   discoveryservice:
-    image: cloud/discoveryservice:latest
+    image: discoveryservice:latest
     container_name: discoveryservice
     build:
-      context: ./cloud/discoveryservice
+      context: ./discoveryservice
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
@@ -43,10 +43,10 @@ services:
 
   # API Gateway
   apigateway:
-    image: cloud/apigateway:latest
+    image: apigateway:latest
     container_name: apigateway
     build:
-      context: ./cloud/apigateway
+      context: ./apigateway
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
@@ -58,10 +58,10 @@ services:
 
   # Spring Cloud Config Server
   config:
-    image: cloud/config:latest
+    image: config:latest
     container_name: config
     build:
-      context: ./cloud/config
+      context: ./config
       dockerfile: Dockerfile
     ports:
       - "8888:8888"

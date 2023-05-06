@@ -9,8 +9,8 @@ import { team } from "../../../types/member";
 import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
-import RedHeartLine from "../../UI/Common/RedHearLine";
 import { getOtherGenderTeam } from "../../../api/team";
+import A_Heartline from "../../atoms/Common/A_Heartline";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -112,7 +112,7 @@ const ExploreTeam = () => {
                 <ListBoxWithImgTitle
                   title={
                     <>
-                      <RedHeartLine />
+                      <A_Heartline type="red" count="3" />
                     </>
                   }
                   type="red"

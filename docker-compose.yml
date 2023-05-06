@@ -32,12 +32,8 @@ services:
     build:
       context: ./discoveryservice
       dockerfile: Dockerfile
-    environment:
-      EUREKA_INSTANCE_HOSTNAME: www.love-signal.kr
-      EUREKA_INSTANCE_IP_ADDRESS: 13.125.99.25
     ports:
       - "8761:8761"
-    hostname: discoveryservice
     restart: always
     networks:
       - backend

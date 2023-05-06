@@ -66,13 +66,12 @@ main {
 
 #modal {
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   height: calc(val(--vh, 1vh) * 100);
-  height: 10px;
-  position: absolute;
+  /* position: absolute;
   top: 0;
-  left: 0;
-  z-index: -1;
+  left: 0; */
+  /* z-index: -1; */
 }
 
 #modal.open {

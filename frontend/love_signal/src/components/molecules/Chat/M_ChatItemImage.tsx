@@ -9,7 +9,9 @@ type PropsType = {
 
 const M_ChatItemImage: React.FC<PropsType> = ({ type, members }) => {
   const imgs =
-    members != undefined ? members.map((item: member) => item.imgSrc) : [];
+    members != undefined
+      ? members.map((item: member) => item.profileImage)
+      : [];
 
   const isRoom = !(type === "ANONYMOUS" || type === "NOTICE");
   return (

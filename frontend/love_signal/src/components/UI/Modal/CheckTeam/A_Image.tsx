@@ -1,13 +1,13 @@
 import style from "./A_Image.module.scss";
 
 type propsType = {
-  imgurl: string;
+  profileImage: string;
 };
 
-const A_Image: React.FC<propsType> = ({ imgurl }) => {
+const A_Image: React.FC<propsType> = ({ profileImage }) => {
   return (
     <div className={style.image}>
-      <img src={imgurl} alt="" />
+      <img src={profileImage} alt="" />
     </div>
   );
 };

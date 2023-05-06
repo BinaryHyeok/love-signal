@@ -18,21 +18,21 @@ const DUMMY_CHATLIST: room[] = [
         nickname: "Tom",
         age: 22,
         description: "반가워요",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
         nickname: "Jimmy",
         age: 26,
         description: "Hellooooo",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
         nickname: "Mike",
         age: 31,
         description: "WeoWeoWeo",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fG1hbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
       },
     ],
@@ -48,42 +48,42 @@ const DUMMY_CHATLIST: room[] = [
         nickname: "Tom",
         age: 22,
         description: "반가워요",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
         nickname: "Jimmy",
         age: 26,
         description: "Hellooooo",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
         nickname: "Mike",
         age: 31,
         description: "WeoWeoWeo",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fG1hbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
         nickname: "Tom",
         age: 22,
         description: "반가워요",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
         nickname: "Jimmy",
         age: 26,
         description: "Hellooooo",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
         nickname: "Mike",
         age: 31,
         description: "WeoWeoWeo",
-        imgSrc:
+        profileImage:
           "https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fG1hbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
       },
     ],

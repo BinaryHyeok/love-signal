@@ -5,16 +5,16 @@ import style from "./styles/M_OtherTeamPicture.module.scss";
 type propsType = {
   viewDetail: (idx: number) => void;
   idx: number;
-  item: member[];
+  members: member[];
 };
 
-const PictureBox: React.FC<propsType> = ({ viewDetail, idx, item }) => {
+const PictureBox: React.FC<propsType> = ({ viewDetail, idx, members }) => {
   return (
     <>
       <div className={style.otherPicture} onClick={() => viewDetail(idx)}>
-        {item.map((_, index) => (
+        {members.map((_, index) => (
           <>
-            <A_GenderImg index={index} />
+            <A_GenderImg members={members} index={index} />
           </>
         ))}
       </div>

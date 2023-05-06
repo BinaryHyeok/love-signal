@@ -11,7 +11,7 @@ type PropsType = {
 const M_TeamMemberItem: React.FC<PropsType> = ({ member }) => {
   return (
     <li className={style.listItem}>
-      <A_TeamMemberImage imgSrc={member.imgSrc} />
+      <A_TeamMemberImage imgSrc={member.profileImage} />
       <M_TeamMemberProfile member={member} />
     </li>
   );

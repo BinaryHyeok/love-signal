@@ -36,6 +36,7 @@ const ExploreTeam = () => {
   const getList = async () => {
     await getOtherGenderTeam("M", receiveList, uuidList)
       .then((res) => {
+        console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
         adduuidList(res.data.body.teams);
@@ -119,7 +120,7 @@ const ExploreTeam = () => {
                   <PictureBox
                     viewDetail={viewDetail}
                     idx={idx}
-                    item={item.members}
+                    members={item.members}
                   />
                 </ListBoxWithImgTitle>
               ))}

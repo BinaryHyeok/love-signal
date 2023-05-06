@@ -37,7 +37,6 @@ const M_FindTeamMenuList = () => {
   };
 
   // 새로운 방을 생성해서 이동
-  // 여기서 궁금한거. 내 팀코드 입력해야 하는 부분이 필요하지 않을까요? 라는 생각.
   const createRoom = () => {
     // 요청이 끝날 때까지 로딩화면
     navigate("/loading");

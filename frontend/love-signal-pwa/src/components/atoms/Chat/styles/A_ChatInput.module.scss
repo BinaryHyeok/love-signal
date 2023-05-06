@@ -1,0 +1,19 @@
+.chatInput {
+  width: calc(90% - 32px);
+  height: 32px;
+  background-color: #e8e8e8;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  box-shadow: inset rgba(0, 0, 0, 0.18) 0px 1px 1px;
+  padding: 0 16px;
+
+  &.disabled {
+    background-color: #d5d5d5;
+    text-align: center;
+  }
+
+  &::placeholder {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,21 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+  .imgback {
+    display: flex;
+    height: 100%;
+    .imgBackGround {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fbced3;
+      width: 12rem;
+      height: 12rem;
+      border-radius: 20px;
+      position: relative;
+      margin-bottom: 32px;
+    }
+  }
+}

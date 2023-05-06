@@ -1,0 +1,15 @@
+.imageBox {
+  width: 80px;
+  height: 80px;
+  background-color: #fbced3;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+
+  &.room {
+    background-color: transparent;
+  }
+}

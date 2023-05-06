@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import style from "./styles/Input_Type_C.module.scss";
+import A_MaleLabel from "./A_MaleLabel";
+import A_FemaleLabel from "./A_FemaleLabel";
 
 type propsType = {
   gender: string;
@@ -8,31 +10,14 @@ type propsType = {
 
 const Input_Type_C: React.FC<propsType> = ({ gender, setGender }) => {
   const changeGender = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement;
+    const target = e.target as HTMLInputElement;
+    setGender(target.value);
   };
   return (
-    <>
-      <label className={style.base_value}>
-        <input
-          type="radio"
-          name="M"
-          value="M"
-          checked={gender === "M"}
-          onClick={changeGender}
-        />{" "}
-        위스키
-      </label>
-      <label className={style.base_value}>
-        <input
-          type="radio"
-          name="W"
-          value="W"
-          checked={gender === "W"}
-          onClick={changeGender}
-        />{" "}
-        럼
-      </label>
-    </>
+    <div className={style.radioBtn}>
+      <A_MaleLabel gender={gender} changeGender={changeGender} />
+      <A_FemaleLabel gender={gender} changeGender={changeGender} />
+    </div>
   );
 };
 

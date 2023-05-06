@@ -58,7 +58,7 @@ pipeline {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
-                            cd /home/ubuntu/cloud
+                            cd /home/ubuntu/be_cloud
                             docker compose -f docker-compose.yml down
                             docker compose -f docker-compose.yml build
                             docker compose -f docker-compose.yml up -d

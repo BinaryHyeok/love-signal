@@ -7,7 +7,11 @@ import { room } from "../../../types/room";
 
 const T_Chat = () => {
   const [roomList, setRoomList] = useState<room[]>([]);
-  const uuid = "cc1e6e93-bfdf-4869-9595-140e4f2acbf4";
+  // test용 state
+  const [userUUID, setUserUUID] = useState<string>(
+    "882a9377-c1a6-4802-a0d8-2f310c004fed"
+  );
+  const uuid = "882a9377-c1a6-4802-a0d8-2f310c004fed";
   useEffect(() => {
     axios.get("http://localhost:8080/chatRoom/" + uuid).then((res) => {
       const result = res.data;
@@ -32,6 +36,13 @@ const T_Chat = () => {
 
   return (
     <div className={`${style.template_chat}`}>
+      <input
+        type="text"
+        value={userUUID}
+        onChange={(e) => {
+          setUserUUID(e.target.value);
+        }}
+      />
       <M_Notice_Type_A
         icon="/assets/notice_A.png"
         text="매일 저녁 10시에는 선택의 시간이 진행됩니다."

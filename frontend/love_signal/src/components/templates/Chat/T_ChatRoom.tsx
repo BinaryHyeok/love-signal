@@ -6,9 +6,9 @@ import { chat } from "../../../types/chat";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
-  NOTICE: "#fafbce",
-  GROUP: "#fbced3",
-  ANONYMOUS: "#dccefb",
+  SYSTEM: "#fafbce",
+  MEETING: "#fbced3",
+  SECRET: "#dccefb",
 };
 
 Object.freeze(ENUM_BACKGROUND);

@@ -15,7 +15,7 @@ const M_ChatItem: React.FC<PropsType> = ({ room, onClick }) => {
       <M_ChatItemImage type={room.type} members={room.members} />
       <M_ChatItemContent
         room={room}
-        showTimer={room.type === "ANONYMOUS" ? true : false}
+        showTimer={room.type === "SECRET" ? true : false}
       />
     </li>
   );

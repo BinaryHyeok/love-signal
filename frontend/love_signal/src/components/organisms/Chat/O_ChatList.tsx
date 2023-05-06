@@ -93,14 +93,14 @@ const DUMMY_CHATLIST: room[] = [
     title: "러브시그널",
     memberCount: "",
     lastMsgTime: "2023-05-01 23:59:59",
-    type: "NOTICE",
+    type: "SYSTEM",
   },
   {
     id: "4",
     title: "익명",
     memberCount: "2",
     lastMsgTime: "2023-05-01 12:03:12",
-    type: "ANONYMOUS",
+    type: "SECRET",
   },
 ];
 

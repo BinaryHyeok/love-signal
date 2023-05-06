@@ -80,17 +80,19 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 채팅방 나가기
      */
     @Override
-    public void exitChatRoom(String strMemberUUID) {
-        UUID memberUUID = commonUtils.getValidUUID(strMemberUUID);
-        Member member = memberJpaRepository.findMemberByUUID(memberUUID);
+    public void exitChatRoom(List<String> strMemberUUIDs) {
+        for(String strMemberUUID : strMemberUUIDs) {
+            UUID memberUUID = commonUtils.getValidUUID(strMemberUUID);
+            Member member = memberJpaRepository.findMemberByUUID(memberUUID);
 
-        List<Participant> participants = member.getParticipants();
-        for(Participant participant : participants) {
-            ChatRoom chatRoom = participant.getChatRoom();
+            List<Participant> participants = member.getParticipants();
+            for(Participant participant : participants) {
+                ChatRoom chatRoom = participant.getChatRoom();
 
-            if(chatRoom.getType().equals("TEAM") || chatRoom.getType().equals("MEETING")) {
-                participant.setExpired("T");
-                participantJpaRepository.save(participant);
+                if(chatRoom.getType().equals("TEAM") || chatRoom.getType().equals("MEETING")) {
+                    participant.setExpired("T");
+                    participantJpaRepository.save(participant);
+                }
             }
         }
     }

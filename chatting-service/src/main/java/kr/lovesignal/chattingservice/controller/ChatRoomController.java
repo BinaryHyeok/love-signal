@@ -71,9 +71,9 @@ public class ChatRoomController {
      * 채팅방 나가기
      */
     @ApiOperation(value = "채팅방 나가기", notes = "채팅방을 만료시켜서 목록에서 제거한다.")
-    @PutMapping("/exit/member/{memberUUID}/room/{roomUUID}")
-    public ResponseEntity<String> exitChatRoom(@PathVariable String memberUUID, @PathVariable String roomUUID) {
-        chatRoomService.exitChatRoom(memberUUID);
+    @PutMapping("/exit")
+    public ResponseEntity<String> exitChatRoom(@RequestBody List<String> memberUUIDs) {
+        chatRoomService.exitChatRoom(memberUUIDs);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 

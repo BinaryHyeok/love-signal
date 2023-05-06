@@ -34,7 +34,7 @@ public class ChatRoomController {
     }
 
     @ApiOperation(value = "채팅방 상세 조회", notes = "채팅방에 입장했을 때 채팅방 불러오기")
-    @GetMapping("/{roomId}")
+    @GetMapping("/detail/{roomId}")
     public ResponseEntity<ResEnterChatRoom> getChatRoom(@PathVariable String roomUUID) {
         return new ResponseEntity<>(chatRoomService.getChatRoom(roomUUID), HttpStatus.OK);
     }

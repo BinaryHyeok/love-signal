@@ -15,10 +15,6 @@ const M_SignUp_Gender: React.FC<propsType> = ({
   onClick,
   setGender,
 }) => {
-  const changeGender = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement;
-    console.log(target);
-  };
   return (
     <div className={style.userInfo}>
       <A_SignUp_Desc5 />

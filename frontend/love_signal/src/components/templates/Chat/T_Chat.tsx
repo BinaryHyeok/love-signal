@@ -15,9 +15,7 @@ const T_Chat = () => {
   useEffect(() => {
     axios.get("http://localhost:8080/chatRoom/" + uuid).then((res) => {
       const result = res.data;
-      console.log(result);
-      console.log(JSON.parse(result));
-      const json: room[] = JSON.parse(result);
+      const json: room[] = result;
       setRoomList(() => [...json]);
       // [
       //   {

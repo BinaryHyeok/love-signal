@@ -104,7 +104,11 @@ const DUMMY_CHATLIST: room[] = [
   },
 ];
 
-const O_ChatList = () => {
+type PropsType = {
+  roomList: room[];
+};
+
+const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
   const [_, setSelectedRoom] = useRecoilState(roomInfo);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
@@ -119,9 +123,12 @@ const O_ChatList = () => {
 
   return (
     <ul className={style.chatList}>
-      {DUMMY_CHATLIST.map((room) => (
+      {roomList.map((room) => (
         <M_ChatItem key={room.id} room={room} onClick={selectRoomHandler} />
       ))}
+      {/* {DUMMY_CHATLIST.map((room) => (
+        <M_ChatItem key={room.id} room={room} onClick={selectRoomHandler} />
+      ))} */}
     </ul>
   );
 };

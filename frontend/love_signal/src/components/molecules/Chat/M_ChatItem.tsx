@@ -11,7 +11,7 @@ type PropsType = {
 
 const M_ChatItem: React.FC<PropsType> = ({ room, onClick }) => {
   return (
-    <li className={style.chatItem} id={room.id} onClick={onClick}>
+    <li className={style.chatItem} id={room.UUID} onClick={onClick}>
       <M_ChatItemImage type={room.type} members={room.members} />
       <M_ChatItemContent
         room={room}

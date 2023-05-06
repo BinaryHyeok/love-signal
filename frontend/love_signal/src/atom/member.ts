@@ -20,3 +20,10 @@ export const myTeamUUID = atom<string>({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+//자신의 atk를 저장할 recoil입니다.
+export const mytk = atom<string>({
+  key: "tk",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});

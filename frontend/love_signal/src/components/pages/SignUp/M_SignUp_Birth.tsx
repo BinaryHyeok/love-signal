@@ -13,7 +13,9 @@ type PropsType = {
 const M_SignUp_Birth: React.FC<PropsType> = ({ birth, onClick, setBirth }) => {
   const changeBirth = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    setBirth(target.value);
+    if (target.value.length <= 8) {
+      setBirth(target.value);
+    }
   };
   return (
     <div className={style.userInfo}>

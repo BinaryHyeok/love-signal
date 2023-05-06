@@ -2,8 +2,8 @@ import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/M_ModalFindTeamWithCode.module.scss";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
 import Button_Type_B from "../../UI/Common/Button_Type_B";
-import HeartLine from "../../UI/Common/HeartLine";
 import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
+import A_Heartline from "../../atoms/Common/A_Heartline";
 
 type PropsType = {
   enterTeam: () => void;
@@ -20,7 +20,7 @@ const M_ModalFindTeamWithCode: React.FC<PropsType> = ({
   };
   return (
     <div className={style.modalContent}>
-      <HeartLine type="blue" count="3" />
+      <A_Heartline type="blue" count="3" />
       <span>
         <A_TextHighlight color="blue">룸 코드</A_TextHighlight>로 입장하기
       </span>

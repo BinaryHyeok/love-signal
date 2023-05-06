@@ -1,5 +1,5 @@
+import A_Heartline from "../../atoms/Common/A_Heartline";
 import style from "./styles/M_TeamBuildHeader.module.scss";
-import HeartLine from "../../UI/Common/HeartLine";
 
 type PropsType = {
   teamCode: string;
@@ -8,9 +8,9 @@ type PropsType = {
 const M_TeamBuildHeader: React.FC<PropsType> = ({ teamCode }) => {
   return (
     <div className={style.teamcode}>
-      <HeartLine type="blue" count="3" />
+      <A_Heartline type="blue" count="3" />
       <span className={style.code}>{teamCode}</span>
-      <HeartLine type="blue" count="3" />
+      <A_Heartline type="blue" count="3" />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./styles/M_MyTeamList.module.scss";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
-import HeartLine from "../../UI/Common/HeartLine";
 import { member } from "../../../types/member";
 import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
+import A_Heartline from "../../atoms/Common/A_Heartline";
 
 type PropsType = {
   memberList: member[];
@@ -14,9 +14,9 @@ const M_MyTeamList: React.FC<PropsType> = ({ memberList }) => {
     <ListBoxWithImgTitle
       title={
         <>
-          <HeartLine type="blue" count="3" />
+          <A_Heartline type="blue" count="3" />
           <span>나의 팀</span>
-          <HeartLine type="blue" count="3" />
+          <A_Heartline type="blue" count="3" />
         </>
       }
       type="blue"

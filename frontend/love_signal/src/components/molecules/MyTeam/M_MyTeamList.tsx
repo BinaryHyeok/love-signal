@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/M_MyTeamList.module.scss";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import { member } from "../../../types/member";
@@ -7,9 +7,18 @@ import A_Heartline from "../../atoms/Common/A_Heartline";
 
 type PropsType = {
   memberList: member[];
+  visible: boolean;
+  setVisible: Dispatch<SetStateAction<boolean>>;
 };
 
-const M_MyTeamList: React.FC<PropsType> = ({ memberList }) => {
+const M_MyTeamList: React.FC<PropsType> = ({
+  memberList,
+  visible,
+  setVisible,
+}) => {
+  const openModal = () => {
+    setVisible(!visible);
+  };
   return (
     <ListBoxWithImgTitle
       title={
@@ -21,9 +30,9 @@ const M_MyTeamList: React.FC<PropsType> = ({ memberList }) => {
       }
       type="blue"
     >
-      <ul className={style.teamList}>
-        {memberList.map((item, idx) => (
-          <A_MyTeamListItem key={idx} member={item} />
+      <ul className={style.teamList} onClick={openModal}>
+        {memberList.map((member, idx) => (
+          <A_MyTeamListItem key={idx} member={member} />
         ))}
       </ul>
     </ListBoxWithImgTitle>

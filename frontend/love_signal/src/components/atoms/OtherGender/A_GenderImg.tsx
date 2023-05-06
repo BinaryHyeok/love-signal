@@ -11,7 +11,7 @@ const GenderImg: React.FC<propsType> = ({ index, members }) => {
   return (
     <div className={style.ImgBox}>
       <img
-        key={index}
+        key={members[index].nickname}
         src={members[index].profileImage}
         alt="이성이미지"
         className={style.humanPicture}

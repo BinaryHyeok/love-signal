@@ -1,10 +1,10 @@
-import { useState, createRef } from "react";
+import { useState, useEffect } from "react";
 import style from "./M_Image_Type.module.scss";
 import EditBtn from "./EditBtn";
 import ProfileImg from "./ProfileImg";
-import Cropper, { ReactCropperElement } from "react-cropper";
-import "cropperjs/dist/cropper.css";
-import Button_Type_A from "./Button_Type_A";
+import Modal_portal from "../../UI/Modal/Modal_portal";
+import CommonModal from "../../UI/Modal/CommonModal";
+import M_Image_Crop from "./M_Image_Crop";
 
 type propsType = {
   myImg?: string;
@@ -16,37 +16,46 @@ const M_Image_Type: React.FC<propsType> = ({ myImg }) => {
   const filesample = `${publicUrl}/assets/girl5.png`;
   //여기서 fileImg 시작이 filesample이 아닌 myImg가 들어갈것.
   const [fileImg, setFileImg] = useState<string>(filesample);
+  const [cropData, setCropData] = useState<string>("");
+  const [visible, setVisible] = useState<boolean>(false);
 
-  const cropperRef = createRef<ReactCropperElement>();
-  //크롭된 이미지
-  const [cropData, setCropData] = useState<string>("#");
+  //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
+  useEffect(() => {}, [visible]);
 
-  const getCropdata = () => {
-    // const Image = cropperRef?.current;
-    // const cropper = Image?.cropper;
-    // setCropData(cropper?.getCroppedCanvas().toDataURL());
-    // console.log(typeof cropper?.getCroppedCanvas().toDataURL());
-    if (typeof cropperRef.current?.cropper !== "undefined") {
-      const cropper = cropperRef.current?.cropper;
-      setCropData(cropper.getCroppedCanvas().toDataURL());
-    }
-    console.log("!");
-  };
   return (
     <>
-      <div className={style.Container}>
-        <div className={style.imgback}>
-          <div className={style.imgBackGround}>
-            <ProfileImg fileImg={fileImg} />
-            <EditBtn setFileImg={setFileImg} />
+      {!visible && (
+        <div className={style.Container}>
+          <div className={style.imgback}>
+            <div className={style.imgBackGround}>
+              <ProfileImg fileImg={cropData} />
+              <EditBtn
+                setFileImg={setFileImg}
+                visible={visible}
+                setVisible={setVisible}
+              />
+            </div>
           </div>
         </div>
-        <Cropper src={fileImg} ref={cropperRef} />
-        <Button_Type_A onClick={getCropdata}>자르기</Button_Type_A>
-        <div>
-          <img style={{ width: "100%" }} src={cropData} />
-        </div>
-      </div>
+      )}
+      {visible && (
+        <Modal_portal>
+          <CommonModal
+            setVisible={setVisible}
+            visible={visible}
+            width="304px"
+            height="600px"
+          >
+            <M_Image_Crop
+              image={fileImg}
+              cropData={cropData}
+              setCropData={setCropData}
+              visible={visible}
+              setVisible={setVisible}
+            />
+          </CommonModal>
+        </Modal_portal>
+      )}
     </>
   );
 };

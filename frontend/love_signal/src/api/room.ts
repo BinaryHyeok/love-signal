@@ -1,10 +1,10 @@
 import axios from "axios";
 
 //채팅방 목록 불러오기
-export const getChatRommList = async () => {
+export const getChatRoomList = async (uuid: string) => {
   return await axios({
     method: "get",
-    url: "http://localhost:9005/room",
+    url: `http://localhost:8080/chatRoom/${uuid}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -12,10 +12,10 @@ export const getChatRommList = async () => {
 };
 
 //채팅방 불러오기
-export const getChatRomm = async (id: string | number) => {
+export const getChatRoom = async (id: string | number) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9005/room/${id}`,
+    url: `http://localhost:8080/chatRoom/${id}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -26,7 +26,7 @@ export const getChatRomm = async (id: string | number) => {
 export const makeChatRoom = async () => {
   return await axios({
     method: "post",
-    url: `http://localhost:9005/room`,
+    url: `http://localhost:8080/chatRoom`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",

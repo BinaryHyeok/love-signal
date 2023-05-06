@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./styles/A_ChatItemInfo.module.scss";
 
 type PropsType = {
-  id: string;
+  UUID: string;
   title: string;
   memberCount: string;
   lastMsgTime?: string;
@@ -11,7 +11,6 @@ type PropsType = {
 
 let timer: NodeJS.Timer;
 const A_ChatItemInfo: React.FC<PropsType> = ({
-  id,
   title,
   memberCount,
   lastMsgTime,

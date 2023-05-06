@@ -1,14 +1,11 @@
 import { member } from "./member";
 
 export type room = {
-  id: string;
-  title: string;
-  // type: string;
   memberCount: string;
   lastMsgTime?: string;
   members?: member[];
   //
-  UUID?: string;
+  UUID: string;
   type: string;
   roomName: string;
   lastChat?: string;

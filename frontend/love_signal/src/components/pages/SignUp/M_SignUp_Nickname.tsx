@@ -21,8 +21,10 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
 }) => {
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    setNickname(target.value);
-    setCheckNickname(false); //바뀌면 바로 false로 바꿔줘.
+    if (target.value.length <= 8) {
+      setNickname(target.value);
+      setCheckNickname(false); //바뀌면 바로 false로 바꿔줘.
+    }
   };
   return (
     <div className={style.userInfo}>

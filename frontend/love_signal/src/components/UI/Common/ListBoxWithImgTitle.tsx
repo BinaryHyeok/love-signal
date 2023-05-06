@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./ListBoxWithImgTitle.module.scss";
 
 const ListBoxWithImgTitle = (props: any) => {

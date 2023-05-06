@@ -8,7 +8,7 @@ export const changeMyInfo = async (
 ) => {
   return await axios({
     method: "put",
-    url: "http://localhost:9005/member",
+    url: "http://localhost:9000/member",
     data: {
       memberUUID: memberUUID,
       nickname: nickname,
@@ -21,7 +21,7 @@ export const changeMyInfo = async (
 export const withdrawMember = async (memberUUID: string) => {
   return await axios({
     method: "delete",
-    url: `http://localhost:9005/member/${memberUUID}`,
+    url: `http://localhost:9000/member/${memberUUID}`,
   });
 };
 
@@ -29,13 +29,13 @@ export const withdrawMember = async (memberUUID: string) => {
 export const inquireMember = async (memberUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9005/member/${memberUUID}`,
+    url: `http://localhost:9000/member/${memberUUID}`,
   });
 };
 
 export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost9005/member/check/nickname/${nickname}`,
+    url: `http://localhost9000/member/check/nickname/${nickname}`,
   });
 };

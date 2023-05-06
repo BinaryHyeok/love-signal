@@ -6,9 +6,11 @@ const ALLOW_FILE_EXTENSION = "jpg,jpeg,png";
 
 type propsType = {
   setFileImg: Dispatch<SetStateAction<string>>;
+  visible: boolean;
+  setVisible: Dispatch<SetStateAction<boolean>>;
 };
 
-const EditBtn: React.FC<propsType> = ({ setFileImg }) => {
+const EditBtn: React.FC<propsType> = ({ setFileImg, visible, setVisible }) => {
   const [file, setFile] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const onChangeImg = (
@@ -74,6 +76,7 @@ const EditBtn: React.FC<propsType> = ({ setFileImg }) => {
     console.log(files);
 
     setFile(files);
+    setVisible(!visible);
     setFileImg(URL.createObjectURL(files));
   };
 

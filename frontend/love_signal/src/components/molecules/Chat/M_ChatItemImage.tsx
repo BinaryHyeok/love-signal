@@ -13,7 +13,7 @@ const M_ChatItemImage: React.FC<PropsType> = ({ type, members }) => {
       ? members.map((item: member) => item.profileImage)
       : [];
 
-  const isRoom = !(type === "ANONYMOUS" || type === "NOTICE");
+  const isRoom = !(type === "SECRET" || type === "SYSTEM");
   return (
     <div className={`${style.imageBox} ${isRoom && style.room}`}>
       {!isRoom ? (

@@ -11,11 +11,7 @@ import java.util.UUID;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    Optional<MemberEntity> findByLoginIdAndExpired(String loginId, String expired);
-
     Optional<MemberEntity> findByUUIDAndExpired(UUID UUID, String expired);
-
-    MemberEntity findByNicknameAndExpired(String nickname, String expired);
 
     List<MemberEntity> findByTeamAndExpired(TeamEntity team, String expired);
 }

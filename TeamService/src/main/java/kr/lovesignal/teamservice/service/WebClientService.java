@@ -13,4 +13,6 @@ public interface WebClientService {
     public Mono<TeamResponse> getProfileImagesByTeamsApi(TeamResponse teamResponse);
 
     public Mono<Team> getProfileImagesByTeamApi(Team team);
+
+    public void exitChatRoomApi(List<String> memberUUIDs);
 }

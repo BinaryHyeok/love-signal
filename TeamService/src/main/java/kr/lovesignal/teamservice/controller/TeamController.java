@@ -67,7 +67,6 @@ public class TeamController {
         List<String> memberUUIDs;
         String type;
         if(isMeeting) {
-            type = "MEETING";
             if (isRemainTeam) {
                 // 한사람이 모든 채팅방에서 나간다.
                 memberUUIDs = teamService.deleteMemberFromTeam(memberUUID);
@@ -79,14 +78,12 @@ public class TeamController {
         }
         else{
             //팀 해체
-            type = "TEAM";
             memberUUIDs = teamService.deleteTeamByMember(memberUUID);
         }
 
         if(isBuilding){
-
+            webClientService.exitChatRoomApi(memberUUIDs);
         }
-
 
         return ResponseEntity
                 .status(HttpStatus.OK)

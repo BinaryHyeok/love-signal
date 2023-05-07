@@ -51,8 +51,6 @@ public class InitDummyData {
             String formattedDate = randomDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
             MemberEntity member = MemberEntity.builder()
-                    .loginId(Integer.toString(idx))
-                    .password(Integer.toString(idx))
                     .birth(formattedDate)
                     .nickname(Integer.toString(idx))
                     .gender("M")
@@ -76,8 +74,7 @@ public class InitDummyData {
             String formattedDate = randomDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
             MemberEntity member = MemberEntity.builder()
-                    .loginId(Integer.toString(idx))
-                    .password(Integer.toString(idx))
+                    .email(Integer.toString(idx))
                     .birth(formattedDate)
                     .nickname(Integer.toString(idx))
                     .gender("F")
@@ -100,8 +97,7 @@ public class InitDummyData {
             String formattedDate = randomDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
             MemberEntity member = MemberEntity.builder()
-                    .loginId(Integer.toString(idx))
-                    .password(Integer.toString(idx))
+                    .email(Integer.toString(idx))
                     .birth(formattedDate)
                     .nickname(Integer.toString(idx))
                     .gender(i > 20 ? "F" : "M")

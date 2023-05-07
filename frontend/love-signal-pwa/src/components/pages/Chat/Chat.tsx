@@ -127,9 +127,9 @@ const Chat = () => {
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
       <T_ChatRoom
-        className={`${selectedRoom.id ? "slide-in-enter" : ""} common-bg`}
-        roomId={selectedRoom.id}
-        title={selectedRoom.title}
+        className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
+        roomId={selectedRoom.UUID}
+        title={selectedRoom.roomName}
         count={selectedRoom.memberCount}
         roomExitHandler={roomExitHandler}
         roomType={selectedRoom.type}

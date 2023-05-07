@@ -3,7 +3,7 @@ import A_ChatPeopleImage from "../../atoms/Chat/A_ChatPeopleImage";
 import style from "./styles/M_ChatItemImage.module.scss";
 import { member } from "../../../types/member";
 type PropsType = {
-  type: string;
+  type?: string;
   members?: member[];
 };
 

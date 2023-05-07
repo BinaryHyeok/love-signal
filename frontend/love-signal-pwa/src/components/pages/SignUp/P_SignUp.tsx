@@ -85,48 +85,42 @@ const P_SignUp = () => {
   };
 
   return (
-    <div className={style.box}>
-      <div className={`${style.Container} diagonal-gradient`}>
-        <div className={style.center}>
-          <A_MainLogo />
-          {!checkProfileOk &&
-            !checkNickOk &&
-            !checkBirthOk &&
-            !checkGenderOk && <M_SignUp_Profile onClick={handleProfile} />}
-          {checkProfileOk &&
-            !checkNickOk &&
-            !checkBirthOk &&
-            !checkGenderOk && (
-              <M_SignUp_Nickname
-                nickname={nickname}
-                onClick1={duplecheck}
-                onClick2={handleNickname}
-                setNickname={setNickname}
-                setCheckNickname={setCheckNickname}
-              />
-            )}
-          {checkProfileOk && checkNickOk && !checkBirthOk && !checkGenderOk && (
-            <M_SignUp_Birth
-              birth={birth}
-              onClick={handleBirth}
-              setBirth={setBirth}
-            />
-          )}
-          {checkProfileOk && checkNickOk && checkBirthOk && !checkGenderOk && (
-            <M_SignUp_Gender
-              gender={gender}
-              onClick={handleGender}
-              setGender={setGender}
-            />
-          )}
-          {checkProfileOk && checkNickOk && checkBirthOk && checkGenderOk && (
-            <M_SignUp_Introduce
-              description={description}
-              onClick={signup}
-              setDiscription={setDiscription}
-            />
-          )}
-        </div>
+    <div className={`${style.Container} diagonal-gradient`}>
+      <div className={style.center}>
+        <A_MainLogo />
+        {!checkProfileOk && !checkNickOk && !checkBirthOk && !checkGenderOk && (
+          <M_SignUp_Profile onClick={handleProfile} />
+        )}
+        {checkProfileOk && !checkNickOk && !checkBirthOk && !checkGenderOk && (
+          <M_SignUp_Nickname
+            nickname={nickname}
+            onClick1={duplecheck}
+            onClick2={handleNickname}
+            setNickname={setNickname}
+            setCheckNickname={setCheckNickname}
+          />
+        )}
+        {checkProfileOk && checkNickOk && !checkBirthOk && !checkGenderOk && (
+          <M_SignUp_Birth
+            birth={birth}
+            onClick={handleBirth}
+            setBirth={setBirth}
+          />
+        )}
+        {checkProfileOk && checkNickOk && checkBirthOk && !checkGenderOk && (
+          <M_SignUp_Gender
+            gender={gender}
+            onClick={handleGender}
+            setGender={setGender}
+          />
+        )}
+        {checkProfileOk && checkNickOk && checkBirthOk && checkGenderOk && (
+          <M_SignUp_Introduce
+            description={description}
+            onClick={signup}
+            setDiscription={setDiscription}
+          />
+        )}
       </div>
     </div>
   );

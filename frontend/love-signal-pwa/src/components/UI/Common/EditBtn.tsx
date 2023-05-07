@@ -76,7 +76,7 @@ const EditBtn: React.FC<propsType> = ({ setFileImg, visible, setVisible }) => {
     console.log(files);
 
     setFile(files);
-    setVisible(!visible);
+    setVisible(true);
     setFileImg(URL.createObjectURL(files));
   };
 

@@ -34,7 +34,7 @@ const CheckTeam: React.FC<propsType> = ({
   const [close, setClose] = useState(false);
 
   const closeModal = () => {
-    setVisible(!visible);
+    setVisible(false);
   };
 
   const closeLeft = () => {

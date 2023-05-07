@@ -9,12 +9,14 @@ import { joinTeam } from "../../../api/team";
 import { myMemberUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
+import LoadingSpinner from "../../UI/Loading/LoadingSpinner";
 
 import { AnimatePresence } from "framer-motion";
 
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [enterTeamUUID, setEnterTeamUUID] = useState<string>("");
 
@@ -40,42 +42,48 @@ const M_FindTeamMenuList = () => {
 
   // 새로운 방을 생성해서 이동
   const createRoom = () => {
-    // 요청이 끝날 때까지 로딩화면
-    navigate("/loading");
+    setIsPending(true);
     makeTeam(myUUID)
       .then((res) => {
-        console.log(res);
+        console.log(res.data); // 방 정보
+        setIsPending(false);
+        navigate("/samegender/build");
       })
       .catch((err) => {
         console.log(err);
+        setIsPending(false);
+        navigate("/samegender/build"); // 임시
       });
-    // 새로운 방을 생성하기 위한 axios 요청이 완료되면 이동(비동기 통신 종료 시)
-    setTimeout(() => {
-      navigate("/samegender/build");
-    }, 3000);
   };
 
   return (
     <>
-      <div className={style.menuList}>
-        <Button_Type_A className={style.menu}>
-          <img src="/assets/LIGHTENING.png" />
-          빠른 매칭 <img src="/assets/LIGHTENING.png" />
-        </Button_Type_A>
-        <Button_Type_A className={style.menu} onClick={createRoom}>
-          <img src="/assets/SWEET_HOME.png" />
-          룸 생성하기
-          <img src="/assets/SWEET_HOME.png" />
-        </Button_Type_A>
-        <Button_Type_A
-          className={style.menu}
-          onClick={openRoomCodeModalHandler}
-        >
-          <img src="/assets/KEY.png" />
-          룸 검색하기
-          <img src="/assets/KEY.png" />
-        </Button_Type_A>
-      </div>
+      {isPending && (
+        <Modal_portal>
+          <LoadingSpinner />
+        </Modal_portal>
+      )}
+      {!isPending && (
+        <div className={style.menuList}>
+          <Button_Type_A className={style.menu}>
+            <img src="/assets/LIGHTENING.png" />
+            빠른 매칭 <img src="/assets/LIGHTENING.png" />
+          </Button_Type_A>
+          <Button_Type_A className={style.menu} onClick={createRoom}>
+            <img src="/assets/SWEET_HOME.png" />
+            룸 생성하기
+            <img src="/assets/SWEET_HOME.png" />
+          </Button_Type_A>
+          <Button_Type_A
+            className={style.menu}
+            onClick={openRoomCodeModalHandler}
+          >
+            <img src="/assets/KEY.png" />
+            룸 검색하기
+            <img src="/assets/KEY.png" />
+          </Button_Type_A>
+        </div>
+      )}
       {visible && (
         <Modal_portal>
           <CommonModal

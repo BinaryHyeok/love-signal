@@ -7,6 +7,7 @@
   line-height: 1.4rem;
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 2px;
+  white-space: pre-wrap;
 
   &::before {
     content: "";
@@ -16,8 +17,9 @@
     right: -8px;
     bottom: 0px;
     background-color: inherit;
-    width: 16px;
+    width: 20px;
     height: 16px;
+    box-shadow: 0px 3px 3px -3px rgba(0, 0, 0, 0.35);
   }
 
   &::after {

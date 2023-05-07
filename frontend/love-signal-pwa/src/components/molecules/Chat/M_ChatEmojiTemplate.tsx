@@ -10,10 +10,7 @@ type PropsType = {
 
 const M_ChatEmojiTemplate: React.FC<PropsType> = ({ isOpen, handleClose }) => {
   return (
-    <div
-      className={`${style.emojiBox} ${isOpen ? style.isOpen : ""}`}
-      // onBlur={onBlur}
-    >
+    <div className={`${style.emojiBox} ${isOpen ? style.isOpen : ""}`}>
       <div className={style.backdrop} onClick={handleClose}></div>
       <div className={style.emoji}>
         <Picker data={data} onEmojiSelect={console.log} />

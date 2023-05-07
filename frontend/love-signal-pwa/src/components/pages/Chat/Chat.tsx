@@ -120,7 +120,6 @@ const Chat = () => {
         sendTime: currTime,
       },
     ]);
-    console.log(text);
   };
 
   return (

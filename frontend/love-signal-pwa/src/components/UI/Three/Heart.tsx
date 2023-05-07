@@ -12,7 +12,7 @@ export function Heart(props: any) {
     <group ref={group} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
-          <group rotation={[-Math.PI / 2, Math.PI / 2, 0]} scale={1}>
+          <group rotation={[-Math.PI / 2, Math.PI / 2, 0]} scale={0.7}>
             <mesh
               castShadow
               receiveShadow
@@ -20,7 +20,7 @@ export function Heart(props: any) {
               material={materials.Heart}
             />
           </group>
-          <group rotation={[-Math.PI / 2, 0, 0]} scale={1}>
+          <group rotation={[-Math.PI / 2, 0, 0]} scale={0.7}>
             <mesh
               castShadow
               receiveShadow

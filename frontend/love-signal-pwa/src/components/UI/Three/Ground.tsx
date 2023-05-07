@@ -21,7 +21,13 @@ const Ground = () => {
         <pointLight color={color} intensity={intensity} />
         <directionalLight color={color} intensity={intensity} />
         <ambientLight color={color} intensity={intensity} />
-        <OrbitControls autoRotate={true} autoRotateSpeed={10} />
+        <OrbitControls
+          autoRotate={true}
+          autoRotateSpeed={10}
+          enablePan={false}
+          enableZoom={false}
+          enableRotate={false}
+        />
         <Suspense fallback={null}>
           <Heart />
         </Suspense>

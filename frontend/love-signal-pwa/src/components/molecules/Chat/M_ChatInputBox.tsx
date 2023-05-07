@@ -45,21 +45,21 @@ const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onTextSubmit }) => {
 
   return (
     <form className={style.chatInputBox} onSubmit={textSubmitHandler}>
-      {emojiIsOpen && (
+      {/* {emojiIsOpen && (
         <Modal_portal>
           <M_ChatEmojiTemplate
             isOpen={emojiIsOpen}
             handleClose={emojiCloseHandler}
           />
         </Modal_portal>
-      )}
+      )} */}
       <A_ChatInput
         onChange={textChangeHanlder}
         text={text}
         isDisabled={isDisabled}
         inputRef={inputRef}
       />
-      <A_ChatEmojiBtn onToggle={toggleEmoji} isDisabled={isDisabled} />
+      {/* <A_ChatEmojiBtn onToggle={toggleEmoji} isDisabled={isDisabled} /> */}
       <A_ChatSendBtn isDisabled={isDisabled} />
     </form>
   );

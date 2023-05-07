@@ -34,7 +34,7 @@ const M_Image_Crop: React.FC<PropsType> = ({
           formData.append("file", blob);
           console.log(formData);
           console.log(formData.get("file"));
-          changeMyImg("f6fc66c4-34cb-4f0d-ab89-34a974917654", formData);
+          changeMyImg("a2fa1515-7903-4306-98f5-52172f23d878", formData);
         }
       }, "image/png");
       setVisible(!visible);

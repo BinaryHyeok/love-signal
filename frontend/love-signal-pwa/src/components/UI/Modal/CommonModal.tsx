@@ -19,7 +19,7 @@ const MemberDetail: React.FC<propsType> = ({
   children,
 }) => {
   const closeModal = () => {
-    setVisible(!visible);
+    setVisible(false);
   };
   return (
     <div className={style.container}>

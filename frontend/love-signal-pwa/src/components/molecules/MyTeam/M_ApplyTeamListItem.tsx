@@ -10,6 +10,7 @@ type PropsType = {
   haveOppositeTeam: boolean;
   idx: number;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
+  setOppoVisible: Dispatch<SetStateAction<boolean>>;
 };
 
 const M_ApplyTeamListItem: React.FC<PropsType> = ({
@@ -18,15 +19,17 @@ const M_ApplyTeamListItem: React.FC<PropsType> = ({
   haveOppositeTeam,
   idx,
   setOppoTeamIdx,
+  setOppoVisible,
 }) => {
   //실제론 team안에있는 상대팀의 teamUUID를 넣어야합니다.
   const oppsiteTeamCode: string = "B309";
   const setIdx = () => {
+    console.log(idx);
     setOppoTeamIdx(idx);
   };
   return (
     <li className={style.applyTeamBox} onClick={setIdx}>
-      <M_ApplyTeamMemberList team={team} />
+      <M_ApplyTeamMemberList team={team} setOppoVisible={setOppoVisible} />
       <M_ApplyAcceptButtonList
         isLeader={isLeader}
         haveOppositeTeam={haveOppositeTeam}

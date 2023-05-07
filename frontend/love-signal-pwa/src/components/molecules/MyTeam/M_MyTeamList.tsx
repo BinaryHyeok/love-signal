@@ -7,17 +7,12 @@ import A_Heartline from "../../atoms/Common/A_Heartline";
 
 type PropsType = {
   memberList: member[];
-  visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
 };
 
-const M_MyTeamList: React.FC<PropsType> = ({
-  memberList,
-  visible,
-  setVisible,
-}) => {
+const M_MyTeamList: React.FC<PropsType> = ({ memberList, setVisible }) => {
   const openModal = () => {
-    setVisible(!visible);
+    setVisible(true);
   };
   return (
     <ListBoxWithImgTitle

@@ -28,6 +28,8 @@ const MyTeam = () => {
   const [applyList, setApplyList] = useState<member[][]>([]);
   const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
 
+  const [oppoTeamIdx, setOppoTeamIdx] = useState<number>(0);
+
   //나의 팀 모달창 띄워줄 함수
   const [myVisible, setMyVisible] = useState<boolean>(false);
 
@@ -77,7 +79,7 @@ const MyTeam = () => {
 
   return (
     <>
-      {myVisible && !oppoVisible ? (
+      {myVisible ? (
         <Modal_portal>
           <CheckTeam
             setVisible={setMyVisible}
@@ -94,10 +96,37 @@ const MyTeam = () => {
               isLeader={isLeader}
               haveOppositeTeam={haveOppositeTeam}
               memberList={memberList}
-              myVisible={myVisible}
               setMyVisible={setMyVisible}
-              oppoVisible={oppoVisible}
               setOppoVisible={setOppoVisible}
+              applyList={applyList}
+              setApplyList={setApplyList}
+              setOppoTeamIdx={setOppoTeamIdx}
+            />
+          </T_MyTeam>
+        </div>
+      )}
+      {oppoVisible ? (
+        <Modal_portal>
+          <CheckTeam
+            setVisible={setOppoVisible}
+            visible={oppoVisible}
+            member={applyList[oppoTeamIdx]}
+            oppositeTeamUUID=""
+          />
+        </Modal_portal>
+      ) : (
+        <div className={style.container}>
+          <T_MyTeam>
+            <M_MyTeamDesc />
+            <O_MyTeamBox
+              isLeader={isLeader}
+              haveOppositeTeam={haveOppositeTeam}
+              memberList={memberList}
+              setMyVisible={setMyVisible}
+              setOppoVisible={setOppoVisible}
+              applyList={applyList}
+              setApplyList={setApplyList}
+              setOppoTeamIdx={setOppoTeamIdx}
             />
           </T_MyTeam>
         </div>

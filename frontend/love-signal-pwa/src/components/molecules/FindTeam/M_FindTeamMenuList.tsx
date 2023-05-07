@@ -21,7 +21,7 @@ const M_FindTeamMenuList = () => {
 
   //모달창 열어주는 함수입니다.
   const openRoomCodeModalHandler = () => {
-    setVisible(!visible);
+    setVisible(true);
   };
 
   //입장하기 클릭시 코드를 작성할 수 있도록 해주는 InputBox를 열어주는 함수.

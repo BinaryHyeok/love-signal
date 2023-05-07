@@ -11,6 +11,8 @@ import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
 import LoadingSpinner from "../../UI/Loading/LoadingSpinner";
 
+import { AnimatePresence } from "framer-motion";
+
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState<boolean>(false);

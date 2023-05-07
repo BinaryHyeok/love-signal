@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/SignUp.module.scss";
-import A_SignUp_Desc4 from "./A_SignUp_Desc4";
+import A_SignUp_Desc5 from "./A_SignUp_Desc5";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 
@@ -22,7 +22,7 @@ const M_SignUp_Introduce: React.FC<PropsType> = ({
 
   return (
     <div className={style.userInfo}>
-      <A_SignUp_Desc4 />
+      <A_SignUp_Desc5 />
       <div className={style.nickName}>
         <div>
           <Input_Type_A

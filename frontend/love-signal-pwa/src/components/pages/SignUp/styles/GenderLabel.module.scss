@@ -1,6 +1,23 @@
-.selectGender {
-  .genderImg {
-    width: 80px;
-    height: 80px;
+$primary-color: #00005c;
+
+.container {
+  display: flex;
+  .female {
+    margin-left: 32px;
+  }
+  .selectGender {
+    display: flex;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.375em;
+    .genderImg {
+      width: 80px;
+      height: 80px;
+    }
+    .radio {
+      margin-right: 8px;
+    }
   }
 }

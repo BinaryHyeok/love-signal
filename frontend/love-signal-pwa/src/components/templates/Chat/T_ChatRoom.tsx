@@ -39,9 +39,19 @@ const T_ChatRoom: React.FC<PropsType> = ({
   useEffect(() => {
     window.addEventListener("resize", unitHeightSetHandler);
     window.addEventListener("touchend", unitHeightSetHandler);
+    window.visualViewport?.addEventListener("resize", unitHeightSetHandler);
+    window.visualViewport?.addEventListener("touchend", unitHeightSetHandler);
     return () => {
       window.removeEventListener("resize", unitHeightSetHandler);
       window.removeEventListener("touchend", unitHeightSetHandler);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        unitHeightSetHandler
+      );
+      window.visualViewport?.removeEventListener(
+        "touchend",
+        unitHeightSetHandler
+      );
     };
   });
 

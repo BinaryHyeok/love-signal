@@ -1,14 +1,16 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import style from "./styles/O_ApplyTeamList.module.scss";
-import { member } from "../../../types/member";
+import { applyTeam } from "../../../types/member";
 import M_ApplyTeamListItem from "../../molecules/MyTeam/M_ApplyTeamListItem";
 
 type PropsType = {
-  applyTeamList: member[][];
+  applyTeamList: applyTeam[];
   isLeader: boolean;
   haveOppositeTeam: boolean;
   setOppoVisible: Dispatch<SetStateAction<boolean>>;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
+  clickBtn: boolean;
+  setClickBtn: Dispatch<SetStateAction<boolean>>;
 };
 
 const O_ApplyTeamList: React.FC<PropsType> = ({
@@ -17,6 +19,8 @@ const O_ApplyTeamList: React.FC<PropsType> = ({
   haveOppositeTeam,
   setOppoVisible,
   setOppoTeamIdx,
+  clickBtn,
+  setClickBtn,
 }) => {
   return (
     <ul className={style.applyTeamList}>
@@ -29,6 +33,8 @@ const O_ApplyTeamList: React.FC<PropsType> = ({
           idx={idx}
           setOppoTeamIdx={setOppoTeamIdx}
           setOppoVisible={setOppoVisible}
+          clickBtn={clickBtn}
+          setClickBtn={setClickBtn}
         />
       ))}
     </ul>

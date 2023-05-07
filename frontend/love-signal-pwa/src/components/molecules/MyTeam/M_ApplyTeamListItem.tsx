@@ -1,16 +1,18 @@
 import style from "./styles/M_ApplyTeamListItem.module.scss";
-import { member } from "../../../types/member";
+import { applyTeam } from "../../../types/member";
 import M_ApplyTeamMemberList from "./M_ApplyTeamMemberList";
 import M_ApplyAcceptButtonList from "../FindTeam/M_ApplyAcceptButtonList";
-import { Dispatch, SetStateAction } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 type PropsType = {
-  team: member[];
+  team: applyTeam;
   isLeader: boolean;
   haveOppositeTeam: boolean;
   idx: number;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
   setOppoVisible: Dispatch<SetStateAction<boolean>>;
+  clickBtn: boolean;
+  setClickBtn: Dispatch<SetStateAction<boolean>>;
 };
 
 const M_ApplyTeamListItem: React.FC<PropsType> = ({
@@ -20,20 +22,28 @@ const M_ApplyTeamListItem: React.FC<PropsType> = ({
   idx,
   setOppoTeamIdx,
   setOppoVisible,
+  clickBtn,
+  setClickBtn,
 }) => {
   //실제론 team안에있는 상대팀의 teamUUID를 넣어야합니다.
-  const oppsiteTeamCode: string = "B309";
-  const setIdx = () => {
-    console.log(idx);
-    setOppoTeamIdx(idx);
-  };
+  const [oppositeTeamCode, setOppositeTeamCode] = useState<string>("");
+  useEffect(() => {
+    setOppositeTeamCode(team.teamUUID);
+  }, []);
   return (
-    <li className={style.applyTeamBox} onClick={setIdx}>
-      <M_ApplyTeamMemberList team={team} setOppoVisible={setOppoVisible} />
+    <li className={style.applyTeamBox}>
+      <M_ApplyTeamMemberList
+        team={team.members}
+        idx={idx}
+        setOppoTeamIdx={setOppoTeamIdx}
+        setOppoVisible={setOppoVisible}
+      />
       <M_ApplyAcceptButtonList
         isLeader={isLeader}
         haveOppositeTeam={haveOppositeTeam}
-        oppsiteTeamUUID={oppsiteTeamCode}
+        oppsiteTeamUUID={oppositeTeamCode}
+        clickBtn={clickBtn}
+        setClickBtn={setClickBtn}
       />
     </li>
   );

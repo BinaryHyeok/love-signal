@@ -26,11 +26,8 @@ public class MemberEntity extends BaseEntity{
     @JoinColumn(name = "team_id", nullable = true)
     private TeamEntity team;
 
-    @Column(name = "login_id", nullable = false, unique = true)
-    private String loginId;
-
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
     @Column(name = "nickname", nullable = false, length = 20)
     private String nickname;

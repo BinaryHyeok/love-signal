@@ -17,8 +17,6 @@ public class UpdateMemberRequest {
     public MemberEntity toEntity(MemberEntity member){
         return MemberEntity.builder()
                 .memberId(member.getMemberId())
-                .loginId(member.getLoginId())
-                .password(member.getPassword())
                 .nickname(nickname)
                 .gender(member.getGender())
                 .birth(member.getBirth())

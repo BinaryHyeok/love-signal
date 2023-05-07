@@ -3,8 +3,6 @@ package kr.lovesignal.memberservice.service;
 import kr.lovesignal.memberservice.entity.MemberEntity;
 import kr.lovesignal.memberservice.exception.CustomException;
 import kr.lovesignal.memberservice.exception.ErrorCode;
-import kr.lovesignal.memberservice.model.request.SignInRequest;
-import kr.lovesignal.memberservice.model.request.SignUpRequest;
 import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
 import kr.lovesignal.memberservice.model.response.MemberResponse;
 import kr.lovesignal.memberservice.model.response.SuccessResponse;
@@ -17,51 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.lang.reflect.Member;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService{
+public class MemberServiceImpl implements MemberService {
 
     private final ResponseUtils responseUtil;
     private final CommonUtils commonUtils;
     private final MemberRepository memberRepository;
-
     private final WebClient webClient;
-
-
-    // 회원가입
-    @Override
-    @Transactional
-    public String registerMember(SignUpRequest signUpRequest) {
-
-        MemberEntity saveMember = signUpRequest.toEntity();
-
-        memberRepository.save(saveMember);
-
-        return saveMember.getUUID().toString();
-    }
-
-    // 로그인
-    @Override
-    @Transactional(readOnly = true)
-    public SuccessResponse<Long> authenticate(SignInRequest signInRequest) {
-
-        MemberEntity findMember = memberRepository.findByLoginIdAndExpiredLike(signInRequest.getLoginId(), "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        if(!findMember.getPassword().equals(signInRequest.getPassword())){
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
-        }
-
-        return responseUtil.buildSuccessResponse(findMember.getUUID().toString());
-    }
 
     // 멤버정보 수정
     @Override
@@ -111,29 +74,6 @@ public class AuthServiceImpl implements AuthService{
         MemberResponse memberResponse = MemberResponse.toDto(findMember, age);
 
         return memberResponse;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public SuccessResponse<String> checkNicknameDuplicate(String nickname) {
-
-        MemberEntity findMember = memberRepository.findByNicknameAndExpiredLike(nickname, "F");
-
-        if(null != findMember){
-            throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
-        }
-        return responseUtil.buildSuccessResponse("사용 가능한 닉네임입니다.");
-    }
-
-
-    @Override
-    public void createSystemChatRoomApi(String strMemberUUID){
-        String uri = "http://localhost:8080/chatRoom/System/" + strMemberUUID;
-        webClient.post()
-                .uri(uri)
-                .retrieve()
-                .bodyToMono(String.class)
-                .subscribe();
     }
 
     @Override

@@ -1,16 +1,10 @@
-import {
-  useState,
-  createRef,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-} from "react";
+import { createRef, Dispatch, SetStateAction } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import Button_Type_A from "./Button_Type_A";
 import style from "./M_Image_Crop.module.scss";
-import A_Heartline from "../../atoms/Common/A_Heartline";
 import M_Image_Crop_Desc from "./M_Image_Crop_Desc";
+import { changeMyImg } from "../../../api/file";
 
 type PropsType = {
   image?: string;
@@ -32,9 +26,19 @@ const M_Image_Crop: React.FC<PropsType> = ({
   const getCropdata = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       const cropper = cropperRef.current?.cropper;
-      setCropData(cropper.getCroppedCanvas().toDataURL());
-      setVisible(!visible);
       console.log(cropper.getImageData());
+      const canvas = cropper.getCroppedCanvas();
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const formData = new FormData();
+          formData.append("file", blob);
+          console.log(formData);
+          console.log(formData.get("file"));
+          changeMyImg("f6fc66c4-34cb-4f0d-ab89-34a974917654", formData);
+        }
+      }, "image/png");
+      setVisible(!visible);
+      setCropData(canvas.toDataURL());
     }
   };
   return (

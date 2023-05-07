@@ -92,8 +92,6 @@ const Test = () => {
       const formData = new FormData();
       formData.append("file", file);
       console.log(formData.get("file"));
-      console.log(formData);
-      console.log(fileInputRef);
 
       console.log("나의 이미지는 저거얏");
       changeMyImg("f6fc66c4-34cb-4f0d-ab89-34a974917654", formData);

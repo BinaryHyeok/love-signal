@@ -11,6 +11,7 @@ import { myTeamUUID } from "../../../atom/member";
 import { getMyTeam } from "../../../api/team";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
+import { applyTeam } from "../../../types/member";
 
 const MyTeam = () => {
   //현재 우리팀이 상대팀이 매칭이 되어있는지 확인하기.(임시입니다.)
@@ -20,12 +21,12 @@ const MyTeam = () => {
   const [haveOppositeTeam, setHaveOppositeTeam] = useState<boolean>(false);
 
   //내가 현재 리더인지 파악해주는 state변수입니다.
-  const [isLeader, setIsLeader] = useState<boolean>(true);
+  const [isLeader, setIsLeader] = useState<boolean>(false);
 
   //내 개인 UUID 입니다.
   // const [myUUID, setmyUUID] = useRecoilState<string>(myMemberUUID);
   const [memberList, setMemberList] = useState<member[]>([]);
-  const [applyList, setApplyList] = useState<member[][]>([]);
+  const [applyList, setApplyList] = useState<applyTeam[]>([]);
   const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
 
   const [oppoTeamIdx, setOppoTeamIdx] = useState<number>(0);
@@ -45,7 +46,7 @@ const MyTeam = () => {
 
   //axios로 내 정보 받아오기.
   const getUserInfo = async () => {
-    await inquireMember("ab30cc8f-ad61-416d-bf7a-a5be67719f9f")
+    await inquireMember("f6fc66c4-34cb-4f0d-ab89-34a974917654")
       .then((res) => {
         console.log(res.data.body); //해당 정보 보고 판단.
         // setmyUUID(res.data.body.memberUUID);
@@ -66,9 +67,8 @@ const MyTeam = () => {
       .then((res) => {
         console.log(res);
         setMemberList(res.data.body.members);
-
         //내가 상대팀을 가지고 있는지를 파악.
-        if (res.data.body.haveMeetingTeam) {
+        if (!res.data.body.haveMeetingTeam) {
           setHaveOppositeTeam(true);
         }
       })
@@ -79,7 +79,7 @@ const MyTeam = () => {
 
   return (
     <>
-      {myVisible ? (
+      {myVisible && !oppoVisible && (
         <Modal_portal>
           <CheckTeam
             setVisible={setMyVisible}
@@ -88,33 +88,18 @@ const MyTeam = () => {
             oppositeTeamUUID=""
           />
         </Modal_portal>
-      ) : (
-        <div className={style.container}>
-          <T_MyTeam>
-            <M_MyTeamDesc />
-            <O_MyTeamBox
-              isLeader={isLeader}
-              haveOppositeTeam={haveOppositeTeam}
-              memberList={memberList}
-              setMyVisible={setMyVisible}
-              setOppoVisible={setOppoVisible}
-              applyList={applyList}
-              setApplyList={setApplyList}
-              setOppoTeamIdx={setOppoTeamIdx}
-            />
-          </T_MyTeam>
-        </div>
       )}
-      {oppoVisible ? (
+      {!myVisible && oppoVisible && (
         <Modal_portal>
           <CheckTeam
             setVisible={setOppoVisible}
             visible={oppoVisible}
-            member={applyList[oppoTeamIdx]}
+            member={applyList[oppoTeamIdx].members}
             oppositeTeamUUID=""
           />
         </Modal_portal>
-      ) : (
+      )}
+      {!myVisible && !oppoVisible && (
         <div className={style.container}>
           <T_MyTeam>
             <M_MyTeamDesc />

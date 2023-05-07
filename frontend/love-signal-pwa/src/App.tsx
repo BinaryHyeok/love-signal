@@ -13,7 +13,7 @@ import Chat from "./components/pages/Chat/Chat";
 import Codepen from "./components/UI/Loading/LoadingSpinner";
 import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
-import Test from "./components/pages/Test";
+import Ground from "./components/UI/Three/Ground";
 
 function App() {
   const router = createBrowserRouter([
@@ -36,7 +36,7 @@ function App() {
         },
         {
           path: "/Test",
-          element: <Test />,
+          element: <Ground />,
         },
         {
           path: "/",

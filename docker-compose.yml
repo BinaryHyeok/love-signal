@@ -32,9 +32,6 @@ services:
     build:
       context: ./discoveryservice
       dockerfile: Dockerfile
-    environment:
-      - EUREKA_INSTANCE_HOSTNAME=eureka-server
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     ports:
       - "8761:8761"
     restart: always

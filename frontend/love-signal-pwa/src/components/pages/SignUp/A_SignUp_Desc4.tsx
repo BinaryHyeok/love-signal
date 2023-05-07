@@ -3,11 +3,11 @@ import style from "./styles/SignUp.module.scss";
 const A_SignUp_Desc4 = () => {
   return (
     <div className={style.text}>
-      <span className={style.bold}>마지막 시그널,</span>
+      <span className={style.bold}>네번째 시그널,</span>
       <br />
       <br />
-      <span className={style.bold}>자유롭게</span> 자신을{" "}
-      <span className={style.bold}>표현</span>해보세요.
+      <span className={style.bold}>자신의 성별</span> 을{" "}
+      <span className={style.bold}>선택</span>해주세요.
       <br />
     </div>
   );

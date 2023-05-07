@@ -7,17 +7,19 @@ type propstType = {
 
 const A_FemaleLabel: React.FC<propstType> = ({ gender, changeGender }) => {
   return (
-    <label className={style.selectGender}>
-      <img src="/assets/female.png" id="F" className={style.genderImg} />
-      <input
-        type="radio"
-        name="F"
-        value="F"
-        checked={gender === "F"}
-        onClick={changeGender}
-      />{" "}
-      여자
-    </label>
+    <div className={style.container}>
+      <label className={`${style.selectGender} ${style.female}`}>
+        <input
+          type="radio"
+          name="F"
+          value="F"
+          checked={gender === "F"}
+          onClick={changeGender}
+          className={style.radio}
+        />
+        <img src="/assets/female.png" id="F" className={style.genderImg} />
+      </label>
+    </div>
   );
 };
 

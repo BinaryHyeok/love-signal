@@ -6,6 +6,7 @@ export type team = {
 export type member = {
   nickname: string;
   age: number;
+  memberUUID?: string;
   description: string;
   profileImage: string;
 };
@@ -19,4 +20,11 @@ export type userInfo = {
   description: string;
   teamUUID: string;
   teamLeader: boolean;
+};
+
+//상대의 정보를 받아올때 받아오는 데이터
+export type applyTeam = {
+  haveMeetingTeam: boolean;
+  members: member[];
+  teamUUID: string;
 };

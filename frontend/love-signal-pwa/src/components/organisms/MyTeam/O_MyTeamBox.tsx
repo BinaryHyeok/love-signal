@@ -8,6 +8,7 @@ import { getMyTeam } from "../../../api/team";
 import { receivemeetingList } from "../../../api/team";
 import { myTeamUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
+import { applyTeam } from "../../../types/member";
 
 type propsType = {
   isLeader: boolean;
@@ -15,8 +16,8 @@ type propsType = {
   memberList: member[];
   setMyVisible: Dispatch<SetStateAction<boolean>>;
   setOppoVisible: Dispatch<SetStateAction<boolean>>;
-  applyList: member[][];
-  setApplyList: Dispatch<SetStateAction<member[][]>>;
+  applyList: applyTeam[];
+  setApplyList: Dispatch<SetStateAction<applyTeam[]>>;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
 };
 
@@ -74,17 +75,24 @@ const O_MyTeamBox: React.FC<propsType> = ({
   setApplyList,
 }) => {
   const [TeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [clickBtn, setClickBtn] = useState<boolean>(false);
 
   useEffect(() => {
     receivemeetingList(TeamUUID)
       .then((res) => {
-        // setApplyList(res.data); 여기서 axios로 신청 받은 목록 불러오기.
+        setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
+        addApplyList(res.data.body.teams);
       })
       .catch((err) => {
         console.log(err);
       });
-    setApplyList([...DUMMY_APPLY_LIST]);
-  }, []);
+  }, [clickBtn]);
+
+  const addApplyList = (applyTeamList: applyTeam[]) => {
+    applyTeamList.forEach((item) => {
+      setApplyList((applyTeam) => [...applyTeam, item]);
+    });
+  };
 
   return (
     <>
@@ -106,6 +114,8 @@ const O_MyTeamBox: React.FC<propsType> = ({
             haveOppositeTeam={haveOppositeTeam}
             setOppoVisible={setOppoVisible}
             setOppoTeamIdx={setOppoTeamIdx}
+            clickBtn={clickBtn}
+            setClickBtn={setClickBtn}
           />
         </ListBoxWithImgTitle>
       </div>

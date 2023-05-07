@@ -40,8 +40,12 @@ const Mypage = () => {
   return (
     <>
       <div className={style.myPageContainer}>
-        <M_Image_Type myImg={myImg} />
-        <MyInfo nickname={myNickName} description={myDescription} />
+        <div className={style.scrollContainer}>
+          <M_Image_Type myImg={myImg} />
+          <MyInfo nickname={myNickName} description={myDescription} />
+          <MyInfo nickname={myNickName} description={myDescription} />
+          <MyInfo nickname={myNickName} description={myDescription} />
+        </div>
       </div>
     </>
   );

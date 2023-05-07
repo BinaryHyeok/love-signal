@@ -10,6 +10,8 @@ import { myMemberUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
 
+import { AnimatePresence } from "framer-motion";
+
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState<boolean>(false);

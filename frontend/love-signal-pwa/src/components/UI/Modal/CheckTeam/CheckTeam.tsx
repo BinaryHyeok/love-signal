@@ -16,6 +16,8 @@ import SwiperManual from "./A_SwiperManual";
 import Exit from "./A_Exit";
 import { useRecoilState } from "recoil";
 
+import { motion } from "framer-motion";
+
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
@@ -66,7 +68,29 @@ const CheckTeam: React.FC<propsType> = ({
   return (
     <div className={style.container}>
       <div className={style.background} onClick={closeModal}></div>
-      <div className={style.modal}>
+      <motion.div
+        className={style.modal}
+        initial={{
+          opacity: 0,
+          scale: 0.6,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          transition: {
+            ease: "easeOut",
+            duration: 0.3,
+          },
+        }}
+        exit={{
+          opacity: 0,
+          scale: 0.6,
+          transition: {
+            ease: "easeIn",
+            duration: 0.7,
+          },
+        }}
+      >
         <Exit closeModal={closeModal} />
         <Swiper
           pagination={{
@@ -123,7 +147,7 @@ const CheckTeam: React.FC<propsType> = ({
             <img src="/assets/send_invite.png" alt="" />
           </ButtonTypeA>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

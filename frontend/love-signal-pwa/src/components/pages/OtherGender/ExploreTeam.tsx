@@ -74,7 +74,7 @@ const ExploreTeam = () => {
   const viewDetail = (idx: number) => {
     //여기서 내가 팀이 있는지 없는지 체크를 해서 팀이 있으면 상세보기로 없으면 팀을 구성하라는 모달을 띄워주어야합니다.
     setTeamNumber(idx);
-    setVisible(!visible);
+    setVisible(true);
   };
 
   //무한스크롤이 구현되어있는 함수입니다.

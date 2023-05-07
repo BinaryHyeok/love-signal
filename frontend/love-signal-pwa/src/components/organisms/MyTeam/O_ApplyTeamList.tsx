@@ -7,7 +7,6 @@ type PropsType = {
   applyTeamList: member[][];
   isLeader: boolean;
   haveOppositeTeam: boolean;
-  oppoVisible: boolean;
   setOppoVisible: Dispatch<SetStateAction<boolean>>;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
 };
@@ -16,15 +15,11 @@ const O_ApplyTeamList: React.FC<PropsType> = ({
   applyTeamList,
   isLeader,
   haveOppositeTeam,
-  oppoVisible,
   setOppoVisible,
   setOppoTeamIdx,
 }) => {
-  const openModal = () => {
-    setOppoVisible(!oppoVisible);
-  };
   return (
-    <ul className={style.applyTeamList} onClick={openModal}>
+    <ul className={style.applyTeamList}>
       {applyTeamList.map((team, idx) => (
         <M_ApplyTeamListItem
           key={idx}
@@ -33,6 +28,7 @@ const O_ApplyTeamList: React.FC<PropsType> = ({
           haveOppositeTeam={haveOppositeTeam}
           idx={idx}
           setOppoTeamIdx={setOppoTeamIdx}
+          setOppoVisible={setOppoVisible}
         />
       ))}
     </ul>

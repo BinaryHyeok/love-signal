@@ -8,17 +8,16 @@ import { getMyTeam } from "../../../api/team";
 import { receivemeetingList } from "../../../api/team";
 import { myTeamUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
-import Modal_portal from "../../UI/Modal/Modal_portal";
-import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 
 type propsType = {
   isLeader: boolean;
   haveOppositeTeam: boolean;
   memberList: member[];
-  myVisible: boolean;
   setMyVisible: Dispatch<SetStateAction<boolean>>;
-  oppoVisible: boolean;
   setOppoVisible: Dispatch<SetStateAction<boolean>>;
+  applyList: member[][];
+  setApplyList: Dispatch<SetStateAction<member[][]>>;
+  setOppoTeamIdx: Dispatch<SetStateAction<number>>;
 };
 
 const DUMMY_APPLY_LIST: member[][] = [
@@ -68,14 +67,13 @@ const O_MyTeamBox: React.FC<propsType> = ({
   isLeader,
   haveOppositeTeam,
   memberList,
-  myVisible,
   setMyVisible,
-  oppoVisible,
   setOppoVisible,
+  setOppoTeamIdx,
+  applyList,
+  setApplyList,
 }) => {
-  const [applyList, setApplyList] = useState<member[][]>([]);
   const [TeamUUID] = useRecoilState<string>(myTeamUUID);
-  const [oppoTeamIdx, setOppoTeamIdx] = useState<number>(0);
 
   useEffect(() => {
     receivemeetingList(TeamUUID)
@@ -90,43 +88,27 @@ const O_MyTeamBox: React.FC<propsType> = ({
 
   return (
     <>
-      {!myVisible && oppoVisible ? (
-        <Modal_portal>
-          <CheckTeam
-            setVisible={setMyVisible}
-            visible={myVisible}
-            member={memberList}
-            oppositeTeamUUID=""
+      <div className={style.content}>
+        <M_MyTeamList memberList={memberList} setVisible={setMyVisible} />
+        <ListBoxWithImgTitle
+          title={
+            <>
+              <img src="/assets/mail.png" />
+              <span>신청목록</span>
+              <img src="/assets/mail.png" />
+            </>
+          }
+          type="blue"
+        >
+          <O_ApplyTeamList
+            applyTeamList={applyList}
+            isLeader={isLeader}
+            haveOppositeTeam={haveOppositeTeam}
+            setOppoVisible={setOppoVisible}
+            setOppoTeamIdx={setOppoTeamIdx}
           />
-        </Modal_portal>
-      ) : (
-        <div className={style.content}>
-          <M_MyTeamList
-            memberList={memberList}
-            visible={myVisible}
-            setVisible={setMyVisible}
-          />
-          <ListBoxWithImgTitle
-            title={
-              <>
-                <img src="/assets/mail.png" />
-                <span>신청목록</span>
-                <img src="/assets/mail.png" />
-              </>
-            }
-            type="blue"
-          >
-            <O_ApplyTeamList
-              applyTeamList={applyList}
-              isLeader={isLeader}
-              haveOppositeTeam={haveOppositeTeam}
-              oppoVisible={oppoVisible}
-              setOppoVisible={setOppoVisible}
-              setOppoTeamIdx={setOppoTeamIdx}
-            />
-          </ListBoxWithImgTitle>
-        </div>
-      )}
+        </ListBoxWithImgTitle>
+      </div>
     </>
   );
 };

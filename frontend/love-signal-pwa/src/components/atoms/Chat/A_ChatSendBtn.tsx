@@ -1,9 +1,16 @@
 import style from "./styles/A_ChatSendBtn.module.scss";
 
-const A_ChatSendBtn = () => {
+type PropsType = {
+  isDisabled: boolean;
+};
+
+const A_ChatSendBtn: React.FC<PropsType> = ({ isDisabled }) => {
   return (
     <button className={style.sendBtn}>
-      <img src="/assets/paper-airplane.png" />
+      <img
+        className={isDisabled ? style.disabled : ""}
+        src="/assets/paper-airplane.png"
+      />
     </button>
   );
 };

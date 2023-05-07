@@ -31,7 +31,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
       <O_ChatTextList ulRef={ulRef} chatList={chatList} />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}
-        isDisabled={roomType === "NOTICE" ? true : false}
+        isDisabled={roomType === "SYSTEM" ? true : false}
       />
     </div>
   );

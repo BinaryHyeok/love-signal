@@ -1,4 +1,3 @@
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 import style from "./styles/A_ChatInput.module.scss";
 
 type PropsTypes = {
@@ -14,6 +13,8 @@ const A_ChatInput: React.FC<PropsTypes> = ({
   isDisabled,
   inputRef,
 }) => {
+  const toggleEmojiTemplate = () => {};
+
   return (
     <input
       className={`${style.chatInput} ${isDisabled ? style.disabled : ""}`}

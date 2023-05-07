@@ -14,5 +14,9 @@
 
   img {
     width: 100%;
+
+    &.disabled {
+      filter: brightness(70%);
+    }
   }
 }

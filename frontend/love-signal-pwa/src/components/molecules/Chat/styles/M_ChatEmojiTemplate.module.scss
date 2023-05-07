@@ -1,0 +1,28 @@
+.emojiBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: calc(100% - 48px);
+  z-index: 10;
+
+  &.isOpen {
+    display: block;
+  }
+
+  .backdrop {
+    position: absolute;
+    bottom: 48px;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .emoji {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}

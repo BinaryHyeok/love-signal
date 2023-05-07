@@ -1,19 +1,13 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-
-type Type_RoomInfo = {
-  id?: string;
-  title?: string;
-  memberCount?: string;
-  type?: string;
-};
+import { room } from "../types/room";
 
 const { persistAtom } = recoilPersist({
   key: "localStorage",
   storage: localStorage,
 });
 
-export const roomInfo = atom<Type_RoomInfo>({
+export const roomInfo = atom<room>({
   key: "roomInfo",
   default: {},
   effects_UNSTABLE: [persistAtom],

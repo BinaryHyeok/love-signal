@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import style from "./styles/A_ChatItemInfo.module.scss";
 
 type PropsType = {
-  UUID: string;
-  title: string;
-  memberCount: string;
+  UUID?: string;
+  roomName?: string;
+  memberCount?: string;
   lastMsgTime?: string;
   showTimer: boolean;
 };
 
 let timer: NodeJS.Timer;
 const A_ChatItemInfo: React.FC<PropsType> = ({
-  title,
+  roomName,
   memberCount,
   lastMsgTime,
   showTimer,
@@ -89,7 +89,7 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
   return (
     <div className={style.infoBox}>
       <div className={style.titleBox}>
-        <span className={style.title}>{title}</span>
+        <span className={style.title}>{roomName}</span>
         {showTimer ? (
           <span className={style.timer}>{resTime}</span>
         ) : (

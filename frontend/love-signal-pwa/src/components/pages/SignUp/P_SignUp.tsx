@@ -94,7 +94,7 @@ const P_SignUp = () => {
         await changeMyImg(res.data.body.memberUUID, myImage);
 
         //사진 저장까지하고 회원가입 되었으니 manual 페이지로 이동.
-        navigate("/manual");
+        navigate("/Manual");
       })
       .catch((err) => {
         console.log(err);

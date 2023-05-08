@@ -15,8 +15,13 @@ import ManualText4 from "./ManualText4";
 import ManualText5 from "./ManualText5";
 import ManualText6 from "./ManualText6";
 import ManualTitle from "./ManualTitle";
+import { useNavigate } from "react-router-dom";
 
 const Manual = () => {
+  const navigate = useNavigate();
+  const goToMain = () => {
+    navigate("/OtherGender");
+  };
   return (
     <>
       <div className={style.mainContainer}>
@@ -68,7 +73,7 @@ const Manual = () => {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className={style.modalContainer}>
+              <div className={style.modalContainer} onClick={goToMain}>
                 <ManualTitle />
                 <ManualText6 />
               </div>

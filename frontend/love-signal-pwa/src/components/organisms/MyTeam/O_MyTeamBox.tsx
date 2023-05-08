@@ -36,7 +36,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [applyTeamExist, setApplyTeamExist] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(clickBtn);
     if (start) {
       receivemeetingList(TeamUUID)
         .then((res) => {

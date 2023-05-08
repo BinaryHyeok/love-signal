@@ -3,16 +3,14 @@ import style from "./styles/A_GenderImg.module.scss";
 import { member } from "../../../types/member";
 
 type propsType = {
-  index: number;
-  members: member[];
+  member: member;
 };
 
-const GenderImg: React.FC<propsType> = ({ index, members }) => {
+const GenderImg: React.FC<propsType> = ({ member }) => {
   return (
     <div className={style.ImgBox}>
       <img
-        key={members[index].nickname}
-        src={members[index].profileImage}
+        src={member.profileImage}
         alt="이성이미지"
         className={style.humanPicture}
       />

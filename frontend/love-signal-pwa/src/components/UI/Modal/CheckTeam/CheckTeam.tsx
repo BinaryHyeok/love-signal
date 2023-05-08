@@ -27,7 +27,6 @@ type propsType = {
 
 const CheckTeam: React.FC<propsType> = ({
   setVisible,
-  visible,
   member,
   oppositeTeamUUID,
 }) => {
@@ -54,13 +53,13 @@ const CheckTeam: React.FC<propsType> = ({
 
   //신청하기 버튼
   const applyTeam = () => {
-    applyMeeting(myUUID, oppositeTeamUUID)
+    applyMeeting("04cfeee4-01b9-47e7-8ef8-16ff69616cf8", oppositeTeamUUID)
       .then((res) => {
         console.log(res);
         console.log("신청완료.");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data.message);
         console.log("신청이 안됐네..");
       });
   };

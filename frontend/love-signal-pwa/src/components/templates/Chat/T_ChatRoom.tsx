@@ -41,9 +41,18 @@ const T_ChatRoom: React.FC<PropsType> = ({
   useEffect(() => {
     window.addEventListener("resize", unitHeightSetHandler);
     window.addEventListener("touchend", unitHeightSetHandler);
+    window.visualViewport?.addEventListener(
+      "resize",
+      resizeVisualViewportHandler
+    );
+
     return () => {
       window.removeEventListener("resize", unitHeightSetHandler);
       window.removeEventListener("touchend", unitHeightSetHandler);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        resizeVisualViewportHandler
+      );
     };
   }, []);
 
@@ -51,6 +60,10 @@ const T_ChatRoom: React.FC<PropsType> = ({
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
     setUnitHeight(vh);
+  };
+
+  const resizeVisualViewportHandler = () => {
+    const current = window.visualViewport?.height;
   };
 
   useEffect(() => {}, [unitHeight]);

@@ -22,13 +22,13 @@ const A_ApplyRejectButton: React.FC<propsType> = ({
 
   //팀 거절을 눌렀을때.
   const rejectTeam = async () => {
-    // console.log(myUUID);
-    console.log(oppsiteTeamUUID);
-    await rejectMeeting(
-      "3c0f0a1f-ac05-4c7f-848d-638298b52ef6",
-      oppsiteTeamUUID
-    );
-    setClickBtn(!clickBtn);
+    if (isLeader) {
+      await rejectMeeting(
+        "3c0f0a1f-ac05-4c7f-848d-638298b52ef6",
+        oppsiteTeamUUID
+      );
+      setClickBtn(!clickBtn);
+    }
   };
 
   return (

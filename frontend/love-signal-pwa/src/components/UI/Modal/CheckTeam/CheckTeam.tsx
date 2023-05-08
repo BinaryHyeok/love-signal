@@ -1,5 +1,5 @@
 import style from "./CheckTeam.module.scss";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useEffect, Dispatch, SetStateAction, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -23,20 +23,29 @@ type propsType = {
   visible: boolean;
   member: member[];
   oppositeTeamUUID: string;
+  myTeam: boolean; //내팀일 경우엔 밑에 버튼을 띄우면 안될것 같아 사용.
 };
 
 const CheckTeam: React.FC<propsType> = ({
   setVisible,
   member,
   oppositeTeamUUID,
+  myTeam,
 }) => {
-  const [myUUID] = useRecoilState<string>(myTeamUUID);
+  const [myUUID] = useRecoilState<string>(myTeamUUID); //현재는 사용안하지만 이후에 사용예정.
+  const [btnVisible, setBtnVisible] = useState<boolean>(false);
 
   const [close, setClose] = useState(false);
+
+  useEffect(() => {
+    setBtnVisible(!myTeam);
+  }, []);
 
   const closeModal = () => {
     setVisible(false);
   };
+
+  console.log(oppositeTeamUUID);
 
   const closeLeft = () => {
     setClose(!close);
@@ -127,25 +136,29 @@ const CheckTeam: React.FC<propsType> = ({
             />
           </SwiperSlide>
         </Swiper>
-        <div className={style.buttonContainer}>
-          <ButtonTypeA
-            width="104px"
-            height="32px"
-            background="#CAD9FF"
-            className={style.button}
-            onClick={shareTeam}
-          >
-            <img src="/assets/share.png" alt="" />
-          </ButtonTypeA>
-          <ButtonTypeA
-            width="104px"
-            height="32px"
-            background="#FBCED3"
-            onClick={applyTeam}
-          >
-            <img src="/assets/send_invite.png" alt="" />
-          </ButtonTypeA>
-        </div>
+        {btnVisible ? (
+          <div className={style.buttonContainer}>
+            <ButtonTypeA
+              width="104px"
+              height="32px"
+              background="#CAD9FF"
+              className={style.button}
+              onClick={shareTeam}
+            >
+              <img src="/assets/share.png" alt="" />
+            </ButtonTypeA>
+            <ButtonTypeA
+              width="104px"
+              height="32px"
+              background="#FBCED3"
+              onClick={applyTeam}
+            >
+              <img src="/assets/send_invite.png" alt="" />
+            </ButtonTypeA>
+          </div>
+        ) : (
+          <></>
+        )}
       </motion.div>
     </div>
   );

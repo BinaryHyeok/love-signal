@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.11'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "org.sonarqube" version "4.0.0.2929"
 }
 
 group = 'kr.lovesignal'
@@ -22,6 +23,13 @@ ext {
     set('springCloudVersion', "2021.0.6")
 }
 
+sonar {
+    properties {
+        property "sonar.projectKey", "member-service"
+        property "sonar.projectName", "member-service"
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -32,7 +40,7 @@ dependencies {
     implementation 'io.projectreactor:reactor-core'
 
     // Eureka
-//    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
     // Configuration
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

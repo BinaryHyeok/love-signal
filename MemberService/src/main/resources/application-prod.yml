@@ -1,0 +1,45 @@
+server:
+  port: 0
+  error:
+    include-exception: false
+    include-message: always
+    include-stacktrace: on_param
+    whitelabel:
+      enabled: true
+
+spring:
+  application:
+    name: member-service
+
+  profiles:
+    default: prod
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  cloud:
+    config:
+      uri: http://k8b309.p.ssafy.io:8888
+      name: mysql-config
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://k8b309.p.ssafy.io:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

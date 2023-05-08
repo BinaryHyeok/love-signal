@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/SignUp.module.scss";
 import A_SignUp_Desc1 from "./A_SignUp_Desc1";
 import M_Image_Type from "../../UI/Common/M_Image_Type";
@@ -6,15 +6,16 @@ import Button_Type_A from "../../UI/Common/Button_Type_A";
 
 type PropsType = {
   onClick: () => void;
+  setMyImage: Dispatch<SetStateAction<FormData>>;
 };
 
-const M_SignUp_Profile: React.FC<PropsType> = ({ onClick }) => {
+const M_SignUp_Profile: React.FC<PropsType> = ({ onClick, setMyImage }) => {
   return (
     <>
       <div className={style.userInfo}>
         <A_SignUp_Desc1 />
         <div>
-          <M_Image_Type marginTop="16px" />
+          <M_Image_Type marginTop="16px" setMyImage={setMyImage} />
         </div>
         <div className={style.checkBtn}>
           <Button_Type_A

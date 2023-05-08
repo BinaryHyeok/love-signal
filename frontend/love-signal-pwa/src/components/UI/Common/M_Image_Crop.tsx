@@ -4,22 +4,21 @@ import "cropperjs/dist/cropper.css";
 import Button_Type_A from "./Button_Type_A";
 import style from "./M_Image_Crop.module.scss";
 import M_Image_Crop_Desc from "./M_Image_Crop_Desc";
-import { changeMyImg } from "../../../api/file";
 
 type PropsType = {
   image?: string;
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
-  cropData: string;
   setCropData: Dispatch<SetStateAction<string>>;
+  setMyImage: Dispatch<SetStateAction<FormData>>;
 };
 
 const M_Image_Crop: React.FC<PropsType> = ({
   image,
-  cropData,
   setCropData,
   visible,
   setVisible,
+  setMyImage,
 }) => {
   const cropperRef = createRef<ReactCropperElement>();
 
@@ -32,9 +31,10 @@ const M_Image_Crop: React.FC<PropsType> = ({
         if (blob) {
           const formData = new FormData();
           formData.append("file", blob);
+          setMyImage(formData);
           console.log(formData);
-          console.log(formData.get("file"));
-          changeMyImg("4b2dbfcc-392d-4c88-ad76-96494d16c266", formData);
+          console.log(formData.get("file")); //여기있는 formData를 끌고 올라가야해?..
+          // changeMyImg("4b2dbfcc-392d-4c88-ad76-96494d16c266", formData);
         }
       }, "image/png");
       setVisible(!visible);

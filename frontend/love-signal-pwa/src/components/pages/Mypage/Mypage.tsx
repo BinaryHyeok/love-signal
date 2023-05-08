@@ -15,6 +15,7 @@ const Mypage = () => {
   const [myImg, setMyImg] = useState<string>("");
   const [myNickName, setMyNickName] = useState<string>("");
   const [myDescription, setMyDescription] = useState<string>("");
+  const [, guraImage] = useState<FormData>(new FormData());
   useEffect(() => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
@@ -42,7 +43,7 @@ const Mypage = () => {
     <>
       <div className={style.myPageContainer}>
         <div className={style.scrollContainer}>
-          <M_Image_Type myImg={myImg} marginTop="8px" />
+          <M_Image_Type myImg={myImg} marginTop="8px" setMyImage={guraImage} />
           <MyInfo nickname={myNickName} description={myDescription} />
           <div className={style.drawal}>
             <Button_Type_A width="100%">로그아웃</Button_Type_A>

@@ -11,6 +11,13 @@ export type member = {
   profileImage: string;
 };
 
+export type signupMember = {
+  nickname: string;
+  gender: string;
+  birth: string;
+  description: string;
+};
+
 //회원정보 조회시에 받아오는 데이터(굳이 필요한가 의문)
 export type userInfo = {
   memberUUID: string;

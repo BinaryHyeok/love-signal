@@ -20,7 +20,7 @@ const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
   const [___, setChatList] = useRecoilState(chatList);
 
-  const socket = new SockJS("/ws-stomp");
+  const socket = new SockJS("http://localhost:8080/ws-stomp");
   const ws = Stomp.over(socket);
 
   useEffect(() => {

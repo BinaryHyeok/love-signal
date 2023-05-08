@@ -9,5 +9,6 @@ spring:
       server:
         git:
           uri: https://github.com/kwnoyng/LoveSignal-Config.git
+          default-label: main
 #          username:
 #          password:

@@ -11,9 +11,6 @@ spring:
   application:
     name: team-service
 
-  profiles:
-    default: prod
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

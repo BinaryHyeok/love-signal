@@ -18,15 +18,32 @@ spring:
           uri: lb://member-service
           predicates:
             - Path=/member/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
         - id: team-service
           uri: lb://team-service
           predicates:
             - Path=/team/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
         - id: chatting-service
           uri: lb://chatting-service
           predicates:
             - Path=/chatting/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
         - id: file-service
           uri: lb://file-service
           predicates:
             - Path=/file/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
+  security:
+    oauth2:
+      client:
+        kakao:
+          account-uri: https://kapi.kakao.com/v2/user/me?property_keys=["for_partner.uuid"]

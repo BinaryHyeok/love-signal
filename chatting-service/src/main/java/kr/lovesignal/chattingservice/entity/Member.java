@@ -45,6 +45,11 @@ public class Member extends BaseEntity{
     @ColumnDefault("'F'")
     private String teamLeader;
 
+//    @OneToOne
+//    @JoinColumn(name = "profile_image_id", nullable = false)
+//    private ProfileImage profileImage;
+
+
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = true)
     private Team team;

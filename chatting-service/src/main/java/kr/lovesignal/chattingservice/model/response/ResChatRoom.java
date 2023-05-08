@@ -1,11 +1,14 @@
 package kr.lovesignal.chattingservice.model.response;
 
 import kr.lovesignal.chattingservice.entity.ChatRoom;
+import kr.lovesignal.chattingservice.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +23,7 @@ public class ResChatRoom {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private String expired;
+    private List<Member> memberList;
 
     public static ResChatRoom toDto(ChatRoom chatRoom) {
         return ResChatRoom.builder()

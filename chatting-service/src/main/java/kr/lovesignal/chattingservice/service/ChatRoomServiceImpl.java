@@ -54,10 +54,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findMemberByUUID(uuid);
 
-        List<Participant> participants = member.getParticipants();
+        List<Participant> memberParticipants = member.getParticipants();
         List<ResChatRoom> chatRoomList = new ArrayList<>();
 
-        for(Participant participant : participants) {
+        for(Participant participant : memberParticipants) {
             ResChatRoom resChatRoom = ResChatRoom.toDto(participant.getChatRoom());
             String roomUUID = participant.getChatRoom().getUUID().toString();
             String lastMessage = chatRepository.bringLastChatMessage(roomUUID);

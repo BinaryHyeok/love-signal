@@ -120,6 +120,8 @@ const Chat = () => {
     let vh = window.visualViewport?.height;
     if (!vh) {
       vh = window.innerHeight * 0.01;
+    } else {
+      vh *= 0.01;
     }
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   };
@@ -158,7 +160,7 @@ const Chat = () => {
     >
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
-      {selectedRoom.UUID && (
+      {/* {selectedRoom.UUID && (
         <T_ChatRoom
           className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
           roomId={selectedRoom.UUID}
@@ -170,9 +172,9 @@ const Chat = () => {
           onTextSend={textSendHandler}
         />
       )}
-      {!selectedRoom.UUID && <T_Chat />}
+      {!selectedRoom.UUID && <T_Chat />} */}
 
-      {/* <T_ChatRoom
+      <T_ChatRoom
         className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
         roomId={selectedRoom.UUID}
         title={selectedRoom.roomName}
@@ -182,7 +184,7 @@ const Chat = () => {
         chatList={chatList}
         onTextSend={textSendHandler}
       />
-      <T_Chat /> */}
+      <T_Chat />
     </div>
   );
 };

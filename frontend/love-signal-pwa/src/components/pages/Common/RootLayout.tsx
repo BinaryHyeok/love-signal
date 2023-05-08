@@ -19,6 +19,8 @@ const RootLayout = () => {
     let vh = window.visualViewport?.height;
     if (!vh) {
       vh = window.innerHeight * 0.01;
+    } else {
+      vh *= 0.01;
     }
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   };

@@ -1,5 +1,6 @@
 package kr.lovesignal.chattingservice.config;
 
+import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +43,13 @@ public class RedisConfig {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Long.class));
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+//        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(connectionFactory);
+//        redisTemplate.setKeySerializer(new StringRedisSerializer());
+//        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ResChatMessage.class));
+//        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+//        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(ResChatMessage.class));
         return redisTemplate;
     }
 }

@@ -16,14 +16,12 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -43,6 +41,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomJpaRepository chatRoomJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final ParticipantJpaRepository participantJpaRepository;
+
+
+    @PostConstruct
+    private void init() {
+        topics = new HashMap<>();
+    }
+
 
 
     /**
@@ -297,14 +302,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     public void enterChatRoom(String roomUUID) {
         ChannelTopic topic = topics.get(roomUUID);
+        System.out.println(roomUUID+"여기서 오류나요 =============================================");
         if (topic == null)
             topic = new ChannelTopic(roomUUID);
         redisMessageListener.addMessageListener(redisSubscriber, topic);
         topics.put(roomUUID, topic);
     }
 
-    public ChannelTopic getTopic(String roomId) {
-        return topics.get(roomId);
+    public ChannelTopic getTopic(String roomUUID) {
+        return topics.get(roomUUID);
     }
 }
 

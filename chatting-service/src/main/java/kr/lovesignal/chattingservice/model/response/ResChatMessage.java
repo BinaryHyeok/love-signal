@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Builder
-public class ResChatMessage {
+public class ResChatMessage implements Serializable {
 
     private int redis_message_id;
     private String roomUUID;

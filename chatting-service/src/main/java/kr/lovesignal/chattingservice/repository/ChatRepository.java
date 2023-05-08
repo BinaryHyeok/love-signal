@@ -95,13 +95,14 @@ public class ChatRepository {
     }
 
     public String bringLastChatMessage(String roomUUID) {
-        List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
-        if(list == null) {
-            return "";
-        }
-        else {
-        ResChatMessage lastMessage = list.get(list.size()-1);
-            return lastMessage.getContent();
-        }
+//        List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
+//        if(list == null) {
+//            return "";
+//        }
+//        else {
+//        ResChatMessage lastMessage = list.get(list.size()-1);
+//            return lastMessage.getContent();
+//        }
+        return "";
     }
 }

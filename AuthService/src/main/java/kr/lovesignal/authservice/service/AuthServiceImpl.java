@@ -20,7 +20,6 @@ public class AuthServiceImpl implements AuthService{
 
     private final MemberRepository memberRepository;
     private final ResponseUtils responseUtils;
-    private final CommonUtils commonUtils;
 
     // 회원가입
     @Override
@@ -33,7 +32,7 @@ public class AuthServiceImpl implements AuthService{
                 .description(signUpRequest.getBirth())
                 .nickname(signUpRequest.getNickname())
                 .gender(signUpRequest.getGender())
-                .kakaoUUID(kauthAccountResponse.getFor_partner().getUuid())
+                .kakaoId(kauthAccountResponse.getId().toString())
                 .build();
 
         memberRepository.save(saveMember);
@@ -51,9 +50,10 @@ public class AuthServiceImpl implements AuthService{
         if(findMember != null){
             strMemberUUID = findMember.getUUID().toString();
         }
+
         SignInResponse signInResponse = SignInResponse.builder()
                 .memberUUID(strMemberUUID)
-                .kakaoUUID(findMember.getKakaoUUID())
+                .kakaoId(kauthAccountResponse.getId().toString())
                 .accessToken(kauthTokenResponse.getAccess_token())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService{
 
         SignInResponse refreshResponse = SignInResponse.builder()
                 .accessToken(kauthTokenResponse.getAccess_token())
-                .kakaoUUID(kauthAccountResponse.getFor_partner().getUuid())
+                .kakaoId(kauthAccountResponse.getId().toString())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
                 .memberUUID(emailMember.getUUID().toString())

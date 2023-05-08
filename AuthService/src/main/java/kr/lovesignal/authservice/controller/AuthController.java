@@ -11,9 +11,13 @@ import kr.lovesignal.authservice.service.WebClientService;
 import kr.lovesignal.authservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -25,6 +29,18 @@ public class AuthController {
     private final AuthService authService;
     private final WebClientService webClientService;
     private final ResponseUtils responseUtils;
+
+    @Value("${spring.security.oauth2.client.kakao.client-id}")
+    private String clientId;
+
+    @Value("${spring.security.oauth2.client.kakao.redirect-uri}")
+    private String redirectUri;
+
+    @GetMapping("/kakao/login")
+    public void kakaoOauthLogin(HttpServletResponse response) throws IOException {
+        String redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, redirectUri);
+        response.sendRedirect(redirect_uri);
+    }
 
     @PostMapping("/sign-in")
     @ApiOperation(value = "로그인")

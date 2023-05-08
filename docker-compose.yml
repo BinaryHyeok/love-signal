@@ -147,4 +147,6 @@ volumes:
 
 networks:
   backend:
+    name: shared_backend
   sonarnet:
+    name: shared_sonarnet

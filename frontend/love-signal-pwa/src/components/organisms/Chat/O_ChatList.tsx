@@ -8,7 +8,7 @@ import { chatList } from "../../../atom/chat";
 import { room } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 
-import { Stomp } from "@stomp/stompjs";
+import { Stomp, Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
 type PropsType = {
@@ -20,33 +20,45 @@ const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
   const [___, setChatList] = useRecoilState(chatList);
 
-  const socket = new SockJS("http://localhost:8080/ws-stomp");
-  const ws = Stomp.over(socket);
+  // const socket = new SockJS("/ws-stomp");
+  // const ws = Stomp.over(socket);
 
-  useEffect(() => {
-    if (!selectedRoom) {
-      connect();
-    }
-  }, [selectedRoom]);
+  const wsClient = new Client({
+    brokerURL: "/ws-stomp",
+    connectHeaders: {},
+    debug: (str) => {
+      console.log(str);
+    },
+  });
 
-  const connect = () => {
-    console.log("선택된 방 : ", selectedRoom);
-    ws.connect({}, (frame: any) => {
-      ws.subscribe("/sub/chat/room" + selectedRoom.uuid, (res) => {
-        const messages = JSON.parse(res.body);
-        console.log(messages);
-      });
-      // ws.send(
-      //   "/pub/chat/message",
-      //   {},
-      //   JSON.stringify({
-      //     type: "ENTER",
-      //     roomId: selectedRoom.uuid,
-      //     // nickname: NickName,
-      //   })
-      // );
-    });
+  wsClient.onConnect = (frame) => {
+    console.log("연결 되었다~~~");
   };
+
+  wsClient.onStompError = (frame) => {
+    console.log("Broker reported Error", frame.headers["message"]);
+    console.log("Additional details: ", frame.body);
+  };
+
+  // const connect = () => {
+  //   console.log("선택된 방 : ", selectedRoom);
+  //   ws.connect({}, (frame: any) => {
+  //     ws.subscribe("/sub/chat/room" + selectedRoom.uuid, (res) => {
+  //       const messages = JSON.parse(res.body);
+  //       console.log(messages);
+  //     });
+  // ws.send(
+  //   "/pub/chat/message",
+  //   {},
+  //   JSON.stringify({
+  //     type: "ENTER",
+  //     roomId: selectedRoom.uuid,
+  //     // nickname: NickName,
+  //   })
+  // );
+  //   });
+  // };
+  // connect();
 
   const selectRoomHandler = (e: React.MouseEvent<HTMLElement>): void => {
     console.log("selected Room uuid : " + e.currentTarget.id);

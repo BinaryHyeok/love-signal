@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import { chat } from "../types/chat";
+import Chat from "../components/pages/Chat/Chat";
 
 //채팅 목록 불러오기
 export const getChatList = async (uuid: string) => {
@@ -26,15 +28,16 @@ export const connectChatServer = async (roomUUID: string) => {
       console.log(messages);
     });
 
-    ws.send(
-      "/pub/chat/message",
-      {},
-      JSON.stringify({
-        type: "ENTER",
-        roomUUID: roomUUID,
-        nickname: "임시 닉네임",
-        content: "",
-      })
-    );
+    publishChatMsg({
+      type: "TEXT",
+      roomUUID: roomUUID,
+      nickname: "임시 닉네임",
+      content: "",
+    });
   });
+};
+
+export const publishChatMsg = (newChat: chat) => {
+  const header = {};
+  ws.send("/pub/chat/message", header, JSON.stringify(newChat));
 };

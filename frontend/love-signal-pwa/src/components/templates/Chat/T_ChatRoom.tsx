@@ -4,11 +4,12 @@ import M_ChatRoomHeader from "../../molecules/Chat/M_ChatRoomHeader";
 import O_ChatTextBox from "../../organisms/Chat/O_ChatTextBox";
 import { chat } from "../../../types/chat";
 
-import { Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
-
 import { useRecoilState } from "recoil";
-import { connectChatServer, getChatList } from "../../../api/chat";
+import {
+  connectChatServer,
+  getChatList,
+  publishChatMsg,
+} from "../../../api/chat";
 import { roomInfo } from "../../../atom/chatRoom";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
@@ -17,8 +18,8 @@ const ENUM_BACKGROUND: { [key: string]: string } = {
   MEETING: "#fbced3",
   SECRET: "#dccefb",
 };
-
 Object.freeze(ENUM_BACKGROUND);
+
 type PropsType = {
   className?: string;
   roomId?: string;
@@ -62,17 +63,14 @@ const T_ChatRoom: React.FC<PropsType> = ({
       roomUUID: roomId,
       nickname: "임시 닉네임",
       content: content,
+      createdDate: currTime,
     };
 
+    publishChatMsg(newChat);
     setChatList(() => [...chatList, newChat]);
-
-    ws.send("/pub/chat/message", {}, JSON.stringify(newChat));
   };
 
   useEffect(() => {
-    socket = new SockJS("http://localhost:8080/ws-stomp");
-    ws = Stomp.over(socket);
-
     if (roomId != undefined && roomId != null) {
       // 채팅 서버 연결
       connectChatServer(roomId);

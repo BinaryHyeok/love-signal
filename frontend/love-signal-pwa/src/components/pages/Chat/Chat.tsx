@@ -174,6 +174,7 @@ const Chat = () => {
       )}
       {!selectedRoom.UUID && <T_Chat />} */}
 
+      <T_Chat />
       <T_ChatRoom
         className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
         roomId={selectedRoom.UUID}
@@ -184,7 +185,6 @@ const Chat = () => {
         chatList={chatList}
         onTextSend={textSendHandler}
       />
-      <T_Chat />
     </div>
   );
 };

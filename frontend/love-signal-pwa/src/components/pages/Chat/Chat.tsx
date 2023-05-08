@@ -155,7 +155,7 @@ const Chat = () => {
   return (
     <div
       className={`${style.container} ${
-        selectedRoom.UUID ? style.expanded : ""
+        selectedRoom.uuid ? style.expanded : ""
       }`}
     >
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
@@ -176,8 +176,8 @@ const Chat = () => {
 
       <T_Chat />
       <T_ChatRoom
-        className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
-        roomId={selectedRoom.UUID}
+        className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
+        roomId={selectedRoom.uuid}
         title={selectedRoom.roomName}
         count={selectedRoom.memberCount}
         roomExitHandler={roomExitHandler}

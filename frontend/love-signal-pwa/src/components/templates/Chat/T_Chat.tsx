@@ -8,7 +8,7 @@ import { getChatRoomList } from "../../../api/room";
 
 const DUMMY_ROOM_LIST: room[] = [
   {
-    UUID: "1",
+    uuid: "1",
     roomName: "남자방",
     memberCount: "3",
     lastMsgTime: "2023-05-01 11:39:27",
@@ -38,7 +38,7 @@ const DUMMY_ROOM_LIST: room[] = [
     ],
   },
   {
-    UUID: "2",
+    uuid: "2",
     roomName: "러브하우스",
     memberCount: "6",
     lastMsgTime: "2023-05-02 00:03:12",
@@ -89,14 +89,14 @@ const DUMMY_ROOM_LIST: room[] = [
     ],
   },
   {
-    UUID: "3",
+    uuid: "3",
     roomName: "러브시그널",
     memberCount: "",
     lastMsgTime: "2023-05-01 23:59:59",
     type: "SYSTEM",
   },
   {
-    UUID: "4",
+    uuid: "4",
     roomName: "익명",
     memberCount: "2",
     lastMsgTime: "2023-05-01 12:03:12",

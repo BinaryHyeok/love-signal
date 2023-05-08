@@ -72,12 +72,12 @@ services:
     build:
       context: ./MemberService
       dockerfile: Dockerfile
-    depends_on:
-      - discoveryservice
-      - apigateway
-      - config
-      - mysql
-      - redis
+    # depends_on:
+    #   - discoveryservice
+    #   - apigateway
+    #   - config
+    #   - mysql
+    #   - redis
     restart: always
     networks:
       - backend
@@ -129,7 +129,7 @@ services:
     restart: always
     networks:
       - backend
-  
+
   sonarqube:
     image: sonarqube:latest
     container_name: sonarqube

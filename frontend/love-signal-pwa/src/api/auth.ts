@@ -1,5 +1,5 @@
 import axios from "axios";
-import { member } from "../types/member";
+import { member, signupMember } from "../types/member";
 
 //회원정보 수정
 export const changeMyInfo = async (
@@ -55,12 +55,15 @@ export const login = async (query: string) => {
 // refreshToken //리프레시 토큰 //쿠키 저장
 
 //회원가입 버튼 클릭(Signup  request (nickname, gender, birth, description)
-export const signup = async (member: member) => {
+export const signUp = async (member: signupMember) => {
   return await axios({
     method: "post",
     url: `http://localhost:8888/sign-up`,
     headers: {
       "X-Auth_Token": "Access-Token",
+    },
+    data: {
+      member: member,
     },
   });
 };

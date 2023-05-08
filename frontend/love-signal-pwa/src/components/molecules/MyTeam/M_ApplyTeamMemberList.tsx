@@ -23,7 +23,7 @@ const M_ApplyTeamMemberList: React.FC<PropsType> = ({
   return (
     <ul className={style.team} onClick={openModal}>
       {team.map((member, idx) => (
-        <A_ApplyTeamMember key={idx} />
+        <A_ApplyTeamMember member={member} key={idx} />
       ))}
     </ul>
   );

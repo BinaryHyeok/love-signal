@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import style from "./M_Image_Type.module.scss";
 import EditBtn from "./EditBtn";
 import ProfileImg from "./ProfileImg";
@@ -9,10 +9,15 @@ import M_Image_Crop from "./M_Image_Crop";
 type propsType = {
   myImg?: string;
   marginTop: string;
+  setMyImage: Dispatch<SetStateAction<FormData>>;
 };
 
 //마이페이지, 회원가입에 쓸 이미지
-const M_Image_Type: React.FC<propsType> = ({ myImg, marginTop }) => {
+const M_Image_Type: React.FC<propsType> = ({
+  myImg,
+  marginTop,
+  setMyImage,
+}) => {
   const publicUrl = process.env.PUBLIC_URL;
   const filesample = `${publicUrl}/assets/girl5.png`;
   //여기서 fileImg 시작이 filesample이 아닌 myImg가 들어갈것.
@@ -49,10 +54,10 @@ const M_Image_Type: React.FC<propsType> = ({ myImg, marginTop }) => {
           >
             <M_Image_Crop
               image={fileImg}
-              cropData={cropData}
               setCropData={setCropData}
               visible={visible}
               setVisible={setVisible}
+              setMyImage={setMyImage}
             />
           </CommonModal>
         </Modal_portal>

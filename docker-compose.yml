@@ -112,8 +112,8 @@ services:
     build:
       context: ./AuthService
       dockerfile: Dockerfile
-    depends_on:
-      - config
+    # depends_on:
+    #   - config
     restart: always
     networks:
       - backend

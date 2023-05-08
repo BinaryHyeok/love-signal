@@ -28,11 +28,11 @@ spring:
         format_sql: true
 
   config:
-    import: configserver:http://k8b309.p.ssafy.io:8888
-
+    import: "optional:configserver:http://k8b309.p.ssafy.io:8888/"
   cloud:
     config:
-      name: mysql-config
+      name: mysql
+      profile: config
 
 eureka:
   client:

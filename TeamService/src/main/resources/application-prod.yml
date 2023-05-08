@@ -27,10 +27,8 @@ spring:
       hibernate:
         format_sql: true
 
-  cloud:
-    config:
-      uri: http://k8b309.p.ssafy.io:8888
-      name: mysql-config
+  config:
+    import: "configserver:http://k8b309.p.ssafy.io:8888/mysql-config.yml"
 
 eureka:
   client:

@@ -42,8 +42,8 @@ public class ChatController {
     }
 
     @ApiOperation(value = "채팅내역 조회", notes = "입장한 채팅방의 모든 채팅내역을 가져온다.")
-    @GetMapping("/chat/messages")
-    public ResponseEntity<List<ResChatMessage>> getChatMessages(String roomUUID) {
+    @GetMapping("/chat/messages/{roomUUID}")
+    public ResponseEntity<List<ResChatMessage>> getChatMessages(@PathVariable String roomUUID) {
         return new ResponseEntity<>(chatService.getChatMessages(roomUUID), HttpStatus.OK);
     }
 

@@ -25,7 +25,7 @@ public class InitDummyData {
     private final MeetingRepository meetingRepository;
 
     @Transactional
-//    @PostConstruct
+    @PostConstruct
     public void InitDummyData(){
 
         // 팀 생성
@@ -51,6 +51,7 @@ public class InitDummyData {
             String formattedDate = randomDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
             MemberEntity member = MemberEntity.builder()
+                    .email(Integer.toString(idx))
                     .birth(formattedDate)
                     .nickname(Integer.toString(idx))
                     .gender("M")

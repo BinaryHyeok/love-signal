@@ -13,5 +13,4 @@ public class KauthAccountResponse {
 
     private Long id;
     private LocalDateTime connected_at;
-    private KakaoUUID for_partner;
 }

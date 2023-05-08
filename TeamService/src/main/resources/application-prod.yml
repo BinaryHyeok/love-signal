@@ -9,7 +9,7 @@ server:
 
 spring:
   application:
-    name: member-service
+    name: team-service
 
   profiles:
     default: prod

@@ -15,10 +15,6 @@ const Chat = () => {
   const [_, setIdx] = useRecoilState<number>(footerIdx);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
-  const [prevViewport, setPrevViewport] = useState<number | undefined>(
-    window.visualViewport?.height
-  );
-
   useEffect(() => {
     setIdx(2);
     window.addEventListener("resize", unitHeightSetHandler);

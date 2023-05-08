@@ -11,4 +11,14 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  animation: slide 0.5s;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
 }

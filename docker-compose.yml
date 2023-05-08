@@ -104,7 +104,6 @@ services:
       dockerfile: Dockerfile
     restart: always
     networks:
-      - backend
 
   auth-service:
     image: auth-service:latest
@@ -149,12 +148,22 @@ services:
 
 volumes:
   mysql-data:
+    name: mysql-data
   redis-data:
+    name: redis-data
   sonarqube_data:
+    name: sonarqube_data
   sonarqube_extensions:
+    name: sonarqube_extensions
   sonarqube_logs:
+    name: sonarqube_logs
   postgres_data:
+    name: postgres_data
 
 networks:
   backend:
+    external:
+      name: backend
   sonarnet:
+    external:
+      name: sonarnet

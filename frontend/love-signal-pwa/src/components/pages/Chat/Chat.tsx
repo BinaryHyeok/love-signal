@@ -83,12 +83,28 @@ const Chat = () => {
   const [_, setFooterIsOn] = useRecoilState(footerIsOn);
 
   const [chatList, setChatList] = useState<chat[]>([...DUMMY_CHAT_LIST]);
+  const [prevViewport, setPrevViewport] = useState<number | undefined>(
+    window.visualViewport?.height
+  );
 
   useEffect(() => {
     setIdx(2);
+    window.addEventListener("resize", unitHeightSetHandler);
+    window.addEventListener("touchend", unitHeightSetHandler);
+    window.visualViewport?.addEventListener(
+      "resize",
+      resizeVisualViewportHandler
+    );
+
     return () => {
       setSelectedRoom({});
       setFooterIsOn(true);
+      window.removeEventListener("resize", unitHeightSetHandler);
+      window.removeEventListener("touchend", unitHeightSetHandler);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        resizeVisualViewportHandler
+      );
     };
   }, []);
 
@@ -99,6 +115,16 @@ const Chat = () => {
     }));
     setChatList([...typeAdded]);
   }, [selectedRoom]);
+
+  const unitHeightSetHandler = () => {
+    const vh = window.innerHeight * 0.01;
+    alert("vh : " + vh);
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+
+  const resizeVisualViewportHandler = () => {
+    const current = window.visualViewport?.height;
+  };
 
   const roomExitHandler = () => {
     setSelectedRoom({});

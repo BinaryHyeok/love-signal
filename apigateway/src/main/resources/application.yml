@@ -1,6 +1,10 @@
 server:
   port: 8000
 
+logging:
+  level:
+    root: DEBUG
+
 eureka:
   client:
     register-with-eureka: true

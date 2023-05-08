@@ -1,8 +1,7 @@
 import axios from "axios";
+import { chat } from "../types/chat";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { chat } from "../types/chat";
-import Chat from "../components/pages/Chat/Chat";
 
 //채팅 목록 불러오기
 export const getChatList = async (uuid: string) => {

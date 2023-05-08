@@ -12,6 +12,7 @@ import { getMyTeam } from "../../../api/team";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { applyTeam } from "../../../types/member";
+import Ground from "../../UI/Three/Ground";
 
 const MyTeam = () => {
   //현재 우리팀이 상대팀이 매칭이 되어있는지 확인하기.(임시입니다.)
@@ -79,7 +80,6 @@ const MyTeam = () => {
         console.log(err);
       });
   };
-
   return (
     <>
       {myVisible && !oppoVisible && (

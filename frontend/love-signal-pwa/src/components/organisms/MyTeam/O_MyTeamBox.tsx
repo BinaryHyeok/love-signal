@@ -76,17 +76,28 @@ const O_MyTeamBox: React.FC<propsType> = ({
 }) => {
   const [TeamUUID] = useRecoilState<string>(myTeamUUID);
   const [clickBtn, setClickBtn] = useState<boolean>(false);
+  const [start, setStart] = useState<boolean>(true);
 
   useEffect(() => {
-    receivemeetingList(TeamUUID)
-      .then((res) => {
-        setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
-        addApplyList(res.data.body.teams);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log(clickBtn);
+    if (start) {
+      receivemeetingList(TeamUUID)
+        .then((res) => {
+          setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
+          addApplyList(res.data.body.teams);
+          setStart(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [clickBtn]);
+
+  useEffect(() => {
+    if (!start) {
+      setStart(true);
+    }
+  }, [applyList]);
 
   const addApplyList = (applyTeamList: applyTeam[]) => {
     applyTeamList.forEach((item) => {

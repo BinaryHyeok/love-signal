@@ -46,7 +46,7 @@ const MyTeam = () => {
 
   //axios로 내 정보 받아오기.
   const getUserInfo = async () => {
-    await inquireMember("ebf231a8-c235-4289-a4ae-1d78844c70cf")
+    await inquireMember("1ddfcbd3-73a2-4496-8e45-7f030ae23fba")
       .then((res) => {
         console.log(res.data.body); //해당 정보 보고 판단.
         // setmyUUID(res.data.body.memberUUID);
@@ -86,6 +86,7 @@ const MyTeam = () => {
             visible={myVisible}
             member={memberList}
             oppositeTeamUUID=""
+            myTeam={true}
           />
         </Modal_portal>
       )}
@@ -95,7 +96,8 @@ const MyTeam = () => {
             setVisible={setOppoVisible}
             visible={oppoVisible}
             member={applyList[oppoTeamIdx].members}
-            oppositeTeamUUID=""
+            oppositeTeamUUID={applyList[oppoTeamIdx].teamUUID}
+            myTeam={true}
           />
         </Modal_portal>
       )}

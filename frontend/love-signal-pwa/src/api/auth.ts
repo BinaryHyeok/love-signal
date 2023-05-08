@@ -1,4 +1,5 @@
 import axios from "axios";
+import { member } from "../types/member";
 
 //회원정보 수정
 export const changeMyInfo = async (
@@ -36,6 +37,32 @@ export const inquireMember = async (memberUUID: string) => {
 export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost9000/member/check/nickname/${nickname}`,
+    url: `http://localhost:8888/auth/check/nickname/${nickname}`,
   });
 };
+
+//카카오 로그인시 반환할때 하는 부분.
+export const login = async (query: string) => {
+  return await axios({
+    method: "post",
+    url: `http://localhost:8888/sign-in`,
+  });
+};
+// memberUUID //회원가입 안된사람이면 null 값
+// kakaoUUID //카카오 UUID //recoil 저장
+// accessToken //AccessToken //recoil 저장
+// accessTokenExpireTime // AcessToken 만료시간 //recoil 저장
+// refreshToken //리프레시 토큰 //쿠키 저장
+
+//회원가입 버튼 클릭(Signup  request (nickname, gender, birth, description)
+export const signup = async (member: member) => {
+  return await axios({
+    method: "post",
+    url: `http://localhost:8888/sign-up`,
+    headers: {
+      "X-Auth_Token": "Access-Token",
+    },
+  });
+};
+
+//memberUUID //이것만 줌.

@@ -27,3 +27,10 @@ export const mytk = atom<string>({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+//자신의 KaKaoUUID를 저장할 recoil입니다.
+export const kid = atom<string>({
+  key: "kid",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});

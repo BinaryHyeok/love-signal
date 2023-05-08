@@ -21,12 +21,14 @@ const A_ApplyRejectButton: React.FC<propsType> = ({
   // const [myUUID] = useRecoilState<string>(myMemberUUID);
 
   //팀 거절을 눌렀을때.
-  const rejectTeam = () => {
-    // console.log(myUUID);
-    console.log(oppsiteTeamUUID);
-    //성공은 했는데 에러를 띄우넹 뭐징..
-    rejectMeeting("3c0f0a1f-ac05-4c7f-848d-638298b52ef6", oppsiteTeamUUID);
-    setClickBtn(!clickBtn);
+  const rejectTeam = async () => {
+    if (isLeader) {
+      await rejectMeeting(
+        "3c0f0a1f-ac05-4c7f-848d-638298b52ef6",
+        oppsiteTeamUUID
+      );
+      setClickBtn(!clickBtn);
+    }
   };
 
   return (

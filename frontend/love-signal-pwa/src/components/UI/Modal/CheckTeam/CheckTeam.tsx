@@ -1,5 +1,5 @@
 import style from "./CheckTeam.module.scss";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useEffect, Dispatch, SetStateAction, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -23,21 +23,29 @@ type propsType = {
   visible: boolean;
   member: member[];
   oppositeTeamUUID: string;
+  myTeam: boolean; //내팀일 경우엔 밑에 버튼을 띄우면 안될것 같아 사용.
 };
 
 const CheckTeam: React.FC<propsType> = ({
   setVisible,
-  visible,
   member,
   oppositeTeamUUID,
+  myTeam,
 }) => {
-  const [myUUID] = useRecoilState<string>(myTeamUUID);
+  const [myUUID] = useRecoilState<string>(myTeamUUID); //현재는 사용안하지만 이후에 사용예정.
+  const [btnVisible, setBtnVisible] = useState<boolean>(false);
 
   const [close, setClose] = useState(false);
+
+  useEffect(() => {
+    setBtnVisible(!myTeam);
+  }, []);
 
   const closeModal = () => {
     setVisible(false);
   };
+
+  console.log(oppositeTeamUUID);
 
   const closeLeft = () => {
     setClose(!close);
@@ -54,13 +62,13 @@ const CheckTeam: React.FC<propsType> = ({
 
   //신청하기 버튼
   const applyTeam = () => {
-    applyMeeting("2a1a478b-caa4-4408-be6c-e1413076d781", oppositeTeamUUID)
+    applyMeeting("04cfeee4-01b9-47e7-8ef8-16ff69616cf8", oppositeTeamUUID)
       .then((res) => {
         console.log(res);
         console.log("신청완료.");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data.message);
         console.log("신청이 안됐네..");
       });
   };
@@ -128,25 +136,29 @@ const CheckTeam: React.FC<propsType> = ({
             />
           </SwiperSlide>
         </Swiper>
-        <div className={style.buttonContainer}>
-          <ButtonTypeA
-            width="104px"
-            height="32px"
-            background="#CAD9FF"
-            className={style.button}
-            onClick={shareTeam}
-          >
-            <img src="/assets/share.png" alt="" />
-          </ButtonTypeA>
-          <ButtonTypeA
-            width="104px"
-            height="32px"
-            background="#FBCED3"
-            onClick={applyTeam}
-          >
-            <img src="/assets/send_invite.png" alt="" />
-          </ButtonTypeA>
-        </div>
+        {btnVisible ? (
+          <div className={style.buttonContainer}>
+            <ButtonTypeA
+              width="104px"
+              height="32px"
+              background="#CAD9FF"
+              className={style.button}
+              onClick={shareTeam}
+            >
+              <img src="/assets/share.png" alt="" />
+            </ButtonTypeA>
+            <ButtonTypeA
+              width="104px"
+              height="32px"
+              background="#FBCED3"
+              onClick={applyTeam}
+            >
+              <img src="/assets/send_invite.png" alt="" />
+            </ButtonTypeA>
+          </div>
+        ) : (
+          <></>
+        )}
       </motion.div>
     </div>
   );

@@ -22,9 +22,10 @@ const A_ApplyAcceptButton: React.FC<propsType> = ({
   //버튼 클릭시 팀 수락한거임.
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const acceptTeam = () => {
-    acceptMeeting(myUUID, oppsiteTeamUUID);
-    setClickBtn(!clickBtn);
-    // console.log("클릭되는건가 나?");
+    if (isLeader) {
+      acceptMeeting(myUUID, oppsiteTeamUUID);
+      setClickBtn(!clickBtn);
+    }
   };
 
   return (

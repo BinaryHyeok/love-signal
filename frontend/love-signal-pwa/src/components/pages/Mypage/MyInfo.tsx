@@ -22,7 +22,9 @@ const MyInfo: React.FC<propsType> = ({ nickname, description }) => {
   const [changeIntroduce, setChangeIntroduce] = useState<boolean>(true); //자기소개 바꿔줄 state
 
   //시작값이 description
-  const [myIntroduce, setMyIntroduce] = useState<string>("내가 프론트 리더");
+  const [myIntroduce, setMyIntroduce] = useState<string>(
+    "asssssssssssssssssssssssssssssssssssssss"
+  );
 
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [applyInfo, setApplyInfo] = useState<boolean>(false);
@@ -51,8 +53,6 @@ const MyInfo: React.FC<propsType> = ({ nickname, description }) => {
             setMyNickName={setMyNickName}
           />
         )}
-
-        <Age />
 
         {changeIntroduce ? (
           <Introduce

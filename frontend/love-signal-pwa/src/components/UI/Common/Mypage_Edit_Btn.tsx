@@ -1,12 +1,12 @@
 import React from "react";
-import style from "./EditBtnImg.module.scss";
+import style from "./MyPage_Edit_Btn.module.scss";
 import { motion } from "framer-motion";
 
 type propsType = {
   imgClick: () => void;
 };
 
-const EditBtnImg: React.FC<propsType> = ({ imgClick }) => {
+const Mypage_Edit_Btn: React.FC<propsType> = ({ imgClick }) => {
   return (
     <>
       <motion.img
@@ -19,4 +19,4 @@ const EditBtnImg: React.FC<propsType> = ({ imgClick }) => {
   );
 };
 
-export default EditBtnImg;
+export default Mypage_Edit_Btn;

@@ -3,23 +3,23 @@ import style from "./styles/A_ChatText_TypeB.module.scss";
 
 type PropsType = {
   background?: string;
-  text: string;
-  sender?: string;
+  content?: string;
+  nickname?: string;
 };
 
 const A_ChatText_TypeB: React.FC<PropsType> = ({
   background,
-  text,
-  sender,
+  content,
+  nickname,
 }) => {
   return (
     <div>
-      <span className={style.sender}>{sender}</span>
+      <span className={style.sender}>{nickname}</span>
       <p
         className={style.text}
         style={background ? { background: background } : { background: "#fff" }}
       >
-        {text}
+        {content}
       </p>
     </div>
   );

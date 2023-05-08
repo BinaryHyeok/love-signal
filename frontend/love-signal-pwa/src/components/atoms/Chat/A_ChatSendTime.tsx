@@ -2,10 +2,10 @@ import React from "react";
 import style from "./styles/A_ChatSendTime.module.scss";
 
 type PropsType = {
-  sendTime: string;
+  createdDate?: string;
 };
 
-const A_ChatSendTime: React.FC<PropsType> = ({ sendTime }) => {
+const A_ChatSendTime: React.FC<PropsType> = ({ createdDate }) => {
   const timeForMatter = (str: string) => {
     const [s_date, s_time] = str.split(" ");
     const [year, month, date] = s_date.split("-");
@@ -21,13 +21,14 @@ const A_ChatSendTime: React.FC<PropsType> = ({ sendTime }) => {
     };
   };
 
-  const timeView = (sendTime: string) => {
-    const date = timeForMatter(sendTime);
+  const timeView = (createdDate: string | null | undefined) => {
+    if (!createdDate) return "";
+    const date = timeForMatter(createdDate);
     const APM = +date.hour < 12 ? "오전" : "오후";
 
     return `${APM} ${date.hour}:${date.min}`;
   };
-  return <span className={style.timeView}>{timeView(sendTime)}</span>;
+  return <span className={style.timeView}>{timeView(createdDate)}</span>;
 };
 
 export default A_ChatSendTime;

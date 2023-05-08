@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./styles/A_ChatItemInfo.module.scss";
 
 type PropsType = {
-  UUID?: string;
+  uuid?: string;
   roomName?: string;
   memberCount?: string;
   lastMsgTime?: string;

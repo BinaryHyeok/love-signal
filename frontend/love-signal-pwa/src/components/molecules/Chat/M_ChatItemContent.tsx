@@ -13,7 +13,7 @@ const M_ChatItemContent: React.FC<PropsType> = ({ room, showTimer }) => {
   return (
     <div className={style.contentBox}>
       <A_ChatItemInfo
-        UUID={room.UUID}
+        uuid={room.uuid}
         roomName={room.roomName}
         memberCount={room.memberCount}
         lastMsgTime={room.lastMsgTime}

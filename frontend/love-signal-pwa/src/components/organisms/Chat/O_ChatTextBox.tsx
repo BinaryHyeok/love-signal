@@ -28,7 +28,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         doTimeCount={roomType === "ANONYMOUS" ? true : false}
         className={style.topNotice}
       />
-      <O_ChatTextList ulRef={ulRef} chatList={chatList} />
+      <O_ChatTextList ulRef={ulRef} roomType={roomType} chatList={chatList} />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}
         isDisabled={roomType === "SYSTEM" ? true : false}

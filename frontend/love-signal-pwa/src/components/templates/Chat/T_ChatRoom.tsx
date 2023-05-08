@@ -5,12 +5,11 @@ import O_ChatTextBox from "../../organisms/Chat/O_ChatTextBox";
 import { chat } from "../../../types/chat";
 
 import { useRecoilState } from "recoil";
-import {
-  connectChatServer,
-  getChatList,
-  publishChatMsg,
-} from "../../../api/chat";
+import { getChatList } from "../../../api/chat";
 import { roomInfo } from "../../../atom/chatRoom";
+
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -72,6 +71,8 @@ const T_ChatRoom: React.FC<PropsType> = ({
 
   useEffect(() => {
     if (roomId != undefined && roomId != null) {
+      socket = new SockJS("http://localhost:8080/ws-stomp");
+      ws = Stomp.over(socket);
       // 채팅 서버 연결
       connectChatServer(roomId);
 
@@ -108,6 +109,29 @@ const T_ChatRoom: React.FC<PropsType> = ({
       ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
     }
   }, [chatList]);
+
+  const connectChatServer = async (roomUUID: string) => {
+    const header = {};
+    ws.connect(header, (frame: any) => {
+      console.log("방 입장 : " + roomUUID);
+      ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
+        const messages = JSON.parse(res.body);
+        console.log(messages);
+      });
+
+      publishChatMsg({
+        type: "TEXT",
+        roomUUID: roomUUID,
+        nickname: "임시 닉네임",
+        content: "",
+      });
+    });
+  };
+
+  const publishChatMsg = (newChat: chat) => {
+    const header = {};
+    ws.send("/pub/chat/message", header, JSON.stringify(newChat));
+  };
 
   const unitHeightSetHandler = () => {
     let vh = window.visualViewport?.height;

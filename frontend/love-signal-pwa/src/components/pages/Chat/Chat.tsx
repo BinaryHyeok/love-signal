@@ -142,22 +142,22 @@ const Chat = () => {
     setFooterIsOn(true);
   };
 
-  const textSendHandler = (content: string) => {
-    if (content.trim().length < 1) return;
+  // const textSendHandler = (content: string) => {
+  //   if (content.trim().length < 1) return;
 
-    const now = new Date();
-    const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
-    setChatList(() => [
-      ...chat,
-      {
-        // roomType: selectedRoom.type,
-        // isMe: true,
-        content: content,
-        nickname: "Tom",
-        createdDate: currTime,
-      },
-    ]);
-  };
+  //   const now = new Date();
+  //   const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
+  //   setChatList(() => [
+  //     ...chat,
+  //     {
+  //       // roomType: selectedRoom.type,
+  //       // isMe: true,
+  //       content: content,
+  //       nickname: "Tom",
+  //       createdDate: currTime,
+  //     },
+  //   ]);
+  // };
 
   return (
     <div
@@ -189,8 +189,8 @@ const Chat = () => {
         count={selectedRoom.memberCount}
         roomExitHandler={roomExitHandler}
         roomType={selectedRoom.type}
-        chatList={chat}
-        onTextSend={textSendHandler}
+        // chatList={chat}
+        // onTextSend={textSendHandler}
       />
     </div>
   );

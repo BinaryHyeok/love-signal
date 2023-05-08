@@ -3,88 +3,15 @@ import style from "./styles/Chat.module.scss";
 import T_Chat from "../../templates/Chat/T_Chat";
 import { useRecoilState } from "recoil";
 import { roomInfo } from "../../../atom/chatRoom";
-import { chatList } from "../../../atom/chat";
 import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
-import { chat } from "../../../types/chat";
-
-const DUMMY_CHAT_LIST: chat[] = [
-  {
-    isMe: true,
-    content: "안녕하세요",
-    createdDate: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    content: "반가워요~~",
-    nickname: "Tom",
-    createdDate: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    content: "안녕하세요",
-    createdDate: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    content: "반가워요~~",
-    nickname: "Tom",
-    createdDate: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    content: "안녕하세요",
-    createdDate: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    content: "반가워요~~",
-    nickname: "Tom",
-    createdDate: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    content: "안녕하세요",
-    createdDate: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    content: "반가워요~~",
-    nickname: "Tom",
-    createdDate: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    content: "안녕하세요",
-    createdDate: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    content: "반가워요~~",
-    nickname: "Tom",
-    createdDate: "2023-04-30 12:02:12",
-  },
-  {
-    isMe: true,
-    content: "안녕하세요",
-    createdDate: "2023-04-30 11:58:38",
-  },
-  {
-    isMe: false,
-    content: "반가워요~~",
-    nickname: "Tom",
-    createdDate: "2023-04-30 12:02:12",
-  },
-];
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [_, setFooterIsOn] = useRecoilState(footerIsOn);
-  const [chat, setChatList] = useRecoilState(chatList);
 
-  // const [chatList, setChatList] = useState<chat[]>([...DUMMY_CHAT_LIST]);
   const [prevViewport, setPrevViewport] = useState<number | undefined>(
     window.visualViewport?.height
   );
@@ -109,19 +36,6 @@ const Chat = () => {
       );
     };
   }, []);
-
-  useEffect(() => {
-    // const typeAdded = chatList.map((item) => ({
-    //   ...item,
-    //   roomType: selectedRoom.type,
-    // }));
-    const typeAdded = chat.map((item) => ({
-      ...item,
-      roomType: selectedRoom.type,
-    }));
-    console.log("방 타입 추가된 데이터 : ", typeAdded);
-    setChatList([...typeAdded]);
-  }, [selectedRoom]);
 
   const unitHeightSetHandler = () => {
     let vh = window.visualViewport?.height;

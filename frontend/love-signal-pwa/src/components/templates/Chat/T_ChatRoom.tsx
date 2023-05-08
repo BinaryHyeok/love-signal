@@ -8,8 +8,8 @@ import { Stomp, Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
 import { useRecoilState } from "recoil";
-import { chatList } from "../../../atom/chat";
 import { getChatList } from "../../../api/chat";
+import { roomInfo } from "../../../atom/chatRoom";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -47,34 +47,26 @@ const T_ChatRoom: React.FC<PropsType> = ({
   const ulRef = useRef<HTMLUListElement>(null);
 
   const [unitHeight, setUnitHeight] = useState<number>();
-  const [chat, setChatList] = useRecoilState(chatList);
+  const [chatList, setChatList] = useState<chat[]>([]);
+  const [selectedRoom, _] = useRecoilState(roomInfo);
 
   const textSendHandler = (content: string) => {
     if (content.trim().length < 1) return;
 
     const now = new Date();
     const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
-    setChatList(() => [
-      ...chat,
-      {
-        // roomType: selectedRoom.type,
-        // isMe: true,
-        content: content,
-        nickname: "Tom",
-        createdDate: currTime,
-      },
-    ]);
+    const newChat: chat = {
+      // romType: selectedRoom.type,
+      // isMoe: true,
+      type: "TALK",
+      roomUUID: roomId,
+      nickname: "임시 닉네임",
+      content: content,
+    };
 
-    ws.send(
-      "/pub/chat/message",
-      {},
-      JSON.stringify({
-        type: "TALK",
-        roomId: roomId,
-        nickname: "임시 닉네임",
-        content: content,
-      })
-    );
+    setChatList(() => [...chatList, newChat]);
+
+    ws.send("/pub/chat/message", {}, JSON.stringify(newChat));
   };
 
   useEffect(() => {
@@ -94,7 +86,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
           {},
           JSON.stringify({
             type: "ENTER",
-            roomId: roomId,
+            roomUUID: roomId,
             nickname: "임시 닉네임",
             content: "",
           })
@@ -107,9 +99,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
       getChatList(roomId)
         .then((res) => {
           console.log(res.data);
-          const newChatList = [...chat, res.data];
-          console.log("업데이트된 채팅 목록 : ", newChatList);
-          setChatList(newChatList);
+          setChatList([...chatList, res.data]);
         })
         .catch((err) => {
           console.error(err);
@@ -133,6 +123,12 @@ const T_ChatRoom: React.FC<PropsType> = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (ulRef.current) {
+      ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
+    }
+  }, [chatList]);
+
   const unitHeightSetHandler = () => {
     let vh = window.visualViewport?.height;
     if (!vh) {
@@ -149,12 +145,6 @@ const T_ChatRoom: React.FC<PropsType> = ({
 
   useEffect(() => {}, [unitHeight]);
 
-  useEffect(() => {
-    if (ulRef.current) {
-      ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
-    }
-  }, [chatList]);
-
   return (
     <div className={`${style.chatRoom} ${className}`} ref={box_chatRoom}>
       <M_ChatRoomHeader
@@ -170,7 +160,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
         roomType={roomType}
         ulRef={ulRef}
         // chatList={chatList}
-        chatList={chat}
+        chatList={chatList}
       />
     </div>
   );

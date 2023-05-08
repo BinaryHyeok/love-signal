@@ -115,7 +115,6 @@ const T_Chat = () => {
   useEffect(() => {
     // 더미 코드
     // setRoomList(() => [...DUMMY_ROOM_LIST]);
-    // 테스트를 위해 임시 주석처리
     getChatRoomList(userUUID).then((res) => {
       const data: room[] = res.data;
       console.log(res.data);

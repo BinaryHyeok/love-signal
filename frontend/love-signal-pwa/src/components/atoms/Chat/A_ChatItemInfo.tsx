@@ -65,6 +65,7 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
   };
 
   const timeForMatter = (str: string) => {
+    if (!str) return null;
     const [s_date, s_time] = str.split(" ");
     const [year, month, date] = s_date.split("-");
     const [hour, min, sec] = s_time.split(":");
@@ -81,6 +82,7 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
 
   const timeView = (sendTime: string) => {
     const date = timeForMatter(sendTime);
+    if (!date) return "";
     const APM = +date.hour < 12 ? "오전" : "오후";
 
     return `${APM} ${date.hour}:${date.min}`;

@@ -65,7 +65,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
     };
 
     publishChatMsg(newChat);
-    setChatList(() => [...chatList, newChat]);
+    // setChatList(() => [...chatList, newChat]);
   };
 
   useEffect(() => {
@@ -116,10 +116,11 @@ const T_ChatRoom: React.FC<PropsType> = ({
       ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
         const messages = JSON.parse(res.body);
         console.log(messages);
+        setChatList((prev) => [...prev, messages]);
       });
 
       publishChatMsg({
-        type: "TEXT",
+        type: "ENTER",
         roomUUID: roomUUID,
         nickname: "임시 닉네임",
         content: "",

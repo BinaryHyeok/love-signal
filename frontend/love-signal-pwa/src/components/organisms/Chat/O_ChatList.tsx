@@ -11,6 +11,9 @@ import { getChatList } from "../../../api/chat";
 import { Stomp, Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
+let socket: any;
+let stompClient: any;
+
 type PropsType = {
   roomList: room[];
 };
@@ -20,25 +23,47 @@ const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
   const [___, setChatList] = useRecoilState(chatList);
 
+  useEffect(() => {
+    socket = new SockJS("http://localhost/ws-stomp");
+    stompClient = Stomp.over(socket);
+    stompClient.connect(
+      {},
+      (frame: any) => {
+        console.log("연결시도");
+        stompClient.subscribe(`/sub/chat/${selectedRoom.uuid}`, (res: any) => {
+          console.log(res.body);
+          console.log(JSON.parse(res.body));
+        });
+      },
+      (err: any) => {
+        console.error("~~~~~~~~~~~~~~");
+        console.error(err);
+      }
+    );
+  }, []);
+
   // const socket = new SockJS("/ws-stomp");
   // const ws = Stomp.over(socket);
 
-  const wsClient = new Client({
-    brokerURL: "/ws-stomp",
-    connectHeaders: {},
-    debug: (str) => {
-      console.log(str);
-    },
-  });
+  // const wsClient = new Client({
+  //   brokerURL: "/ws-stomp",
+  //   connectHeaders: {},
+  //   debug: (str) => {
+  //     console.log(str);
+  //   },
+  // });
 
-  wsClient.onConnect = (frame) => {
-    console.log("연결 되었다~~~");
-  };
+  // wsClient.onConnect = (frame) => {
+  //   console.log("연결 되었다~~~");
+  //   wsClient.subscribe("/sub/chat", (frame: any) => {});
+  // };
 
-  wsClient.onStompError = (frame) => {
-    console.log("Broker reported Error", frame.headers["message"]);
-    console.log("Additional details: ", frame.body);
-  };
+  // wsClient.onStompError = (frame) => {
+  //   console.log("Broker reported Error", frame.headers["message"]);
+  //   console.log("Additional details: ", frame.body);
+  // };
+
+  // wsClient.activate();
 
   // const connect = () => {
   //   console.log("선택된 방 : ", selectedRoom);

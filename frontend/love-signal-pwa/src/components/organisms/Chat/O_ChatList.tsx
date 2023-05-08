@@ -11,12 +11,12 @@ type PropsType = {
 };
 
 const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
-  const [_, setSelectedRoom] = useRecoilState(roomInfo);
+  const [_, setSelectedRoom] = useRecoilState<room>(roomInfo);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
   const selectRoomHandler = (e: React.MouseEvent<HTMLElement>): void => {
     roomList.forEach((room) => {
-      if (room.UUID === e.currentTarget.id) {
+      if (room.uuid === e.currentTarget.id) {
         setSelectedRoom(JSON.parse(JSON.stringify(room)));
       }
     });
@@ -26,7 +26,7 @@ const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
   return (
     <ul className={style.chatList}>
       {roomList.map((room) => (
-        <M_ChatItem key={room.UUID} room={room} onClick={selectRoomHandler} />
+        <M_ChatItem key={room.uuid} room={room} onClick={selectRoomHandler} />
       ))}
     </ul>
   );

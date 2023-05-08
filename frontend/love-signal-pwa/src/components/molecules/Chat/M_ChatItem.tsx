@@ -10,8 +10,9 @@ type PropsType = {
 };
 
 const M_ChatItem: React.FC<PropsType> = ({ room, onClick }) => {
+  console.log("렌더 룸 정보 : ", room);
   return (
-    <li className={style.chatItem} id={room.UUID} onClick={onClick}>
+    <li className={style.chatItem} id={room.uuid} onClick={onClick}>
       <M_ChatItemImage type={room.type} members={room.members} />
       <M_ChatItemContent
         room={room}

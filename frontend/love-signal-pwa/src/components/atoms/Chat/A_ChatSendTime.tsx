@@ -7,6 +7,7 @@ type PropsType = {
 
 const A_ChatSendTime: React.FC<PropsType> = ({ createdDate }) => {
   const timeForMatter = (str: string) => {
+    if (!str) return null;
     const [s_date, s_time] = str.split(" ");
     const [year, month, date] = s_date.split("-");
     const [hour, min, sec] = s_time.split(":");
@@ -24,6 +25,7 @@ const A_ChatSendTime: React.FC<PropsType> = ({ createdDate }) => {
   const timeView = (createdDate: string | null | undefined) => {
     if (!createdDate) return "";
     const date = timeForMatter(createdDate);
+    if (!date) return "";
     const APM = +date.hour < 12 ? "오전" : "오후";
 
     return `${APM} ${date.hour}:${date.min}`;

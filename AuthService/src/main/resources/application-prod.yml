@@ -9,7 +9,7 @@ server:
 
 spring:
   application:
-    name: member-service
+    name: auth-service
 
   profiles:
     default: prod
@@ -30,9 +30,11 @@ spring:
       hibernate:
         format_sql: true
 
+  config:
+    import: configserver:http://config:8888
+
   cloud:
     config:
-      uri: http://k8b309.p.ssafy.io:8888
       name: mysql-config
 
 eureka:
@@ -40,6 +42,6 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://k8b309.p.ssafy.io:8761/eureka
+      defaultZone: http://discoveryservice:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

@@ -56,6 +56,9 @@ spring:
           logout-uri: https://kapi.kakao.com/v1/user/logout
           redirect-uri: https://www.love-signal.kr/signup
           client-id: 0bae6bcf8c40843c797b0bb3025272d5
+  cloud:
+    config:
+      enabled: false
 
 swagger:
   enable: true      # Use Swagger

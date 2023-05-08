@@ -9,33 +9,13 @@ import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
 import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
-import { inquireMember } from "../../../api/auth";
-import { member, userInfo } from "../../../types/member";
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setIdx] = useRecoilState<number>(footerIdx);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
-  // test용 state
-  const [userUUID, ___] = useState<string>(
-    "882a9377-c1a6-4802-a0d8-2f310c004fed"
-  );
-  const [chatUser, setChatUser] = useState<member>();
-
   useEffect(() => {
-    inquireMember(userUUID).then((res) => {
-      const userInfo: userInfo = res.data.body;
-
-      setChatUser({
-        nickname: userInfo.nickname,
-        age: userInfo.age,
-        memberUUID: userInfo.memberUUID,
-        description: userInfo.description,
-        profileImage: userInfo.profileImage,
-      });
-    });
-
     setIdx(2);
     window.addEventListener("resize", unitHeightSetHandler);
     window.addEventListener("touchend", unitHeightSetHandler);
@@ -90,7 +70,6 @@ const Chat = () => {
           count={selectedRoom.memberCount}
           roomExitHandler={roomExitHandler}
           roomType={selectedRoom.type}
-          me={chatUser} // temp data
         />
       )}
       {!selectedRoom.uuid && <T_Chat />}

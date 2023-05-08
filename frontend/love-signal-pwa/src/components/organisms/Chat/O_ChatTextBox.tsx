@@ -11,7 +11,6 @@ type PropsType = {
   roomType?: string;
   ulRef: React.RefObject<HTMLUListElement>;
   chatList: chat[];
-  me?: member;
 };
 
 const O_ChatTextBox: React.FC<PropsType> = ({
@@ -19,7 +18,6 @@ const O_ChatTextBox: React.FC<PropsType> = ({
   roomType,
   ulRef,
   chatList,
-  me,
 }) => {
   return (
     <div className={style.textContainer}>
@@ -31,12 +29,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         doTimeCount={roomType === "ANONYMOUS" ? true : false}
         className={style.topNotice}
       />
-      <O_ChatTextList
-        ulRef={ulRef}
-        roomType={roomType}
-        chatList={chatList}
-        me={me}
-      />
+      <O_ChatTextList ulRef={ulRef} roomType={roomType} chatList={chatList} />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}
         isDisabled={roomType === "SYSTEM" ? true : false}

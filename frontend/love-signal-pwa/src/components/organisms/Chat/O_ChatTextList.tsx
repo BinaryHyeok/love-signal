@@ -4,28 +4,22 @@ import M_ChatTextItem from "../../molecules/Chat/M_ChatTextItem";
 import { chat } from "../../../types/chat";
 import { useRecoilState } from "recoil";
 import { nickname } from "../../../atom/member";
-import { member } from "../../../types/member";
 
 type PropsType = {
   ulRef: React.RefObject<HTMLUListElement>;
   roomType?: string;
   chatList: chat[];
-  me?: member;
 };
 
-const O_ChatTextList: React.FC<PropsType> = ({
-  ulRef,
-  roomType,
-  chatList,
-  me,
-}) => {
+const O_ChatTextList: React.FC<PropsType> = ({ ulRef, roomType, chatList }) => {
+  const [me, _] = useRecoilState<string>(nickname);
   return (
     <ul className={style.textList} ref={ulRef}>
       {chatList.map((item, idx) => (
         <M_ChatTextItem
           key={idx}
           roomType={roomType}
-          isMe={item.nickname === me?.nickname}
+          isMe={item.nickname === me}
           nickname={item.nickname}
           content={item.content}
           createdDate={item.createdDate}

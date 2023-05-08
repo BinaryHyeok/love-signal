@@ -15,20 +15,20 @@ const T_Chat = () => {
   const [userUUID, setUserUUID] = useState<string>(
     "882a9377-c1a6-4802-a0d8-2f310c004fed"
   );
-  const [myNick, setMyNick] = useRecoilState<string>(nickname);
+  const [_, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
-    inquireMember(userUUID).then((res) => {
-      setMyNick(res.data.body.nickname);
-    });
     // 더미 코드
-    // setRoomList(() => [...DUMMY_ROOM_LIST]);
+    inquireMember(userUUID).then((res) => {
+      setMe(res.data.body.nickname);
+    });
+
     getChatRoomList(userUUID).then((res) => {
       const data: room[] = res.data;
       console.log(res.data);
       setRoomList(() => [...data]);
     });
-  }, []);
+  }, [userUUID]);
 
   return (
     <div className={`${style.template_chat}`}>

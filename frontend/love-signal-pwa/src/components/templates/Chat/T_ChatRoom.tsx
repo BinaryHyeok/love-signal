@@ -10,7 +10,7 @@ import { roomInfo } from "../../../atom/chatRoom";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { member } from "../../../types/member";
+import { nickname } from "../../../atom/member";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -29,7 +29,6 @@ type PropsType = {
   roomType?: string;
   // chatList: chat[];
   // onTextSend: (text: string) => void;
-  me?: member;
 };
 
 let socket: any;
@@ -44,13 +43,13 @@ const T_ChatRoom: React.FC<PropsType> = ({
   roomType,
   // chatList,
   // onTextSend,
-  me,
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
 
   const [unitHeight, setUnitHeight] = useState<number>();
   const [chatList, setChatList] = useState<chat[]>([]);
+  const [me, _] = useRecoilState<string>(nickname);
 
   const textSendHandler = (content: string) => {
     if (content.trim().length < 1) return;
@@ -62,7 +61,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
       // isMoe: true,
       type: "TEXT",
       roomUUID: roomId,
-      nickname: "임시 닉네임",
+      nickname: me, // 임시 닉네임
       content: content,
       createdDate: currTime,
     };
@@ -125,7 +124,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
       publishChatMsg({
         type: "ENTER",
         roomUUID: roomUUID,
-        nickname: "임시 닉네임",
+        nickname: me, // 임시 닉네임
         content: "",
       });
     });
@@ -167,7 +166,6 @@ const T_ChatRoom: React.FC<PropsType> = ({
         roomType={roomType}
         ulRef={ulRef}
         chatList={chatList}
-        me={me}
       />
     </div>
   );

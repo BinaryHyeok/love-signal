@@ -49,10 +49,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_auth
-                            docker compose -f docker-compose.yml stop auth-service
-                            docker compose -f docker-compose.yml rm -f auth-service
-                            docker compose -f docker-compose.yml build auth-service
-                            docker compose -f docker-compose.yml up -d auth-service
+                            docker compose -f docker-compose.yml stop config auth-service
+                            docker compose -f docker-compose.yml rm -f config auth-service
+                            docker compose -f docker-compose.yml build config auth-service
+                            docker compose -f docker-compose.yml up -d config auth-service
                         "
                     """
                 }

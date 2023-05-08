@@ -46,8 +46,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    depends_on:
-      - discoveryservice
+    # depends_on:
+    #   - discoveryservice
     restart: always
     networks:
       - backend
@@ -60,8 +60,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8888:8888"
-    depends_on:
-      - discoveryservice
+    # depends_on:
+    #   - discoveryservice
     restart: always
     networks:
       - backend

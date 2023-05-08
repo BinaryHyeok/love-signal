@@ -25,7 +25,7 @@ public class InitDummyData {
     private final MeetingRepository meetingRepository;
 
     @Transactional
-    @PostConstruct
+//    @PostConstruct
     public void InitDummyData(){
 
         // 팀 생성

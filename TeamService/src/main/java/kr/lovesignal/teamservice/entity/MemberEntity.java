@@ -29,6 +29,9 @@ public class MemberEntity extends BaseEntity{
     @JoinColumn(name = "team_id", nullable = true)
     private TeamEntity team;
 
+    @Column(name = "kakao_uuid", nullable = false)
+    private String kakaoUUID;
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 

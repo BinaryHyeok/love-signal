@@ -117,7 +117,10 @@ const Chat = () => {
   }, [selectedRoom]);
 
   const unitHeightSetHandler = () => {
-    const vh = window.innerHeight * 0.01;
+    let vh = window.visualViewport?.height;
+    if (!vh) {
+      vh = window.innerHeight * 0.01;
+    }
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   };
 
@@ -148,7 +151,11 @@ const Chat = () => {
   };
 
   return (
-    <div className={`${style.container}`}>
+    <div
+      className={`${style.container} ${
+        selectedRoom.UUID ? style.expanded : ""
+      }`}
+    >
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
       {selectedRoom.UUID && (

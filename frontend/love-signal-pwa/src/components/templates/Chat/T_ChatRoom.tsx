@@ -57,9 +57,11 @@ const T_ChatRoom: React.FC<PropsType> = ({
   }, []);
 
   const unitHeightSetHandler = () => {
-    const vh = window.innerHeight * 0.01;
+    let vh = window.visualViewport?.height;
+    if (!vh) {
+      vh = window.innerHeight * 0.01;
+    }
     document.documentElement.style.setProperty("--vh", `${vh}px`);
-    setUnitHeight(vh);
   };
 
   const resizeVisualViewportHandler = () => {

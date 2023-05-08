@@ -48,7 +48,6 @@ const T_ChatRoom: React.FC<PropsType> = ({
 
   const [unitHeight, setUnitHeight] = useState<number>();
   const [chatList, setChatList] = useState<chat[]>([]);
-  const [selectedRoom, _] = useRecoilState(roomInfo);
 
   const textSendHandler = (content: string) => {
     if (content.trim().length < 1) return;
@@ -56,7 +55,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
     const now = new Date();
     const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
     const newChat: chat = {
-      // romType: selectedRoom.type,
+      // roomType: selectedRoom.type,
       // isMoe: true,
       type: "TEXT",
       roomUUID: roomId,

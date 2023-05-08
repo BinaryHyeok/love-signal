@@ -36,6 +36,25 @@ const T_ChatRoom: React.FC<PropsType> = ({
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
 
+  const [unitHeight, setUnitHeight] = useState<number>();
+
+  useEffect(() => {
+    window.addEventListener("resize", unitHeightSetHandler);
+    window.addEventListener("touchend", unitHeightSetHandler);
+    return () => {
+      window.removeEventListener("resize", unitHeightSetHandler);
+      window.removeEventListener("touchend", unitHeightSetHandler);
+    };
+  }, []);
+
+  const unitHeightSetHandler = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    setUnitHeight(vh);
+  };
+
+  useEffect(() => {}, [unitHeight]);
+
   useEffect(() => {
     if (ulRef.current) {
       ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;

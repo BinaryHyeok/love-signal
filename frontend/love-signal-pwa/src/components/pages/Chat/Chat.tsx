@@ -118,7 +118,6 @@ const Chat = () => {
 
   const unitHeightSetHandler = () => {
     const vh = window.innerHeight * 0.01;
-    alert("vh : " + vh);
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   };
 

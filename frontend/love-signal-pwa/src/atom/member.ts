@@ -34,3 +34,10 @@ export const kid = atom<string>({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+//자신의 nickname을 저장할 recoil입니다.
+export const nickname = atom<string>({
+  key: "nickname",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});

@@ -27,6 +27,7 @@ export type userInfo = {
   description: string;
   teamUUID: string;
   teamLeader: boolean;
+  profileImage: string;
 };
 
 //상대의 정보를 받아올때 받아오는 데이터

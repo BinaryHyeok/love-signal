@@ -4,12 +4,14 @@ import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";
 import M_ChatInputBox from "../../molecules/Chat/M_ChatInputBox";
 import { chat } from "../../../types/chat";
+import { member } from "../../../types/member";
 
 type PropsType = {
   onTextSubmit(text: string): void;
   roomType?: string;
   ulRef: React.RefObject<HTMLUListElement>;
   chatList: chat[];
+  me?: member;
 };
 
 const O_ChatTextBox: React.FC<PropsType> = ({
@@ -17,6 +19,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
   roomType,
   ulRef,
   chatList,
+  me,
 }) => {
   return (
     <div className={style.textContainer}>
@@ -28,7 +31,12 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         doTimeCount={roomType === "ANONYMOUS" ? true : false}
         className={style.topNotice}
       />
-      <O_ChatTextList ulRef={ulRef} roomType={roomType} chatList={chatList} />
+      <O_ChatTextList
+        ulRef={ulRef}
+        roomType={roomType}
+        chatList={chatList}
+        me={me}
+      />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}
         isDisabled={roomType === "SYSTEM" ? true : false}

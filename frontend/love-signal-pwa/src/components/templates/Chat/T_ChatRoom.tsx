@@ -10,6 +10,7 @@ import { roomInfo } from "../../../atom/chatRoom";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import { member } from "../../../types/member";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -28,6 +29,7 @@ type PropsType = {
   roomType?: string;
   // chatList: chat[];
   // onTextSend: (text: string) => void;
+  me?: member;
 };
 
 let socket: any;
@@ -42,6 +44,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
   roomType,
   // chatList,
   // onTextSend,
+  me,
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
@@ -163,8 +166,8 @@ const T_ChatRoom: React.FC<PropsType> = ({
         onTextSubmit={textSendHandler}
         roomType={roomType}
         ulRef={ulRef}
-        // chatList={chatList}
         chatList={chatList}
+        me={me}
       />
     </div>
   );

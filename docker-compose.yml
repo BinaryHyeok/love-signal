@@ -104,6 +104,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     networks:
+      - backend
 
   auth-service:
     image: auth-service:latest

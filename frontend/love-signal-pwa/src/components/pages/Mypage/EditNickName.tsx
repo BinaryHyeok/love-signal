@@ -1,7 +1,8 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
 import style from "./styles/NickName.module.scss";
+import Mypage_Check_Btn from "../../UI/Common/MyPage_Check_Btn";
+import Age from "./Age";
 
 type propsType = {
   nickname: string;
@@ -32,29 +33,21 @@ const EditNickName: React.FC<propsType> = ({
 
   return (
     <div className={style.containerEdit}>
-      <div>닉네임</div>
-      <div>
-        <Input_Type_A
-          type="text"
-          value={tmpNickName}
-          id="닉네임변경해."
-          className="writeNickName"
-          onChange={changeNickName}
-        />
-      </div>
-      <div>
-        <Button_Type_A
-          width="72px"
-          height="32px"
-          background="#FBCED3"
-          onClick={ApplyNickName}
-        >
-          <img
-            src="/assets/btn_check_violet.png"
-            alt=""
-            className={style.img}
+      {/* <div>닉네임</div> */}
+      <div className={style.btnContainer}>
+        <Age />
+        <div>
+          <Input_Type_A
+            type="text"
+            value={tmpNickName}
+            id="닉네임변경해."
+            className="editNickName"
+            onChange={changeNickName}
           />
-        </Button_Type_A>
+        </div>
+        <div className={style.editBtn}>
+          <Mypage_Check_Btn imgClick={ApplyNickName} />
+        </div>
       </div>
     </div>
   );

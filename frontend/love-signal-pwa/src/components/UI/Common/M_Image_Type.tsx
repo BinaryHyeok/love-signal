@@ -8,10 +8,11 @@ import M_Image_Crop from "./M_Image_Crop";
 
 type propsType = {
   myImg?: string;
+  marginTop: string;
 };
 
 //마이페이지, 회원가입에 쓸 이미지
-const M_Image_Type: React.FC<propsType> = ({ myImg }) => {
+const M_Image_Type: React.FC<propsType> = ({ myImg, marginTop }) => {
   const publicUrl = process.env.PUBLIC_URL;
   const filesample = `${publicUrl}/assets/girl5.png`;
   //여기서 fileImg 시작이 filesample이 아닌 myImg가 들어갈것.
@@ -25,7 +26,7 @@ const M_Image_Type: React.FC<propsType> = ({ myImg }) => {
   return (
     <>
       {!visible && (
-        <div className={style.Container}>
+        <div className={style.Container} style={{ marginTop: `${marginTop}` }}>
           <div className={style.imgback}>
             <div className={style.imgBackGround}>
               <ProfileImg fileImg={cropData} />

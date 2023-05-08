@@ -23,7 +23,7 @@ const Ground = () => {
         <ambientLight color={color} intensity={intensity} />
         <OrbitControls
           autoRotate={true}
-          autoRotateSpeed={10}
+          autoRotateSpeed={15}
           enablePan={false}
           enableZoom={false}
           enableRotate={false}

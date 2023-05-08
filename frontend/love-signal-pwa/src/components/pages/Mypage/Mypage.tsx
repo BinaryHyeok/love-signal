@@ -8,6 +8,7 @@ import { inquireMember } from "../../../api/auth";
 
 import { myMemberUUID } from "../../../atom/member";
 import { withdrawMember } from "../../../api/auth";
+import Button_Type_A from "../../UI/Common/Button_Type_A";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -41,8 +42,16 @@ const Mypage = () => {
     <>
       <div className={style.myPageContainer}>
         <div className={style.scrollContainer}>
-          <M_Image_Type myImg={myImg} />
+          <M_Image_Type myImg={myImg} marginTop="8px" />
           <MyInfo nickname={myNickName} description={myDescription} />
+          <div className={style.drawal}>
+            <Button_Type_A width="100%">로그아웃</Button_Type_A>
+          </div>
+          <div className={style.drawal2}>
+            <Button_Type_A width="100%" onClick={withdrawal}>
+              회원탈퇴
+            </Button_Type_A>
+          </div>
         </div>
       </div>
     </>

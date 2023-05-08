@@ -102,6 +102,7 @@ const ExploreTeam = () => {
               visible={visible}
               member={team[teamNumber].members}
               oppositeTeamUUID={team[teamNumber].teamUUID}
+              myTeam={false}
             />
           </Modal_portal>
         ) : (
@@ -117,11 +118,7 @@ const ExploreTeam = () => {
                   }
                   type="red"
                 >
-                  <PictureBox
-                    viewDetail={viewDetail}
-                    idx={idx}
-                    members={item.members}
-                  />
+                  <PictureBox viewDetail={viewDetail} idx={idx} team={item} />
                 </ListBoxWithImgTitle>
               ))}
             </div>

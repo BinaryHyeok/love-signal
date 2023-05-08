@@ -6,14 +6,14 @@ type PropsType = {
   type: string;
   id: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   width?: string;
   background?: string;
   margin?: string;
 };
 
-const Input_Type_A: React.FC<PropsType> = ({
+const Text_Type_A: React.FC<PropsType> = ({
   className = "",
   type,
   id,
@@ -26,9 +26,8 @@ const Input_Type_A: React.FC<PropsType> = ({
 }) => {
   return (
     <div style={{ width, margin }} className={style.container}>
-      <input
+      <textarea
         autoFocus
-        type={type}
         id={id}
         value={value}
         onChange={onChange}
@@ -40,4 +39,4 @@ const Input_Type_A: React.FC<PropsType> = ({
   );
 };
 
-export default Input_Type_A;
+export default Text_Type_A;

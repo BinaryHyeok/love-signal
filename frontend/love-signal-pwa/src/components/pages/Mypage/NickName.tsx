@@ -1,6 +1,8 @@
 import React, { Dispatch, SetStateAction } from "react";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
 import style from "./styles/NickName.module.scss";
+import Mypage_Edit_Btn from "../../UI/Common/Mypage_Edit_Btn";
+import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
+import Age from "./Age";
 
 type propsType = {
   nickname: string;
@@ -13,12 +15,15 @@ const NickName: React.FC<propsType> = ({ nickname, changeName }) => {
   };
   return (
     <div className={style.container}>
-      <div>닉네임</div>
-      <span>{nickname}</span>
-      <div>
-        <Button_Type_A width="72px" height="32px" onClick={modifyNickName}>
-          <img src="/assets/EditBtn.png" alt="" className={style.img} />
-        </Button_Type_A>
+      {/* <div>닉네임</div> */}
+      <div className={style.btnContainer}>
+        <Age />
+        <div className={style.nickname}>
+          <A_TextHighlight color="red">{nickname}</A_TextHighlight>
+        </div>
+        <div className={style.editBtn}>
+          <Mypage_Edit_Btn imgClick={modifyNickName} />
+        </div>
       </div>
     </div>
   );

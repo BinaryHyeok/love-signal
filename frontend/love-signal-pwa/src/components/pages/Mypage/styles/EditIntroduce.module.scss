@@ -1,11 +1,13 @@
-.input {
-  margin-top: 0.8rem;
-  margin-bottom: 0.8rem;
-}
-.button {
-  justify-content: right;
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.img {
-  width: 32px;
+.input {
+  margin-top: 0.8rem;
+  overflow-wrap: break-word;
+}
+.button {
+  text-align: right;
 }

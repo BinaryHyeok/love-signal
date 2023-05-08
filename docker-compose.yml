@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - shared_mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     restart: always
     networks:
       - backend
@@ -21,7 +21,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - shared_redis-data:/data
+      - redis-data:/data
     restart: always
     networks:
       - backend
@@ -119,9 +119,9 @@ services:
       - postgres
     restart: always
     volumes:
-      - shared_sonarqube_data:/opt/sonarqube/data
-      - shared_sonarqube_extensions:/opt/sonarqube/extensions
-      - shared_sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
     networks:
       - sonarnet
 
@@ -133,23 +133,23 @@ services:
       - POSTGRES_PASSWORD=sonar
       - POSTGRES_DB=sonar
     volumes:
-      - shared_postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - sonarnet
 
 volumes:
-  shared_mysql-data:
-    name: shared_mysql-data
-  shared_redis-data:
-    name: shared_redis-data
-  shared_sonarqube_data:
-    name: shared_sonarqube_data
-  shared_sonarqube_extensions:
-    name: shared_sonarqube_extensions
-  shared_sonarqube_logs:
-    name: shared_sonarqube_logs
-  shared_postgres_data:
-    name: shared_postgres_data
+  mysql-data:
+    name: mysql-data
+  redis-data:
+    name: redis-data
+  sonarqube_data:
+    name: sonarqube_data
+  sonarqube_extensions:
+    name: sonarqube_extensions
+  sonarqube_logs:
+    name: sonarqube_logs
+  postgres_data:
+    name: postgres_data
 
 networks:
   backend:

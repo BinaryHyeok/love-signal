@@ -77,24 +77,20 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     @Transactional(readOnly = true)
-    public SuccessResponse<String> makeRefreshResponse(KauthTokenResponse kauthTokenResponse, KauthAccountResponse kauthAccountResponse, String StrMemberUUID) {
+    public SuccessResponse<SignInResponse> makeRefreshResponse(KauthTokenResponse kauthTokenResponse, KauthAccountResponse kauthAccountResponse) {
         String email = kauthAccountResponse.getKakao_account().getEmail();
-        UUID memberUUID = commonUtils.getValidUUID(StrMemberUUID);
 
         MemberEntity emailMember = memberRepository.findByEmailAndExpired(email, "F");
 
         if(emailMember == null){
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
-        else if(!emailMember.getUUID().equals(memberUUID)){
-            throw new CustomException(ErrorCode.INVALID_AUTH_USER);
-        }
 
         SignInResponse refreshResponse = SignInResponse.builder()
                 .accessToken(kauthTokenResponse.getAccess_token())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
-                .memberUUID(memberUUID.toString())
+                .memberUUID(emailMember.getUUID().toString())
                 .build();
 
         return responseUtils.buildSuccessResponse(refreshResponse);

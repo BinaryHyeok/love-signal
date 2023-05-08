@@ -14,6 +14,6 @@ public interface AuthService {
 
     SuccessResponse<String> checkNicknameDuplicate(String nickname);
 
-    SuccessResponse<String> makeRefreshResponse(KauthTokenResponse kauthTokenResponse, KauthAccountResponse kauthAccountResponse, String memberUUID);
+    SuccessResponse<SignInResponse> makeRefreshResponse(KauthTokenResponse kauthTokenResponse, KauthAccountResponse kauthAccountResponse);
 
 }

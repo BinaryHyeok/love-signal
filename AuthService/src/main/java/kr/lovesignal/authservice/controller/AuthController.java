@@ -78,15 +78,14 @@ public class AuthController {
     @PostMapping("/refresh")
     @ApiOperation(value = "리프레쉬토큰으로 토근 재발급")
     public ResponseEntity<SuccessResponse> refreshTokens(
-            @RequestHeader("X-Auth_Token") String refreshToken,
-            @RequestHeader("X-Request-UUID") String memberUUID){
+            @RequestHeader("X-Auth_Token") String refreshToken){
 
         KauthTokenResponse kauthTokenResponse = webClientService.refreshKakaoTokenApi(refreshToken).block();
 
         KauthAccountResponse kauthAccountResponse =
                 webClientService.getKakaoAccountApi(kauthTokenResponse.getAccess_token()).block();
 
-        SuccessResponse successResponse = authService.makeRefreshResponse(kauthTokenResponse, kauthAccountResponse, memberUUID);
+        SuccessResponse successResponse = authService.makeRefreshResponse(kauthTokenResponse, kauthAccountResponse);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

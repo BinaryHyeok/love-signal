@@ -33,7 +33,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv() {
+                withSonarQubeEnv('SonarQube Server') {
                     script {
                         dir('MemberService') {
                             sh './gradlew sonarqube -x test'

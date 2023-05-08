@@ -106,6 +106,16 @@ services:
     networks:
       - backend
 
+  auth-service:
+    image: auth-service:latest
+    container_name: auth-service
+    build:
+      context: ./AuthService
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+
   sonarqube:
     image: sonarqube:latest
     container_name: sonarqube

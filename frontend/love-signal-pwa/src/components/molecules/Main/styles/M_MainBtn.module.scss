@@ -4,4 +4,24 @@
   flex-direction: column;
   height: 20%;
   justify-content: space-evenly;
+  .link {
+    font-size: 14px;
+    background-color: #eff0f5;
+    display: flex;
+    width: 65%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 3rem;
+    border: none;
+    padding: 8px;
+    font-family: "GmarketSansTTFLight";
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: -2px -2px 5px rgba(255, 255, 255, 0.5),
+      2.5px 2.5px 5px rgba(77, 63, 83, 0.5);
+  }
 }

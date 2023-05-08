@@ -1,18 +1,19 @@
 import style from "./styles/SignUp.module.scss";
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import M_SignUp_Profile from "./M_SignUp_Profile";
 import M_SignUp_Birth from "./M_SignUp_Birth";
 import M_SignUp_Nickname from "./M_SignUp_Nickname";
 import A_MainLogo from "./A_MainLogo";
 import M_SignUp_Introduce from "./M_SignUp_Introduce";
-import { duplicateCheck } from "../../../api/auth";
+import { duplicateCheck, signUp } from "../../../api/auth";
 import M_SignUp_Gender from "./M_SignUp_Gender";
+import { signupMember } from "../../../types/member";
+import { useRecoilState } from "recoil";
+import { myMemberUUID } from "../../../atom/member";
+import { changeMyImg } from "../../../api/file";
 
 const P_SignUp = () => {
-  const [email] = useState<string>("");
-  const [password] = useState<string>("");
   const [birth, setBirth] = useState<string>("19970220");
   const [nickname, setNickname] = useState<string>("");
   const [description, setDiscription] = useState<string>("나는 손종효다.");
@@ -23,9 +24,28 @@ const P_SignUp = () => {
   const [checkBirthOk, setCheckBirthOk] = useState<boolean>(false);
   const [checkGenderOk, setCheckGenderOk] = useState<boolean>(false);
 
+  const [query, setQuery] = useState<string>("");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const queryParam = params.get("code");
+    if (queryParam) {
+      //쿼리 저장.
+      setQuery(queryParam);
+    }
+  }, []);
+
   const navigate = useNavigate();
 
-  const help: string = "T";
+  const initialize: signupMember = {
+    nickname: "",
+    gender: "",
+    birth: "",
+    description: "",
+  };
+
+  const [user, setUser] = useState<signupMember>(initialize);
+  const [myImage, setMyImage] = useState<FormData>(new FormData());
+  const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
 
   const handleProfile = () => {
     setCheckProfileOk(!checkProfileOk);
@@ -59,29 +79,26 @@ const P_SignUp = () => {
 
   //회원가입 버튼 클릭했을때
   const signup = () => {
-    if (checkNickname) {
-      //중복 확인 했을때만 가능하다
-      axios
-        .post("http://localhost:8888/member/auth/sign-up", {
-          birth: birth,
-          description: description,
-          gender: gender,
-          help: help,
-          loginId: email,
-          nickname: nickname,
-          password: password,
-        })
-        .then((response) => {
-          console.log(response);
-          navigate("/Manual");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      //아니면 중복확인 눌러줘~
-      alert("중복확인 체크는 하셨나요?");
-    }
+    setUser({
+      nickname: nickname,
+      gender: gender,
+      birth: birth,
+      description: description,
+    }); //여기서 setUser를 하면 비동기라 아래 user에 값이 없을것.
+    //이때 회원가입 axios 발동
+    signUp(user)
+      .then(async (res) => {
+        //성공하면 memberUUID 반환.
+        setMemberUUID(res.data.body.memberUUID);
+        //성공한 후 이때 사진 저장시켜주어야함.
+        await changeMyImg(res.data.body.memberUUID, myImage);
+
+        //사진 저장까지하고 회원가입 되었으니 manual 페이지로 이동.
+        navigate("/manual");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -89,7 +106,7 @@ const P_SignUp = () => {
       <div className={style.center}>
         <A_MainLogo />
         {!checkProfileOk && !checkNickOk && !checkBirthOk && !checkGenderOk && (
-          <M_SignUp_Profile onClick={handleProfile} />
+          <M_SignUp_Profile onClick={handleProfile} setMyImage={setMyImage} />
         )}
         {checkProfileOk && !checkNickOk && !checkBirthOk && !checkGenderOk && (
           <M_SignUp_Nickname

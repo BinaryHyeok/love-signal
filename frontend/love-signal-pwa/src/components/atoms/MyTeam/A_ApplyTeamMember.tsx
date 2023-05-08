@@ -1,9 +1,14 @@
+import { member } from "../../../types/member";
 import style from "./styles/A_ApplyTeamMember.module.scss";
 
-const A_ApplyTeamMember = () => {
+type propsType = {
+  member: member;
+};
+
+const A_ApplyTeamMember: React.FC<propsType> = ({ member }) => {
   return (
     <div className={style.teamMember}>
-      <img src="https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI" />
+      <img src={member.profileImage} />
     </div>
   );
 };

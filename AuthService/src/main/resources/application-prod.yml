@@ -28,7 +28,7 @@ spring:
         format_sql: true
 
   config:
-    import: configserver:http://config:8888
+    import: configserver:http://k8b309.p.ssafy.io:8888
 
   cloud:
     config:
@@ -39,6 +39,6 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://discoveryservice:8761/eureka
+      defaultZone: http://k8b309.p.ssafy.io:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

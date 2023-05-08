@@ -1,16 +1,16 @@
 import React from "react";
-import style from "./EditBtnImg.module.scss";
+import style from "./MyPage_Check_Btn.module.scss";
 import { motion } from "framer-motion";
 
 type propsType = {
   imgClick: () => void;
 };
 
-const EditBtnImg: React.FC<propsType> = ({ imgClick }) => {
+const Mypage_Check_Btn: React.FC<propsType> = ({ imgClick }) => {
   return (
     <>
       <motion.img
-        src="/assets/EditBtn.png"
+        src="/assets/btn_check_violet.png"
         className={style.EditBtn}
         onClick={imgClick}
         whileTap={{ scale: 1.2 }}
@@ -19,4 +19,4 @@ const EditBtnImg: React.FC<propsType> = ({ imgClick }) => {
   );
 };
 
-export default EditBtnImg;
+export default Mypage_Check_Btn;

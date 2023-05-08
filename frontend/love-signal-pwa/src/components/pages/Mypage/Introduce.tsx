@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
 import style from "./styles/Introduce.module.scss";
+import Mypage_Edit_Btn from "../../UI/Common/Mypage_Edit_Btn";
+import MyIntroduce from "./MyIntroduce";
 
 type propsType = {
   myIntroduce: string;
@@ -12,18 +13,11 @@ const Introduce: React.FC<propsType> = ({ myIntroduce, changeIntroduce }) => {
     changeIntroduce(false);
   };
   return (
-    <div>
-      <div>자기소개</div>
-      <div className={style.introduceText}>{myIntroduce}</div>
-      <div>
-        <Button_Type_A
-          onClick={modifyIntroduce}
-          width="72px"
-          height="32px"
-          background=""
-        >
-          <img src="/assets/EditBtn.png" alt="" className={style.img} />
-        </Button_Type_A>
+    <div className={style.container}>
+      {/* <div>자기소개</div> */}
+      <MyIntroduce myIntroduce={myIntroduce} />
+      <div className={style.btn}>
+        <Mypage_Edit_Btn imgClick={modifyIntroduce} />
       </div>
     </div>
   );

@@ -1,17 +1,58 @@
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   font-size: 1.05rem;
+
+  .nickname {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // margin-left: 24px;
+  }
+
+  .img {
+    width: 32px;
+  }
+
+  .editBtn {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+  }
+
+  .nickname {
+    display: flex;
+    margin: auto, 0;
+  }
 }
 
 .containerEdit {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   font-size: 1.05rem;
-}
 
-.img {
-  width: 32px;
+  .btnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // margin-left: 24px;
+  }
+
+  .img {
+    width: 32px;
+  }
+
+  .editBtn {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+  }
 }

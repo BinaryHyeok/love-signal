@@ -14,7 +14,7 @@ const M_SignUp_Profile: React.FC<PropsType> = ({ onClick }) => {
       <div className={style.userInfo}>
         <A_SignUp_Desc1 />
         <div>
-          <M_Image_Type />
+          <M_Image_Type marginTop="16px" />
         </div>
         <div className={style.checkBtn}>
           <Button_Type_A

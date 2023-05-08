@@ -46,7 +46,7 @@ const MyTeam = () => {
 
   //axios로 내 정보 받아오기.
   const getUserInfo = async () => {
-    await inquireMember("f6fc66c4-34cb-4f0d-ab89-34a974917654")
+    await inquireMember("ebf231a8-c235-4289-a4ae-1d78844c70cf")
       .then((res) => {
         console.log(res.data.body); //해당 정보 보고 판단.
         // setmyUUID(res.data.body.memberUUID);

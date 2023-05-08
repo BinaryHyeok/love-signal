@@ -54,7 +54,7 @@ const CheckTeam: React.FC<propsType> = ({
 
   //신청하기 버튼
   const applyTeam = () => {
-    applyMeeting(myUUID, oppositeTeamUUID)
+    applyMeeting("2a1a478b-caa4-4408-be6c-e1413076d781", oppositeTeamUUID)
       .then((res) => {
         console.log(res);
         console.log("신청완료.");

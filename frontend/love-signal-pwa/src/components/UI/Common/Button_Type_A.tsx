@@ -33,7 +33,7 @@ const Button_Type_A: React.FC<propsType> = ({
       }}
       onClick={onClick}
       disabled={disabled}
-      whileTap={{ scale: 1.2 }}
+      whileTap={{ scale: 1.05 }}
     >
       {children}
     </motion.button>

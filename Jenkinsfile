@@ -53,8 +53,7 @@ pipeline {
                             docker compose -f docker-compose.yml rm -f config mysql
                             docker compose -f docker-compose.yml build config mysql
                             docker compose -f docker-compose.yml up -d config mysql
-                            cd ..
-                            cd /be_auth
+                            cd /home/ubuntu/be_auth
                             docker compose -f docker-compose.yml stop auth-service
                             docker compose -f docker-compose.yml rm -f auth-service
                             docker compose -f docker-compose.yml build auth-service

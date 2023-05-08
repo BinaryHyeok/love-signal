@@ -48,11 +48,6 @@ pipeline {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
-                            cd /home/ubuntu/be_cloud
-                            docker compose -f docker-compose.yml stop config mysql
-                            docker compose -f docker-compose.yml rm -f config mysql
-                            docker compose -f docker-compose.yml build config mysql
-                            docker compose -f docker-compose.yml up -d config mysql
                             cd /home/ubuntu/be_auth
                             docker compose -f docker-compose.yml stop auth-service
                             docker compose -f docker-compose.yml rm -f auth-service

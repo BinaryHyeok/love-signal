@@ -167,21 +167,21 @@ const Chat = () => {
     >
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
-      {/* {selectedRoom.UUID && (
+      {selectedRoom.uuid && (
         <T_ChatRoom
-          className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
-          roomId={selectedRoom.UUID}
+          className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
+          roomId={selectedRoom.uuid}
           title={selectedRoom.roomName}
           count={selectedRoom.memberCount}
           roomExitHandler={roomExitHandler}
           roomType={selectedRoom.type}
-          chatList={chatList}
-          onTextSend={textSendHandler}
+          // chatList={chatList}
+          // onTextSend={textSendHandler}
         />
       )}
-      {!selectedRoom.UUID && <T_Chat />} */}
+      {!selectedRoom.uuid && <T_Chat />}
 
-      <T_Chat />
+      {/* <T_Chat />
       <T_ChatRoom
         className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
         roomId={selectedRoom.uuid}
@@ -191,7 +191,7 @@ const Chat = () => {
         roomType={selectedRoom.type}
         // chatList={chat}
         // onTextSend={textSendHandler}
-      />
+      /> */}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import SockJS from "sockjs-client";
 
 import { useRecoilState } from "recoil";
 import { chatList } from "../../../atom/chat";
+import { getChatList } from "../../../api/chat";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -29,6 +30,9 @@ type PropsType = {
   // onTextSend: (text: string) => void;
 };
 
+let socket: any;
+let ws: any;
+
 const T_ChatRoom: React.FC<PropsType> = ({
   className,
   roomId,
@@ -43,32 +47,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
   const ulRef = useRef<HTMLUListElement>(null);
 
   const [unitHeight, setUnitHeight] = useState<number>();
-
-  const socket = new SockJS("/ws-stomp");
-  const ws = Stomp.over(socket);
   const [chat, setChatList] = useRecoilState(chatList);
-
-  const connect = () => {
-    console.log("방 입장 : ", roomId);
-    ws.connect({}, (frame: any) => {
-      ws.subscribe("/sub/chat/room" + roomId, (res) => {
-        const messages = JSON.parse(res.body);
-        console.log(messages);
-      });
-
-      // ws.send(
-      //   "/pub/chat/message",
-      //   {},
-      //   JSON.stringify({
-      //     type: "ENTER",
-      //     roomId: roomId,
-      //     nickname: "임시 닉네임",
-      //     content: content,
-      //   })
-      // );
-    });
-  };
-  connect();
 
   const textSendHandler = (content: string) => {
     if (content.trim().length < 1) return;
@@ -99,6 +78,44 @@ const T_ChatRoom: React.FC<PropsType> = ({
   };
 
   useEffect(() => {
+    socket = new SockJS("http://localhost:8080/ws-stomp");
+    ws = Stomp.over(socket);
+
+    const connect = () => {
+      console.log("방 입장 : ", roomId);
+      ws.connect({}, (frame: any) => {
+        ws.subscribe("/sub/chat/room/" + roomId, (res: any) => {
+          const messages = JSON.parse(res.body);
+          console.log(messages);
+        });
+
+        ws.send(
+          "/pub/chat/message",
+          {},
+          JSON.stringify({
+            type: "ENTER",
+            roomId: roomId,
+            nickname: "임시 닉네임",
+            content: "",
+          })
+        );
+      });
+    };
+    connect();
+
+    if (roomId != undefined) {
+      getChatList(roomId)
+        .then((res) => {
+          console.log(res.data);
+          const newChatList = [...chat, res.data];
+          console.log("업데이트된 채팅 목록 : ", newChatList);
+          setChatList(newChatList);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+
     window.addEventListener("resize", unitHeightSetHandler);
     window.addEventListener("touchend", unitHeightSetHandler);
     window.visualViewport?.addEventListener(

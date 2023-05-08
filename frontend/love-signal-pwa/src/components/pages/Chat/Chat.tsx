@@ -83,12 +83,28 @@ const Chat = () => {
   const [_, setFooterIsOn] = useRecoilState(footerIsOn);
 
   const [chatList, setChatList] = useState<chat[]>([...DUMMY_CHAT_LIST]);
+  const [prevViewport, setPrevViewport] = useState<number | undefined>(
+    window.visualViewport?.height
+  );
 
   useEffect(() => {
     setIdx(2);
+    window.addEventListener("resize", unitHeightSetHandler);
+    window.addEventListener("touchend", unitHeightSetHandler);
+    window.visualViewport?.addEventListener(
+      "resize",
+      resizeVisualViewportHandler
+    );
+
     return () => {
       setSelectedRoom({});
       setFooterIsOn(true);
+      window.removeEventListener("resize", unitHeightSetHandler);
+      window.removeEventListener("touchend", unitHeightSetHandler);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        resizeVisualViewportHandler
+      );
     };
   }, []);
 
@@ -99,6 +115,20 @@ const Chat = () => {
     }));
     setChatList([...typeAdded]);
   }, [selectedRoom]);
+
+  const unitHeightSetHandler = () => {
+    let vh = window.visualViewport?.height;
+    if (!vh) {
+      vh = window.innerHeight * 0.01;
+    } else {
+      vh *= 0.01;
+    }
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+
+  const resizeVisualViewportHandler = () => {
+    const current = window.visualViewport?.height;
+  };
 
   const roomExitHandler = () => {
     setSelectedRoom({});
@@ -123,9 +153,28 @@ const Chat = () => {
   };
 
   return (
-    <div className={`${style.container}`}>
+    <div
+      className={`${style.container} ${
+        selectedRoom.UUID ? style.expanded : ""
+      }`}
+    >
       {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
+      {/* {selectedRoom.UUID && (
+        <T_ChatRoom
+          className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
+          roomId={selectedRoom.UUID}
+          title={selectedRoom.roomName}
+          count={selectedRoom.memberCount}
+          roomExitHandler={roomExitHandler}
+          roomType={selectedRoom.type}
+          chatList={chatList}
+          onTextSend={textSendHandler}
+        />
+      )}
+      {!selectedRoom.UUID && <T_Chat />} */}
+
+      <T_Chat />
       <T_ChatRoom
         className={`${selectedRoom.UUID ? "slide-in-enter" : ""} common-bg`}
         roomId={selectedRoom.UUID}
@@ -136,7 +185,6 @@ const Chat = () => {
         chatList={chatList}
         onTextSend={textSendHandler}
       />
-      <T_Chat />
     </div>
   );
 };

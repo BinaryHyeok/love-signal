@@ -4,7 +4,6 @@ import M_MyTeamList from "../../molecules/MyTeam/M_MyTeamList";
 import { member } from "../../../types/member";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import O_ApplyTeamList from "./O_ApplyTeamList";
-import { getMyTeam } from "../../../api/team";
 import { receivemeetingList } from "../../../api/team";
 import { myTeamUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
@@ -21,49 +20,6 @@ type propsType = {
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
 };
 
-const DUMMY_APPLY_LIST: member[][] = [
-  [
-    {
-      nickname: "John",
-      age: 26,
-      description: "Hello.",
-      profileImage: "/assets/girl1.png",
-    },
-    {
-      nickname: "Tom",
-      age: 24,
-      description: "Helloooooooo",
-      profileImage: "/assets/girl2.png",
-    },
-    {
-      nickname: "James",
-      age: 29,
-      description: "WTF",
-      profileImage: "/assets/girl3.png",
-    },
-  ],
-  [
-    {
-      nickname: "John",
-      age: 26,
-      description: "Hello.",
-      profileImage: "/assets/girl1.png",
-    },
-    {
-      nickname: "Tom",
-      age: 24,
-      description: "Helloooooooo",
-      profileImage: "/assets/girl2.png",
-    },
-    {
-      nickname: "James",
-      age: 29,
-      description: "WTF",
-      profileImage: "/assets/girl3.png",
-    },
-  ],
-];
-
 const O_MyTeamBox: React.FC<propsType> = ({
   isLeader,
   haveOppositeTeam,
@@ -77,6 +33,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [TeamUUID] = useRecoilState<string>(myTeamUUID);
   const [clickBtn, setClickBtn] = useState<boolean>(false);
   const [start, setStart] = useState<boolean>(true);
+  const [applyTeamExist, setApplyTeamExist] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(clickBtn);
@@ -96,6 +53,11 @@ const O_MyTeamBox: React.FC<propsType> = ({
   useEffect(() => {
     if (!start) {
       setStart(true);
+    }
+    if (applyList.length === 0) {
+      setApplyTeamExist(false);
+    } else {
+      setApplyTeamExist(true);
     }
   }, [applyList]);
 
@@ -119,15 +81,19 @@ const O_MyTeamBox: React.FC<propsType> = ({
           }
           type="blue"
         >
-          <O_ApplyTeamList
-            applyTeamList={applyList}
-            isLeader={isLeader}
-            haveOppositeTeam={haveOppositeTeam}
-            setOppoVisible={setOppoVisible}
-            setOppoTeamIdx={setOppoTeamIdx}
-            clickBtn={clickBtn}
-            setClickBtn={setClickBtn}
-          />
+          {applyTeamExist ? (
+            <O_ApplyTeamList
+              applyTeamList={applyList}
+              isLeader={isLeader}
+              haveOppositeTeam={haveOppositeTeam}
+              setOppoVisible={setOppoVisible}
+              setOppoTeamIdx={setOppoTeamIdx}
+              clickBtn={clickBtn}
+              setClickBtn={setClickBtn}
+            />
+          ) : (
+            <>팀이 존재하지 않습니다..</>
+          )}
         </ListBoxWithImgTitle>
       </div>
     </>

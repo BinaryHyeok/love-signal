@@ -4,11 +4,11 @@ import M_ChatRoomHeader from "../../molecules/Chat/M_ChatRoomHeader";
 import O_ChatTextBox from "../../organisms/Chat/O_ChatTextBox";
 import { chat } from "../../../types/chat";
 
-import { Stomp, Client } from "@stomp/stompjs";
+import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
 import { useRecoilState } from "recoil";
-import { getChatList } from "../../../api/chat";
+import { connectChatServer, getChatList } from "../../../api/chat";
 import { roomInfo } from "../../../atom/chatRoom";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
@@ -58,7 +58,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
     const newChat: chat = {
       // romType: selectedRoom.type,
       // isMoe: true,
-      type: "TALK",
+      type: "TEXT",
       roomUUID: roomId,
       nickname: "임시 닉네임",
       content: content,
@@ -73,33 +73,15 @@ const T_ChatRoom: React.FC<PropsType> = ({
     socket = new SockJS("http://localhost:8080/ws-stomp");
     ws = Stomp.over(socket);
 
-    const connect = () => {
-      console.log("방 입장 : ", roomId);
-      ws.connect({}, (frame: any) => {
-        ws.subscribe("/sub/chat/room/" + roomId, (res: any) => {
-          const messages = JSON.parse(res.body);
-          console.log(messages);
-        });
+    if (roomId != undefined && roomId != null) {
+      // 채팅 서버 연결
+      connectChatServer(roomId);
 
-        ws.send(
-          "/pub/chat/message",
-          {},
-          JSON.stringify({
-            type: "ENTER",
-            roomUUID: roomId,
-            nickname: "임시 닉네임",
-            content: "",
-          })
-        );
-      });
-    };
-    connect();
-
-    if (roomId != undefined) {
+      // 채팅 목록 Fetch
       getChatList(roomId)
         .then((res) => {
           console.log(res.data);
-          setChatList([...chatList, res.data]);
+          setChatList([...chatList, ...res.data]);
         })
         .catch((err) => {
           console.error(err);

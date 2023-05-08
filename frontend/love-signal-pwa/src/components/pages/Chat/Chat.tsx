@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import style from "./styles/Chat.module.scss";
-import T_Chat from "../../templates/Chat/T_Chat";
 import { useRecoilState } from "recoil";
-import { roomInfo } from "../../../atom/chatRoom";
+
+import style from "./styles/Chat.module.scss";
+
+import T_Chat from "../../templates/Chat/T_Chat";
 import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
+
+import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
-  const [idx, setIdx] = useRecoilState<number>(footerIdx);
-  const [_, setFooterIsOn] = useRecoilState(footerIsOn);
+  const [_, setIdx] = useRecoilState<number>(footerIdx);
+  const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
   const [prevViewport, setPrevViewport] = useState<number | undefined>(
     window.visualViewport?.height
@@ -56,30 +59,12 @@ const Chat = () => {
     setFooterIsOn(true);
   };
 
-  // const textSendHandler = (content: string) => {
-  //   if (content.trim().length < 1) return;
-
-  //   const now = new Date();
-  //   const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
-  //   setChatList(() => [
-  //     ...chat,
-  //     {
-  //       // roomType: selectedRoom.type,
-  //       // isMe: true,
-  //       content: content,
-  //       nickname: "Tom",
-  //       createdDate: currTime,
-  //     },
-  //   ]);
-  // };
-
   return (
     <div
       className={`${style.container} ${
         selectedRoom.uuid ? style.expanded : ""
       }`}
     >
-      {/* 채팅방 타입은 TEAM, ALL, NOTICE, ANONYMOUS로 나뉘어져 있음 */}
       {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
       {selectedRoom.uuid && (
         <T_ChatRoom
@@ -89,8 +74,6 @@ const Chat = () => {
           count={selectedRoom.memberCount}
           roomExitHandler={roomExitHandler}
           roomType={selectedRoom.type}
-          // chatList={chatList}
-          // onTextSend={textSendHandler}
         />
       )}
       {!selectedRoom.uuid && <T_Chat />}

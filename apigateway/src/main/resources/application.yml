@@ -15,41 +15,41 @@ eureka:
 spring:
   application:
     name: apigateway
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: member-service
-#          uri: lb://member-service
-#          predicates:
-#            - Path=/member/**
-#          filter:
-#            - AuthenticationGatewayFilterFactory
-#
-#        - id: team-service
-#          uri: lb://team-service
-#          predicates:
-#            - Path=/team/**
-#          filter:
-#            - AuthenticationGatewayFilterFactory
-#
-#        - id: chatting-service
-#          uri: lb://chatting-service
-#          predicates:
-#            - Path=/chatting/**
-#          filter:
-#            - AuthenticationGatewayFilterFactory
-#
-#        - id: file-service
-#          uri: lb://file-service
-#          predicates:
-#            - Path=/file/**
-#          filter:
-#            - AuthenticationGatewayFilterFactory
-#
-#        - id: auth-service
-#          uri: lb://auth-service
-#          predicates:
-#            - Path=/auth/**
+  cloud:
+    gateway:
+      routes:
+        - id: member-service
+          uri: lb://member-service
+          predicates:
+            - Path=/member/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
+        - id: team-service
+          uri: lb://team-service
+          predicates:
+            - Path=/team/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
+        - id: chatting-service
+          uri: lb://chatting-service
+          predicates:
+            - Path=/chatting/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
+        - id: file-service
+          uri: lb://file-service
+          predicates:
+            - Path=/file/**
+          filter:
+            - AuthenticationGatewayFilterFactory
+
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
 
   security:
     oauth2:

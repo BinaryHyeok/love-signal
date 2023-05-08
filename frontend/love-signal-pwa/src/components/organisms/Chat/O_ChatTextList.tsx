@@ -16,8 +16,8 @@ const O_ChatTextList: React.FC<PropsType> = ({ ulRef, chatList }) => {
           key={idx}
           roomType={item.roomType}
           isMe={item.isMe}
-          text={item.text}
-          sendTime={item.sendTime}
+          content={item.content}
+          createdDate={item.createdDate}
         />
       ))}
     </ul>

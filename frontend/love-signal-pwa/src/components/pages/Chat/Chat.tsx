@@ -3,6 +3,7 @@ import style from "./styles/Chat.module.scss";
 import T_Chat from "../../templates/Chat/T_Chat";
 import { useRecoilState } from "recoil";
 import { roomInfo } from "../../../atom/chatRoom";
+import { chatList } from "../../../atom/chat";
 import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
@@ -11,69 +12,69 @@ import { chat } from "../../../types/chat";
 const DUMMY_CHAT_LIST: chat[] = [
   {
     isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
+    content: "안녕하세요",
+    createdDate: "2023-04-30 11:58:38",
   },
   {
     isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
+    content: "반가워요~~",
+    nickname: "Tom",
+    createdDate: "2023-04-30 12:02:12",
   },
   {
     isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
+    content: "안녕하세요",
+    createdDate: "2023-04-30 11:58:38",
   },
   {
     isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
+    content: "반가워요~~",
+    nickname: "Tom",
+    createdDate: "2023-04-30 12:02:12",
   },
   {
     isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
+    content: "안녕하세요",
+    createdDate: "2023-04-30 11:58:38",
   },
   {
     isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
+    content: "반가워요~~",
+    nickname: "Tom",
+    createdDate: "2023-04-30 12:02:12",
   },
   {
     isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
+    content: "안녕하세요",
+    createdDate: "2023-04-30 11:58:38",
   },
   {
     isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
+    content: "반가워요~~",
+    nickname: "Tom",
+    createdDate: "2023-04-30 12:02:12",
   },
   {
     isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
+    content: "안녕하세요",
+    createdDate: "2023-04-30 11:58:38",
   },
   {
     isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
+    content: "반가워요~~",
+    nickname: "Tom",
+    createdDate: "2023-04-30 12:02:12",
   },
   {
     isMe: true,
-    text: "안녕하세요",
-    sendTime: "2023-04-30 11:58:38",
+    content: "안녕하세요",
+    createdDate: "2023-04-30 11:58:38",
   },
   {
     isMe: false,
-    text: "반가워요~~",
-    sender: "Tom",
-    sendTime: "2023-04-30 12:02:12",
+    content: "반가워요~~",
+    nickname: "Tom",
+    createdDate: "2023-04-30 12:02:12",
   },
 ];
 
@@ -81,8 +82,9 @@ const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [_, setFooterIsOn] = useRecoilState(footerIsOn);
+  const [chat, setChatList] = useRecoilState(chatList);
 
-  const [chatList, setChatList] = useState<chat[]>([...DUMMY_CHAT_LIST]);
+  // const [chatList, setChatList] = useState<chat[]>([...DUMMY_CHAT_LIST]);
   const [prevViewport, setPrevViewport] = useState<number | undefined>(
     window.visualViewport?.height
   );
@@ -109,10 +111,15 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    const typeAdded = chatList.map((item) => ({
+    // const typeAdded = chatList.map((item) => ({
+    //   ...item,
+    //   roomType: selectedRoom.type,
+    // }));
+    const typeAdded = chat.map((item) => ({
       ...item,
       roomType: selectedRoom.type,
     }));
+    console.log("방 타입 추가된 데이터 : ", typeAdded);
     setChatList([...typeAdded]);
   }, [selectedRoom]);
 
@@ -135,19 +142,19 @@ const Chat = () => {
     setFooterIsOn(true);
   };
 
-  const textSendHandler = (text: string) => {
-    if (text.trim().length < 1) return;
+  const textSendHandler = (content: string) => {
+    if (content.trim().length < 1) return;
 
     const now = new Date();
     const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
     setChatList(() => [
-      ...chatList,
+      ...chat,
       {
-        roomType: selectedRoom.type,
-        isMe: true,
-        text: text,
-        sender: "Tom",
-        sendTime: currTime,
+        // roomType: selectedRoom.type,
+        // isMe: true,
+        content: content,
+        nickname: "Tom",
+        createdDate: currTime,
       },
     ]);
   };
@@ -182,7 +189,7 @@ const Chat = () => {
         count={selectedRoom.memberCount}
         roomExitHandler={roomExitHandler}
         roomType={selectedRoom.type}
-        chatList={chatList}
+        chatList={chat}
         onTextSend={textSendHandler}
       />
     </div>

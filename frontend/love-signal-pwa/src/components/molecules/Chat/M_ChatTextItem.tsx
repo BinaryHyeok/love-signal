@@ -15,34 +15,34 @@ const ENUM_BACKGROUND: { [key: string]: string } = {
 type PropsType = {
   roomType?: string;
   isMe?: boolean;
-  text: string;
-  sender?: string;
-  sendTime: string;
+  content?: string;
+  nickname?: string;
+  createdDate?: string;
 };
 
 const M_ChatTextItem: React.FC<PropsType> = ({
   roomType,
   isMe,
-  text,
-  sender,
-  sendTime,
+  content,
+  nickname,
+  createdDate,
 }) => {
   return (
     <li className={`${style.outerBox} ${isMe ? style.isMe : ""}`}>
       {isMe ? (
         <A_ChatText_TypeA
           background={roomType ? ENUM_BACKGROUND[roomType] : ""}
-          text={text}
+          content={content}
         />
       ) : (
         <>
           <A_ChatSenderImg
             senderImg={"https://picsum.photos/seed/picsum/200/300"}
           />
-          <A_ChatText_TypeB text={text} sender={sender} />
+          <A_ChatText_TypeB content={content} nickname={nickname} />
         </>
       )}
-      <A_ChatSendTime sendTime={sendTime} />
+      <A_ChatSendTime createdDate={createdDate} />
     </li>
   );
 };

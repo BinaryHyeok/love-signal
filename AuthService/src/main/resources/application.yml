@@ -52,7 +52,7 @@ spring:
       client:
         kakao:
           token-uri: https://kauth.kakao.com/oauth/token
-          account-uri: https://kapi.kakao.com/v2/user/me?property_keys=["kakao_account.email"]
+          account-uri: https://kapi.kakao.com/v2/user/me?property_keys=["for_partner.uuid", "kakao_account.email"]
           logout-uri: https://kapi.kakao.com/v1/user/logout
           redirect-uri: https://www.love-signal.kr/signup
           client-id: 0bae6bcf8c40843c797b0bb3025272d5

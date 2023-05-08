@@ -11,4 +11,5 @@ public class SignInResponse {
     private String refreshToken;
     private int accessTokenExpireTime;
     private String memberUUID;
+    private String kakaoUUID;
 }

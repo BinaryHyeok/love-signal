@@ -4,10 +4,7 @@ import kr.lovesignal.authservice.entity.MemberEntity;
 import kr.lovesignal.authservice.exception.CustomException;
 import kr.lovesignal.authservice.exception.ErrorCode;
 import kr.lovesignal.authservice.model.request.SignUpRequest;
-import kr.lovesignal.authservice.model.response.KauthAccountResponse;
-import kr.lovesignal.authservice.model.response.KauthTokenResponse;
-import kr.lovesignal.authservice.model.response.SignInResponse;
-import kr.lovesignal.authservice.model.response.SuccessResponse;
+import kr.lovesignal.authservice.model.response.*;
 import kr.lovesignal.authservice.repository.MemberRepository;
 import kr.lovesignal.authservice.util.CommonUtils;
 import kr.lovesignal.authservice.util.ResponseUtils;
@@ -36,6 +33,7 @@ public class AuthServiceImpl implements AuthService{
                 .description(signUpRequest.getBirth())
                 .nickname(signUpRequest.getNickname())
                 .gender(signUpRequest.getGender())
+                .kakaoUUID(kauthAccountResponse.getFor_partner().getUuid())
                 .build();
 
         memberRepository.save(saveMember);
@@ -55,6 +53,7 @@ public class AuthServiceImpl implements AuthService{
         }
         SignInResponse signInResponse = SignInResponse.builder()
                 .memberUUID(strMemberUUID)
+                .kakaoUUID(findMember.getKakaoUUID())
                 .accessToken(kauthTokenResponse.getAccess_token())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
@@ -88,6 +87,7 @@ public class AuthServiceImpl implements AuthService{
 
         SignInResponse refreshResponse = SignInResponse.builder()
                 .accessToken(kauthTokenResponse.getAccess_token())
+                .kakaoUUID(kauthAccountResponse.getFor_partner().getUuid())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
                 .memberUUID(emailMember.getUUID().toString())

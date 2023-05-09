@@ -156,12 +156,12 @@ const Chat = () => {
 
     getChatList(roomUUID).then((res) => {
       const chatData = res.data;
+      console.log(chatList);
+      console.log(chatData);
       const newChatList = { ...chatList };
       console.log(`${roomUUID}방의 채팅 목록 : ${newChatList}`);
       newChatList[roomUUID] = chatData;
-      if (roomUUID in chatList) {
-        setChatList({ ...newChatList });
-      }
+      setChatList({ ...newChatList });
     });
   };
 

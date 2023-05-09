@@ -28,7 +28,7 @@ spring:
         format_sql: true
 
   config:
-    import: "optional:k8b309.p.ssafy.io:8888/mysql/config"
+    import: "optional:configserver:http://k8b309.p.ssafy.io:8888/"
   cloud:
     config:
       name: mysql

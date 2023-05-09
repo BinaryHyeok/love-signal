@@ -13,7 +13,10 @@ const Mypage_Check_Btn: React.FC<propsType> = ({ imgClick }) => {
         src="/assets/btn_check_violet.png"
         className={style.EditBtn}
         onClick={imgClick}
-        whileTap={{ scale: 1.2 }}
+        whileTap={{
+          scale: 1.2,
+          transition: { type: "spring", stiffness: 200, damping: 10 },
+        }}
       />
     </>
   );

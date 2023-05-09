@@ -5,6 +5,7 @@ import Mypage_Check_Btn from "../../UI/Common/MyPage_Check_Btn";
 import Age from "./Age";
 
 type propsType = {
+  age: number;
   nickname: string;
   changeName: Dispatch<SetStateAction<boolean>>;
   applyInfo: boolean;
@@ -13,6 +14,7 @@ type propsType = {
 };
 
 const EditNickName: React.FC<propsType> = ({
+  age,
   nickname,
   changeName,
   applyInfo,
@@ -35,7 +37,7 @@ const EditNickName: React.FC<propsType> = ({
     <div className={style.containerEdit}>
       {/* <div>닉네임</div> */}
       <div className={style.btnContainer}>
-        <Age />
+        <Age age={age} />
         <div>
           <Input_Type_A
             type="text"

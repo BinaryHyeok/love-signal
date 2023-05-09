@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./A_FooterIcon.module.scss";
+import { motion } from "framer-motion";
 
 type propsType = {
   idx: string;
@@ -18,7 +19,13 @@ const FooterIcon: React.FC<propsType> = ({
 }) => {
   //스타일 변경을 위해서 number로 변경시켜준 변수 사용.
   return (
-    <div className={style.navbar}>
+    <motion.div
+      whileTap={{
+        scale: 1.2,
+        transition: { type: "spring", stiffness: 200, damping: 10 },
+      }}
+      className={style.navbar}
+    >
       <img
         id={idx}
         src={`/assets/${address}_${color}.png`}
@@ -26,7 +33,7 @@ const FooterIcon: React.FC<propsType> = ({
         onClick={isClickNav}
         className={style[`nav${size}`]}
       />
-    </div>
+    </motion.div>
   );
 };
 

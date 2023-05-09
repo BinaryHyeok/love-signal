@@ -5,7 +5,7 @@ export type room = {
   lastMsgTime?: string;
   members?: member[];
   //
-  uuid?: string;
+  uuid: string;
   type?: string;
   roomName?: string;
   lastChat?: string;
@@ -13,4 +13,8 @@ export type room = {
   createdDate?: string; // back에서 localDateTime으로 보내줌
   updatedDate?: string; // back에서 localDateTime으로 보내줌
   expired?: string;
+};
+
+export type roomMembers = {
+  [key: string]: member[];
 };

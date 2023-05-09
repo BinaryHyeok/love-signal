@@ -65,10 +65,10 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
   };
 
   const timeForMatter = (str: string) => {
-    if (!str) return null;
-    const [s_date, s_time] = str.split(" ");
+    if (!str || str.length === 0) return null;
+    const [s_date, s_time] = str.split("T");
     const [year, month, date] = s_date.split("-");
-    const [hour, min, sec] = s_time.split(":");
+    const [hour, min, sec] = s_time.split(".")[0].split(":");
 
     return {
       year,

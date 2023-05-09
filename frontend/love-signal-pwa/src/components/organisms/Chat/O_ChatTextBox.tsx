@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
 import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";

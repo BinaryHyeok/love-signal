@@ -9,15 +9,66 @@ import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
 import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
+import { nickname } from "../../../atom/member";
+
+import { inquireMember } from "../../../api/auth";
+import { getChatRoomList } from "../../../api/room";
+
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+import { chat, roomChatList } from "../../../types/chat";
+import { room, roomMembers } from "../../../types/room";
+import { getChatList } from "../../../api/chat";
+
+let socket: any;
+let ws: any;
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setIdx] = useRecoilState<number>(footerIdx);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
-  const [prevViewport, setPrevViewport] = useState<number | undefined>(
-    window.visualViewport?.height
+  // test용 state
+  const [userUUID, setUserUUID] = useState<string>(
+    "882a9377-c1a6-4802-a0d8-2f310c004fed"
   );
+  const [roomList, setRoomList] = useState<room[]>([]);
+  const [roomMemberList, setRoomMemberList] = useState<roomMembers>({});
+  const [chatList, setChatList] = useState<roomChatList>({});
+  const [me, setMe] = useRecoilState<string>(nickname);
+
+  useEffect(() => {
+    socket = new SockJS("http://localhost:8080/ws-stomp");
+    ws = Stomp.over(socket);
+
+    // 더미 코드
+    // inquireMember(userUUID).then((res) => {
+    //   setMe(res.data.body.nickname);
+    // });
+    setMe("내 닉네임");
+
+    getChatRoomList(userUUID).then((res) => {
+      const data: room[] = res.data;
+      console.log(res.data);
+      setRoomList(() => [...data]);
+      data.forEach((room) => {
+        // 각 방에 소켓 연결
+        console.log(`${room.uuid}방에 연결`);
+        connectChatServer(room.uuid);
+
+        // 각 방의 채팅 목록 가져오기
+        getChatList(room.uuid).then((res) => {
+          const chatData = res.data;
+          const newChatList = { ...chatList };
+          console.log(`${room.uuid}방의 채팅 목록 : ${newChatList}`);
+          newChatList[room.uuid] = chatData;
+          if (room.uuid in chatList) {
+            setChatList({ ...newChatList });
+          }
+        });
+      });
+    });
+  }, [userUUID]);
 
   useEffect(() => {
     setIdx(2);
@@ -29,7 +80,7 @@ const Chat = () => {
     );
 
     return () => {
-      setSelectedRoom({});
+      setSelectedRoom({ uuid: "" });
       setFooterIsOn(true);
       window.removeEventListener("resize", unitHeightSetHandler);
       window.removeEventListener("touchend", unitHeightSetHandler);
@@ -39,6 +90,34 @@ const Chat = () => {
       );
     };
   }, []);
+
+  const connectChatServer = async (roomUUID: string) => {
+    const header = {};
+    ws.connect(header, (frame: any) => {
+      console.log("방 입장 : " + roomUUID);
+      ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
+        const messages = JSON.parse(res.body);
+        console.log("새로 받은 메시지 : ", messages);
+
+        const newChatList = { ...chatList };
+        console.log(`업데이트 된 방(${roomUUID}) 채팅 목록 : ${newChatList}`);
+        newChatList[roomUUID].push(messages);
+        setChatList({ ...newChatList });
+      });
+
+      publishChatMsg({
+        type: "TOPIC",
+        roomUUID: roomUUID,
+        nickname: me, // 임시 닉네임
+        content: "",
+      });
+    });
+  };
+
+  const publishChatMsg = (newChat: chat) => {
+    const header = {};
+    ws.send("/pub/chat/message", header, JSON.stringify(newChat));
+  };
 
   const unitHeightSetHandler = () => {
     let vh = window.visualViewport?.height;
@@ -55,7 +134,7 @@ const Chat = () => {
   };
 
   const roomExitHandler = () => {
-    setSelectedRoom({});
+    setSelectedRoom({ uuid: "" });
     setFooterIsOn(true);
   };
 
@@ -74,9 +153,22 @@ const Chat = () => {
           count={selectedRoom.memberCount}
           roomExitHandler={roomExitHandler}
           roomType={selectedRoom.type}
+          chatList={chatList[selectedRoom.uuid]}
+          onTextSend={publishChatMsg}
         />
       )}
-      {!selectedRoom.uuid && <T_Chat />}
+      {!selectedRoom.uuid && (
+        <div style={{ width: "100%" }}>
+          <input
+            type="text"
+            value={userUUID}
+            onChange={(e) => {
+              setUserUUID(e.target.value);
+            }}
+          />
+          <T_Chat roomList={roomList} chatList={chatList} />
+        </div>
+      )}
 
       {/* <T_Chat />
       <T_ChatRoom

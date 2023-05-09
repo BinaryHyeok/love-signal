@@ -5,11 +5,12 @@ import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
 import Age from "./Age";
 
 type propsType = {
+  age: number;
   nickname: string;
   changeName: Dispatch<SetStateAction<boolean>>;
 };
 
-const NickName: React.FC<propsType> = ({ nickname, changeName }) => {
+const NickName: React.FC<propsType> = ({ age, nickname, changeName }) => {
   const modifyNickName = () => {
     changeName(false);
   };
@@ -17,7 +18,7 @@ const NickName: React.FC<propsType> = ({ nickname, changeName }) => {
     <div className={style.container}>
       {/* <div>닉네임</div> */}
       <div className={style.btnContainer}>
-        <Age />
+        <Age age={age} />
         <div className={style.nickname}>
           <A_TextHighlight color="red">{nickname}</A_TextHighlight>
         </div>

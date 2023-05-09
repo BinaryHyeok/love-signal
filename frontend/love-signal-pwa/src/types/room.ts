@@ -14,3 +14,7 @@ export type room = {
   updatedDate?: string; // back에서 localDateTime으로 보내줌
   expired?: string;
 };
+
+export type roomMembers = {
+  [key: string]: member[];
+};

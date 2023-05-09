@@ -14,11 +14,10 @@ import { nickname } from "../../../atom/member";
 import { inquireMember } from "../../../api/auth";
 import { getChatRoomList } from "../../../api/room";
 
-import { room } from "../../../types/room";
-
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { chat, roomChatList } from "../../../types/chat";
+import { room, roomMembers } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 
 let socket: any;
@@ -34,6 +33,7 @@ const Chat = () => {
     "882a9377-c1a6-4802-a0d8-2f310c004fed"
   );
   const [roomList, setRoomList] = useState<room[]>([]);
+  const [roomMemberList, setRoomMemberList] = useState<roomMembers>({});
   const [chatList, setChatList] = useState<roomChatList>({});
   const [me, setMe] = useRecoilState<string>(nickname);
 

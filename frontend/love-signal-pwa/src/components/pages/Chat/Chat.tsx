@@ -43,9 +43,9 @@ const Chat = () => {
     ws = Stomp.over(socket);
 
     // 더미 코드
-    // inquireMember(userUUID).then((res) => {
-    //   setMe(res.data.body.nickname);
-    // });
+    inquireMember(userUUID).then((res) => {
+      setMe(res.data.body.nickname);
+    });
     setMe("내 닉네임");
 
     getChatRoomList(userUUID).then((res) => {
@@ -58,7 +58,7 @@ const Chat = () => {
         connectChatServer(room.uuid);
 
         // 각 방 참여 멤버 정보 fetch
-        // fetchRoomMembers(room);
+        fetchRoomMembers(room);
 
         // 각 방의 채팅 목록 fetch
         fetchRoomChat(room.uuid);
@@ -151,6 +151,7 @@ const Chat = () => {
   };
 
   const fetchRoomChat = (roomUUID: string) => {
+    console.log(roomUUID + "로 채팅 목록 조회");
     if (!roomUUID) return;
 
     getChatList(roomUUID).then((res) => {

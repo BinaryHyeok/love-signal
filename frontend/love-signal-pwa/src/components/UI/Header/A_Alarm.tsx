@@ -1,10 +1,20 @@
 import style from "./A_Logo.module.scss";
+import { motion } from "framer-motion";
 
-const A_Alarm = () => {
+type PropsType = { onClick: () => void };
+
+const A_Alarm: React.FC<PropsType> = ({ onClick }) => {
   return (
-    <div className={style.logo}>
+    <motion.div
+      className={style.logo}
+      whileTap={{
+        scale: 1.15,
+        transition: { type: "spring", stiffness: 200, damping: 10 },
+      }}
+      onClick={onClick}
+    >
       <img src="/assets/alarm.png" alt="도움말" />
-    </div>
+    </motion.div>
   );
 };
 

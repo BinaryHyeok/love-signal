@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import style from "./A_Logo.module.scss";
+import { motion } from "framer-motion";
 
 const A_Logo = () => {
   const navigate = useNavigate();
@@ -10,9 +11,15 @@ const A_Logo = () => {
   };
 
   return (
-    <div className={style.logo}>
+    <motion.div
+      className={style.logo}
+      whileTap={{
+        scale: 1.15,
+        transition: { type: "spring", stiffness: 200, damping: 10 },
+      }}
+    >
       <img src="/assets/logo.png" onClick={goMain} alt="로고" />
-    </div>
+    </motion.div>
   );
 };
 

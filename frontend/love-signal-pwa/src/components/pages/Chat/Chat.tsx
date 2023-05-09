@@ -95,13 +95,13 @@ const Chat = () => {
       ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
         const messages = JSON.parse(res.body);
         console.log("새로 받은 메시지 : ", messages);
+        console.log("원래 있던 메시지 : ", chatList[roomUUID]);
 
-        const newChatList = { ...chatList };
-        console.log(`업데이트 된 방(${roomUUID}) 채팅 목록 : ${newChatList}`);
         let updatedList: chat[];
-        if (roomUUID in newChatList) {
+        if (roomUUID in chatList) {
           updatedList = [...chatList[roomUUID], messages];
         } else {
+          console.log("원래 채팅 목록이 없었다??");
           updatedList = [messages];
         }
         setChatList((prevState) => {

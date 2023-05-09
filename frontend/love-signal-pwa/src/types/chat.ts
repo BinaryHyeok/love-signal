@@ -14,3 +14,7 @@ export type chat = {
   expired?: String;
   selectOrShareInfo?: object;
 };
+
+export type roomChatList = {
+  [key: string]: chat[];
+};

@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
 import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";
 import M_ChatInputBox from "../../molecules/Chat/M_ChatInputBox";
 import { chat } from "../../../types/chat";
-import { member } from "../../../types/member";
 
 type PropsType = {
   onTextSubmit(text: string): void;

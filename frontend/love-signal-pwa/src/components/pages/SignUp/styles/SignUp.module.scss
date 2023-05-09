@@ -17,9 +17,10 @@
     margin: 0 auto;
   }
   .userInfo {
-    // display: flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    // justify-content: center;
     .nickName {
       display: flex;
       justify-content: space-between;

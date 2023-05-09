@@ -34,7 +34,6 @@ const M_FindTeamMenuList = () => {
     joinTeam(myUUID, enterTeamUUID)
       .then((res) => {})
       .catch((err) => {});
-    navigate("/SameGender/MyTeam");
   };
 
   // 새로운 방을 생성해서 이동

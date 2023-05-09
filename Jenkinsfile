@@ -20,38 +20,38 @@ pipeline {
             }
         }
 
-        stage('discoveryservice Build') {
-            steps {
-                script {
-                    dir('discoveryservice') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build'
-                    }
-                }
-            }
-        }
+        // stage('discoveryservice Build') {
+        //     steps {
+        //         script {
+        //             dir('discoveryservice') {
+        //                 sh 'chmod +x ./gradlew'
+        //                 sh './gradlew clean build'
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('apigateway Build') {
-            steps {
-                script {
-                    dir('apigateway') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build -x test'
-                    }
-                }
-            }
-        }
+        // stage('apigateway Build') {
+        //     steps {
+        //         script {
+        //             dir('apigateway') {
+        //                 sh 'chmod +x ./gradlew'
+        //                 sh './gradlew clean build -x test'
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('config Build') {
-            steps {
-                script {
-                    dir('config') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build'
-                    }
-                }
-            }
-        }
+        // stage('config Build') {
+        //     steps {
+        //         script {
+        //             dir('config') {
+        //                 sh 'chmod +x ./gradlew'
+        //                 sh './gradlew clean build'
+        //             }
+        //         }
+        //     }
+        // }
 
 
         stage('auth-service Build') {
@@ -65,17 +65,17 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('SonarQube Server') {
-        //             script {
-        //                 dir('AuthService') {
-        //                     sh './gradlew -d sonar'
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube Server') {
+                    script {
+                        dir('AuthService') {
+                            sh './gradlew -d sonar'
+                        }
+                    }
+                }
+            }
+        }
 
         stage('Deploy') {
             steps {
@@ -83,10 +83,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_auth
-                            docker compose -f docker-compose.yml stop mysql redis discoveryservice apigateway config sonarqube postgres auth-service
-                            docker compose -f docker-compose.yml rm -f mysql redis discoveryservice apigateway config sonarqube postgres auth-service
-                            docker compose -f docker-compose.yml build mysql redis discoveryservice apigateway config sonarqube postgres auth-service
-                            docker compose -f docker-compose.yml up -d mysql redis discoveryservice apigateway config sonarqube postgres auth-service
+                            docker compose -f docker-compose.yml stop auth-service
+                            docker compose -f docker-compose.yml rm -f auth-service
+                            docker compose -f docker-compose.yml build auth-service
+                            docker compose -f docker-compose.yml up -d auth-service
 
                         "
                     """

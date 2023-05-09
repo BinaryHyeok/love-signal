@@ -5,12 +5,14 @@ import { footerIsOn } from "../../../atom/footer";
 import { useRecoilState } from "recoil";
 import style from "./Footer.module.scss";
 import A_FooterIcon from "./A_FooterIcon";
+import { myTeamUUID } from "../../../atom/member";
 
 const Footer = () => {
   const navigate = useNavigate();
 
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [isOn, setFooterIsOn] = useRecoilState<boolean>(footerIsOn);
+  const [myTUUID] = useRecoilState<string>(myTeamUUID);
 
   const [color, setColor] = useState<string[]>([
     "black",
@@ -45,7 +47,11 @@ const Footer = () => {
     if (navid === 0) {
       setNav(0, "/OtherGender");
     } else if (navid === 1) {
-      setNav(1, "/SameGender");
+      if (myTUUID === "") {
+        setNav(1, "/SameGender");
+      } else {
+        setNav(1, "/SameGender/Myteam");
+      }
     } else if (navid === 2) {
       setNav(2, "/Chat");
     } else if (navid === 3) {

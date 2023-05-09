@@ -8,7 +8,6 @@ import { receivemeetingList } from "../../../api/team";
 import { myTeamUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { applyTeam } from "../../../types/member";
-import Ground from "../../UI/Three/Ground";
 
 type propsType = {
   isLeader: boolean;
@@ -69,35 +68,39 @@ const O_MyTeamBox: React.FC<propsType> = ({
     setIsLoading(true);
   };
   return (
-    <>
-      <div className={style.content}>
-        <M_MyTeamList memberList={memberList} setVisible={setMyVisible} />
-        <ListBoxWithImgTitle
-          title={
-            <>
-              <img src="/assets/mail.png" />
-              <span>신청목록</span>
-              <img src="/assets/mail.png" />
-            </>
-          }
-          type="blue"
-        >
-          {applyTeamExist ? (
-            <O_ApplyTeamList
-              applyTeamList={applyList}
-              isLeader={isLeader}
-              haveOppositeTeam={haveOppositeTeam}
-              setOppoVisible={setOppoVisible}
-              setOppoTeamIdx={setOppoTeamIdx}
-              clickBtn={clickBtn}
-              setClickBtn={setClickBtn}
-            />
-          ) : (
-            <>팀이 존재하지 않습니다..</>
-          )}
-        </ListBoxWithImgTitle>
-      </div>
-    </>
+    <div className={style.content}>
+      <M_MyTeamList memberList={memberList} setVisible={setMyVisible} />
+      <ListBoxWithImgTitle
+        title={
+          <>
+            <img src="/assets/mail.png" />
+            <span>신청목록</span>
+            <img src="/assets/mail.png" />
+          </>
+        }
+        type="blue"
+      >
+        {isLoading ? (
+          <>
+            {applyTeamExist ? (
+              <O_ApplyTeamList
+                applyTeamList={applyList}
+                isLeader={isLeader}
+                haveOppositeTeam={haveOppositeTeam}
+                setOppoVisible={setOppoVisible}
+                setOppoTeamIdx={setOppoTeamIdx}
+                clickBtn={clickBtn}
+                setClickBtn={setClickBtn}
+              />
+            ) : (
+              <>팀이 존재하지 않습니다..</>
+            )}
+          </>
+        ) : (
+          <>로딩중이다데스..</>
+        )}
+      </ListBoxWithImgTitle>
+    </div>
   );
 };
 

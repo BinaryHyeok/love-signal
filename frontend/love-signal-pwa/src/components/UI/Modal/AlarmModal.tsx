@@ -2,6 +2,8 @@ import style from "./AlarmModal.module.scss";
 import { motion } from "framer-motion";
 import ExitImg from "./ExitImg";
 
+import { useEffect } from "react";
+
 type PropsType = {
   open: boolean;
   closeModal: () => void;

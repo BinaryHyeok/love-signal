@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import style from "./styles/SignUp.module.scss";
 import A_SignUp_Desc1 from "./A_SignUp_Desc1";
 import M_Image_Type from "../../UI/Common/M_Image_Type";
@@ -10,12 +10,13 @@ type PropsType = {
 };
 
 const M_SignUp_Profile: React.FC<PropsType> = ({ onClick, setMyImage }) => {
+  const [img] = useState<string>("");
   return (
     <>
       <div className={style.userInfo}>
         <A_SignUp_Desc1 />
         <div>
-          <M_Image_Type marginTop="16px" setMyImage={setMyImage} />
+          <M_Image_Type marginTop="16px" myImg={img} setMyImage={setMyImage} />
         </div>
         <div className={style.checkBtn}>
           <Button_Type_A

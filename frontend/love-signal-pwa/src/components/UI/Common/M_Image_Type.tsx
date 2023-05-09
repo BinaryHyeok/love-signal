@@ -7,7 +7,7 @@ import CommonModal from "../../UI/Modal/CommonModal";
 import M_Image_Crop from "./M_Image_Crop";
 
 type propsType = {
-  myImg?: string;
+  myImg: string;
   marginTop: string;
   setMyImage: Dispatch<SetStateAction<FormData>>;
 };
@@ -18,15 +18,19 @@ const M_Image_Type: React.FC<propsType> = ({
   marginTop,
   setMyImage,
 }) => {
-  const publicUrl = process.env.PUBLIC_URL;
-  const filesample = `${publicUrl}/assets/girl5.png`;
+  // const publicUrl = process.env.PUBLIC_URL;
+  // const filesample = `${publicUrl}/assets/girl5.png`;
   //여기서 fileImg 시작이 filesample이 아닌 myImg가 들어갈것.
-  const [fileImg, setFileImg] = useState<string>(filesample);
+  const [fileImg, setFileImg] = useState<string>(myImg);
   const [cropData, setCropData] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
   useEffect(() => {}, [visible]);
+
+  useEffect(() => {
+    setCropData(myImg);
+  }, [myImg]);
 
   return (
     <>

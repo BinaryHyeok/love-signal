@@ -7,18 +7,18 @@ spring:
   application:
     name: auth-service
 
-  config:
-    import: "optional:configserver:http://13.125.99.25:8888/"
-  cloud:
-    config:
-      name: mysql
-      profile: config
+  # config:
+  #   import: "optional:configserver:http://13.125.99.25:8888/"
+  # cloud:
+  #   config:
+  #     name: mysql
+  #     profile: config
 
-  # datasource:
-  #   driver-class-name: com.mysql.cj.jdbc.Driver
-  #   url: jdbc:mysql://k8b309.p.ssafy.io:3306/love?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-  #   username: # 암호화
-  #   password: # 암호화
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://k8b309.p.ssafy.io:3306/love?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    username: lovesignal
+    password: lovesignal
 
   mvc:
     pathmatch:

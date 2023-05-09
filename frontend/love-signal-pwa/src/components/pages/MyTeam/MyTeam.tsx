@@ -12,11 +12,10 @@ import { getMyTeam } from "../../../api/team";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { applyTeam } from "../../../types/member";
+import { useNavigate } from "react-router-dom";
 
 const MyTeam = () => {
-  //현재 우리팀이 상대팀이 매칭이 되어있는지 확인하기.(임시입니다.)
-  //내가 팀 리더인지 파악을 할 수 있어야한다. (현재 내가 팀이 있을때 teamLeader가 true인지 false인지 파악.)
-
+  const navigate = useNavigate();
   //내가 상대팀이 있는지 파악해주는 state변수입니다.
   const [haveOppositeTeam, setHaveOppositeTeam] = useState<boolean>(false);
 
@@ -45,6 +44,11 @@ const MyTeam = () => {
   useEffect(() => {
     getUserInfo();
     getUserTeamInfo();
+    if (teamUUID === "") {
+      // 아래의 것은 이전 브라우저 기록을 바꿔주는 것. 내일 작업하면서 해봐야겠다.
+      // window.history.replaceState({ page: 1 }, "page 1", "/Samegender");
+      navigate("/Samegender", { replace: true });
+    }
   }, []);
 
   //axios로 내 정보 받아오기.
@@ -65,7 +69,6 @@ const MyTeam = () => {
   };
 
   const getUserTeamInfo = async () => {
-    console.log(teamUUID);
     await getMyTeam(teamUUID)
       .then((res) => {
         console.log(res);
@@ -79,6 +82,7 @@ const MyTeam = () => {
         console.log(err);
       });
   };
+
   return (
     <>
       {myVisible && !oppoVisible && (

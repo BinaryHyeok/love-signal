@@ -73,6 +73,12 @@ services:
       context: ./MemberService
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - discoveryservice
+      - apigateway
+      - config
+      - mysql
+      - redis
     networks:
       - backend
 
@@ -83,6 +89,12 @@ services:
       context: ./TeamService
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - discoveryservice
+      - apigateway
+      - config
+      - mysql
+      - redis
     networks:
       - backend
 
@@ -93,6 +105,12 @@ services:
       context: ./chatting-service
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - discoveryservice
+      - apigateway
+      - config
+      - mysql
+      - redis
     networks:
       - backend
 
@@ -103,6 +121,12 @@ services:
       context: ./file-service
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - discoveryservice
+      - apigateway
+      - config
+      - mysql
+      - redis
     networks:
       - backend
 
@@ -113,6 +137,12 @@ services:
       context: ./AuthService
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - discoveryservice
+      - apigateway
+      - config
+      - mysql
+      - redis
     networks:
       - backend
 

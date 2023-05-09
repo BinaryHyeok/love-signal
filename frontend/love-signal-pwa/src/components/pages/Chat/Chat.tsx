@@ -100,7 +100,7 @@ const Chat = () => {
         if (newChatList[roomUUID]) {
           newChatList[roomUUID].push(messages);
         } else {
-          newChatList[roomUUID] = [...messages];
+          newChatList[roomUUID] = [JSON.parse(JSON.stringify(messages))];
         }
         setChatList({ ...newChatList });
       });

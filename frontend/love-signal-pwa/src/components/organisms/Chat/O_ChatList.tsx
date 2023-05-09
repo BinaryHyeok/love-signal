@@ -38,7 +38,7 @@ const O_ChatList: React.FC<PropsType> = ({
           room={room}
           onClick={selectRoomHandler}
           lastChat={
-            chatList[room.uuid].length > 0
+            chatList[room.uuid] && chatList[room.uuid].length > 0
               ? chatList[room.uuid][chatList[room.uuid].length - 1]
               : {}
           }

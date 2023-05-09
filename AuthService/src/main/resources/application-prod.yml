@@ -1,15 +1,18 @@
 server:
   port: 0
-  error:
-    include-exception: false
-    include-message: always
-    include-stacktrace: on_param
-    whitelabel:
-      enabled: true
+  ssl:
+    enabled: false
 
 spring:
   application:
     name: auth-service
+
+  config:
+    import: "optional:configserver:http://13.125.99.25:8888/"
+  cloud:
+    config:
+      name: mysql
+      profile: config
 
   mvc:
     pathmatch:
@@ -17,7 +20,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     generate-ddl: true
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -26,13 +29,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
-  config:
-    import: "optional:configserver:http://13.125.99.25:8888/"
-  cloud:
-    config:
-      name: mysql
-      profile: config
 
 eureka:
   client:

@@ -20,40 +20,6 @@ pipeline {
             }
         }
 
-        // stage('discoveryservice Build') {
-        //     steps {
-        //         script {
-        //             dir('discoveryservice') {
-        //                 sh 'chmod +x ./gradlew'
-        //                 sh './gradlew clean build'
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage('apigateway Build') {
-        //     steps {
-        //         script {
-        //             dir('apigateway') {
-        //                 sh 'chmod +x ./gradlew'
-        //                 sh './gradlew clean build -x test'
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage('config Build') {
-        //     steps {
-        //         script {
-        //             dir('config') {
-        //                 sh 'chmod +x ./gradlew'
-        //                 sh './gradlew clean build'
-        //             }
-        //         }
-        //     }
-        // }
-
-
         stage('auth-service Build') {
             steps {
                 script {

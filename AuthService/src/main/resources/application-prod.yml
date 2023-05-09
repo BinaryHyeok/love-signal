@@ -31,8 +31,7 @@ spring:
     import: "optional:configserver:http://config:8888/"
   cloud:
     config:
-      name: mysql
-      profile: config
+      name: mysql-config
 
   datasource:
     driver-class-name: ${spring.datasource.driver-class-name}

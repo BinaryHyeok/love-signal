@@ -78,15 +78,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 //            String lastMessage = chatRepository.bringLastChatMessage(roomUUID);
 //            resChatRoom.setLastChat(lastMessage);
 
-            ChatRoom chatRoom = participant.getChatRoom();
+//            ChatRoom chatRoom = participant.getChatRoom();
 
-            List<Participant> roomParticipants = chatRoom.getParticipants();
-            for(Participant participant1 : roomParticipants) {
-                if(!participant.getUUID().toString().equals(participant1.getUUID().toString())) {
-                    memberList.add(participant1.getMember());
-                }
-            }
-            resChatRoom.setMemberList(memberList);
+//            List<Participant> roomParticipants = chatRoom.getParticipants();
+//            for(Participant participant1 : roomParticipants) {
+//                if(!participant.getUUID().toString().equals(participant1.getUUID().toString())) {
+//                    memberList.add(participant1.getMember());
+//                }
+//            }
+//            resChatRoom.setMemberList(memberList);
 
             chatRoomList.add(resChatRoom);
 

@@ -9,7 +9,7 @@ import { Pagination, Navigation } from "swiper";
 import ButtonTypeA from "../../Common/Button_Type_A";
 import { member } from "../../../../types/member";
 import { applyMeeting } from "../../../../api/team";
-import { myTeamUUID } from "../../../../atom/member";
+import { imLeader, myTeamUUID } from "../../../../atom/member";
 
 import UserInfo from "./O_UserInfo";
 import SwiperManual from "./A_SwiperManual";
@@ -44,6 +44,8 @@ const CheckTeam: React.FC<propsType> = ({
 
   const [close, setClose] = useState(false);
 
+  const [isLeader] = useRecoilState<boolean>(imLeader);
+
   useEffect(() => {
     setBtnVisible(!myTeam);
   }, []);
@@ -67,17 +69,22 @@ const CheckTeam: React.FC<propsType> = ({
 
   //신청하기 버튼
   const applyTeam = () => {
-    applyMeeting("49a4f23f-1d5e-44bb-9eeb-473bbaf79b0a", oppositeTeamUUID)
-      .then((res) => {
-        setMsg(res.data.body);
-        setApplyModal(true);
-        console.log(applyModal);
-      })
-      .catch((err) => {
-        setMsg(err.response.data.message);
-        setApplyModal(true);
-        console.log(applyModal);
-      });
+    if (isLeader) {
+      applyMeeting("49a4f23f-1d5e-44bb-9eeb-473bbaf79b0a", oppositeTeamUUID)
+        .then((res) => {
+          setMsg(res.data.body);
+          setApplyModal(true);
+          console.log(applyModal);
+        })
+        .catch((err) => {
+          setMsg(err.response.data.message);
+          setApplyModal(true);
+          console.log(applyModal);
+        });
+    } else {
+      setMsg("팀의 리더가 아닙니다.");
+      setApplyModal(true);
+    }
   };
 
   return (
@@ -158,10 +165,14 @@ const CheckTeam: React.FC<propsType> = ({
               <ButtonTypeA
                 width="104px"
                 height="32px"
-                background="#FBCED3"
+                background={isLeader ? "#FBCED3" : "#CCCCCC"}
                 onClick={applyTeam}
               >
-                <img src="/assets/send_invite.png" alt="" />
+                {isLeader ? (
+                  <img src="/assets/send_invite.png" alt="" />
+                ) : (
+                  <img src="/assets/send_blackinvite.png" alt="" />
+                )}
               </ButtonTypeA>
             </div>
             {children}

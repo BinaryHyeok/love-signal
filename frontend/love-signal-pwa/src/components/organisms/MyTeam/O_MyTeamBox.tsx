@@ -68,46 +68,37 @@ const O_MyTeamBox: React.FC<propsType> = ({
     });
     setIsLoading(true);
   };
-
-  if (isLoading) {
-    return (
-      <>
-        <div className={style.content}>
-          <M_MyTeamList memberList={memberList} setVisible={setMyVisible} />
-          <ListBoxWithImgTitle
-            title={
-              <>
-                <img src="/assets/mail.png" />
-                <span>신청목록</span>
-                <img src="/assets/mail.png" />
-              </>
-            }
-            type="blue"
-          >
-            {applyTeamExist ? (
-              <O_ApplyTeamList
-                applyTeamList={applyList}
-                isLeader={isLeader}
-                haveOppositeTeam={haveOppositeTeam}
-                setOppoVisible={setOppoVisible}
-                setOppoTeamIdx={setOppoTeamIdx}
-                clickBtn={clickBtn}
-                setClickBtn={setClickBtn}
-              />
-            ) : (
-              <>팀이 존재하지 않습니다..</>
-            )}
-          </ListBoxWithImgTitle>
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Ground />;
-      </>
-    );
-  }
+  return (
+    <>
+      <div className={style.content}>
+        <M_MyTeamList memberList={memberList} setVisible={setMyVisible} />
+        <ListBoxWithImgTitle
+          title={
+            <>
+              <img src="/assets/mail.png" />
+              <span>신청목록</span>
+              <img src="/assets/mail.png" />
+            </>
+          }
+          type="blue"
+        >
+          {applyTeamExist ? (
+            <O_ApplyTeamList
+              applyTeamList={applyList}
+              isLeader={isLeader}
+              haveOppositeTeam={haveOppositeTeam}
+              setOppoVisible={setOppoVisible}
+              setOppoTeamIdx={setOppoTeamIdx}
+              clickBtn={clickBtn}
+              setClickBtn={setClickBtn}
+            />
+          ) : (
+            <>팀이 존재하지 않습니다..</>
+          )}
+        </ListBoxWithImgTitle>
+      </div>
+    </>
+  );
 };
 
 export default O_MyTeamBox;

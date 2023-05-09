@@ -7,7 +7,6 @@ import EditIntroduce from "./EditIntroduce";
 import { useRecoilState } from "recoil";
 import { myMemberUUID } from "../../../atom/member";
 import { changeMyInfo } from "../../../api/auth";
-import { change } from "../../../api/sseul2";
 
 type propsType = {
   age: number;
@@ -32,7 +31,11 @@ const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
 
   useEffect(() => {
     if (!start) {
-      change("5d91b34f-9e09-4cc6-a944-40aed226311d", myNickName, myIntroduce)
+      changeMyInfo(
+        "f6fc66c4-34cb-4f0d-ab89-34a974917654",
+        myNickName,
+        myIntroduce
+      )
         .then((res) => {
           console.log(res);
         })

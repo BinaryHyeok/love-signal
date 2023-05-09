@@ -48,3 +48,10 @@ export const nickname = atom<string>({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+//나 자신이 리더인지를 확인할 recoil입니다.
+export const imLeader = atom<boolean>({
+  key: "leader",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});

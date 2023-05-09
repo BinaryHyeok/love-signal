@@ -4,12 +4,12 @@ import style from "./styles/Mypage.module.scss";
 import { useRecoilState } from "recoil";
 import M_Image_Type from "../../UI/Common/M_Image_Type";
 import MyInfo from "./MyInfo";
-// import { inquireMember } from "../../../api/auth";
+import { inquireMember } from "../../../api/auth";
 
 import { myMemberUUID } from "../../../atom/member";
 import { withdrawMember } from "../../../api/auth";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
-import { test } from "../../../api/sseul2";
+import { changeMyImg } from "../../../api/file";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -17,14 +17,12 @@ const Mypage = () => {
   const [myImg, setMyImg] = useState<string>("");
   const [myNickName, setMyNickName] = useState<string>("");
   const [myDescription, setMyDescription] = useState<string>("");
-  const [, guraImage] = useState<FormData>(new FormData());
+  const [myCropImage, setMyCropImage] = useState<FormData>(new FormData());
+  const [start, setStart] = useState<boolean>(false);
   useEffect(() => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
-    test("5d91b34f-9e09-4cc6-a944-40aed226311d").then((MyInfo) => {
-      console.log(MyInfo);
-      console.log(MyInfo.data.body.description);
-
+    inquireMember("f6fc66c4-34cb-4f0d-ab89-34a974917654").then((MyInfo) => {
       console.log(MyInfo.data.body.profileImage);
       setMyAge(MyInfo.data.body.age);
       setMyImg(MyInfo.data.body.profileImage);
@@ -42,11 +40,23 @@ const Mypage = () => {
       .catch((err) => {});
   };
 
+  useEffect(() => {
+    if (start) {
+      changeMyImg("f6fc66c4-34cb-4f0d-ab89-34a974917654", myCropImage);
+    } else {
+      setStart(true);
+    }
+  }, [myCropImage]);
+
   return (
     <>
       <div className={style.myPageContainer}>
         <div className={style.scrollContainer}>
-          <M_Image_Type myImg={myImg} marginTop="8px" setMyImage={guraImage} />
+          <M_Image_Type
+            myImg={myImg}
+            marginTop="8px"
+            setMyImage={setMyCropImage}
+          />
           <MyInfo
             age={myAge}
             nickname={myNickName}

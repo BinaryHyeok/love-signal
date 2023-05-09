@@ -46,9 +46,10 @@ const Chat = () => {
     ws = Stomp.over(socket);
 
     // 더미 코드
-    inquireMember(userUUID).then((res) => {
-      setMe(res.data.body.nickname);
-    });
+    // inquireMember(userUUID).then((res) => {
+    //   setMe(res.data.body.nickname);
+    // });
+    setMe("내 닉네임");
 
     getChatRoomList(userUUID).then((res) => {
       const data: room[] = res.data;

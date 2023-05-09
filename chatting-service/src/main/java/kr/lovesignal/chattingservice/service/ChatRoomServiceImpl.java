@@ -100,6 +100,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 if(chatRoom.getType().equals("TEAM") || chatRoom.getType().equals("MEETING")) {
                     participant.setExpired("T");
                     participantJpaRepository.save(participant);
+
+                    ReqChatMessage reqChatMessage = ReqChatMessage.builder()
+                            .roomUUID(chatRoom.getUUID().toString())
+                            .type("EXIT")
+                            .nickname(member.getNickname())
+                            .content(member.getNickname()+"님이 퇴장했습니다.")
+                            .build();
+
+                    chatService.saveChatMessage(reqChatMessage);
                 }
             }
         }
@@ -143,7 +152,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                         .build();
         ChatRoom chatRoom = chatRoomJpaRepository.save(room);
 
-        // 채팅방에 멤버 참여시키기, 입장 메세지 저장. 
+        // 채팅방에 멤버 참여시키기, 입장 메세지 저장.
         for(String userUUID : userUUIDs) {
             UUID uuid = commonUtils.getValidUUID(userUUID);
             Member member = memberJpaRepository.findMemberByUUID(uuid);

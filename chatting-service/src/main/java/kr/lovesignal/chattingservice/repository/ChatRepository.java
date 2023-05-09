@@ -34,7 +34,12 @@ public class ChatRepository {
      */
     public List<ResChatMessage> getChatMessages(String roomUUID) {
         List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
-        return list;
+        if(list == null) {
+            return list = new ArrayList<>();
+        }
+        else {
+            return list;
+        }
     }
 
 

@@ -29,7 +29,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService{
 
-    private final ChatRoomService chatRoomService;
     private final ChatRepository chatRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;

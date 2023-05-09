@@ -97,7 +97,11 @@ const Chat = () => {
 
         const newChatList = { ...chatList };
         console.log(`업데이트 된 방(${roomUUID}) 채팅 목록 : ${newChatList}`);
-        newChatList[roomUUID].push(messages);
+        if (newChatList[roomUUID]) {
+          newChatList[roomUUID].push(messages);
+        } else {
+          newChatList[roomUUID] = [...messages];
+        }
         setChatList({ ...newChatList });
       });
 
@@ -156,11 +160,11 @@ const Chat = () => {
 
     getChatList(roomUUID).then((res) => {
       const chatData = res.data;
-      console.log(chatList);
-      console.log(chatData);
       const newChatList = { ...chatList };
-      console.log(`${roomUUID}방의 채팅 목록 : ${newChatList}`);
+      console.log(chatData);
       newChatList[roomUUID] = chatData;
+      console.log(`${roomUUID}방의 채팅 목록 : ${newChatList}`);
+
       setChatList({ ...newChatList });
     });
   };

@@ -109,10 +109,10 @@ const Chat = () => {
       });
 
       publishChatMsg({
-        type: "ENTER",
+        type: "TOPIC",
         roomUUID: roomUUID,
         nickname: me, // 임시 닉네임
-        content: `${me}님이 입장하였습니다.`,
+        content: "",
       });
     });
   };

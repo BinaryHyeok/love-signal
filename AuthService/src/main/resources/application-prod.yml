@@ -29,6 +29,7 @@ spring:
 
   config:
     import: "optional:configserver:config:8888/mysql/config"
+    use-legacy-processing: true
   cloud:
     config:
       name: mysql

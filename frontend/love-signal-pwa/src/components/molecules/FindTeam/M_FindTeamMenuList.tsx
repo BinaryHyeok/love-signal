@@ -28,16 +28,13 @@ const M_FindTeamMenuList = () => {
     setVisible(true);
   };
 
-  //입장하기 클릭시 코드를 작성할 수 있도록 해주는 InputBox를 열어주는 함수.
-  const writeTeamCode = () => {};
-
   //팀으로 입장.(임시);
   const enterTeam = () => {
     //여기에서 axios요청을해서 해당 팀으로 입장.
     joinTeam(myUUID, enterTeamUUID)
       .then((res) => {})
       .catch((err) => {});
-    navigate("/Samegender/MyTeam");
+    navigate("/SameGender/MyTeam");
   };
 
   // 새로운 방을 생성해서 이동
@@ -47,12 +44,12 @@ const M_FindTeamMenuList = () => {
       .then((res) => {
         console.log(res.data); // 방 정보
         setIsPending(false);
-        navigate("/samegender/build");
+        navigate("/SameGender/build");
       })
       .catch((err) => {
         console.log(err);
         setIsPending(false);
-        navigate("/samegender/build"); // 임시
+        navigate("/SameGender/build"); // 임시
       });
   };
 

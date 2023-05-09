@@ -27,7 +27,7 @@ const Login = () => {
       })
       .then((response) => {
         console.log(response);
-        navigate("/othergender");
+        navigate("/OtherGender");
       })
       .catch((err) => {
         console.log(err);

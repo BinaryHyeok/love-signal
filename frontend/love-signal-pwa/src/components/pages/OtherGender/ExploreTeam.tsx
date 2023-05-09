@@ -11,6 +11,7 @@ import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import { getOtherGenderTeam } from "../../../api/team";
 import A_Heartline from "../../atoms/Common/A_Heartline";
+import MsgModal from "../../UI/Modal/MsgModal";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -27,11 +28,17 @@ const ExploreTeam = () => {
   let [infinityScroll, setInfinityScroll] = useState<boolean>(true); //일정 스크롤 이상내려가면 false로 바뀌고 axios요청이 성공하면 true로 다시변경.(무한스크롤)
   let [lastList, setLastList] = useState<boolean>(true); //백에서 더이상 받아올 팀이 없는지 확인해줄 state.
 
+  const [msg, setMsg] = useState<string>("");
+  const [applyModal, setApplyModal] = useState<boolean>(false);
+
   useEffect(() => {
     setIdx(0);
     getList();
   }, []);
 
+  useEffect(() => {
+    setMsg("");
+  }, [visible]);
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
     await getOtherGenderTeam("M", receiveList, uuidList)
@@ -103,7 +110,12 @@ const ExploreTeam = () => {
               member={team[teamNumber].members}
               oppositeTeamUUID={team[teamNumber].teamUUID}
               myTeam={false}
-            />
+              applyModal={applyModal}
+              setMsg={setMsg}
+              setApplyModal={setApplyModal}
+            >
+              {applyModal && <MsgModal msg={msg} />}
+            </CheckTeam>
           </Modal_portal>
         ) : (
           <div className={style.otherContainer}>

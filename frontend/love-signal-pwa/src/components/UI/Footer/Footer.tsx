@@ -43,13 +43,13 @@ const Footer = () => {
     setIdx(navid);
 
     if (navid === 0) {
-      setNav(0, "/othergender");
+      setNav(0, "/OtherGender");
     } else if (navid === 1) {
-      setNav(1, "/samegender");
+      setNav(1, "/SameGender");
     } else if (navid === 2) {
-      setNav(2, "/chat");
+      setNav(2, "/Chat");
     } else if (navid === 3) {
-      setNav(3, "/mypage");
+      setNav(3, "/Mypage");
     }
   };
 

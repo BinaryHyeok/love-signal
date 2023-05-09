@@ -20,7 +20,6 @@ import { chat, roomChatList } from "../../../types/chat";
 import { room, roomMembers } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 import { member, userInfo } from "../../../types/member";
-import { update } from "@react-spring/core";
 
 let socket: any;
 let ws: any;
@@ -65,9 +64,7 @@ const Chat = () => {
         fetchRoomChat(room.uuid);
       });
     });
-  }, [userUUID]);
 
-  useEffect(() => {
     setIdx(2);
     window.addEventListener("resize", unitHeightSetHandler);
     window.addEventListener("touchend", unitHeightSetHandler);
@@ -85,6 +82,8 @@ const Chat = () => {
         "resize",
         resizeVisualViewportHandler
       );
+      // 웹 소켓 종료
+      ws.disconnect();
     };
   }, []);
 
@@ -94,21 +93,13 @@ const Chat = () => {
       console.log("방 입장 : " + roomUUID);
       ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
         const messages = JSON.parse(res.body);
-        console.log("새로 받은 메시지 : ", messages);
-        console.log("전체 방의 메시지 : ", chatList);
-        console.log("방에 원래 있던 메시지 : ", chatList[roomUUID]);
 
-        let updatedList: chat[];
-        if (roomUUID in chatList) {
-          updatedList = [...chatList[roomUUID], messages];
-        } else {
-          console.log("원래 채팅 목록이 없었다??");
-          updatedList = [messages];
-        }
         setChatList((prevState) => {
+          const prevList = prevState[roomUUID] || [];
+          const newList = [...prevList, messages];
           return {
             ...prevState,
-            [roomUUID]: updatedList,
+            [roomUUID]: newList,
           };
         });
       });
@@ -130,36 +121,30 @@ const Chat = () => {
   const fetchRoomMembers = (roomInfo: room) => {
     if (!roomInfo.members || roomInfo.members.length === 0) return;
 
-    const newList = { ...roomMemberList };
     roomInfo.members?.forEach((member) => {
       if (member.memberUUID) {
         inquireMember(member.memberUUID).then((res) => {
           const userInfo: userInfo = res.data.body;
+          const newUser = {
+            nickname: userInfo.nickname,
+            age: userInfo.age,
+            memberUUID: userInfo.memberUUID,
+            description: userInfo.description,
+            profileImage: userInfo.profileImage,
+          };
 
-          if (roomInfo.uuid in newList) {
-            newList[roomInfo.uuid].push({
-              nickname: userInfo.nickname,
-              age: userInfo.age,
-              memberUUID: userInfo.memberUUID,
-              description: userInfo.description,
-              profileImage: userInfo.profileImage,
-            });
-          } else {
-            newList[roomInfo.uuid] = [
-              {
-                nickname: userInfo.nickname,
-                age: userInfo.age,
-                memberUUID: userInfo.memberUUID,
-                description: userInfo.description,
-                profileImage: userInfo.profileImage,
-              },
-            ];
-          }
+          setRoomMemberList((prevState) => {
+            const prevList = prevState[roomInfo.uuid] || [];
+            const newList = [...prevList, newUser];
+
+            return {
+              ...prevState,
+              [roomInfo.uuid]: newList,
+            };
+          });
         });
       }
     });
-    console.log("가져온 방 멤버 정보 : ", newList);
-    setRoomMemberList({ ...newList });
   };
 
   const fetchRoomChat = (roomUUID: string) => {

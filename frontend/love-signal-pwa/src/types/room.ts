@@ -5,7 +5,7 @@ export type room = {
   lastMsgTime?: string;
   members?: member[];
   //
-  uuid?: string;
+  uuid: string;
   type?: string;
   roomName?: string;
   lastChat?: string;

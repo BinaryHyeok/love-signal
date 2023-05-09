@@ -5,11 +5,6 @@ import O_ChatTextBox from "../../organisms/Chat/O_ChatTextBox";
 import { chat } from "../../../types/chat";
 
 import { useRecoilState } from "recoil";
-import { getChatList } from "../../../api/chat";
-import { roomInfo } from "../../../atom/chatRoom";
-
-import { Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
 import { nickname } from "../../../atom/member";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
@@ -27,12 +22,9 @@ type PropsType = {
   count?: string;
   roomExitHandler: React.MouseEventHandler<HTMLElement>;
   roomType?: string;
-  // chatList: chat[];
-  // onTextSend: (text: string) => void;
+  chatList: chat[];
+  onTextSend: (text: chat) => void;
 };
-
-let socket: any;
-let ws: any;
 
 const T_ChatRoom: React.FC<PropsType> = ({
   className,
@@ -41,53 +33,16 @@ const T_ChatRoom: React.FC<PropsType> = ({
   count,
   roomExitHandler,
   roomType,
-  // chatList,
-  // onTextSend,
+  chatList,
+  onTextSend,
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
 
   const [unitHeight, setUnitHeight] = useState<number>();
-  const [chatList, setChatList] = useState<chat[]>([]);
   const [me, _] = useRecoilState<string>(nickname);
 
-  const textSendHandler = (content: string) => {
-    if (content.trim().length < 1) return;
-
-    const now = new Date();
-    const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}}}`;
-    const newChat: chat = {
-      // roomType: selectedRoom.type,
-      // isMoe: true,
-      type: "TEXT",
-      roomUUID: roomId,
-      nickname: me, // 임시 닉네임
-      content: content,
-      createdDate: currTime,
-    };
-
-    publishChatMsg(newChat);
-    // setChatList(() => [...chatList, newChat]);
-  };
-
   useEffect(() => {
-    if (roomId != undefined && roomId != null) {
-      socket = new SockJS("http://localhost:8080/ws-stomp");
-      ws = Stomp.over(socket);
-      // 채팅 서버 연결
-      connectChatServer(roomId);
-
-      // 채팅 목록 Fetch
-      getChatList(roomId)
-        .then((res) => {
-          console.log(res.data);
-          setChatList([...chatList, ...res.data]);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-
     window.addEventListener("resize", unitHeightSetHandler);
     window.addEventListener("touchend", unitHeightSetHandler);
     window.visualViewport?.addEventListener(
@@ -111,28 +66,21 @@ const T_ChatRoom: React.FC<PropsType> = ({
     }
   }, [chatList]);
 
-  const connectChatServer = async (roomUUID: string) => {
-    const header = {};
-    ws.connect(header, (frame: any) => {
-      console.log("방 입장 : " + roomUUID);
-      ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
-        const messages = JSON.parse(res.body);
-        console.log(messages);
-        setChatList((prev) => [...prev, messages]);
-      });
+  const textSendHandler = (content: string) => {
+    if (content.trim().length < 1) return;
 
-      publishChatMsg({
-        type: "ENTER",
-        roomUUID: roomUUID,
-        nickname: me, // 임시 닉네임
-        content: "",
-      });
-    });
-  };
+    // const now = new Date();
+    // const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}}}`;
+    const newChat: chat = {
+      type: "TEXT",
+      roomUUID: roomId,
+      nickname: me, // 임시 닉네임
+      content: content,
+    };
 
-  const publishChatMsg = (newChat: chat) => {
-    const header = {};
-    ws.send("/pub/chat/message", header, JSON.stringify(newChat));
+    // 채팅 서버에 채팅 publish
+    // publishChatMsg(newChat);
+    onTextSend(newChat);
   };
 
   const unitHeightSetHandler = () => {

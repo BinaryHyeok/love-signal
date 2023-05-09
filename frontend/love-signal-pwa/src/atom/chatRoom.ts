@@ -9,6 +9,6 @@ const { persistAtom } = recoilPersist({
 
 export const roomInfo = atom<room>({
   key: "roomInfo",
-  default: {},
+  default: { uuid: "" },
   effects_UNSTABLE: [persistAtom],
 });

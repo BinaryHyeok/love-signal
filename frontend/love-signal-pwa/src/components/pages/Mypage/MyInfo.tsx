@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import style from "./styles/MyInfo.module.scss";
 import NickName from "./NickName";
-import Age from "./Age";
 import Introduce from "./Introduce";
 import EditNickName from "./EditNickName";
 import EditIntroduce from "./EditIntroduce";
@@ -26,17 +25,23 @@ const MyInfo: React.FC<propsType> = ({ nickname, description }) => {
     "asssssssssssssssssssssssssssssssssssssss"
   );
 
+  const [start, setStart] = useState<boolean>(true);
+
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [applyInfo, setApplyInfo] = useState<boolean>(false);
 
   useEffect(() => {
-    changeMyInfo(myUUID, myNickName, myIntroduce)
-      .then((res) => {
-        console.log("회원정보 수정완료");
-      })
-      .catch((err) => {
-        console.log("수정에 실패했습니다.");
-      });
+    if (!start) {
+      changeMyInfo(myUUID, myNickName, myIntroduce)
+        .then((res) => {
+          console.log("회원정보 수정완료");
+        })
+        .catch((err) => {
+          console.log("수정에 실패했습니다.");
+        });
+    } else {
+      setStart(true);
+    }
   }, [applyInfo]);
 
   return (

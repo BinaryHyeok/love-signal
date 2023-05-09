@@ -21,6 +21,7 @@ const Mypage = () => {
     //수정할 내 정보들을 가져와서 보여주기.
     inquireMember(myUUID)
       .then((res) => {
+        console.log(res);
         setMyImg(res.data.body.imgload);
         setMyNickName(res.data.body.nickname);
         setMyDescription(res.data.body.description);

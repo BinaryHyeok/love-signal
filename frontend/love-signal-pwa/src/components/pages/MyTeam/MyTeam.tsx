@@ -12,6 +12,7 @@ import { getMyTeam } from "../../../api/team";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { applyTeam } from "../../../types/member";
+import Ground from "../../UI/Three/Ground";
 
 const MyTeam = () => {
   //현재 우리팀이 상대팀이 매칭이 되어있는지 확인하기.(임시입니다.)
@@ -36,6 +37,9 @@ const MyTeam = () => {
 
   //상대 팀 모달창 띄워줄 함수.
   const [oppoVisible, setOppoVisible] = useState<boolean>(false);
+
+  const [msg, setMsg] = useState<string>("");
+  const [applyModal, setApplyModal] = useState<boolean>(false);
 
   //들어올 때 마다 axios요청을해서 내 개인정보를 불러오고 거기에 팀 리더인지, 팀이 있는지를 파악해주자.
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
@@ -76,7 +80,6 @@ const MyTeam = () => {
         console.log(err);
       });
   };
-
   return (
     <>
       {myVisible && !oppoVisible && (
@@ -87,7 +90,12 @@ const MyTeam = () => {
             member={memberList}
             oppositeTeamUUID=""
             myTeam={true}
-          />
+            setMsg={setMsg}
+            applyModal={applyModal}
+            setApplyModal={setApplyModal}
+          >
+            <></>
+          </CheckTeam>
         </Modal_portal>
       )}
       {!myVisible && oppoVisible && (
@@ -98,7 +106,12 @@ const MyTeam = () => {
             member={applyList[oppoTeamIdx].members}
             oppositeTeamUUID={applyList[oppoTeamIdx].teamUUID}
             myTeam={true}
-          />
+            applyModal={applyModal}
+            setMsg={setMsg}
+            setApplyModal={setApplyModal}
+          >
+            <></>
+          </CheckTeam>
         </Modal_portal>
       )}
       {!myVisible && !oppoVisible && (

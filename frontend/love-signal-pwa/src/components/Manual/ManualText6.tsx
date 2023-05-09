@@ -1,13 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import style from "./ManualText.module.scss";
 
 const ManualText6 = () => {
-  const navigate = useNavigate();
-  const goToPage = () => {
-    navigate("/othergender");
-  };
   return (
-    <div className={style.description} onClick={goToPage}>
+    <div className={style.description}>
       <span className="text-red">3일</span>이라는 기간 동안 <br />
       <span className="text-red">사랑</span>이 싹틀 수 있을까요 ?
       <br />

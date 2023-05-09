@@ -100,18 +100,23 @@ $profile: #fff;
       }
     }
   }
-
-  // 버튼
-  .buttonContainer {
+  .bottomContainer {
     display: flex;
-    justify-content: center;
-    margin-top: 16px;
-
-    .button {
-      margin-right: 32px;
-    }
-    img {
-      width: 24px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    // 버튼
+    .buttonContainer {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+      .button {
+        margin-right: 32px;
+      }
+      img {
+        width: 24px;
+      }
     }
   }
 }

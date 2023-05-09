@@ -1,19 +1,27 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { alarmModal } from "../../../atom/alarm";
 
 const RootLayout = () => {
+  const [, setAlarm] = useRecoilState<boolean>(alarmModal);
   useEffect(() => {
     /* Scrren Resize */
     unitHeightSetHandler();
 
     window.addEventListener("resize", unitHeightSetHandler);
     window.addEventListener("touchend", unitHeightSetHandler);
+    window.addEventListener("popstate", closeModal);
 
     return () => {
       window.removeEventListener("resize", unitHeightSetHandler);
       window.removeEventListener("touchend", unitHeightSetHandler);
     };
   }, []);
+
+  const closeModal = () => {
+    setAlarm(false);
+  };
 
   const unitHeightSetHandler = () => {
     let vh = window.visualViewport?.height;

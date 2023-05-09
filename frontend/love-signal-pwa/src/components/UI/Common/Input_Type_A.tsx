@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./Input_Type_A.module.scss";
+import style from "./Input_Type.module.scss";
 
 type PropsType = {
   className?: string;

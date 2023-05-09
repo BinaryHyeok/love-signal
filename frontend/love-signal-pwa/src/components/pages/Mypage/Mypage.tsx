@@ -10,6 +10,10 @@ import { myMemberUUID } from "../../../atom/member";
 import { withdrawMember } from "../../../api/auth";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import { changeMyImg } from "../../../api/file";
+import cookie from "react-cookies";
+import { useNavigate } from "react-router-dom";
+import { myatk } from "../../../atom/member";
+import { myatkET } from "../../../atom/member";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -19,6 +23,12 @@ const Mypage = () => {
   const [myDescription, setMyDescription] = useState<string>("");
   const [myCropImage, setMyCropImage] = useState<FormData>(new FormData());
   const [start, setStart] = useState<boolean>(false);
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [, setMyAtk] = useRecoilState<string>(myatk);
+  const [, setMyAtkET] = useRecoilState<string>(myatkET);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
@@ -31,7 +41,17 @@ const Mypage = () => {
     });
   }, [setIdx]);
 
-  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const logOut = () => {
+    //로그아웃시 없애야 할것
+    //쿠키에 저장된 rtk삭제.
+    //Recoil에 저장된 atk삭제.
+    //Recoil에 저장된 만료기간 삭제.
+    cookie.remove("rtk", { path: "/" });
+    setMyAtk("");
+    setMyAtkET("");
+
+    navigate("/");
+  };
 
   //회원탈퇴 함수입니다.
   const withdrawal = () => {
@@ -63,7 +83,9 @@ const Mypage = () => {
             description={myDescription}
           />
           <div className={style.drawal}>
-            <Button_Type_A width="100%">로그아웃</Button_Type_A>
+            <Button_Type_A width="100%" onClick={logOut}>
+              로그아웃
+            </Button_Type_A>
           </div>
           <div className={style.drawal2}>
             <Button_Type_A width="100%" onClick={withdrawal}>

@@ -17,10 +17,15 @@ const Test = () => {
     console.log(cookie.load("rtk"));
   };
 
+  const removeCookie = () => {
+    cookie.remove("rtk", { path: "/" });
+  };
+
   return (
     <>
       <button onClick={setCookie}>쿠키 저장하기~</button>
       <button onClick={getCookie}>쿠키 가져오기~</button>
+      <button onClick={removeCookie}>쿠키 삭제하기~</button>
     </>
   );
 };

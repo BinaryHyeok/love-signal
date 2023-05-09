@@ -4,6 +4,8 @@ import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
 import kr.lovesignal.chattingservice.entity.RoomType;
+import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
+import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
@@ -36,6 +38,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private Map<String, ChannelTopic> topics;
 
     private final CommonUtils commonUtils;
+    private final ChatService chatService;
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;
@@ -130,6 +133,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoom createSameOrAllGenderChatRoom(List<String> userUUIDs) {
 
+        // 채팅방 생성하기.
         String type = userUUIDs.size()==3? "TEAM":"MEETING";
         String roomName = type.equals("TEAM")?"애인 없는 사람들 모임 ㅋ":"두근두근 시그널 보내고 짝 찾기 ㅋ";
 
@@ -139,6 +143,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                         .build();
         ChatRoom chatRoom = chatRoomJpaRepository.save(room);
 
+        // 채팅방에 멤버 참여시키기, 입장 메세지 저장. 
         for(String userUUID : userUUIDs) {
             UUID uuid = commonUtils.getValidUUID(userUUID);
             Member member = memberJpaRepository.findMemberByUUID(uuid);
@@ -148,6 +153,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     .chatRoom(chatRoom) // 추가
                     .build();
             participantJpaRepository.save(participant);
+
+            ReqChatMessage reqChatMessage = ReqChatMessage.builder()
+                    .roomUUID(chatRoom.getUUID().toString())
+                    .type("ENTER")
+                    .nickname(member.getNickname())
+                    .content(member.getNickname()+"님이 입장했습니다.")
+                    .build();
+
+            chatService.saveChatMessage(reqChatMessage);
         }
 
         return chatRoom;

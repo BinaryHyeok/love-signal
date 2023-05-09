@@ -95,7 +95,8 @@ const Chat = () => {
       ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
         const messages = JSON.parse(res.body);
         console.log("새로 받은 메시지 : ", messages);
-        console.log("원래 있던 메시지 : ", chatList[roomUUID]);
+        console.log("전체 방의 메시지 : ", chatList);
+        console.log("방에 원래 있던 메시지 : ", chatList[roomUUID]);
 
         let updatedList: chat[];
         if (roomUUID in chatList) {
@@ -167,12 +168,20 @@ const Chat = () => {
 
     getChatList(roomUUID).then((res) => {
       const chatData = res.data;
-      const newChatList = { ...chatList };
-      console.log(chatData);
-      newChatList[roomUUID] = chatData;
-      console.log(`${roomUUID}방의 채팅 목록 : ${newChatList}`);
+      let newList: chat[];
+      if (roomUUID in chatList) {
+        newList = [...chatList[roomUUID], ...chatData];
+      } else {
+        newList = [...chatData];
+      }
+      console.log(`${roomUUID}방의 채팅 목록 : ${newList}`);
 
-      setChatList({ ...newChatList });
+      setChatList((prevState) => {
+        return {
+          ...prevState,
+          [roomUUID]: newList,
+        };
+      });
     });
   };
 

@@ -108,12 +108,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     public ChatRoom createSystemChatroom(String userUUID) {
-        ChatRoom chatRoom = ChatRoom.builder()
+        ChatRoom room = ChatRoom.builder()
                         .type("SYSTEM")
                         .roomName("러브시그널")
                         .build();
 
-        chatRoomJpaRepository.save(chatRoom);
+        ChatRoom chatRoom = chatRoomJpaRepository.save(room);
 
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findMemberByUUID(uuid);
@@ -133,14 +133,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         String type = userUUIDs.size()==3? "TEAM":"MEETING";
         String roomName = type.equals("TEAM")?"애인 없는 사람들 모임 ㅋ":"두근두근 시그널 보내고 짝 찾기 ㅋ";
 
-        ChatRoom chatRoom = ChatRoom.builder()
+        ChatRoom room = ChatRoom.builder()
                         .type(type)
                         .roomName(roomName)
                         .build();
-        chatRoomJpaRepository.save(chatRoom);
-
-        List<ChatRoom> chatRooms = chatRoomJpaRepository.findAll();
-        Long chatRoomId = chatRooms.get(chatRooms.size() - 1).getRoomId();
+        ChatRoom chatRoom = chatRoomJpaRepository.save(room);
 
         for(String userUUID : userUUIDs) {
             UUID uuid = commonUtils.getValidUUID(userUUID);

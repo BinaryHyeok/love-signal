@@ -20,6 +20,7 @@ import { chat, roomChatList } from "../../../types/chat";
 import { room, roomMembers } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 import { member, userInfo } from "../../../types/member";
+import { update } from "@react-spring/core";
 
 let socket: any;
 let ws: any;
@@ -97,12 +98,18 @@ const Chat = () => {
 
         const newChatList = { ...chatList };
         console.log(`업데이트 된 방(${roomUUID}) 채팅 목록 : ${newChatList}`);
+        let updatedList: chat[];
         if (roomUUID in newChatList) {
-          newChatList[roomUUID] = [...newChatList[roomUUID], messages];
+          updatedList = [...chatList[roomUUID], messages];
         } else {
-          newChatList[roomUUID] = [messages];
+          updatedList = [messages];
         }
-        setChatList({ ...newChatList });
+        setChatList((prevState) => {
+          return {
+            ...prevState,
+            [roomUUID]: updatedList,
+          };
+        });
       });
 
       publishChatMsg({

@@ -13,6 +13,7 @@ type PropsType = {
 
 const O_ChatTextList: React.FC<PropsType> = ({ ulRef, roomType, chatList }) => {
   const [me, _] = useRecoilState<string>(nickname);
+  console.log("부모에서 가져온 채팅 목록 : ", chatList);
   return (
     <ul className={style.textList} ref={ulRef}>
       {chatList.map((item, idx) => (

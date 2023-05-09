@@ -18,15 +18,11 @@ import { room } from "../../../types/room";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { chat } from "../../../types/chat";
+import { chat, roomChatList } from "../../../types/chat";
 import { getChatList } from "../../../api/chat";
 
 let socket: any;
 let ws: any;
-
-type TypeChatList = {
-  [key: string]: chat[];
-};
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
@@ -38,7 +34,7 @@ const Chat = () => {
     "882a9377-c1a6-4802-a0d8-2f310c004fed"
   );
   const [roomList, setRoomList] = useState<room[]>([]);
-  const [chatList, setChatList] = useState<TypeChatList>({});
+  const [chatList, setChatList] = useState<roomChatList>({});
   const [me, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
@@ -170,7 +166,7 @@ const Chat = () => {
               setUserUUID(e.target.value);
             }}
           />
-          <T_Chat roomList={roomList} />
+          <T_Chat roomList={roomList} chatList={chatList} />
         </div>
       )}
 

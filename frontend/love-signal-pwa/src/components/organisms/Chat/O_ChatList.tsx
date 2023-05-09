@@ -5,12 +5,14 @@ import { useRecoilState } from "recoil";
 import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { room } from "../../../types/room";
+import { roomChatList } from "../../../types/chat";
 
 type PropsType = {
   roomList: room[];
+  chatList: roomChatList;
 };
 
-const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
+const O_ChatList: React.FC<PropsType> = ({ roomList, chatList }) => {
   const [_, setSelectedRoom] = useRecoilState<room>(roomInfo);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
@@ -26,7 +28,12 @@ const O_ChatList: React.FC<PropsType> = ({ roomList }) => {
   return (
     <ul className={style.chatList}>
       {roomList.map((room) => (
-        <M_ChatItem key={room.uuid} room={room} onClick={selectRoomHandler} />
+        <M_ChatItem
+          key={room.uuid}
+          room={room}
+          onClick={selectRoomHandler}
+          lastChat={chatList}
+        />
       ))}
     </ul>
   );

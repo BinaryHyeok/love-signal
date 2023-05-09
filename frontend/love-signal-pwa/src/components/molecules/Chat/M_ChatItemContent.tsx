@@ -3,13 +3,19 @@ import style from "./styles/M_ChatItemContent.module.scss";
 import A_ChatItemInfo from "../../atoms/Chat/A_ChatItemInfo";
 import A_ChatItemPreview from "../../atoms/Chat/A_ChatItemPreview";
 import { room } from "../../../types/room";
+import { chat } from "../../../types/chat";
 
 type PropsType = {
   room: room;
   showTimer: boolean;
+  lastChat: chat;
 };
 
-const M_ChatItemContent: React.FC<PropsType> = ({ room, showTimer }) => {
+const M_ChatItemContent: React.FC<PropsType> = ({
+  room,
+  showTimer,
+  lastChat,
+}) => {
   return (
     <div className={style.contentBox}>
       <A_ChatItemInfo
@@ -19,7 +25,7 @@ const M_ChatItemContent: React.FC<PropsType> = ({ room, showTimer }) => {
         // lastMsgTime={room.lastMsgTime}
         showTimer={showTimer}
       />
-      <A_ChatItemPreview />
+      <A_ChatItemPreview lastChat={lastChat} />
     </div>
   );
 };

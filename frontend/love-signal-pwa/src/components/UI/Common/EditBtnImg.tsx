@@ -13,7 +13,10 @@ const EditBtnImg: React.FC<propsType> = ({ imgClick }) => {
         src="/assets/EditBtn.png"
         className={style.EditBtn}
         onClick={imgClick}
-        whileTap={{ scale: 1.2 }}
+        whileTap={{
+          scale: 1.2,
+          transition: { type: "spring", stiffness: 200, damping: 10 },
+        }}
       />
     </>
   );

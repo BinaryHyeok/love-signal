@@ -7,23 +7,23 @@ import EditIntroduce from "./EditIntroduce";
 import { useRecoilState } from "recoil";
 import { myMemberUUID } from "../../../atom/member";
 import { changeMyInfo } from "../../../api/auth";
+import { change } from "../../../api/sseul2";
 
 type propsType = {
+  age: number;
   nickname: string;
   description: string;
 };
 
-const MyInfo: React.FC<propsType> = ({ nickname, description }) => {
+const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
   const [changeName, setChangeName] = useState<boolean>(true); //이름 바꿔줄 state
 
   //시작값이 nickname
-  const [myNickName, setMyNickName] = useState<string>("김이슬");
+  const [myNickName, setMyNickName] = useState<string>(nickname);
   const [changeIntroduce, setChangeIntroduce] = useState<boolean>(true); //자기소개 바꿔줄 state
 
   //시작값이 description
-  const [myIntroduce, setMyIntroduce] = useState<string>(
-    "asssssssssssssssssssssssssssssssssssssss"
-  );
+  const [myIntroduce, setMyIntroduce] = useState<string>(description);
 
   const [start, setStart] = useState<boolean>(true);
 
@@ -32,25 +32,35 @@ const MyInfo: React.FC<propsType> = ({ nickname, description }) => {
 
   useEffect(() => {
     if (!start) {
-      changeMyInfo(myUUID, myNickName, myIntroduce)
+      change("5d91b34f-9e09-4cc6-a944-40aed226311d", myNickName, myIntroduce)
         .then((res) => {
-          console.log("회원정보 수정완료");
+          console.log(res);
         })
         .catch((err) => {
-          console.log("수정에 실패했습니다.");
+          console.log(err);
         });
     } else {
-      setStart(true);
+      setStart(false);
     }
   }, [applyInfo]);
+
+  useEffect(() => {
+    setMyNickName(nickname);
+    setMyIntroduce(description);
+  }, [nickname, description]);
 
   return (
     <>
       <div className={style.container}>
         {changeName ? (
-          <NickName nickname={myNickName} changeName={setChangeName} />
+          <NickName
+            age={age}
+            nickname={myNickName}
+            changeName={setChangeName}
+          />
         ) : (
           <EditNickName
+            age={age}
             nickname={myNickName}
             changeName={setChangeName}
             applyInfo={applyInfo}

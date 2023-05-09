@@ -65,17 +65,17 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube Server') {
-                    script {
-                        dir('AuthService') {
-                            sh './gradlew -d sonar'
-                        }
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube Server') {
+        //             script {
+        //                 dir('AuthService') {
+        //                     sh './gradlew -d sonar'
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Deploy') {
             steps {

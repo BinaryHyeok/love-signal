@@ -20,7 +20,6 @@ import { chat, roomChatList } from "../../../types/chat";
 import { room, roomMembers } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 import { member, userInfo } from "../../../types/member";
-import { update } from "@react-spring/core";
 
 let socket: any;
 let ws: any;
@@ -102,7 +101,7 @@ const Chat = () => {
         if (roomUUID in chatList) {
           updatedList = [...chatList[roomUUID], messages];
         } else {
-          console.log("원래 채팅 목록이 없었다??");
+          console.log("원래 채팅 목록이없었다??");
           updatedList = [messages];
         }
         setChatList((prevState) => {

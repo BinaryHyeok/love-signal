@@ -12,6 +12,7 @@ import { signupMember } from "../../../types/member";
 import { useRecoilState } from "recoil";
 import { myMemberUUID } from "../../../atom/member";
 import { changeMyImg } from "../../../api/file";
+import cookie from "react-cookies";
 
 const P_SignUp = () => {
   const [birth, setBirth] = useState<string>("19970220");
@@ -46,6 +47,18 @@ const P_SignUp = () => {
   const [user, setUser] = useState<signupMember>(initialize);
   const [myImage, setMyImage] = useState<FormData>(new FormData());
   const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
+
+  //쿠키를 저장해줄 함수입니다. (회원가입이 완료 되고 나면 rtk를 쿠키에 저장할것. 만료기간 설정.)
+  const setCookie = () => {
+    const expires = new Date(); //현재 시간 받아오고.
+    expires.setSeconds(expires.getSeconds() + 60); //현재 시간에 만료시간의 초 + 만료기간 더해주기
+    cookie.save("rtk", "adasdasda", {
+      path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
+      expires, //만료기간 설정
+      secure: true, //보안 설정
+      httpOnly: true, //보안 설정
+    });
+  };
 
   const handleProfile = () => {
     setCheckProfileOk(!checkProfileOk);

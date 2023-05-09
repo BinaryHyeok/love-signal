@@ -22,8 +22,15 @@ export const myTeamUUID = atom<string>({
 });
 
 //자신의 atk를 저장할 recoil입니다.
-export const mytk = atom<string>({
-  key: "tk",
+export const myatk = atom<string>({
+  key: "atk",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+//카카오 로그인시 Access토큰 만료시간을 저장할 변수입니다.
+export const myatkET = atom<string>({
+  key: "myatkET",
   default: "",
   effects_UNSTABLE: [persistAtom],
 });

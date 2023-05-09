@@ -28,17 +28,11 @@ spring:
         format_sql: true
 
   config:
-    import: optional:configserver:http://k8b309.p.ssafy.io:8888
+    import: "optional:configserver:http://13.125.99.25:8888/"
   cloud:
     config:
       name: mysql
-      profiles: config
-
-  datasource:
-    driver-class-name: ${spring.datasource.driver-class-name}
-    url: ${spring.datasource.url}
-    username: ${spring.datasource.username}
-    password: ${spring.datasource.password}
+      profile: config
 
 eureka:
   client:

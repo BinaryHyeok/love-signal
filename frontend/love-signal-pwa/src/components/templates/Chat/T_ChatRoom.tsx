@@ -6,6 +6,7 @@ import { chat } from "../../../types/chat";
 
 import { useRecoilState } from "recoil";
 import { nickname } from "../../../atom/member";
+import { member } from "../../../types/member";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -24,6 +25,7 @@ type PropsType = {
   roomType?: string;
   chatList: chat[];
   onTextSend: (text: chat) => void;
+  members: member[];
 };
 
 const T_ChatRoom: React.FC<PropsType> = ({
@@ -35,6 +37,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
   roomType,
   chatList,
   onTextSend,
+  members,
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
@@ -114,6 +117,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
         roomType={roomType}
         ulRef={ulRef}
         chatList={chatList}
+        members={members}
       />
     </div>
   );

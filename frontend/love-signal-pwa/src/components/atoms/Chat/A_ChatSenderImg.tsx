@@ -2,7 +2,7 @@ import React from "react";
 import style from "./styles/A_ChatSenderImg.module.scss";
 
 type PropsType = {
-  senderImg: string;
+  senderImg?: string;
 };
 
 const A_ChatSenderImg: React.FC<PropsType> = ({ senderImg }) => {

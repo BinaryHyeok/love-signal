@@ -6,7 +6,7 @@ export type team = {
 export type member = {
   nickname: string;
   age: number;
-  memberUUID?: string;
+  memberUUID: string;
   description: string;
   profileImage: string;
 };

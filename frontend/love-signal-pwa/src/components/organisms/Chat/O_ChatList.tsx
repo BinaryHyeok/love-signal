@@ -4,15 +4,20 @@ import M_ChatItem from "../../molecules/Chat/M_ChatItem";
 import { useRecoilState } from "recoil";
 import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
-import { room } from "../../../types/room";
+import { room, roomMembers } from "../../../types/room";
 import { roomChatList } from "../../../types/chat";
 
 type PropsType = {
   roomList: room[];
   chatList: roomChatList;
+  memberList: roomMembers;
 };
 
-const O_ChatList: React.FC<PropsType> = ({ roomList, chatList }) => {
+const O_ChatList: React.FC<PropsType> = ({
+  roomList,
+  chatList,
+  memberList,
+}) => {
   const [_, setSelectedRoom] = useRecoilState<room>(roomInfo);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
@@ -33,6 +38,7 @@ const O_ChatList: React.FC<PropsType> = ({ roomList, chatList }) => {
           room={room}
           onClick={selectRoomHandler}
           lastChat={chatList}
+          members={memberList[room.uuid]}
         />
       ))}
     </ul>

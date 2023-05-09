@@ -18,6 +18,7 @@ type PropsType = {
   content?: string;
   nickname?: string;
   createdDate?: string;
+  profileImage?: string;
 };
 
 const M_ChatTextItem: React.FC<PropsType> = ({
@@ -26,6 +27,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   content,
   nickname,
   createdDate,
+  profileImage,
 }) => {
   return (
     <li className={`${style.outerBox} ${isMe ? style.isMe : ""}`}>
@@ -36,9 +38,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
         />
       ) : (
         <>
-          <A_ChatSenderImg
-            senderImg={"https://picsum.photos/seed/picsum/200/300"}
-          />
+          <A_ChatSenderImg senderImg={profileImage} />
           <A_ChatText_TypeB content={content} nickname={nickname} />
         </>
       )}

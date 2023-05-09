@@ -27,13 +27,19 @@ spring:
       hibernate:
         format_sql: true
 
-  config:
-    import: "optional:config:8888/mysql/config"
-    use-legacy-processing: true
-  cloud:
-    config:
-      name: mysql
-      profile: config
+  # config:
+  #   import: "optional:config:8888/mysql/config"
+  #   use-legacy-processing: true
+  # cloud:
+  #   config:
+  #     name: mysql
+  #     profile: config
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/love?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    username: root
+    password: ssafy
 
 eureka:
   client:

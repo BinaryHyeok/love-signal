@@ -1,5 +1,6 @@
 package kr.lovesignal.chattingservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
@@ -52,10 +53,12 @@ public class Member extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = true)
+    @JsonIgnore
     private Team team;
 
     @Builder.Default
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     private List<Participant> participants = new ArrayList<>();
 
 

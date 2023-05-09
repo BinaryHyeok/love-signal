@@ -1,5 +1,6 @@
 package kr.lovesignal.chattingservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
@@ -26,6 +27,7 @@ public class ChatRoom extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "chatRoom")
+    @JsonIgnore
     private List<Participant> participants = new ArrayList<>();
 
 }

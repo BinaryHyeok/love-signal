@@ -69,27 +69,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         // 멤버가 참여하고 있는 모든 Participant 순회
         for(Participant participant : memberParticipants) {
-            // 멤버 리스트 껍데기
             List<Member> memberList = new ArrayList<>();
+
             // Participant 객체에서 ChatRoom 을 뽑아오고 ResChatRoom 으로 변환.
-            ResChatRoom resChatRoom = ResChatRoom.toDto(participant.getChatRoom());
+            ChatRoom chatRoom = participant.getChatRoom();
+            ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
 
-//            String roomUUID = resChatRoom.getUUID();
-//            String lastMessage = chatRepository.bringLastChatMessage(roomUUID);
-//            resChatRoom.setLastChat(lastMessage);
+            // 룸에 참여하고 있는 모든 Participant 순회
+            List<Participant> roomParticipants = participantJpaRepository.findByChatRoom(chatRoom);
+            for(Participant participant1 : roomParticipants) {
+                // 멤버를 뽑아서 껍데기 리스트에 추가
+                memberList.add(participant1.getMember());
+            }
 
-//            ChatRoom chatRoom = participant.getChatRoom();
-
-//            List<Participant> roomParticipants = chatRoom.getParticipants();
-//            for(Participant participant1 : roomParticipants) {
-//                if(!participant.getUUID().toString().equals(participant1.getUUID().toString())) {
-//                    memberList.add(participant1.getMember());
-//                }
-//            }
-//            resChatRoom.setMemberList(memberList);
-
+            // 알맹이 리스트를 ResChatRoom 객체에 주입
+            resChatRoom.setMemberList(memberList);
             chatRoomList.add(resChatRoom);
-
         }
 
         return chatRoomList;

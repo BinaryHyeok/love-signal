@@ -97,10 +97,10 @@ const Chat = () => {
 
         const newChatList = { ...chatList };
         console.log(`업데이트 된 방(${roomUUID}) 채팅 목록 : ${newChatList}`);
-        if (newChatList[roomUUID]) {
-          newChatList[roomUUID].push(messages);
+        if (roomUUID in newChatList) {
+          newChatList[roomUUID] = [...newChatList[roomUUID], messages];
         } else {
-          newChatList[roomUUID] = [JSON.parse(JSON.stringify(messages))];
+          newChatList[roomUUID] = [messages];
         }
         setChatList({ ...newChatList });
       });
@@ -155,7 +155,7 @@ const Chat = () => {
   };
 
   const fetchRoomChat = (roomUUID: string) => {
-    console.log(roomUUID + "로 채팅 목록 조회");
+    console.log("룸 uuid " + roomUUID + "로 채팅 목록 조회");
     if (!roomUUID) return;
 
     getChatList(roomUUID).then((res) => {
@@ -203,9 +203,19 @@ const Chat = () => {
           count={selectedRoom.memberCount}
           roomExitHandler={roomExitHandler}
           roomType={selectedRoom.type}
-          chatList={chatList[selectedRoom.uuid]}
+          chatList={
+            chatList[selectedRoom.uuid] &&
+            chatList[selectedRoom.uuid].length > 0
+              ? chatList[selectedRoom.uuid]
+              : []
+          }
           onTextSend={publishChatMsg}
-          members={roomMemberList[selectedRoom.uuid]}
+          members={
+            roomMemberList[selectedRoom.uuid] &&
+            roomMemberList[selectedRoom.uuid].length > 0
+              ? roomMemberList[selectedRoom.uuid]
+              : []
+          }
         />
       )}
       {!selectedRoom.uuid && (

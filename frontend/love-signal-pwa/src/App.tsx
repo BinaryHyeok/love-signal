@@ -14,6 +14,7 @@ import Codepen from "./components/UI/Loading/LoadingSpinner";
 import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
 import Ground from "./components/UI/Three/Ground";
+import Test from "./components/pages/Test";
 
 function App() {
   const router = createBrowserRouter([
@@ -37,6 +38,10 @@ function App() {
         {
           path: "/Test",
           element: <Ground />,
+        },
+        {
+          path: "/Test2",
+          element: <Test />,
         },
         {
           path: "/",

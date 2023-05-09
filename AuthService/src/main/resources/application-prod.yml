@@ -17,8 +17,8 @@ spring:
   # datasource:
   #   driver-class-name: com.mysql.cj.jdbc.Driver
   #   url: jdbc:mysql://k8b309.p.ssafy.io:3306/love?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-  #   username: root
-  #   password: ssafy
+  #   username: # 암호화
+  #   password: # 암호화
 
   mvc:
     pathmatch:

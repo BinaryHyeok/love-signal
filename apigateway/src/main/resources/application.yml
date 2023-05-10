@@ -48,11 +48,6 @@ spring:
           filter:
             - AuthenticationGatewayFilterFactory
 
-        - id: auth-service
-          uri: lb://auth-service
-          predicates:
-            - Path=/auth/**
-
   security:
     oauth2:
       client:

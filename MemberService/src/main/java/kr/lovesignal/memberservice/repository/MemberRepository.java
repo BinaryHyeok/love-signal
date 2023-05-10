@@ -9,6 +9,10 @@ import java.util.UUID;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    Optional<MemberEntity> findByUUIDAndExpiredLike(UUID UUID, String expired);
+    Optional<MemberEntity> findByUUIDAndExpired(UUID UUID, String expired);
+
+    MemberEntity findByEmailAndExpired(String email, String expired);
+
+    MemberEntity findByNickname(String nickname);
 
 }

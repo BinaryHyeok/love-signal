@@ -3,6 +3,7 @@ package kr.lovesignal.memberservice.service;
 import kr.lovesignal.memberservice.entity.MemberEntity;
 import kr.lovesignal.memberservice.exception.CustomException;
 import kr.lovesignal.memberservice.exception.ErrorCode;
+import kr.lovesignal.memberservice.model.request.SignUpRequest;
 import kr.lovesignal.memberservice.model.request.UpdateMemberRequest;
 import kr.lovesignal.memberservice.model.response.MemberResponse;
 import kr.lovesignal.memberservice.model.response.SuccessResponse;
@@ -33,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
 
         UUID UUID = commonUtils.getValidUUID(updateMemberRequest.getMemberUUID());
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpired(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         MemberEntity updateMember = updateMemberRequest.toEntity(findMember);
@@ -50,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
         UUID UUID = commonUtils.getValidUUID(strMemberUUID);
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpired(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         findMember.setExpired("T");
@@ -67,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
 
         UUID UUID = commonUtils.getValidUUID(memberUUID);
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpiredLike(UUID, "F")
+        MemberEntity findMember = memberRepository.findByUUIDAndExpired(UUID, "F")
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         int age = commonUtils.calculateAge(findMember.getBirth());
@@ -85,4 +86,29 @@ public class MemberServiceImpl implements MemberService {
                 .retrieve()
                 .bodyToMono(MemberResponse.class);
     }
+
+    @Override
+    public String getMemberUUID(String email) {
+        MemberEntity findMember = memberRepository.findByEmailAndExpired(email, "F");
+
+        return findMember.getUUID().toString();
+    }
+
+    @Override
+    public String registerMember(SignUpRequest signUpRequest) {
+
+        MemberEntity saveMember = signUpRequest.toEntity();
+
+        memberRepository.save(saveMember);
+
+        return saveMember.getUUID().toString();
+    }
+
+    @Override
+    public Boolean checkNicknameDuplicate(String nickname){
+        MemberEntity findMember = memberRepository.findByNickname(nickname);
+
+        return findMember == null ? true : false;
+    }
+
 }

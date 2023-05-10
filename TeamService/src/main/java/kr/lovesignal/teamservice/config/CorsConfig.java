@@ -18,7 +18,7 @@ public class CorsConfig {
         config.addAllowedMethod("*");
         config.addExposedHeader("X-Auth_Token");
         config.addExposedHeader("X-Auth_ID");
-        config.setMaxAge(3600L);
+        config.setMaxAge(21599L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

@@ -11,11 +11,15 @@ import kr.lovesignal.memberservice.repository.MemberRepository;
 import kr.lovesignal.memberservice.util.CommonUtils;
 import kr.lovesignal.memberservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,6 +30,10 @@ public class MemberServiceImpl implements MemberService {
     private final CommonUtils commonUtils;
     private final MemberRepository memberRepository;
     private final WebClient webClient;
+    private final DiscoveryClient discoveryClient;
+
+    @Value("${server.port}")
+    private int port;
 
     // 멤버정보 수정
     @Override
@@ -80,6 +88,15 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Mono<MemberResponse> getProfileImageByMemberApi(MemberResponse memberResponse){
         String uri = "http://localhost:9010/file/profile";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("file-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/file/profile";
+        }
+
         return webClient.post()
                 .uri(uri)
                 .bodyValue(memberResponse)

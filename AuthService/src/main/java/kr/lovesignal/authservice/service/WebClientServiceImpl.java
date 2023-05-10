@@ -140,7 +140,6 @@ public class WebClientServiceImpl implements WebClientService{
         }
         System.out.println(uri);
 
-        System.out.println(uri);
         return webClient.get()
                 .uri(uri)
                 .retrieve()

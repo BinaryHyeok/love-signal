@@ -22,6 +22,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저 정보를 찾을 수 없습니다"),
     NOT_HAVE_TEAM(HttpStatus.NOT_FOUND, "팀에 가입되어있지 않습니다"),
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "팀 정보를 찾을 수 없습니다."),
+    SERVICE_NOT_FOUND(HttpStatus.NOT_FOUND, "서비스를 사용할 수 없습니다"),
+
 
     // 409 CONFLICT : 요청수행 중 충돌이 발생
     DUPLICATE_ID(HttpStatus.CONFLICT, "이미 가입된 아이디입니다"),

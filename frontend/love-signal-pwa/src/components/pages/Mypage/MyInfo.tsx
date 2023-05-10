@@ -43,6 +43,11 @@ const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
     }
   }, [applyInfo]);
 
+  useEffect(() => {
+    setMyNickName(nickname);
+    setMyIntroduce(description);
+  }, [nickname, description]);
+
   return (
     <>
       <div className={style.container}>

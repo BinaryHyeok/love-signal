@@ -52,15 +52,20 @@ export const getMyTeam = async (teamUUID: string) => {
 export const getOtherGenderTeam = async (
   gender: string,
   size: number,
-  teamUUIDList: string[]
+  teamUUIDList: string[],
+  atk: string,
+  kID: string
 ) => {
   return axios({
     method: "post",
     url: `${process.env.REACT_APP_API}/team/opposite-gender/teams?gender=${gender}&size=${size}`,
     data: { teamUUIDList },
-    // headers: {
-    //   "X-Auth_Token": "AccessToken",
-    // },
+    headers: {
+      "X-Auth_Token": atk,
+      // "X-Auth_ID": kID,
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
   });
 };
 
@@ -69,9 +74,11 @@ export const receivemeetingList = async (teamUUID: string) => {
   return await axios({
     method: "get",
     url: `${process.env.REACT_APP_API}/team/${teamUUID}/received-meetings`,
-    // headers: {
-    //   "X-Auth_Token": "AccessToken",
-    // },
+    headers: {
+      "X-Auth_Token": "AccessToken",
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
   });
 };
 

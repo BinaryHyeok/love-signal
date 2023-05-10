@@ -8,10 +8,11 @@ import { team } from "../../../types/member";
 import { getOtherGenderTeam } from "../../../api/team";
 import MsgModal from "../../UI/Modal/MsgModal";
 import T_OtherGender from "./T_OtherGender";
-import { myatk } from "../../../atom/member";
+import { imLeader, myGender, myatk } from "../../../atom/member";
 import { kid } from "../../../atom/member";
 import { inquireMember } from "../../../api/auth";
 import { myMemberUUID } from "../../../atom/member";
+import Ground from "../../UI/Three/Ground";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -34,6 +35,8 @@ const ExploreTeam = () => {
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
+  const [leader, setLeader] = useRecoilState<boolean>(imLeader);
+  const [gender, setGender] = useRecoilState<string>(myGender);
 
   useEffect(() => {
     getMyInfo();
@@ -45,13 +48,15 @@ const ExploreTeam = () => {
     setMsg("");
   }, [visible]);
 
-  const getMyInfo = () => {
+  const getMyInfo = async () => {
     console.log(UUID);
     console.log(atk);
     console.log(kID);
-    inquireMember(UUID, atk, kID)
+    await inquireMember(UUID, atk, kID)
       .then((res) => {
         console.log(res);
+        setGender(res.data.body.gender);
+        setLeader(res.data.body.teamLeader);
       })
       .catch((err) => {
         console.log(err);
@@ -60,8 +65,9 @@ const ExploreTeam = () => {
 
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
-    await getOtherGenderTeam("M", receiveList, uuidList)
+    await getOtherGenderTeam(gender, receiveList, uuidList, atk, kID)
       .then((res) => {
+        console.log(gender);
         console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
@@ -149,7 +155,7 @@ const ExploreTeam = () => {
   } else {
     return (
       <>
-        <LoadingSpinner />
+        <Ground />
       </>
     );
   }

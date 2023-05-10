@@ -12,7 +12,7 @@ const Footer = () => {
 
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [isOn, setFooterIsOn] = useRecoilState<boolean>(footerIsOn);
-  const [myTUUID] = useRecoilState<string>(myTeamUUID);
+  const [myTUUID, setMyT] = useRecoilState<string>(myTeamUUID);
 
   const [color, setColor] = useState<string[]>([
     "black",

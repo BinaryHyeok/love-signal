@@ -36,7 +36,7 @@ const Mypage = () => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
     inquireMember(UUID, atk, kID).then((MyInfo) => {
-      console.log(MyInfo.data.body.profileImage);
+      console.log(MyInfo);
       setMyAge(MyInfo.data.body.age);
       setMyImg(MyInfo.data.body.profileImage);
       setMyNickName(MyInfo.data.body.nickname);
@@ -66,7 +66,7 @@ const Mypage = () => {
 
   useEffect(() => {
     if (start) {
-      changeMyImg("f6fc66c4-34cb-4f0d-ab89-34a974917654", myCropImage);
+      changeMyImg(UUID, myCropImage, atk, kID);
     } else {
       setStart(true);
     }

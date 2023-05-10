@@ -48,7 +48,7 @@ const P_SignUp = () => {
         .then((res) => {
           console.log(res);
           if (res.data.body.memberUUID !== null) {
-            // navigate("/OtherGender", { replace: true });
+            navigate("/OtherGender", { replace: true });
             //memberUUID가 있다면 넌 이미 존재하는 거야.
           } else {
             console.log("넌 멤버UUID가 없어");
@@ -57,8 +57,7 @@ const P_SignUp = () => {
               res.data.body.accessToken,
               res.data.body.refreshToken,
               res.data.body.accessTokenExpireTime,
-              // res.data.body.refreshTokenExpireTime,
-              10000,
+              res.data.body.refreshTokenExpireTime,
               kakaoId
             );
           }
@@ -137,18 +136,12 @@ const P_SignUp = () => {
 
   //회원가입 버튼 클릭했을때
   const registMember = () => {
-    console.log("이거 동작함?");
-    //이때 회원가입 axios 발동
     signUp(nickname, gender, birth, description, atk)
-      .then(async (res) => {
-        //성공하면 memberUUID 반환.
-        console.log(res);
-        setMemberUUID(res.data.body.body);
+      .then((res) => {
+        setMemberUUID(res.data.body);
         //성공한 후 이때 사진 저장시켜주어야함.
-        console.log(res.data.body.body);
-        await changeMyImg(res.data.body.body, myImage)
-          .then((res) => {
-            console.log(res);
+        changeMyImg(res.data.body, myImage)
+          .then(() => {
             navigate("/Manual");
           })
           .catch((err) => {

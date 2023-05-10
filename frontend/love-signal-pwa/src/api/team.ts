@@ -6,7 +6,7 @@ const API_TEAM_URL = process.env.REACT_APP_API_TEAM;
 export const makeTeam = async (memberUUID: string) => {
   return await axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/team/${memberUUID}`,
+    url: `${process.env.REACT_APP_API}/team/${memberUUID}`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -18,7 +18,7 @@ export const makeTeam = async (memberUUID: string) => {
 export const joinTeam = async (memberUUID: string, teamUUID: string) => {
   return await axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/team/${teamUUID}/join/${memberUUID}`,
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}/join/${memberUUID}`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -30,7 +30,7 @@ export const joinTeam = async (memberUUID: string, teamUUID: string) => {
 export const withdrawTeam = async (memberUUID: string) => {
   return await axios({
     method: "delete",
-    url: `http://k8b309.p.ssafy.io:8000/team/${memberUUID}`,
+    url: `${process.env.REACT_APP_API}/team/${memberUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -41,7 +41,7 @@ export const withdrawTeam = async (memberUUID: string) => {
 export const getMyTeam = async (teamUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://k8b309.p.ssafy.io:8000/team/${teamUUID}`,
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -56,7 +56,7 @@ export const getOtherGenderTeam = async (
 ) => {
   return axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/team/opposite-gender/teams?gender=${gender}&size=${size}`,
+    url: `${process.env.REACT_APP_API}/team/opposite-gender/teams?gender=${gender}&size=${size}`,
     data: { teamUUIDList },
     // headers: {
     //   "X-Auth_Token": "AccessToken",

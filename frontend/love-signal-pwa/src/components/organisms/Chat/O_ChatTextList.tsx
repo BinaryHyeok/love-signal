@@ -33,9 +33,9 @@ const O_ChatTextList: React.FC<PropsType> = ({
           content={item.content}
           createdDate={item.createdDate}
           type={item.type}
-          // profileImage={
-          //   members.filter((m) => m.nickname === item.nickname)[0].profileImage
-          // }
+          profileImage={
+            members.filter((m) => m.nickname === item.nickname)[0].profileImage
+          }
         />
       ))}
     </ul>

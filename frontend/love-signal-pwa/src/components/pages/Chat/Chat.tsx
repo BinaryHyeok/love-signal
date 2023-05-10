@@ -76,8 +76,7 @@ const Chat = () => {
     );
 
     return () => {
-      setSelectedRoom({ uuid: "" });
-      setFooterIsOn(true);
+      roomExitHandler();
       window.removeEventListener("resize", unitHeightSetHandler);
       window.removeEventListener("touchend", unitHeightSetHandler);
       window.visualViewport?.removeEventListener(

@@ -4,7 +4,7 @@ import T_MyTeam from "../../templates/MyTeam/T_MyTeam";
 import M_MyTeamDesc from "../../molecules/MyTeam/M_MyTeamDesc";
 import O_MyTeamBox from "../../organisms/MyTeam/O_MyTeamBox";
 import { inquireMember } from "../../../api/auth";
-import { myMemberUUID } from "../../../atom/member";
+import { kid, myMemberUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { member } from "../../../types/member";
 import { myTeamUUID } from "../../../atom/member";
@@ -22,8 +22,6 @@ const MyTeam = () => {
   //내가 현재 리더인지 파악해주는 state변수입니다.
   const [isLeader, setIsLeader] = useState<boolean>(false);
 
-  //내 개인 UUID 입니다.
-  // const [myUUID, setmyUUID] = useRecoilState<string>(myMemberUUID);
   const [memberList, setMemberList] = useState<member[]>([]);
   const [applyList, setApplyList] = useState<applyTeam[]>([]);
   const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
@@ -39,6 +37,10 @@ const MyTeam = () => {
   const [msg, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
+
   //들어올 때 마다 axios요청을해서 내 개인정보를 불러오고 거기에 팀 리더인지, 팀이 있는지를 파악해주자.
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
   useEffect(() => {
@@ -53,7 +55,7 @@ const MyTeam = () => {
 
   //axios로 내 정보 받아오기.
   const getUserInfo = async () => {
-    await inquireMember("1ddfcbd3-73a2-4496-8e45-7f030ae23fba")
+    await inquireMember(UUID, atk, kID)
       .then((res) => {
         console.log(res.data.body); //해당 정보 보고 판단.
         // setmyUUID(res.data.body.memberUUID);

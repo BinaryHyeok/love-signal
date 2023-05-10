@@ -8,6 +8,10 @@ import { team } from "../../../types/member";
 import { getOtherGenderTeam } from "../../../api/team";
 import MsgModal from "../../UI/Modal/MsgModal";
 import T_OtherGender from "./T_OtherGender";
+import { myatk } from "../../../atom/member";
+import { kid } from "../../../atom/member";
+import { inquireMember } from "../../../api/auth";
+import { myMemberUUID } from "../../../atom/member";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -27,7 +31,12 @@ const ExploreTeam = () => {
   const [msg, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
+
   useEffect(() => {
+    getMyInfo();
     setIdx(0);
     getList();
   }, []);
@@ -35,6 +44,20 @@ const ExploreTeam = () => {
   useEffect(() => {
     setMsg("");
   }, [visible]);
+
+  const getMyInfo = () => {
+    console.log(UUID);
+    console.log(atk);
+    console.log(kID);
+    inquireMember(UUID, atk, kID)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
     await getOtherGenderTeam("M", receiveList, uuidList)

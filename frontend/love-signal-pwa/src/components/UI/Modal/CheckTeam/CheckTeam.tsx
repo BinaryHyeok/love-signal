@@ -15,7 +15,7 @@ import UserInfo from "./O_UserInfo";
 import SwiperManual from "./A_SwiperManual";
 import Exit from "./A_Exit";
 import { useRecoilState } from "recoil";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -90,97 +90,99 @@ const CheckTeam: React.FC<propsType> = ({
   return (
     <div className={style.container}>
       <div className={style.background} onClick={closeModal}></div>
-      <motion.div
-        className={style.modal}
-        initial={{
-          opacity: 0,
-          scale: 0.6,
-        }}
-        animate={{
-          opacity: 1,
-          scale: 1,
-          transition: {
-            ease: "easeOut",
-            duration: 0.3,
-          },
-        }}
-        exit={{
-          opacity: 0,
-          scale: 0.6,
-          transition: {
-            ease: "easeIn",
-            duration: 0.7,
-          },
-        }}
-      >
-        <Exit closeModal={closeModal} />
-        <Swiper
-          pagination={{
-            type: "progressbar",
+      <AnimatePresence>
+        <motion.div
+          className={style.modal}
+          initial={{
+            opacity: 0,
+            scale: 0.6,
           }}
-          onSlideChange={closeManual}
-          loop={true}
-          // navigation={true}
-          modules={[Pagination, Navigation]}
-          className={style.swiper}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            transition: {
+              ease: "easeOut",
+              duration: 0.3,
+            },
+          }}
+          exit={{
+            opacity: 0,
+            scale: 0.6,
+            transition: {
+              ease: "easeIn",
+              duration: 0.7,
+            },
+          }}
         >
-          <SwiperSlide className={style.swiperSlide}>
-            <UserInfo
-              profileImage={member[0].profileImage}
-              nickname={member[0].nickname}
-              age={member[0].age}
-              description={member[0].description}
-            />
-            {!close && <SwiperManual closeLeft={closeLeft} />}
-          </SwiperSlide>
-          <SwiperSlide className={style.swiperSlide}>
-            <UserInfo
-              profileImage={member[1].profileImage}
-              nickname={member[1].nickname}
-              age={member[1].age}
-              description={member[1].description}
-            />
-          </SwiperSlide>
-          <SwiperSlide className={style.swiperSlide}>
-            <UserInfo
-              profileImage={member[2].profileImage}
-              nickname={member[2].nickname}
-              age={member[2].age}
-              description={member[2].description}
-            />
-          </SwiperSlide>
-        </Swiper>
-        {btnVisible ? (
-          <div className={style.bottomContainer}>
-            <div className={style.buttonContainer}>
-              <ButtonTypeA
-                width="104px"
-                height="32px"
-                background="#CAD9FF"
-                className={style.button}
-                onClick={shareTeam}
-              >
-                <img src="/assets/share.png" alt="" />
-              </ButtonTypeA>
-              <ButtonTypeA
-                width="104px"
-                height="32px"
-                background={isLeader ? "#FBCED3" : "#CCCCCC"}
-                onClick={applyTeam}
-              >
-                {isLeader ? (
-                  <img src="/assets/send_invite.png" alt="" />
-                ) : (
-                  <img src="/assets/send_blackinvite.png" alt="" />
-                )}
-              </ButtonTypeA>
+          <Exit closeModal={closeModal} />
+          <Swiper
+            pagination={{
+              type: "progressbar",
+            }}
+            onSlideChange={closeManual}
+            loop={true}
+            // navigation={true}
+            modules={[Pagination, Navigation]}
+            className={style.swiper}
+          >
+            <SwiperSlide className={style.swiperSlide}>
+              <UserInfo
+                profileImage={member[0].profileImage}
+                nickname={member[0].nickname}
+                age={member[0].age}
+                description={member[0].description}
+              />
+              {!close && <SwiperManual closeLeft={closeLeft} />}
+            </SwiperSlide>
+            <SwiperSlide className={style.swiperSlide}>
+              <UserInfo
+                profileImage={member[1].profileImage}
+                nickname={member[1].nickname}
+                age={member[1].age}
+                description={member[1].description}
+              />
+            </SwiperSlide>
+            <SwiperSlide className={style.swiperSlide}>
+              <UserInfo
+                profileImage={member[2].profileImage}
+                nickname={member[2].nickname}
+                age={member[2].age}
+                description={member[2].description}
+              />
+            </SwiperSlide>
+          </Swiper>
+          {btnVisible ? (
+            <div className={style.bottomContainer}>
+              <div className={style.buttonContainer}>
+                <ButtonTypeA
+                  width="104px"
+                  height="32px"
+                  background="#CAD9FF"
+                  className={style.button}
+                  onClick={shareTeam}
+                >
+                  <img src="/assets/share.png" alt="" />
+                </ButtonTypeA>
+                <ButtonTypeA
+                  width="104px"
+                  height="32px"
+                  background={isLeader ? "#FBCED3" : "#CCCCCC"}
+                  onClick={applyTeam}
+                >
+                  {isLeader ? (
+                    <img src="/assets/send_invite.png" alt="" />
+                  ) : (
+                    <img src="/assets/send_blackinvite.png" alt="" />
+                  )}
+                </ButtonTypeA>
+              </div>
+              {children}
             </div>
-            {children}
-          </div>
-        ) : (
-          <></>
-        )}
-      </motion.div>
+          ) : (
+            <></>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };

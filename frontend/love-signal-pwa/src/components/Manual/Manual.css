@@ -1,5 +1,6 @@
 .swiper .swiper-pagination {
   position: absolute;
+  max-width: 768px;
   top: 16px !important;
 }
 

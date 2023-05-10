@@ -31,17 +31,23 @@ spring:
           uri: lb://team-service
           predicates:
             - Path=/team/**
+          filters:
+            - name: Authentication
 
         - id: chatting-service
           uri: lb://chatting-service
           predicates:
             - Path=/chat/**
             - Path=/chatRoom/**
+          filters:
+            - name: Authentication
 
         - id: file-service
           uri: lb://file-service
           predicates:
             - Path=/file/**
+          filters:
+            - name: Authentication
 
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials

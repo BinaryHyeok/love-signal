@@ -12,7 +12,11 @@ export type chat = {
   createdDate?: string;
   updatedDate?: string;
   expired?: String;
-  selectOrShareInfo?: object;
+  selectOrShareInfo?: {
+    nicknames: string[];
+    profiles: string[];
+    isSelected: string;
+  };
 };
 
 export type roomChatList = {

@@ -47,7 +47,12 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   } else if (type && type in ["ENTER", "EXIT"]) {
     text = <A_ChatText_Notice content={chat.content} />;
   } else if (type === "SELECT") {
-    text = <M_ChatText_Select />;
+    text = (
+      <M_ChatText_Select
+        systemName={chat.nickname ? chat.nickname : ""}
+        selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
+      />
+    );
   } else if (type === "RESULT") {
     text = <M_ChatText_Result />;
   }

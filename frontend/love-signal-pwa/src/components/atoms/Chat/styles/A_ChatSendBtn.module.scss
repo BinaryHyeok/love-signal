@@ -1,6 +1,6 @@
 .sendBtn {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   // background: none;
   border: none;
   outline: none;
@@ -11,6 +11,8 @@
   align-items: center;
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 5px;
+  position: absolute;
+  right: 20px;
 
   img {
     width: 100%;

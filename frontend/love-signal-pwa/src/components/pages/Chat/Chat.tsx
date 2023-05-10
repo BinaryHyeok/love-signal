@@ -39,6 +39,7 @@ const Chat = () => {
   const [me, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
+    setSelectedRoom({ uuid: "dgdoighdio" });
     socket = new SockJS("http://localhost:8080/ws-stomp");
     ws = Stomp.over(socket);
 

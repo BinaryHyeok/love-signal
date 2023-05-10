@@ -11,7 +11,6 @@ import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
 import { nickname } from "../../../atom/member";
 
-import { inquireMember } from "../../../api/auth";
 import { getChatRoomList } from "../../../api/room";
 
 import { Stomp } from "@stomp/stompjs";
@@ -19,17 +18,15 @@ import SockJS from "sockjs-client";
 import { chat, roomChatList } from "../../../types/chat";
 import { room } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
-import { member, userInfo } from "../../../types/member";
 
 let socket: any;
 let ws: any;
-
-let timeoutFunc: NodeJS.Timeout;
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setIdx] = useRecoilState<number>(footerIdx);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
+  const [myNick, ___] = useRecoilState(nickname);
 
   // test용 state
   const [userUUID, setUserUUID] = useState<string>(
@@ -37,17 +34,10 @@ const Chat = () => {
   );
   const [roomList, setRoomList] = useState<room[]>([]);
   const [chatList, setChatList] = useState<roomChatList>({});
-  const [me, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
     socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
     ws = Stomp.over(socket);
-
-    // 더미 코드
-    inquireMember(userUUID).then((res) => {
-      setMe(res.data.body.nickname);
-    });
-    setMe("내 닉네임");
 
     getChatRoomList(userUUID).then((res) => {
       const data: room[] = res.data;
@@ -104,7 +94,7 @@ const Chat = () => {
       publishChatMsg({
         type: "TOPIC",
         roomUUID: roomUUID,
-        nickname: me, // 임시 닉네임
+        nickname: myNick,
         content: "",
       });
     });
@@ -167,7 +157,6 @@ const Chat = () => {
           className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
           roomId={selectedRoom.uuid}
           title={selectedRoom.roomName}
-          count={selectedRoom.memberCount}
           roomExitHandler={roomExitHandler}
           roomType={selectedRoom.type}
           chatList={
@@ -180,40 +169,7 @@ const Chat = () => {
           members={selectedRoom.memberList || null}
         />
       )}
-      {!selectedRoom.uuid && (
-        <div style={{ width: "100%" }}>
-          {/* // 테스트용 코드 */}
-          <input
-            type="text"
-            value={userUUID}
-            onChange={(e) => {
-              clearTimeout(timeoutFunc);
-
-              setRoomList([]);
-              setChatList({});
-              ws.disconnect();
-
-              setUserUUID(e.target.value);
-              timeoutFunc = setTimeout(() => {
-                getChatRoomList(userUUID).then((res) => {
-                  const data: room[] = res.data;
-                  console.log(res.data);
-                  setRoomList(() => [...data]);
-                  data.forEach((room) => {
-                    // 각 방에 소켓 연결
-                    console.log(`${room.uuid}방에 연결`);
-                    connectChatServer(room.uuid);
-
-                    // 각 방의 채팅 목록 fetch
-                    fetchRoomChat(room.uuid);
-                  });
-                });
-              }, 3000);
-            }}
-          />
-          <T_Chat roomList={roomList} chatList={chatList} />
-        </div>
-      )}
+      {!selectedRoom.uuid && <T_Chat roomList={roomList} chatList={chatList} />}
 
       {/* <T_Chat />
       <T_ChatRoom

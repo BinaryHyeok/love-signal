@@ -1,5 +1,6 @@
 package kr.lovesignal.memberservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class ChatRoomEntity extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "chatRoom")
+    @JsonIgnore
     private List<ParticipantEntity> participants = new ArrayList<>();
 
 }

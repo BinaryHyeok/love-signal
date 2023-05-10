@@ -36,7 +36,7 @@ export const inquireMember = async (
     url: `${process.env.REACT_APP_API}/member/${memberUUID}`,
     headers: {
       "X-Auth_Token": atk,
-      // "X-Auth_ID": kID,
+      "X-Auth_ID": kID,
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },

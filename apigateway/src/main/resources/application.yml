@@ -41,10 +41,10 @@ spring:
           predicates:
             - Path=/file/**
           filters:
-            - authenticationGatewayFilterFactory
+            - AuthenticationGatewayFilterFactory
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-        - authenticationGatewayFilterFactory
+        - AuthenticationGatewayFilterFactory
 
       globalcors:
         cors-configurations:

@@ -180,9 +180,13 @@ const Chat = () => {
     const current = window.visualViewport?.height;
   };
 
-  const roomExitHandler = () => {
+  const roomExitHandler = (type?: number) => {
     setSelectedRoom({ uuid: "" });
     setFooterIsOn(true);
+
+    if (type && type < 0) {
+      // 만약 시간이 다돼서 자동으로 나가진 경우일 때, 알림 띄우는 로직
+    }
   };
 
   return (

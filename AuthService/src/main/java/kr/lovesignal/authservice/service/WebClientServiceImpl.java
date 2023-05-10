@@ -113,11 +113,10 @@ public class WebClientServiceImpl implements WebClientService{
     public void createSystemChatRoomApi(String strMemberUUID){
         String uri = "http://localhost:9000/chatRoom/System/" + strMemberUUID;
 
-        if(port == 0){
+        if(port == 9999){
             uri = uriUtils.getServiceUri("chatting-service") + "/chatRoom/System/" + strMemberUUID;
         }
 
-        System.out.println(uri);
         webClient.post()
                 .uri(uri)
                 .retrieve()
@@ -129,16 +128,9 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<String> getMemberUUID(String email) {
         String uri = "http://localhost:9000/member/UUID/by/" + email;
 
-        System.out.println("==================================");
-        System.out.println("포트전");
-        System.out.println("==================================");
-        System.out.println(port);
-        System.out.println(uri);
-
-        if(port == 0){
+        if(port == 9999){
             uri = uriUtils.getServiceUri("member-service") + "/member/UUID/by/" + email;
         }
-        System.out.println(uri);
 
         return webClient.get()
                 .uri(uri)
@@ -150,11 +142,10 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<String> registerMember(SignUpRequest signUpRequest) {
         String uri = "http://localhost:9000/member/register";
 
-        if(port == 0){
+        if(port == 9999){
             uri = uriUtils.getServiceUri("member-service") + "/member/register/";
         }
 
-        System.out.println(uri);
         return webClient.post()
                 .uri(uri)
                 .bodyValue(signUpRequest)
@@ -165,11 +156,10 @@ public class WebClientServiceImpl implements WebClientService{
     @Override
     public Mono<Boolean> validateNickname(String nickname) {
         String uri = "http://localhost:9000/member/check/nickname/" + nickname;
-        if(port == 0){
+
+        if(port == 9999){
             uri = uriUtils.getServiceUri("member-service") + "/member/check/nickname/" + nickname;
         }
-
-        System.out.println(uri);
 
         return webClient.get()
                 .uri(uri)

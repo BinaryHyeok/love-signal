@@ -25,14 +25,12 @@ const M_Image_Crop: React.FC<PropsType> = ({
   const getCropdata = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       const cropper = cropperRef.current?.cropper;
-      console.log(cropper.getImageData());
       const canvas = cropper.getCroppedCanvas();
       canvas.toBlob((blob) => {
         if (blob) {
           const formData = new FormData();
           formData.append("file", blob);
           setMyImage(formData);
-          console.log(formData);
           console.log(formData.get("file"));
         }
       }, "image/png");

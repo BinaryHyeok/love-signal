@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
-import { myMemberUUID } from "../../../atom/member";
+import { kid, myMemberUUID, myatk } from "../../../atom/member";
 
 import { rejectMeeting } from "../../../api/team";
 import { imLeader } from "../../../atom/member";
@@ -17,15 +17,14 @@ const A_ApplyRejectButton: React.FC<propsType> = ({
   clickBtn,
   setClickBtn,
 }) => {
-  // const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [isLeader] = useRecoilState<boolean>(imLeader);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
   //팀 거절을 눌렀을때.
   const rejectTeam = async () => {
     if (isLeader) {
-      await rejectMeeting(
-        "3c0f0a1f-ac05-4c7f-848d-638298b52ef6",
-        oppsiteTeamUUID
-      );
+      await rejectMeeting(myUUID, oppsiteTeamUUID, atk, kID);
       setClickBtn(!clickBtn);
     }
   };

@@ -25,14 +25,14 @@ spring:
           predicates:
             - Path=/member/**
           filters:
-            - AuthenticationGatewayFilterFactory
+            - authenticationGatewayFilterFactory
 
         - id: team-service
           uri: lb://team-service
           predicates:
             - Path=/team/**
           filters:
-            - AuthenticationGatewayFilterFactory
+            - authenticationGatewayFilterFactory
 
         - id: chatting-service
           uri: lb://chatting-service
@@ -40,14 +40,14 @@ spring:
             - Path=/chat/**
             - Path=/chatRoom/**
           filters:
-            - AuthenticationGatewayFilterFactory
+            - authenticationGatewayFilterFactory
 
         - id: file-service
           uri: lb://file-service
           predicates:
             - Path=/file/**
           filters:
-            - AuthenticationGatewayFilterFactory
+            - authenticationGatewayFilterFactory
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
 

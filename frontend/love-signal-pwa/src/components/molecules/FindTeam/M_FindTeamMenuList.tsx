@@ -5,13 +5,15 @@ import Button_Type_A from "../../UI/Common/Button_Type_A";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CommonModal from "../../UI/Modal/CommonModal";
 import M_ModalFindTeamWithCode from "./M_ModalFindTeamWithCode";
-import { joinTeam } from "../../../api/team";
+import { getMyTeam, joinTeam } from "../../../api/team";
 import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
 import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 
 import { AnimatePresence } from "framer-motion";
+import { member } from "../../../types/member";
+import Ground from "../../UI/Three/Ground";
 
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
@@ -19,12 +21,11 @@ const M_FindTeamMenuList = () => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [enterTeamUUID, setEnterTeamUUID] = useState<string>("");
-  const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
-  useEffect(() => {}, [visible]);
 
   //모달창 열어주는 함수입니다.
   const openRoomCodeModalHandler = () => {
@@ -63,7 +64,7 @@ const M_FindTeamMenuList = () => {
     <>
       {isPending && (
         <Modal_portal>
-          <LoadingSpinner />
+          <Ground />
         </Modal_portal>
       )}
       {!isPending && (

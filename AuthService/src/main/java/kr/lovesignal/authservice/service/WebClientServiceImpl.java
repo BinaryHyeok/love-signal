@@ -160,7 +160,7 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<Boolean> validateNickname(String nickname) {
         String uri = "http://localhost:9000/member/check/nickname/" + nickname;
         if(port == 0){
-            uri = uriUtils.getServiceUri("member-service") + "member/check/nickname/" + nickname;
+            uri = uriUtils.getServiceUri("member-service") + "/member/check/nickname/" + nickname;
         }
 
         System.out.println(uri);

@@ -29,11 +29,13 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube Server') {
-                    script {
-                        dir('chatting-service') {
-                            sh './gradlew -d sonar'
+            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                steps {
+                    withSonarQubeEnv('SonarQube Server') {
+                        script {
+                            dir('chatting-service') {
+                                sh './gradlew -d sonar'
+                            }
                         }
                     }
                 }

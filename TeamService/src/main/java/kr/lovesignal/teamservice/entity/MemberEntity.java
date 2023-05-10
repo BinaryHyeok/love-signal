@@ -1,5 +1,6 @@
 package kr.lovesignal.teamservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class MemberEntity extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = true)
+    @JsonIgnore
     private TeamEntity team;
 
     @Column(name = "kakao_id", nullable = false)
@@ -51,7 +53,11 @@ public class MemberEntity extends BaseEntity{
     @ColumnDefault("'F'")
     private String teamLeader;
 
+    @OneToOne(mappedBy = "member")
+    private ProfileImageEntity profileImage;
+
     @Builder.Default
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     private List<ParticipantEntity> participants = new ArrayList<>();
 }

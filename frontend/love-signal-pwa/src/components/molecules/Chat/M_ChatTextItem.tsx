@@ -7,6 +7,7 @@ import A_ChatSenderImg from "../../atoms/Chat/A_ChatSenderImg";
 import A_ChatText_Notice from "../../atoms/Chat/A_ChatText_Notice";
 import M_ChatText_Select from "./M_ChatText_Select";
 import M_ChatText_Result from "./M_ChatText_Result";
+import { chat } from "../../../types/chat";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -19,36 +20,32 @@ type PropsType = {
   roomType?: string;
   type?: string;
   isMe?: boolean;
-  content?: string;
-  nickname?: string;
-  createdDate?: string;
   profileImage?: string | null;
+  chat: chat;
 };
 
 const M_ChatTextItem: React.FC<PropsType> = ({
   roomType,
   type,
   isMe,
-  content,
-  nickname,
-  createdDate,
   profileImage,
+  chat,
 }) => {
   let text = null;
   if (type === "TEXT") {
     text = isMe ? (
       <A_ChatText_TypeA
         background={roomType ? ENUM_BACKGROUND[roomType] : ""}
-        content={content}
+        content={chat.content}
       />
     ) : (
       <>
-        <A_ChatSenderImg senderImg={profileImage} />
-        <A_ChatText_TypeB content={content} nickname={nickname} />
+        <A_ChatSenderImg senderImg={profileImage || ""} />
+        <A_ChatText_TypeB content={chat.content} nickname={chat.nickname} />
       </>
     );
   } else if (type && type in ["ENTER", "EXIT"]) {
-    text = <A_ChatText_Notice content={content} />;
+    text = <A_ChatText_Notice content={chat.content} />;
   } else if (type === "SELECT") {
     text = <M_ChatText_Select />;
   } else if (type === "RESULT") {
@@ -57,7 +54,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
 
   let sendTime = null;
   if (type && !(type in ["ENTER", "EXIT"])) {
-    sendTime = <A_ChatSendTime createdDate={createdDate} />;
+    sendTime = <A_ChatSendTime createdDate={chat.createdDate} />;
   }
   return (
     <li

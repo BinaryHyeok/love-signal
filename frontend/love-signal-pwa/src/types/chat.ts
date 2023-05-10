@@ -18,3 +18,5 @@ export type chat = {
 export type roomChatList = {
   [key: string]: chat[];
 };
+
+export type selectOrShareInfo = {};

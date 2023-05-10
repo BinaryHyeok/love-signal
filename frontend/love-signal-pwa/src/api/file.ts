@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_FILE_URL = process.env.REACT_APP_API_FILE;
+
 //사진 변경하기.
 export const changeMyImg = async (memberUUID: string, file: any) => {
   return await axios({

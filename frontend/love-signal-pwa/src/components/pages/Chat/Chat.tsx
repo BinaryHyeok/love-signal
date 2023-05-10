@@ -39,7 +39,7 @@ const Chat = () => {
   const [me, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
-    socket = new SockJS("http://localhost:8080/ws-stomp");
+    socket = new SockJS(`${process.env.REACT_APP_API_CHAT}/ws-stomp`);
     ws = Stomp.over(socket);
 
     // 더미 코드
@@ -153,15 +153,9 @@ const Chat = () => {
 
     getChatList(roomUUID).then((res) => {
       const chatData = res.data;
-      let newList: chat[];
-      if (roomUUID in chatList) {
-        newList = [...chatList[roomUUID], ...chatData];
-      } else {
-        newList = [...chatData];
-      }
-      console.log(`${roomUUID}방의 채팅 목록 : ${newList}`);
-
       setChatList((prevState) => {
+        const prevList = prevState[roomUUID] || [];
+        const newList = [...prevList, ...chatData];
         return {
           ...prevState,
           [roomUUID]: newList,

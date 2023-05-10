@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_TEAM_URL = process.env.REACT_APP_API_TEAM;
+
 //동성 팀 생성
 export const makeTeam = async (memberUUID: string) => {
   return await axios({

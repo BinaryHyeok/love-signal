@@ -1,6 +1,9 @@
 import axios from "axios";
 import { member, signupMember } from "../types/member";
 
+const API_AUTH_URL = process.env.REACT_APP_API_AUTH;
+const API_MEMBER_URL = process.env.REACT_APP_API_MEMBER;
+
 //회원정보 수정
 export const changeMyInfo = async (
   memberUUID: string,

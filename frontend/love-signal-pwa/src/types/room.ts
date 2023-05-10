@@ -14,7 +14,3 @@ export type room = {
   expired?: string;
   memberList?: member[];
 };
-
-export type roomMembers = {
-  [key: string]: member[];
-};

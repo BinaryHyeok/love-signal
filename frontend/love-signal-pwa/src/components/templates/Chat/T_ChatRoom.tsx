@@ -25,7 +25,7 @@ type PropsType = {
   roomType?: string;
   chatList: chat[];
   onTextSend: (text: chat) => void;
-  members: member[];
+  members: member[] | null;
 };
 
 const T_ChatRoom: React.FC<PropsType> = ({

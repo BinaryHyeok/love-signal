@@ -10,7 +10,7 @@ type PropsType = {
   ulRef: React.RefObject<HTMLUListElement>;
   roomType?: string;
   chatList: chat[];
-  members: member[];
+  members: member[] | null;
 };
 
 const O_ChatTextList: React.FC<PropsType> = ({
@@ -34,6 +34,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
           createdDate={item.createdDate}
           type={item.type}
           profileImage={
+            members &&
             members.filter((m) => m.nickname === item.nickname)[0].profileImage
           }
         />

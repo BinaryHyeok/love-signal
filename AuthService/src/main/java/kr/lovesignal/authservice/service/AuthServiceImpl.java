@@ -58,7 +58,8 @@ public class AuthServiceImpl implements AuthService{
                 .accessToken(kauthTokenResponse.getAccess_token())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
-                .refreshTokenExpireTime(kauthTokenResponse.getRefresh_token_expires_in().intValue())
+                .refreshTokenExpireTime(kauthTokenResponse.getRefresh_token_expires_in() == null ?
+                        0 : kauthTokenResponse.getRefresh_token_expires_in().intValue())
                 .build();
 
         return responseUtils.buildSuccessResponse(signInResponse);

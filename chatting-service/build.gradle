@@ -25,8 +25,8 @@ ext {
 
 sonar {
     properties {
-        property "sonar.projectKey", "auth-service"
-        property "sonar.projectName", "auth-service"
+        property "sonar.projectKey", "chatting-service"
+        property "sonar.projectName", "chatting-service"
     }
 }
 

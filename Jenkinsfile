@@ -7,19 +7,6 @@ pipeline {
 
     stages {
 
-        stage('Copy files') {
-            steps {
-                sshagent([credentials: ['SSH_CREDENTIAL']]) {
-                    sh """
-                        ssh ubuntu@k8b309.p.ssafy.io "
-                            rm -rf /home/ubuntu/be_cloud
-                        "
-                        scp -r ${WORKSPACE} ubuntu@k8b309.p.ssafy.io:/home/ubuntu
-                    """
-                }
-            }
-        }
-
         stage('discoveryservice Build') {
             steps {
                 script {
@@ -27,6 +14,16 @@ pipeline {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build'
                     }
+                }
+            }
+        }
+
+        stage('Copy new JAR file for discoveryservice') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp discoveryservice/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/discoveryservice/build/libs
+                    """
                 }
             }
         }
@@ -42,6 +39,16 @@ pipeline {
             }
         }
 
+        stage('Copy new JAR file for apigateway') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp apigateway/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/apigateway/build/libs
+                    """
+                }
+            }
+        }
+
         stage('config Build') {
             steps {
                 script {
@@ -53,22 +60,35 @@ pipeline {
             }
         }
 
+        stage('Copy new JAR file for config') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp config/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/config/build/libs
+                    """
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
-                            cd /home/ubuntu/be_cloud
+                            cd /home/ubuntu/be_develop
                             docker compose -f docker-compose.yml stop discoveryservice apigateway config sonarqube postgres
                             docker compose -f docker-compose.yml rm -f discoveryservice apigateway config sonarqube postgres
                             docker compose -f docker-compose.yml build discoveryservice apigateway config sonarqube postgres
                             docker compose -f docker-compose.yml up -d discoveryservice apigateway config sonarqube postgres
+
                         "
                     """
                 }
             }
         }
     }
+
+    // MatterMost Norification
     post {
         success {
             script{

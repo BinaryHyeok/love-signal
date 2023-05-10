@@ -6,53 +6,92 @@ import M_SignUp_Birth from "./M_SignUp_Birth";
 import M_SignUp_Nickname from "./M_SignUp_Nickname";
 import A_MainLogo from "./A_MainLogo";
 import M_SignUp_Introduce from "./M_SignUp_Introduce";
-import { duplicateCheck, signUp } from "../../../api/auth";
+import { duplicateCheck, login, signUp } from "../../../api/auth";
 import M_SignUp_Gender from "./M_SignUp_Gender";
 import { signupMember } from "../../../types/member";
 import { useRecoilState } from "recoil";
-import { myMemberUUID } from "../../../atom/member";
+import { kid, myMemberUUID, myatk, myatkET } from "../../../atom/member";
 import { changeMyImg } from "../../../api/file";
 import cookie from "react-cookies";
 
 const P_SignUp = () => {
-  const [birth, setBirth] = useState<string>("19970220");
+  const navigate = useNavigate();
+  //회원 가입시 필요한 개인 정보들.
+  const [birth, setBirth] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
-  const [description, setDiscription] = useState<string>("나는 손종효다.");
+  const [description, setDiscription] = useState<string>("");
   const [gender, setGender] = useState<string>("M");
+
+  //회원 가입시 다음으로 넘어가게 만들어주는 boolean 변수들.
   const [checkNickname, setCheckNickname] = useState<boolean>(false);
   const [checkProfileOk, setCheckProfileOk] = useState<boolean>(false);
   const [checkNickOk, setCheckNickOk] = useState<boolean>(false);
   const [checkBirthOk, setCheckBirthOk] = useState<boolean>(false);
   const [checkGenderOk, setCheckGenderOk] = useState<boolean>(false);
 
-  const [query, setQuery] = useState<string>("");
+  //회원가입 관련 변수들
+  const [atk, setAtk] = useRecoilState<string>(myatk);
+  const [atkET, setAtkET] = useRecoilState<Date>(myatkET);
+  const [kakaoId, setKakaoId] = useRecoilState<string>(kid);
+  const [myImage, setMyImage] = useState<FormData>(new FormData());
+  const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
+  const [msg, setMsg] = useState<string>("");
+  const [checkMsg, setCheckMsg] = useState<string>("");
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("code");
+    console.log(queryParam);
+
     if (queryParam) {
-      //쿼리 저장.
-      setQuery(queryParam);
+      login(queryParam)
+        .then((res) => {
+          console.log(res);
+          if (res.data.body.memberUUID !== null) {
+            // navigate("/OtherGender", { replace: true });
+            //memberUUID가 있다면 넌 이미 존재하는 거야.
+          } else {
+            console.log("넌 멤버UUID가 없어");
+
+            saveMyInfo(
+              res.data.body.accessToken,
+              res.data.body.refreshToken,
+              res.data.body.accessTokenExpireTime,
+              // res.data.body.refreshTokenExpireTime,
+              10000,
+              kakaoId
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      //가져온 quertParam으로 axios요청을 보낸 후
+      //데이터를 받아옴. => 여기서 memberUUID가 만약 null일 경우엔 이 페이지 그대로 진행 <= 아닐 경우엔 이미 회원이므로 OtherGender로 이동.
+      //axios로 받아온 데이터를 이제 recoil에 저장하고? 회원가입 절차 진행하면서 마지막에 버튼누를때 다시 Axios요청.
     }
   }, []);
 
-  const navigate = useNavigate();
-
-  const initialize: signupMember = {
-    nickname: "",
-    gender: "",
-    birth: "",
-    description: "",
+  const saveMyInfo = (
+    atk: string,
+    rtk: string,
+    aTET: number,
+    rTET: number,
+    kakaoId: string
+  ) => {
+    setAtk(atk);
+    setCookie(rtk, rTET);
+    let nowDate: Date = new Date();
+    nowDate.setSeconds(nowDate.getSeconds() + aTET);
+    setAtkET(nowDate);
+    setKakaoId(kakaoId);
   };
 
-  const [user, setUser] = useState<signupMember>(initialize);
-  const [myImage, setMyImage] = useState<FormData>(new FormData());
-  const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
-
   //쿠키를 저장해줄 함수입니다. (회원가입이 완료 되고 나면 rtk를 쿠키에 저장할것. 만료기간 설정.)
-  const setCookie = () => {
+  const setCookie = (rtk: string, rTET: number) => {
     const expires = new Date(); //현재 시간 받아오고.
-    expires.setSeconds(expires.getSeconds() + 60); //현재 시간에 만료시간의 초 + 만료기간 더해주기
-    cookie.save("rtk", "adasdasda", {
+    expires.setSeconds(expires.getSeconds() + rTET); //현재 시간에 만료시간의 초 + 만료기간 더해주기
+    cookie.save("rtk", rtk, {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
       expires, //만료기간 설정
       secure: true, //보안 설정
@@ -65,7 +104,11 @@ const P_SignUp = () => {
   };
 
   const handleNickname = () => {
-    setCheckNickOk(!checkNickOk);
+    if (checkNickname) {
+      setCheckNickOk(!checkNickOk);
+    } else {
+      setCheckMsg("중복확인을 체크해주세요.");
+    }
   };
 
   const handleBirth = () => {
@@ -83,23 +126,20 @@ const P_SignUp = () => {
         console.log(res);
         //닉네임 중복확인입니다.
         setCheckNickname(true); //중복확인 체크되었다는걸 말해줌.
+        setMsg(res.data.body);
       })
       .catch((err) => {
         console.log(err);
         //이미 있는 닉네임이면 안돼.
+        setMsg(err.response.data.message);
       });
   };
 
   //회원가입 버튼 클릭했을때
-  const signup = () => {
-    setUser({
-      nickname: nickname,
-      gender: gender,
-      birth: birth,
-      description: description,
-    }); //여기서 setUser를 하면 비동기라 아래 user에 값이 없을것.
+  const registMember = () => {
+    console.log("이거 동작함?");
     //이때 회원가입 axios 발동
-    signUp(user)
+    signUp(nickname, gender, birth, description, atk)
       .then(async (res) => {
         //성공하면 memberUUID 반환.
         setMemberUUID(res.data.body.memberUUID);
@@ -127,7 +167,12 @@ const P_SignUp = () => {
             onClick1={duplecheck}
             onClick2={handleNickname}
             setNickname={setNickname}
+            checkNickname={checkNickname}
             setCheckNickname={setCheckNickname}
+            msg={msg}
+            setMsg={setMsg}
+            checkMsg={checkMsg}
+            setCheckMsg={setCheckMsg}
           />
         )}
         {checkProfileOk && checkNickOk && !checkBirthOk && !checkGenderOk && (
@@ -147,7 +192,7 @@ const P_SignUp = () => {
         {checkProfileOk && checkNickOk && checkBirthOk && checkGenderOk && (
           <M_SignUp_Introduce
             description={description}
-            onClick={signup}
+            onClick={registMember}
             setDiscription={setDiscription}
           />
         )}

@@ -24,17 +24,23 @@ spring:
           uri: lb://member-service
           predicates:
             - Path=/member/**
+          filters:
+            - AuthenticationGatewayFilterFactory
 
         - id: team-service
           uri: lb://team-service
           predicates:
             - Path=/team/**
+          filters:
+            - AuthenticationGatewayFilterFactory
 
         - id: chatting-service
           uri: lb://chatting-service
           predicates:
             - Path=/chat/**
             - Path=/chatRoom/**
+          filters:
+            - AuthenticationGatewayFilterFactory
 
         - id: file-service
           uri: lb://file-service
@@ -44,7 +50,6 @@ spring:
             - AuthenticationGatewayFilterFactory
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-        - AuthenticationGatewayFilterFactory
 
       globalcors:
         cors-configurations:

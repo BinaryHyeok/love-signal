@@ -53,8 +53,8 @@ public class MemberEntity extends BaseEntity{
     @ColumnDefault("'F'")
     private String teamLeader;
 
-    @OneToOne(mappedBy = "member")
-    private ProfileImageEntity profileImage;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProfileImageEntity> profileImages = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "member")

@@ -21,7 +21,7 @@ public class ProfileImageEntity extends BaseEntity {
     @Column(name = "profile_image_id", columnDefinition = "INT UNSIGNED")
     private Long profileImageId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private MemberEntity member;
 

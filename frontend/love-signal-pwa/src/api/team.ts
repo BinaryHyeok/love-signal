@@ -68,7 +68,7 @@ export const getOtherGenderTeam = async (
 export const receivemeetingList = async (teamUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://k8b309.p.ssafy.io:8000/team/${teamUUID}/received-meetings`,
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}/received-meetings`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -79,7 +79,7 @@ export const receivemeetingList = async (teamUUID: string) => {
 export const sendmeetingList = async (teamUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://k8b309.p.ssafy.io:8000/team/${teamUUID}/sent-meetings`,
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}/sent-meetings`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -93,7 +93,7 @@ export const applyMeeting = async (
 ) => {
   return await axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/team/${teamUUID}/send-meeting/${oppositeTeamUUID}`,
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}/send-meeting/${oppositeTeamUUID}`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -108,7 +108,7 @@ export const acceptMeeting = async (
 ) => {
   return await axios({
     method: "delete",
-    url: `http://k8b309.p.ssafy.io:8000/team/${teamUUID}/accept-meeting/${oppositeTeamUUID}`,
+    url: `${process.env.REACT_APP_API}/${teamUUID}/accept-meeting/${oppositeTeamUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -122,7 +122,7 @@ export const rejectMeeting = async (
 ) => {
   return await axios({
     method: "delete",
-    url: `http://k8b309.p.ssafy.io:8000/team/${teamUUID}/reject-meeting/${oppositeTeamUUID}`,
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}/reject-meeting/${oppositeTeamUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },

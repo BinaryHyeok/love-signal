@@ -21,7 +21,7 @@ type PropsType = {
   roomId?: string;
   title?: string;
   count?: string;
-  roomExitHandler: React.MouseEventHandler<HTMLElement>;
+  roomExitHandler: (type?: number) => void;
   roomType?: string;
   chatList: chat[];
   onTextSend: (text: chat) => void;
@@ -86,6 +86,10 @@ const T_ChatRoom: React.FC<PropsType> = ({
     onTextSend(newChat);
   };
 
+  const onRoomExit = () => {
+    roomExitHandler();
+  };
+
   const unitHeightSetHandler = () => {
     let vh = window.visualViewport?.height;
     if (!vh) {
@@ -105,7 +109,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
   return (
     <div className={`${style.chatRoom} ${className}`} ref={box_chatRoom}>
       <M_ChatRoomHeader
-        onRoomExit={roomExitHandler}
+        onRoomExit={onRoomExit}
         roomId={roomId}
         title={title}
         count={count}
@@ -114,6 +118,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
       <O_ChatTextBox
         // onTextSubmit={onTextSend}
         onTextSubmit={textSendHandler}
+        onRoomExit={roomExitHandler}
         roomType={roomType}
         ulRef={ulRef}
         chatList={chatList}

@@ -9,7 +9,7 @@ import { joinTeam } from "../../../api/team";
 import { myMemberUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
-import LoadingSpinner from "../../UI/Loading/LoadingSpinner";
+import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 
 import { AnimatePresence } from "framer-motion";
 

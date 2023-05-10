@@ -1,4 +1,4 @@
-import style from "./A_LoadingBottomHeart.module.scss";
+import style from "./styles/A_LoadingBottomHeart.module.scss";
 
 const A_LoadingBottomHeart = () => {
   return (

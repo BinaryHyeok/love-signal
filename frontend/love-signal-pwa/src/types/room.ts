@@ -3,7 +3,6 @@ import { member } from "./member";
 export type room = {
   memberCount?: string;
   lastMsgTime?: string;
-  members?: member[];
   //
   uuid: string;
   type?: string;
@@ -13,6 +12,7 @@ export type room = {
   createdDate?: string; // back에서 localDateTime으로 보내줌
   updatedDate?: string; // back에서 localDateTime으로 보내줌
   expired?: string;
+  memberList?: member[];
 };
 
 export type roomMembers = {

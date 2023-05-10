@@ -38,9 +38,11 @@ spring:
           uri: lb://file-service
           predicates:
             - Path=/file/**
+          filters:
+            - authenticationGatewayFilterFactory
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-        - authenticationGatewayFilterFactory
+        - authentication
 
       globalcors:
         cors-configurations:

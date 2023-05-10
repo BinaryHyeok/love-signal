@@ -14,18 +14,4 @@ public class ApigatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApigatewayApplication.class, args);
 	}
-
-	@Autowired
-	private ApplicationContext appContext;
-
-	@PostConstruct
-	public void printBeans() {
-		String[] beanNames = appContext.getBeanDefinitionNames();
-		Arrays.sort(beanNames);
-		for (String beanName : beanNames) {
-			System.out.println(beanName);
-		}
-	}
-
-
 }

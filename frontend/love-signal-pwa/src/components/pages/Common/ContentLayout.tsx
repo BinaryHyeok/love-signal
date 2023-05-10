@@ -8,6 +8,7 @@ import Modal_portal from "../../UI/Modal/Modal_portal";
 import AlarmModal from "../../UI/Modal/AlarmModal";
 
 import style from "./styles/ContentLayout.module.scss";
+// import { useEffect, useState } from "react";
 
 const ContentLayout = () => {
   const [visible, setVisible] = useRecoilState<boolean>(alarmModal);
@@ -18,7 +19,7 @@ const ContentLayout = () => {
   };
 
   const closeAlert = () => {
-    setVisible(false);
+    setTimeout(() => setVisible(false), 300);
     console.log(visible);
   };
 

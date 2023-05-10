@@ -30,25 +30,24 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-//            if(!request.getHeaders().containsKey("X-Auth_Token") || !request.getHeaders().containsKey("X-Auth_ID")){
-//                return handleUnAuthorized(exchange);
-//            }
+            if(!request.getHeaders().containsKey("X-Auth_Token") || !request.getHeaders().containsKey("X-Auth_ID")){
+                return handleUnAuthorized(exchange);
+            }
 
             List<String> token = request.getHeaders().get("X-Auth_Token");
             List<String> id = request.getHeaders().get("X-Auth_ID");
             String accessToken = Objects.requireNonNull(token).get(0);
             String kakaoId = Objects.requireNonNull(id).get(0);
-
-            KauthAccountResponse kauthAccountResponse = webClientService.getKakaoAccountApi(accessToken).block();
-
-            if(!kauthAccountResponse.getId().toString().equals(kakaoId)){
-                System.out.println("Filter is error2");
-                return handleUnAuthorized(exchange);
-            }
-
-            return chain.filter(exchange);
+            return webClientService.getKakaoAccountApi(accessToken)
+                    .flatMap(accountResponse -> {
+                        if (!accountResponse.getId().toString().equals(kakaoId)) {
+                            System.out.println("not equal id");
+                            return handleUnAuthorized(exchange);
+                        }
+                        return chain.filter(exchange);
+                    })
+                    .onErrorResume(error -> handleUnAuthorized(exchange));
         });
-
     }
 
     private Mono<Void> handleUnAuthorized(ServerWebExchange exchange) {

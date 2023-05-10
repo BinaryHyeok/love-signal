@@ -49,7 +49,7 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
             }
             System.out.println("========================");
             System.out.println(kakaoId);;
-            System.out.println("========================");
+
             return chain.filter(exchange);
         });
 

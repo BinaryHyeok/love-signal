@@ -1,32 +1,89 @@
-import React from "react";
-import cookie from "react-cookies";
+import React, { useState } from "react";
+
+interface Birthday {
+  year: number | null;
+  month: number | null;
+  day: number | null;
+}
+
+const years = Array.from(
+  { length: 30 },
+  (_, i) => new Date().getFullYear() - i
+);
+
+const months = Array.from({ length: 12 }, (_, i) => i + 1);
+
+const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
 const Test = () => {
-  const setCookie = () => {
-    const expires = new Date(); //현재 시간 받아오고.
-    expires.setSeconds(expires.getSeconds() + 60); //현재 시간에 만료시간의 초 + 만료기간 더해주기
-    cookie.save("rtk", "adasdasda", {
-      path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
-      expires, //만료기간 설정
-      secure: true, //보안 설정
-      // httpOnly: true, //보안 설정
-    });
+  const [birthday, setBirthday] = useState<Birthday>({
+    year: null,
+    month: null,
+    day: null,
+  });
+
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const year = parseInt(event.target.value);
+    setBirthday((prev) => ({ ...prev, year }));
   };
 
-  const getCookie = () => {
-    console.log(cookie.load("rtk"));
+  const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const month = parseInt(event.target.value);
+    setBirthday((prev) => ({ ...prev, month }));
   };
 
-  const removeCookie = () => {
-    cookie.remove("rtk", { path: "/" });
+  const handleDayChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const day = parseInt(event.target.value);
+    setBirthday((prev) => ({ ...prev, day }));
   };
 
   return (
-    <>
-      <button onClick={setCookie}>쿠키 저장하기~</button>
-      <button onClick={getCookie}>쿠키 가져오기~</button>
-      <button onClick={removeCookie}>쿠키 삭제하기~</button>
-    </>
+    <div>
+      <label htmlFor="year">생년</label>
+      <select
+        id="year"
+        name="year"
+        onChange={handleYearChange}
+        value={birthday.year ?? ""}
+      >
+        <option value="">--</option>
+        {years.map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+
+      <label htmlFor="month">월</label>
+      <select
+        id="month"
+        name="month"
+        onChange={handleMonthChange}
+        value={birthday.month ?? ""}
+      >
+        <option value="">--</option>
+        {months.map((month) => (
+          <option key={month} value={month}>
+            {month}
+          </option>
+        ))}
+      </select>
+
+      <label htmlFor="day">일</label>
+      <select
+        id="day"
+        name="day"
+        onChange={handleDayChange}
+        value={birthday.day ?? ""}
+      >
+        <option value="">--</option>
+        {days.map((day) => (
+          <option key={day} value={day}>
+            {day}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 };
 

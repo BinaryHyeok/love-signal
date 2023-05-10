@@ -1,5 +1,5 @@
 import axios from "axios";
-import { member, signupMember } from "../types/member";
+import cookie from "react-cookies";
 
 //회원정보 수정
 export const changeMyInfo = async (
@@ -38,6 +38,7 @@ export const inquireMember = async (
     headers: {
       "X-Auth_Token": atk,
       "X-Auth_ID": kID,
+      "Access-Control-Allow-Origin": "*",
     },
   });
 };
@@ -87,4 +88,13 @@ export const signUp = async (
   });
 };
 
-//memberUUID //이것만 줌.
+//accessToken이 만료되어 refreshToken을 보내주는 함수입니다.
+export const expireATK = async (myrtk: string) => {
+  return await axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API_AUTH}/auth/refresh`,
+    headers: {
+      "X-Auth_Token": myrtk,
+    },
+  });
+};

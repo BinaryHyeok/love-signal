@@ -317,6 +317,7 @@ public class TeamServiceImpl implements TeamService{
                 .memberId(member.getMemberId())
                 .team(team)
                 .teamLeader(isTeamLeader == true ? "T" : "F")
+                .kakaoId(member.getKakaoId())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
                 .participants(member.getParticipants())

@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String getMemberUUID(String email) {
+    public String getMemberByEmail(String email) {
         MemberEntity findMember = memberRepository.findByEmailAndExpired(email, "F");
 
         return findMember.getUUID().toString();

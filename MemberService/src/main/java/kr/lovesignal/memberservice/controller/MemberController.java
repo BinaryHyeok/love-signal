@@ -60,11 +60,11 @@ public class MemberController {
 
     @GetMapping("/UUID/by/{email}")
     @ApiOperation(value = "email로 uuid찾기")
-    public ResponseEntity<String> getUUIDbyEmail(@PathVariable String email){
+    public ResponseEntity<String> getMemberByEmail(@PathVariable String email){
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(memberService.getMemberUUID(email));
+                .body(memberService.getMemberByEmail(email));
     }
 
     @PostMapping("/register")

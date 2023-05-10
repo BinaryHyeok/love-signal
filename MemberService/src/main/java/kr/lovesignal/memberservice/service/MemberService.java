@@ -16,7 +16,7 @@ public interface MemberService {
 
     Mono<MemberResponse> getProfileImageByMemberApi(MemberResponse memberResponse);
 
-    String getMemberUUID(String email);
+    String getMemberByEmail(String email);
 
     String registerMember(SignUpRequest signUpRequest);
 

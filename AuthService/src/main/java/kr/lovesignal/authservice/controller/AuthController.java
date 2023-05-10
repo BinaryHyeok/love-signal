@@ -61,11 +61,9 @@ public class AuthController {
 
         webClientService.createSystemChatRoomApi(strMemberUUID);
 
-        SuccessResponse successResponse = responseUtils.buildSuccessResponse(strMemberUUID);
-
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(responseUtils.buildSuccessResponse(successResponse));
+                .body(responseUtils.buildSuccessResponse(strMemberUUID));
     }
 
     @GetMapping("/check/nickname/{nickname}")

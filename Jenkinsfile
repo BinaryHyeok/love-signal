@@ -7,19 +7,6 @@ pipeline {
 
     stages {
 
-        stage('Copy files') {
-            steps {
-                sshagent([credentials: ['SSH_CREDENTIAL']]) {
-                    sh """
-                        ssh ubuntu@k8b309.p.ssafy.io "
-                            rm -rf /home/ubuntu/be_chatting
-                        "
-                        scp -r ${WORKSPACE} ubuntu@k8b309.p.ssafy.io:/home/ubuntu
-                    """
-                }
-            }
-        }
-
         stage('chatting-service Build') {
             steps {
                 script {
@@ -27,6 +14,16 @@ pipeline {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
+                }
+            }
+        }
+
+        stage('Copy new JAR file') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp chatting-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_backend/chatting-service/build/lib
+                    """
                 }
             }
         }
@@ -48,7 +45,7 @@ pipeline {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
-                            cd /home/ubuntu/be_chatting
+                            cd /home/ubuntu/be_backend
                             docker compose -f docker-compose.yml stop chatting-service
                             docker compose -f docker-compose.yml rm -f chatting-service
                             docker compose -f docker-compose.yml build chatting-service
@@ -59,6 +56,8 @@ pipeline {
             }
         }
     }
+
+    // MatterMost Norification
     post {
         success {
             script{

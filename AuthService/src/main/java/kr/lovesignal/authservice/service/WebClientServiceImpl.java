@@ -144,9 +144,17 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<String> registerMember(SignUpRequest signUpRequest) {
         String uri = "http://localhost:9000/member/register";
 
+        System.out.println("==================================");
+        System.out.println("포트전");
+        System.out.println("==================================");
+
         if(port == 0){
             uri = uriUtils.getServiceUri("member-service") + "/member/register/";
         }
+
+        System.out.println("==================================");
+        System.out.println("후");
+        System.out.println("==================================");
 
         System.out.println(uri);
         return webClient.post()

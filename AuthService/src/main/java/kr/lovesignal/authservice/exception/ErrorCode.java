@@ -18,6 +18,7 @@ public enum ErrorCode {
 
     // 404 NOT_FOUND : 리소스를 찾을 수 없음
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저 정보를 찾을 수 없습니다"),
+    SERVICE_NOT_FOUND(HttpStatus.NOT_FOUND, "서비스를 사용할 수 없습니다"),
 
     // 409 CONFLICT : 요청수행 중 충돌이 발생
     DUPLICATE_ID(HttpStatus.CONFLICT, "이미 가입된 아이디입니다"),

@@ -1,12 +1,13 @@
 package kr.lovesignal.authservice.service;
 
 
-import kr.lovesignal.authservice.exception.CustomException;
-import kr.lovesignal.authservice.exception.ErrorCode;
+import kr.lovesignal.authservice.model.request.SignUpRequest;
 import kr.lovesignal.authservice.model.response.KauthAccountResponse;
 import kr.lovesignal.authservice.model.response.KauthTokenResponse;
+import kr.lovesignal.authservice.util.UriUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -14,11 +15,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+
 @Service
 @RequiredArgsConstructor
 public class WebClientServiceImpl implements WebClientService{
 
     private final WebClient webClient;
+    private final UriUtils uriUtils;
 
     @Value("${spring.security.oauth2.client.kakao.token-uri}")
     private String tokenUri;
@@ -34,6 +37,11 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Value("${spring.security.oauth2.client.kakao.logout-uri}")
     private String logoutUri;
+
+    @Value("${server.port}")
+    private int port;
+
+
 
     @Override
     public Mono<KauthTokenResponse> getKakaoTokenApi(String authorizationCode) {
@@ -103,11 +111,45 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public void createSystemChatRoomApi(String strMemberUUID){
-        String uri = "http://localhost:8080/chatRoom/System/" + strMemberUUID;
+        String uri = "http://localhost:8888/member/System/" + strMemberUUID;
         webClient.post()
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(String.class)
                 .subscribe();
+    }
+
+    @Override
+    public Mono<String> getMemberUUID(String email) {
+        String uri = "http://localhost:9000/member/UUID/by/" + email;
+        return webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    @Override
+    public Mono<String> registerMember(SignUpRequest signUpRequest) {
+        String uri = "http://localhost:9000/member/register";
+        return webClient.post()
+                .uri(uri)
+                .bodyValue(signUpRequest)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    @Override
+    public Mono<Boolean> validateNickname(String nickname) {
+        String uri = "http://localhost:9000/member/check/nickname/" + nickname;
+        if(port == 0){
+            uri = uriUtils.getServiceUri("member-service") + "/check/nickname/" + nickname;
+        }
+
+        System.out.println(uri);
+
+        return webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(Boolean.class);
     }
 }

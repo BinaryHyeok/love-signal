@@ -1,6 +1,5 @@
 package kr.lovesignal.authservice.model.request;
 
-import kr.lovesignal.authservice.entity.MemberEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +11,6 @@ public class SignUpRequest {
     private String gender;
     private String birth;
     private String description;
+    private String kakaoId;
+    private String email;
 }

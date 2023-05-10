@@ -1,96 +1,107 @@
 package kr.lovesignal.authservice.service;
 
-import kr.lovesignal.authservice.entity.MemberEntity;
 import kr.lovesignal.authservice.exception.CustomException;
 import kr.lovesignal.authservice.exception.ErrorCode;
 import kr.lovesignal.authservice.model.request.SignUpRequest;
 import kr.lovesignal.authservice.model.response.*;
-import kr.lovesignal.authservice.repository.MemberRepository;
-import kr.lovesignal.authservice.util.CommonUtils;
 import kr.lovesignal.authservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
 
-    private final MemberRepository memberRepository;
     private final ResponseUtils responseUtils;
+    private final WebClientService webClientService;
 
-    // 회원가입
+    /**
+     * 회원가입 요청을 받아 member service로 등록을 요청을 보낸 후 등록한 멤버의 UUID를 반환한다.
+     * @param signUpRequest
+     * @param accessToken
+     * @return 등록한 유저의 UUID
+     */
     @Override
-    @Transactional
-    public String registerMember(SignUpRequest signUpRequest, KauthAccountResponse kauthAccountResponse) {
+    public String registerMember(SignUpRequest signUpRequest, String accessToken) {
 
-        MemberEntity saveMember = MemberEntity.builder()
-                .email(kauthAccountResponse.getKakao_account().getEmail())
-                .birth(signUpRequest.getBirth())
-                .description(signUpRequest.getBirth())
-                .nickname(signUpRequest.getNickname())
-                .gender(signUpRequest.getGender())
-                .kakaoId(kauthAccountResponse.getId().toString())
-                .build();
+        KauthAccountResponse kauthAccountResponse =
+                webClientService.getKakaoAccountApi(accessToken).block();
 
-        memberRepository.save(saveMember);
+        signUpRequest.setEmail(kauthAccountResponse.getKakao_account().getEmail());
+        signUpRequest.setKakaoId(kauthAccountResponse.getId().toString());
 
-        return saveMember.getUUID().toString();
+        String memberUUID = webClientService.registerMember(signUpRequest).block();
+
+        return memberUUID;
     }
 
+    /**
+     * 인증코드로 해당 유저의 카카오 토큰들을 받급받고, 로그인 처리한다.
+     * 서비스에 가입된 유저가 아닌 경우 memberUUID의 값는 null이다.
+     * @param authorizationCode
+     * @return 토큰정보들과 유저의 UUID, kakaoID
+     */
     @Override
-    @Transactional(readOnly = true)
-    public SuccessResponse<SignInResponse> signIn(KauthTokenResponse kauthTokenResponse, KauthAccountResponse kauthAccountResponse) {
-        String email = kauthAccountResponse.getKakao_account().getEmail();
+    public SuccessResponse<SignInResponse> signIn(String authorizationCode) {
 
-        MemberEntity findMember = memberRepository.findByEmailAndExpired(email, "F");
-        String strMemberUUID = null;
-        if(findMember != null){
-            strMemberUUID = findMember.getUUID().toString();
-        }
+        KauthTokenResponse kauthTokenResponse =
+                webClientService.getKakaoTokenApi(authorizationCode).block();
+
+        KauthAccountResponse kauthAccountResponse =
+                webClientService.getKakaoAccountApi(kauthTokenResponse.getAccess_token()).block();
+
+        String memberUUID = webClientService.getMemberUUID(kauthAccountResponse.getKakao_account().getEmail()).block();
 
         SignInResponse signInResponse = SignInResponse.builder()
-                .memberUUID(strMemberUUID)
+                .memberUUID(memberUUID)
                 .kakaoId(kauthAccountResponse.getId().toString())
                 .accessToken(kauthTokenResponse.getAccess_token())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
+                .refreshTokenExpireTime(kauthTokenResponse.getRefresh_token_expires_in().intValue())
                 .build();
 
         return responseUtils.buildSuccessResponse(signInResponse);
     }
 
+    /**
+     * 닉네임 중복 확인을 한다. 중복된 닉네임이라면 409에러를 반환
+     * @param nickname
+     * @return 완료 문장
+     */
     @Override
-    @Transactional(readOnly = true)
     public SuccessResponse<String> checkNicknameDuplicate(String nickname) {
 
-        MemberEntity findMember = memberRepository.findByNicknameAndExpiredLike(nickname, "F");
+       Boolean isPossibleNickname = webClientService.validateNickname(nickname).block();
 
-        if(null != findMember){
+        if(!isPossibleNickname){
             throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
         }
         return responseUtils.buildSuccessResponse("사용 가능한 닉네임입니다.");
     }
 
+    /**
+     * 리프레쉬 토큰으로 액세스토큰 재발급, 리프레쉬가 재발급이 안된다면 null
+     * @param refreshToken
+     * @return 새로운 토큰 값 반환
+     */
     @Override
-    @Transactional(readOnly = true)
-    public SuccessResponse<SignInResponse> makeRefreshResponse(KauthTokenResponse kauthTokenResponse, KauthAccountResponse kauthAccountResponse) {
-        String email = kauthAccountResponse.getKakao_account().getEmail();
+    public SuccessResponse<SignInResponse> makeRefreshResponse(String refreshToken) {
 
-        MemberEntity emailMember = memberRepository.findByEmailAndExpired(email, "F");
+        KauthTokenResponse kauthTokenResponse = webClientService.refreshKakaoTokenApi(refreshToken).block();
 
-        if(emailMember == null){
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
+        KauthAccountResponse kauthAccountResponse =
+                webClientService.getKakaoAccountApi(kauthTokenResponse.getAccess_token()).block();
+
+        String memberUUID = webClientService.getMemberUUID(kauthAccountResponse.getKakao_account().getEmail()).block();
 
         SignInResponse refreshResponse = SignInResponse.builder()
                 .accessToken(kauthTokenResponse.getAccess_token())
                 .kakaoId(kauthAccountResponse.getId().toString())
                 .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
                 .refreshToken(kauthTokenResponse.getRefresh_token())
-                .memberUUID(emailMember.getUUID().toString())
+                .refreshTokenExpireTime(kauthTokenResponse.getRefresh_token_expires_in().intValue())
+                .memberUUID(memberUUID)
                 .build();
 
         return responseUtils.buildSuccessResponse(refreshResponse);

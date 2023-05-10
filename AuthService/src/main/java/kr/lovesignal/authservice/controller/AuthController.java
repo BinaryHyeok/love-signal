@@ -3,8 +3,6 @@ package kr.lovesignal.authservice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.authservice.model.request.SignUpRequest;
-import kr.lovesignal.authservice.model.response.KauthAccountResponse;
-import kr.lovesignal.authservice.model.response.KauthTokenResponse;
 import kr.lovesignal.authservice.model.response.SuccessResponse;
 import kr.lovesignal.authservice.service.AuthService;
 import kr.lovesignal.authservice.service.WebClientService;
@@ -46,14 +44,7 @@ public class AuthController {
     @ApiOperation(value = "로그인")
     public ResponseEntity<SuccessResponse> signIn(@RequestParam String authorizationCode){
 
-        KauthTokenResponse kauthTokenResponse =
-                webClientService.getKakaoTokenApi(authorizationCode).block();
-
-        KauthAccountResponse kauthAccountResponse =
-                webClientService.getKakaoAccountApi(kauthTokenResponse.getAccess_token()).block();
-
-        SuccessResponse successResponse =
-                authService.signIn(kauthTokenResponse, kauthAccountResponse);
+        SuccessResponse successResponse = authService.signIn(authorizationCode);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -66,10 +57,9 @@ public class AuthController {
             @RequestBody SignUpRequest signUpRequest,
             @RequestHeader("X-Auth_Token") String accessToken){
 
-        KauthAccountResponse kauthAccountResponse =
-                webClientService.getKakaoAccountApi(accessToken).block();
 
-        String strMemberUUID = authService.registerMember(signUpRequest, kauthAccountResponse);
+
+        String strMemberUUID = authService.registerMember(signUpRequest, accessToken);
 
         webClientService.createSystemChatRoomApi(strMemberUUID);
 
@@ -96,12 +86,7 @@ public class AuthController {
     public ResponseEntity<SuccessResponse> refreshTokens(
             @RequestHeader("X-Auth_Token") String refreshToken){
 
-        KauthTokenResponse kauthTokenResponse = webClientService.refreshKakaoTokenApi(refreshToken).block();
-
-        KauthAccountResponse kauthAccountResponse =
-                webClientService.getKakaoAccountApi(kauthTokenResponse.getAccess_token()).block();
-
-        SuccessResponse successResponse = authService.makeRefreshResponse(kauthTokenResponse, kauthAccountResponse);
+        SuccessResponse successResponse = authService.makeRefreshResponse(refreshToken);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -112,13 +97,12 @@ public class AuthController {
     @ApiOperation(value = "로그아웃")
     public ResponseEntity<String> logout(@RequestHeader("X-Auth_Token") String accessToken){
 
-        System.out.println(accessToken);
         webClientService.kakaoLogoutApi(accessToken).block();
-        System.out.println("string");
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("로그아웃 되었습니다.");
     }
+
 
 }

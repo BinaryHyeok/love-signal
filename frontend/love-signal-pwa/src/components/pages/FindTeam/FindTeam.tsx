@@ -16,6 +16,8 @@ const FindTeam = () => {
   const [teamUUID] = useRecoilState<string>(myTeamUUID);
   useEffect(() => {
     setIdx(1);
+    console.log(teamUUID);
+
     //내가 만약 teamUUID를 가지고있다면 그 MyTeam으로 가야한다.
     if (teamUUID !== "") {
       navigate("/Samegender/Myteam");

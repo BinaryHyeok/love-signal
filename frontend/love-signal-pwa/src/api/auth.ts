@@ -40,7 +40,7 @@ export const inquireMember = async (memberUUID: string) => {
 export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
-    url: `http://k8b309.p.ssafy.io:8000/auth/check/nickname/${nickname}`,
+    url: `http://k8b309.p.ssafy.io:9999/auth/check/nickname/${nickname}`,
   });
 };
 
@@ -48,7 +48,7 @@ export const duplicateCheck = async (nickname: string) => {
 export const login = async (query: string) => {
   return await axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/auth/sign-in`,
+    url: `http://k8b309.p.ssafy.io:9999/auth/sign-in`,
     params: { authorizationCode: query },
   });
 };
@@ -68,7 +68,7 @@ export const signUp = async (
 ) => {
   return await axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/auth/sign-up`,
+    url: `http://k8b309.p.ssafy.io:9999/auth/sign-up`,
     headers: {
       "X-Auth_Token": atk,
       "X-Auth_ID": "kakaoID,",

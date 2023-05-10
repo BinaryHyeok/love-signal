@@ -29,8 +29,8 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                steps {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
                             dir('chatting-service') {

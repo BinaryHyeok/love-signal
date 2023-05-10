@@ -1,6 +1,9 @@
 import axios from "axios";
 import { member, signupMember } from "../types/member";
 
+const API_AUTH_URL = process.env.REACT_APP_API_AUTH;
+const API_MEMBER_URL = process.env.REACT_APP_API_MEMBER;
+
 //회원정보 수정
 export const changeMyInfo = async (
   memberUUID: string,
@@ -9,7 +12,7 @@ export const changeMyInfo = async (
 ) => {
   return await axios({
     method: "put",
-    url: "http://localhost:9000/member",
+    url: `${API_MEMBER_URL}/member`,
     data: {
       memberUUID: memberUUID,
       nickname: nickname,
@@ -22,7 +25,7 @@ export const changeMyInfo = async (
 export const withdrawMember = async (memberUUID: string) => {
   return await axios({
     method: "delete",
-    url: `http://localhost:9000/member/${memberUUID}`,
+    url: `${API_MEMBER_URL}/member/${memberUUID}`,
   });
 };
 
@@ -30,14 +33,14 @@ export const withdrawMember = async (memberUUID: string) => {
 export const inquireMember = async (memberUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9000/member/${memberUUID}`,
+    url: `${API_MEMBER_URL}/member/${memberUUID}`,
   });
 };
 
 export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:8888/auth/check/nickname/${nickname}`,
+    url: `${API_AUTH_URL}/auth/check/nickname/${nickname}`,
   });
 };
 
@@ -45,7 +48,7 @@ export const duplicateCheck = async (nickname: string) => {
 export const login = async (query: string) => {
   return await axios({
     method: "post",
-    url: `http://localhost:8888/sign-in`,
+    url: `${API_AUTH_URL}/sign-in`,
   });
 };
 // memberUUID //회원가입 안된사람이면 null 값
@@ -58,7 +61,7 @@ export const login = async (query: string) => {
 export const signUp = async (member: signupMember) => {
   return await axios({
     method: "post",
-    url: `http://localhost:8888/sign-up`,
+    url: `${API_AUTH_URL}/sign-up`,
     headers: {
       "X-Auth_Token": "Access-Token",
     },

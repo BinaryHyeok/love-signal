@@ -21,7 +21,7 @@ const Login = () => {
   const checkLogin = () => {
     //로그인 되는지 체크해주는 함수
     axios
-      .post("http://localhost:8888/member/auth/sign-in", {
+      .post(`${process.env.REACT_APP_API_AUTH}/member/auth/sign-in`, {
         loginId: myId,
         password: myPw,
       })

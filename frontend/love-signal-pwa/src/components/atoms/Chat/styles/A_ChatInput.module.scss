@@ -1,5 +1,5 @@
 .chatInput {
-  width: calc(90% - 64px);
+  width: 95%;
   height: 32px;
   background-color: #e8e8e8;
   border: none;
@@ -7,6 +7,7 @@
   border-radius: 20px;
   box-shadow: inset rgba(0, 0, 0, 0.18) 0px 1px 1px;
   padding: 0 16px;
+  padding-right: 40px;
 
   &.disabled {
     background-color: #d5d5d5;

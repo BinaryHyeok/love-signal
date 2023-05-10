@@ -8,12 +8,11 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
   height: 100%;
   width: $w;
   overflow: hidden;
-  position: absolute;
+  position: relative;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  margin: auto;
   z-index: 3;
   // heartbeat gfx
   &:after {
@@ -21,23 +20,23 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
     display: block;
     background: url("data:image/svg+xml;utf8,#{$svg}") 0 0 no-repeat;
     // background-size:$w $w;
-    width: 100%;
-    height: 100%;
+    width: $w;
+    height: $h;
     position: absolute;
-    top: 44%;
+    top: 42%;
+    left: 37%;
     animation: 5s pulse infinite linear;
+    text-align: center;
   }
   // flat opaque line
   &:before {
     content: "";
-    position: absolute;
     z-index: -1;
-    left: 2px;
-    right: 2px;
-    bottom: 0;
-    top: 16px; // the SVG isn't exacly centered..
-    top: 44%;
-    margin: auto;
+    width: $w;
+    height: $h;
+    position: absolute;
+    top: 42%;
+    left: 37%;
     height: $strokeWidth;
   }
 }

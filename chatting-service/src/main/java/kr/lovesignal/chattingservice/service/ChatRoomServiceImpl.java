@@ -5,10 +5,7 @@ import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
 import kr.lovesignal.chattingservice.entity.RoomType;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
-import kr.lovesignal.chattingservice.model.response.ResChatMessage;
-import kr.lovesignal.chattingservice.model.response.ResChatRoom;
-import kr.lovesignal.chattingservice.model.response.ResEnterChatRoom;
-import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
+import kr.lovesignal.chattingservice.model.response.*;
 import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
 import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
@@ -23,6 +20,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -69,7 +67,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         // 멤버가 참여하고 있는 모든 Participant 순회
         for(Participant participant : memberParticipants) {
-            List<Member> memberList = new ArrayList<>();
+            List<ResMember> memberList = new ArrayList<>();
 
             // Participant 객체에서 ChatRoom 을 뽑아오고 ResChatRoom 으로 변환.
             ChatRoom chatRoom = participant.getChatRoom();
@@ -78,8 +76,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             // 룸에 참여하고 있는 모든 Participant 순회
             List<Participant> roomParticipants = participantJpaRepository.findByChatRoom(chatRoom);
             for(Participant participant1 : roomParticipants) {
-                // 멤버를 뽑아서 껍데기 리스트에 추가
-                memberList.add(participant1.getMember());
+                // 멤버를 뽑아서 반환 멤버 생성
+                Member member1 = participant1.getMember();
+                ResMember resMember = ResMember.toDto(member1);
+                // 멤버 나이 계산 및 주입
+                LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
+                int age = Period.between(birthDate, LocalDate.now()).getYears();
+                resMember.setAge(age);
+
+                memberList.add(resMember);
             }
 
             // 알맹이 리스트를 ResChatRoom 객체에 주입

@@ -24,7 +24,7 @@ public class ResChatRoom {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private String expired;
-    private List<Member> memberList;
+    private List<ResMember> memberList;
 
     public static ResChatRoom toDto(ChatRoom chatRoom) {
         return ResChatRoom.builder()

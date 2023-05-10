@@ -33,6 +33,8 @@ spring:
         - id: chatting-service
           uri: lb://chatting-service
           predicates:
+            - Path=/chat/**
+            - Path=/chatRoom/**
 
         - id: file-service
           uri: lb://file-service

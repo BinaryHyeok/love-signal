@@ -32,8 +32,9 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-
+            System.out.println("Filter is applied");
             if(!request.getHeaders().containsKey("X-Auth_Token") || !request.getHeaders().containsKey("X-Auth_ID")){
+                System.out.println("Filter is error1");
                 return handleUnAuthorized(exchange);
             }
 
@@ -45,10 +46,9 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
             KauthAccountResponse kauthAccountResponse = webClientService.getKakaoAccountApi(accessToken).block();
 
             if(!kauthAccountResponse.getId().toString().equals(kakaoId)){
+                System.out.println("Filter is error2");
                 return handleUnAuthorized(exchange);
             }
-            System.out.println("========================");
-            System.out.println(kakaoId);;
 
             return chain.filter(exchange);
         });

@@ -147,7 +147,7 @@ public class WebClientServiceImpl implements WebClientService{
         System.out.println("==================================");
         System.out.println("포트전");
         System.out.println("==================================");
-
+        System.out.println(port);
         if(port == 0){
             uri = uriUtils.getServiceUri("member-service") + "/member/register/";
         }

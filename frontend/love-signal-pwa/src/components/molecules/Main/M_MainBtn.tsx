@@ -5,7 +5,7 @@ const MainBtn = () => {
   return (
     <div className={style.buttonBox}>
       <Link
-        to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/login`}
+        to="http://k8b309.p.ssafy.io:8000/auth/kakao/login"
         className={style.link}
       >
         시작하기

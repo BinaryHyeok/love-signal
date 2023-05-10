@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/SignUp.module.scss";
 import A_SignUp_Desc5 from "./A_SignUp_Desc5";
-import Input_Type_A from "../../UI/Common/Input_Type_A";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import Text_Type_A from "../../UI/Common/Text_Type_A";
 
@@ -54,7 +53,6 @@ const M_SignUp_Introduce: React.FC<PropsType> = ({
           height="32px"
           background="#FBCED3"
           onClick={onClick}
-          disabled={true}
         >
           회원가입
         </Button_Type_A>

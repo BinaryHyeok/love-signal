@@ -25,7 +25,7 @@ const Mypage = () => {
   const [start, setStart] = useState<boolean>(false);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [, setMyAtk] = useRecoilState<string>(myatk);
-  const [, setMyAtkET] = useRecoilState<string>(myatkET);
+  const [, setMyAtkET] = useRecoilState<Date>(myatkET);
 
   const navigate = useNavigate();
 
@@ -41,6 +41,7 @@ const Mypage = () => {
     });
   }, [setIdx]);
 
+  //로그아웃 함수입니다.(종효 담당)
   const logOut = () => {
     //로그아웃시 없애야 할것
     //쿠키에 저장된 rtk삭제.
@@ -48,7 +49,7 @@ const Mypage = () => {
     //Recoil에 저장된 만료기간 삭제.
     cookie.remove("rtk", { path: "/" });
     setMyAtk("");
-    setMyAtkET("");
+    setMyAtkET(new Date());
 
     navigate("/");
   };

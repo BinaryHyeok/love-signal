@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import style from "./styles/SignUp.module.scss";
 import A_SignUp_Desc2 from "./A_SignUp_Desc2";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
@@ -9,7 +9,12 @@ type PropsType = {
   onClick1: () => void;
   onClick2: () => void;
   setNickname: Dispatch<SetStateAction<string>>;
+  checkNickname: boolean;
   setCheckNickname: Dispatch<SetStateAction<boolean>>;
+  msg: string;
+  setMsg: Dispatch<SetStateAction<string>>;
+  checkMsg: string;
+  setCheckMsg: Dispatch<SetStateAction<string>>;
 };
 
 const M_SignUp_Nickname: React.FC<PropsType> = ({
@@ -17,13 +22,20 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
   onClick1,
   onClick2,
   setNickname,
+  checkNickname,
   setCheckNickname,
+  msg,
+  setMsg,
+  checkMsg,
+  setCheckMsg,
 }) => {
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     if (target.value.length <= 8) {
       setNickname(target.value);
       setCheckNickname(false); //바뀌면 바로 false로 바꿔줘.
+      setMsg("");
+      setCheckMsg("");
     }
   };
   return (
@@ -47,12 +59,12 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
             height="32px"
             background="#FBCED3"
             onClick={onClick1}
-            // disabled={true}
           >
             중복확인
           </Button_Type_A>
         </div>
       </div>
+      <div className={checkNickname ? style.bmsg : style.rmsg}>{msg}</div>
       <div className={style.checkBtn}>
         <Button_Type_A
           className="dupleCheck"
@@ -64,6 +76,7 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
           확인
         </Button_Type_A>
       </div>
+      <div className={style.btmRmsg}>{checkMsg}</div>
     </div>
   );
 };

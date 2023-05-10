@@ -66,7 +66,7 @@ const Mypage = () => {
 
   useEffect(() => {
     if (start) {
-      changeMyImg("f6fc66c4-34cb-4f0d-ab89-34a974917654", myCropImage);
+      changeMyImg(UUID, myCropImage, atk, kID);
     } else {
       setStart(true);
     }

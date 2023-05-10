@@ -133,7 +133,7 @@ const P_SignUp = () => {
       .then((res) => {
         console.log(res);
         setMemberUUID(res.data.body);
-        changeMyImg(res.data.body, myImage)
+        changeMyImg(res.data.body, myImage, atk, kakaoId)
           .then(() => {
             navigate("/Manual");
           })

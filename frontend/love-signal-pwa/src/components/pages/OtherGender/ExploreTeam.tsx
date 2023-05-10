@@ -12,6 +12,7 @@ import { imLeader, myGender, myatk } from "../../../atom/member";
 import { kid } from "../../../atom/member";
 import { inquireMember } from "../../../api/auth";
 import { myMemberUUID } from "../../../atom/member";
+import Ground from "../../UI/Three/Ground";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -154,7 +155,7 @@ const ExploreTeam = () => {
   } else {
     return (
       <>
-        <LoadingSpinner />
+        <Ground />
       </>
     );
   }

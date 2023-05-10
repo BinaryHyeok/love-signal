@@ -62,8 +62,7 @@ export const getOtherGenderTeam = async (
     data: { teamUUIDList },
     headers: {
       "X-Auth_Token": atk,
-      "X-Auth_ID": kID,
-      "Access-Control-Allow-Origin": "*",
+      // "X-Auth_ID": kID,
     },
   });
 };

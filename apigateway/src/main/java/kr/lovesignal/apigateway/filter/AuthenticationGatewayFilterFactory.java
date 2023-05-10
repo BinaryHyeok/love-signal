@@ -30,11 +30,9 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-            System.out.println("Filter is applied");
-            if(!request.getHeaders().containsKey("X-Auth_Token") || !request.getHeaders().containsKey("X-Auth_ID")){
-                System.out.println("Filter is error1");
-                return handleUnAuthorized(exchange);
-            }
+//            if(!request.getHeaders().containsKey("X-Auth_Token") || !request.getHeaders().containsKey("X-Auth_ID")){
+//                return handleUnAuthorized(exchange);
+//            }
 
             List<String> token = request.getHeaders().get("X-Auth_Token");
             List<String> id = request.getHeaders().get("X-Auth_ID");

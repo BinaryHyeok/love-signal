@@ -57,8 +57,7 @@ const P_SignUp = () => {
               res.data.body.accessToken,
               res.data.body.refreshToken,
               res.data.body.accessTokenExpireTime,
-              // res.data.body.refreshTokenExpireTime,
-              10000,
+              res.data.body.refreshTokenExpireTime,
               kakaoId
             );
           }
@@ -139,10 +138,10 @@ const P_SignUp = () => {
   const registMember = () => {
     signUp(nickname, gender, birth, description, atk)
       .then((res) => {
-        setMemberUUID(res.data.body.body);
+        setMemberUUID(res.data.body);
         //성공한 후 이때 사진 저장시켜주어야함.
-        changeMyImg(res.data.body.body, myImage)
-          .then((res) => {
+        changeMyImg(res.data.body, myImage)
+          .then(() => {
             navigate("/Manual");
           })
           .catch((err) => {

@@ -33,17 +33,17 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    generate-ddl: true
-    show-sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    defer-datasource-initialization: true
-    open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    generate-ddl: true
+#    show-sql: true
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
+#    defer-datasource-initialization: true
+#    open-in-view: false
+#    properties:
+#      hibernate:
+#        format_sql: true
 
 eureka:
   client:

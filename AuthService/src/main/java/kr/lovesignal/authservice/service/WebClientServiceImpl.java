@@ -122,7 +122,7 @@ public class WebClientServiceImpl implements WebClientService{
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 9999){
-            uri = instances.get(0).getUri().toString() + "/chatRoom/System";
+            uri = instances.get(0).getUri().toString() + "/chatRoom/System" + strMemberUUID;
         }
 
         webClient.post()
@@ -141,7 +141,7 @@ public class WebClientServiceImpl implements WebClientService{
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 9999){
-            uri = instances.get(0).getUri().toString() + "/member/UUID/by/";
+            uri = instances.get(0).getUri().toString() + "/member/UUID/by/" + email;
         }
 
         return webClient.get()

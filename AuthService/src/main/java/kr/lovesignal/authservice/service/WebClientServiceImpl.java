@@ -1,12 +1,14 @@
 package kr.lovesignal.authservice.service;
 
 
+import kr.lovesignal.authservice.exception.CustomException;
+import kr.lovesignal.authservice.exception.ErrorCode;
 import kr.lovesignal.authservice.model.request.SignUpRequest;
 import kr.lovesignal.authservice.model.response.KauthAccountResponse;
 import kr.lovesignal.authservice.model.response.KauthTokenResponse;
-import kr.lovesignal.authservice.util.UriUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class WebClientServiceImpl implements WebClientService{
 
     private final WebClient webClient;
-    private final UriUtils uriUtils;
+    private final DiscoveryClient discoveryClient;
 
     @Value("${spring.security.oauth2.client.kakao.token-uri}")
     private String tokenUri;
@@ -113,8 +117,12 @@ public class WebClientServiceImpl implements WebClientService{
     public void createSystemChatRoomApi(String strMemberUUID){
         String uri = "http://localhost:9000/chatRoom/System/" + strMemberUUID;
 
-        if(port == 9999){
-            uri = uriUtils.getServiceUri("chatting-service") + "/chatRoom/System/" + strMemberUUID;
+        List<ServiceInstance> instances = discoveryClient.getInstances("chatting-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 9999){
+            uri = instances.get(0).getUri().toString() + "/chatRoom/System";
         }
 
         webClient.post()
@@ -128,10 +136,13 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<String> getMemberUUID(String email) {
         String uri = "http://localhost:9000/member/UUID/by/" + email;
 
-        if(port == 9999){
-            uri = uriUtils.getServiceUri("member-service") + "/member/UUID/by/" + email;
+        List<ServiceInstance> instances = discoveryClient.getInstances("member-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
-        System.out.println(uri);
+        else if(port == 9999){
+            uri = instances.get(0).getUri().toString() + "/member/UUID/by/";
+        }
 
         return webClient.get()
                 .uri(uri)
@@ -143,8 +154,12 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<String> registerMember(SignUpRequest signUpRequest) {
         String uri = "http://localhost:9000/member/register";
 
-        if(port == 9999){
-            uri = uriUtils.getServiceUri("member-service") + "/member/register/";
+        List<ServiceInstance> instances = discoveryClient.getInstances("member-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 9999){
+            uri = instances.get(0).getUri().toString() + "/member/register";
         }
 
         return webClient.post()
@@ -158,8 +173,12 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<Boolean> validateNickname(String nickname) {
         String uri = "http://localhost:9000/member/check/nickname/" + nickname;
 
-        if(port == 9999){
-            uri = uriUtils.getServiceUri("member-service") + "/member/check/nickname/" + nickname;
+        List<ServiceInstance> instances = discoveryClient.getInstances("member-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 9999){
+            uri = instances.get(0).getUri().toString() + "/member/check/nickname/" + nickname;
         }
 
         return webClient.get()

@@ -22,9 +22,9 @@ const M_ChatItemContent: React.FC<PropsType> = ({
         uuid={room.uuid}
         roomName={room.roomName}
         memberCount={
-          room.members
-            ? room.members.length
-              ? room.members.length + ""
+          room.memberList
+            ? room.memberList.length
+              ? room.memberList.length + ""
               : ""
             : ""
         }

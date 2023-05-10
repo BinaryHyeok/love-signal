@@ -4,11 +4,12 @@ export type team = {
 };
 
 export type member = {
+  memberUUID: string;
   nickname: string;
   age: number;
-  memberUUID: string;
   description: string;
   profileImage: string;
+  gender?: string;
 };
 
 export type signupMember = {

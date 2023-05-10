@@ -30,7 +30,6 @@ const O_ChatList: React.FC<PropsType> = ({
     });
     setFooterIsOn(false);
   };
-  console.log(roomList.length);
 
   return (
     <ul className={style.chatList}>

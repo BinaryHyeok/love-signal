@@ -131,6 +131,7 @@ public class WebClientServiceImpl implements WebClientService{
         if(port == 9999){
             uri = uriUtils.getServiceUri("member-service") + "/member/UUID/by/" + email;
         }
+        System.out.println(uri);
 
         return webClient.get()
                 .uri(uri)

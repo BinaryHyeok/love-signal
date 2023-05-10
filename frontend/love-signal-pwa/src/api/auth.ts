@@ -88,6 +88,18 @@ export const signUp = async (
   });
 };
 
+//로그아웃
+export const logout = async (atk: string, kID: string) => {
+  return await axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API_AUTH}/auth/logout`,
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
+    },
+  });
+};
+
 //accessToken이 만료되어 refreshToken을 보내주는 함수입니다.
 export const expireATK = async (myrtk: string) => {
   return await axios({

@@ -7,26 +7,23 @@ pipeline {
 
     stages {
 
-        stage('Copy files') {
+        stage('auth-service Build') {
             steps {
-                sshagent([credentials: ['SSH_CREDENTIAL']]) {
-                    sh """
-                        ssh ubuntu@k8b309.p.ssafy.io "
-                            rm -rf /home/ubuntu/be_auth
-                        "
-                        scp -r ${WORKSPACE} ubuntu@k8b309.p.ssafy.io:/home/ubuntu
-                    """
+                script {
+                    dir('auth-service') {
+                        sh 'chmod +x ./gradlew'
+                        sh './gradlew clean build -x test -Pprod'
+                    }
                 }
             }
         }
 
-        stage('auth-service Build') {
+        stage('Copy new JAR file') {
             steps {
-                script {
-                    dir('AuthService') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build -x test -Pprod'
-                    }
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp auth-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/auth-service/build/libs
+                    """
                 }
             }
         }
@@ -35,7 +32,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube Server') {
                     script {
-                        dir('AuthService') {
+                        dir('auth-service') {
                             sh './gradlew -d sonar'
                         }
                     }
@@ -48,18 +45,19 @@ pipeline {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
-                            cd /home/ubuntu/be_auth
+                            cd /home/ubuntu/be_develop
                             docker compose -f docker-compose.yml stop auth-service
                             docker compose -f docker-compose.yml rm -f auth-service
                             docker compose -f docker-compose.yml build auth-service
                             docker compose -f docker-compose.yml up -d auth-service
-
                         "
                     """
                 }
             }
         }
     }
+
+    // MatterMost Norification
     post {
         success {
             script{

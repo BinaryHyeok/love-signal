@@ -29,9 +29,9 @@ export const myatk = atom<string>({
 });
 
 //카카오 로그인시 Access토큰 만료시간을 저장할 변수입니다.
-export const myatkET = atom<string>({
+export const myatkET = atom<Date>({
   key: "myatkET",
-  default: "",
+  default: new Date(),
   effects_UNSTABLE: [persistAtom],
 });
 

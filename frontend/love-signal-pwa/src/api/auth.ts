@@ -12,7 +12,7 @@ export const changeMyInfo = async (
 ) => {
   return await axios({
     method: "put",
-    url: `${API_MEMBER_URL}/member`,
+    url: "http://k8b309.p.ssafy.io:8000/member",
     data: {
       memberUUID: memberUUID,
       nickname: nickname,
@@ -25,7 +25,7 @@ export const changeMyInfo = async (
 export const withdrawMember = async (memberUUID: string) => {
   return await axios({
     method: "delete",
-    url: `${API_MEMBER_URL}/member/${memberUUID}`,
+    url: `http://k8b309.p.ssafy.io:8000/member/${memberUUID}`,
   });
 };
 
@@ -33,14 +33,14 @@ export const withdrawMember = async (memberUUID: string) => {
 export const inquireMember = async (memberUUID: string) => {
   return await axios({
     method: "get",
-    url: `${API_MEMBER_URL}/member/${memberUUID}`,
+    url: `http://k8b309.p.ssafy.io:8000/member/${memberUUID}`,
   });
 };
 
 export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
-    url: `${API_AUTH_URL}/auth/check/nickname/${nickname}`,
+    url: `http://k8b309.p.ssafy.io:8000/auth/check/nickname/${nickname}`,
   });
 };
 
@@ -48,7 +48,8 @@ export const duplicateCheck = async (nickname: string) => {
 export const login = async (query: string) => {
   return await axios({
     method: "post",
-    url: `${API_AUTH_URL}/sign-in`,
+    url: `http://k8b309.p.ssafy.io:8000/auth/sign-in`,
+    params: { authorizationCode: query },
   });
 };
 // memberUUID //회원가입 안된사람이면 null 값
@@ -58,15 +59,25 @@ export const login = async (query: string) => {
 // refreshToken //리프레시 토큰 //쿠키 저장
 
 //회원가입 버튼 클릭(Signup  request (nickname, gender, birth, description)
-export const signUp = async (member: signupMember) => {
+export const signUp = async (
+  nickname: string,
+  gender: string,
+  birth: string,
+  description: string,
+  atk: string
+) => {
   return await axios({
     method: "post",
-    url: `${API_AUTH_URL}/sign-up`,
+    url: `http://k8b309.p.ssafy.io:8000/auth/sign-up`,
     headers: {
-      "X-Auth_Token": "Access-Token",
+      "X-Auth_Token": atk,
+      "X-Auth_ID": "kakaoID,",
     },
     data: {
-      member: member,
+      nickname: nickname,
+      gender: gender,
+      birth: birth,
+      description: description,
     },
   });
 };

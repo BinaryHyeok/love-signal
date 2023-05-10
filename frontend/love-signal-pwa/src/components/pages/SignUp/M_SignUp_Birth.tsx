@@ -28,7 +28,7 @@ const M_SignUp_Birth: React.FC<PropsType> = ({ birth, onClick, setBirth }) => {
             id="birthYear"
             value={birth}
             onChange={changeBirth}
-            placeholder="2023"
+            placeholder="19700101"
           />
         </div>
       </div>

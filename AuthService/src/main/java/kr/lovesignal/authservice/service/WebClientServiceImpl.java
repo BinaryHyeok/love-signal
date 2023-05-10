@@ -124,7 +124,7 @@ public class WebClientServiceImpl implements WebClientService{
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 9999){
-            uri = instances.get(0).getUri().toString() + "/chatRoom/System" + strMemberUUID;
+            uri = instances.get(0).getUri().toString() + "/chatRoom/System/" + strMemberUUID;
         }
 
         webClient.post()

@@ -44,7 +44,7 @@ spring:
             - authenticationGatewayFilterFactory
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-        - authentication
+        - authenticationGatewayFilterFactory
 
       globalcors:
         cors-configurations:

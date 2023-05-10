@@ -10,7 +10,7 @@ type PropsType = {
   room: room;
   onClick: (e: React.MouseEvent<HTMLElement>) => void;
   lastChat: chat;
-  members: member[];
+  members: member[] | undefined;
 };
 
 const M_ChatItem: React.FC<PropsType> = ({

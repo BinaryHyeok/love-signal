@@ -25,7 +25,7 @@ spring:
           predicates:
             - Path=/member/**
           filters:
-            - name : AuthenticationGatewayFilterFactory
+            - name : Authentication
 
         - id: team-service
           uri: lb://team-service

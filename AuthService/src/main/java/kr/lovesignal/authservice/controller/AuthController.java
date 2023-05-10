@@ -57,8 +57,6 @@ public class AuthController {
             @RequestBody SignUpRequest signUpRequest,
             @RequestHeader("X-Auth_Token") String accessToken){
 
-
-
         String strMemberUUID = authService.registerMember(signUpRequest, accessToken);
 
         webClientService.createSystemChatRoomApi(strMemberUUID);

@@ -1,4 +1,4 @@
-import style from "./LoadingHeartContainer.module.scss";
+import style from "./styles/LoadingHeartContainer.module.scss";
 import A_LoadingTopHeart from "./A_LoadingTopHeart";
 import A_LoadingBottomHeart from "./A_LoadingBottomHeart";
 

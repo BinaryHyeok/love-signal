@@ -21,8 +21,14 @@ const M_ChatItemContent: React.FC<PropsType> = ({
       <A_ChatItemInfo
         uuid={room.uuid}
         roomName={room.roomName}
-        memberCount={room.members?.length + ""}
-        lastMsgTime={lastChat?.createdDate ? lastChat?.createdDate : ""}
+        memberCount={
+          room.memberList
+            ? room.memberList.length
+              ? room.memberList.length + ""
+              : ""
+            : ""
+        }
+        lastMsgTime={lastChat?.createdDate}
         showTimer={showTimer}
       />
       <A_ChatItemPreview lastChat={lastChat} />

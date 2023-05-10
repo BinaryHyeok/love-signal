@@ -11,6 +11,7 @@ type PropsType = {
   background?: string;
   doTimeCount?: boolean;
   color?: string;
+  onRoomExit?: (type: number) => void;
 };
 
 let timer: NodeJS.Timer;
@@ -23,6 +24,7 @@ const M_ChatTopNotice: React.FC<PropsType> = ({
   background,
   doTimeCount,
   color,
+  onRoomExit,
 }) => {
   const [resTime, setResTime] = useState<string>("00:00:00");
 
@@ -63,6 +65,12 @@ const M_ChatTopNotice: React.FC<PropsType> = ({
     if (min < 0) {
       min += 60;
       hr--;
+    }
+
+    if (hr === 0 && min === 0 && sec === 0) {
+      if (onRoomExit) {
+        onRoomExit(-1);
+      }
     }
 
     setResTime(

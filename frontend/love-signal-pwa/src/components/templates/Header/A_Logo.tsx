@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import style from "./A_Logo.module.scss";
+import style from "./styles/A_Logo.module.scss";
 import { motion } from "framer-motion";
 
 const A_Logo = () => {

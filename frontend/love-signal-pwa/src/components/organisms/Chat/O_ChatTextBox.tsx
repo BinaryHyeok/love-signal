@@ -12,6 +12,7 @@ type PropsType = {
   ulRef: React.RefObject<HTMLUListElement>;
   chatList: chat[];
   members: member[];
+  onRoomExit: (type: number) => void;
 };
 
 const O_ChatTextBox: React.FC<PropsType> = ({
@@ -20,6 +21,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
   ulRef,
   chatList,
   members,
+  onRoomExit,
 }) => {
   return (
     <div className={style.textContainer}>
@@ -30,6 +32,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         background="rgba(235, 235, 235, 0.8)"
         doTimeCount={roomType === "ANONYMOUS" ? true : false}
         className={style.topNotice}
+        onRoomExit={onRoomExit}
       />
       <O_ChatTextList
         ulRef={ulRef}

@@ -1,9 +1,6 @@
 import axios from "axios";
 import { member, signupMember } from "../types/member";
 
-const API_AUTH_URL = process.env.REACT_APP_API_AUTH;
-const API_MEMBER_URL = process.env.REACT_APP_API_MEMBER;
-
 //회원정보 수정
 export const changeMyInfo = async (
   memberUUID: string,
@@ -12,7 +9,7 @@ export const changeMyInfo = async (
 ) => {
   return await axios({
     method: "put",
-    url: "http://k8b309.p.ssafy.io:8000/member",
+    url: `${process.env.REACT_APP_API}/member`,
     data: {
       memberUUID: memberUUID,
       nickname: nickname,
@@ -25,7 +22,7 @@ export const changeMyInfo = async (
 export const withdrawMember = async (memberUUID: string) => {
   return await axios({
     method: "delete",
-    url: `http://k8b309.p.ssafy.io:8000/member/${memberUUID}`,
+    url: `${process.env.REACT_APP_API}/member/${memberUUID}`,
   });
 };
 
@@ -33,14 +30,14 @@ export const withdrawMember = async (memberUUID: string) => {
 export const inquireMember = async (memberUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://k8b309.p.ssafy.io:8000/member/${memberUUID}`,
+    url: `${process.env.REACT_APP_API}/member/${memberUUID}`,
   });
 };
 
 export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
-    url: `http://k8b309.p.ssafy.io:8000/auth/check/nickname/${nickname}`,
+    url: `${process.env.REACT_APP_API_AUTH}/auth/check/nickname/${nickname}`,
   });
 };
 
@@ -48,7 +45,7 @@ export const duplicateCheck = async (nickname: string) => {
 export const login = async (query: string) => {
   return await axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/auth/sign-in`,
+    url: `${process.env.REACT_APP_API_AUTH}/auth/sign-in`,
     params: { authorizationCode: query },
   });
 };
@@ -68,7 +65,7 @@ export const signUp = async (
 ) => {
   return await axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/auth/sign-up`,
+    url: `${process.env.REACT_APP_API_AUTH}/auth/sign-up`,
     headers: {
       "X-Auth_Token": atk,
       "X-Auth_ID": "kakaoID,",

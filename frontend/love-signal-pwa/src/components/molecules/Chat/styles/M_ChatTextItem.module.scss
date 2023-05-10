@@ -11,4 +11,8 @@
   &.isMe {
     flex-direction: row-reverse;
   }
+
+  &.notice {
+    justify-content: center;
+  }
 }

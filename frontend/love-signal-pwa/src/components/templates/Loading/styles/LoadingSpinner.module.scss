@@ -6,7 +6,7 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
 .pulse {
   // height: $h;
   height: 100%;
-  width: $w;
+  width: 100%;
   overflow: hidden;
   position: relative;
   top: 0;
@@ -15,30 +15,27 @@ $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{$w} #{$h}"><polyli
   right: 0;
   z-index: 3;
   // heartbeat gfx
-  &:after {
-    content: "";
-    display: block;
+  .beat1 {
     background: url("data:image/svg+xml;utf8,#{$svg}") 0 0 no-repeat;
-    // background-size:$w $w;
+    background-size: $w $h;
     width: $w;
     height: $h;
     position: absolute;
-    top: 42%;
-    left: 37%;
+    top: 50%;
+    left: 50%;
     animation: 5s pulse infinite linear;
-    text-align: center;
+    transform: translate(-50%, -50%);
   }
   // flat opaque line
-  &:before {
-    content: "";
-    z-index: -1;
-    width: $w;
-    height: $h;
-    position: absolute;
-    top: 42%;
-    left: 37%;
-    height: $strokeWidth;
-  }
+  // .beat2 {
+  //   z-index: -1;
+  //   width: $w;
+  //   height: $h;
+  //   position: absolute;
+  //   top: calc(57% - 100px);
+  //   left: calc(76% - 200px);
+  //   height: $strokeWidth;
+  // }
 }
 
 @keyframes pulse {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { footerIdx } from "../../../atom/footer";
-import Loading from "../../UI/Loading/LoadingSpinner";
+import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { team } from "../../../types/member";
@@ -126,7 +126,7 @@ const ExploreTeam = () => {
   } else {
     return (
       <>
-        <Loading />
+        <LoadingSpinner />
       </>
     );
   }

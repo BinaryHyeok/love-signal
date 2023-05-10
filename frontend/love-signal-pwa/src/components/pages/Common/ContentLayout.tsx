@@ -2,8 +2,8 @@ import { Outlet } from "react-router";
 import { useRecoilState } from "recoil";
 import { alarmModal } from "../../../atom/alarm";
 
-import Header from "../../UI/Header/Header";
-import Footer from "../../UI/Footer/Footer";
+import Header from "../../templates/Header/Header";
+import Footer from "../../templates/Footer/Footer";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import AlarmModal from "../../UI/Modal/AlarmModal";
 

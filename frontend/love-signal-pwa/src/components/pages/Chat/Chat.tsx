@@ -24,6 +24,8 @@ import { member, userInfo } from "../../../types/member";
 let socket: any;
 let ws: any;
 
+let timeoutFunc: NodeJS.Timeout;
+
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setIdx] = useRecoilState<number>(footerIdx);
@@ -39,7 +41,7 @@ const Chat = () => {
   const [me, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
-    socket = new SockJS(`${process.env.REACT_APP_API_CHAT}/ws-stomp`);
+    socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
     ws = Stomp.over(socket);
 
     // 더미 코드
@@ -119,9 +121,9 @@ const Chat = () => {
   };
 
   const fetchRoomMembers = (roomInfo: room) => {
-    if (!roomInfo.members || roomInfo.members.length === 0) return;
+    if (!roomInfo.memberList || roomInfo.memberList.length === 0) return;
 
-    roomInfo.members?.forEach((member) => {
+    roomInfo.memberList?.forEach((member) => {
       if (member.memberUUID) {
         inquireMember(member.memberUUID).then((res) => {
           const userInfo: userInfo = res.data.body;
@@ -178,9 +180,13 @@ const Chat = () => {
     const current = window.visualViewport?.height;
   };
 
-  const roomExitHandler = () => {
+  const roomExitHandler = (type?: number) => {
     setSelectedRoom({ uuid: "" });
     setFooterIsOn(true);
+
+    if (type && type < 0) {
+      // 만약 시간이 다돼서 자동으로 나가진 경우일 때, 알림 띄우는 로직
+    }
   };
 
   return (
@@ -215,11 +221,37 @@ const Chat = () => {
       )}
       {!selectedRoom.uuid && (
         <div style={{ width: "100%" }}>
+          {/* // 테스트용 코드 */}
           <input
             type="text"
             value={userUUID}
             onChange={(e) => {
+              clearTimeout(timeoutFunc);
+
+              setRoomList([]);
+              setRoomMemberList({});
+              setChatList({});
+              ws.disconnect();
+
               setUserUUID(e.target.value);
+              timeoutFunc = setTimeout(() => {
+                getChatRoomList(userUUID).then((res) => {
+                  const data: room[] = res.data;
+                  console.log(res.data);
+                  setRoomList(() => [...data]);
+                  data.forEach((room) => {
+                    // 각 방에 소켓 연결
+                    console.log(`${room.uuid}방에 연결`);
+                    connectChatServer(room.uuid);
+
+                    // 각 방 참여 멤버 정보 fetch
+                    fetchRoomMembers(room);
+
+                    // 각 방의 채팅 목록 fetch
+                    fetchRoomChat(room.uuid);
+                  });
+                });
+              }, 3000);
             }}
           />
           <T_Chat

@@ -4,7 +4,7 @@ import style from "./styles/M_ChatItemImage.module.scss";
 import { member } from "../../../types/member";
 type PropsType = {
   type?: string;
-  members?: member[];
+  members?: member[] | undefined;
 };
 
 const M_ChatItemImage: React.FC<PropsType> = ({ type, members }) => {

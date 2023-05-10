@@ -22,7 +22,7 @@ type PropsType = {
   content?: string;
   nickname?: string;
   createdDate?: string;
-  profileImage?: string;
+  profileImage?: string | null;
 };
 
 const M_ChatTextItem: React.FC<PropsType> = ({

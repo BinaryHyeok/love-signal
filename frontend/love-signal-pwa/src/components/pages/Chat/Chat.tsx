@@ -11,34 +11,29 @@ import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID, myatk, nickname } from "../../../atom/member";
 
-import { inquireMember } from "../../../api/auth";
 import { getChatRoomList } from "../../../api/room";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { chat, roomChatList } from "../../../types/chat";
-import { room, roomMembers } from "../../../types/room";
+import { room } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
-import { member, userInfo } from "../../../types/member";
 
 let socket: any;
 let ws: any;
-
-let timeoutFunc: NodeJS.Timeout;
 
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setIdx] = useRecoilState<number>(footerIdx);
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
+  const [myNick, ___] = useRecoilState(nickname);
 
   // test용 state
   const [userUUID, setUserUUID] = useState<string>(
     "882a9377-c1a6-4802-a0d8-2f310c004fed"
   );
   const [roomList, setRoomList] = useState<room[]>([]);
-  const [roomMemberList, setRoomMemberList] = useState<roomMembers>({});
   const [chatList, setChatList] = useState<roomChatList>({});
-  const [me, setMe] = useRecoilState<string>(nickname);
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
@@ -48,12 +43,6 @@ const Chat = () => {
     socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
     ws = Stomp.over(socket);
 
-    // 더미 코드
-    inquireMember(UUID, atk, kID).then((res) => {
-      setMe(res.data.body.nickname);
-    });
-    setMe("내 닉네임");
-
     getChatRoomList(userUUID).then((res) => {
       const data: room[] = res.data;
       console.log(res.data);
@@ -62,9 +51,6 @@ const Chat = () => {
         // 각 방에 소켓 연결
         console.log(`${room.uuid}방에 연결`);
         connectChatServer(room.uuid);
-
-        // 각 방 참여 멤버 정보 fetch
-        fetchRoomMembers(room);
 
         // 각 방의 채팅 목록 fetch
         fetchRoomChat(room.uuid);
@@ -80,8 +66,7 @@ const Chat = () => {
     );
 
     return () => {
-      setSelectedRoom({ uuid: "" });
-      setFooterIsOn(true);
+      roomExitHandler();
       window.removeEventListener("resize", unitHeightSetHandler);
       window.removeEventListener("touchend", unitHeightSetHandler);
       window.visualViewport?.removeEventListener(
@@ -113,7 +98,7 @@ const Chat = () => {
       publishChatMsg({
         type: "TOPIC",
         roomUUID: roomUUID,
-        nickname: me, // 임시 닉네임
+        nickname: myNick,
         content: "",
       });
     });
@@ -122,35 +107,6 @@ const Chat = () => {
   const publishChatMsg = (newChat: chat) => {
     const header = {};
     ws.send("/pub/chat/message", header, JSON.stringify(newChat));
-  };
-
-  const fetchRoomMembers = (roomInfo: room) => {
-    if (!roomInfo.memberList || roomInfo.memberList.length === 0) return;
-
-    roomInfo.memberList?.forEach((member) => {
-      if (member.memberUUID) {
-        inquireMember(member.memberUUID, atk, kID).then((res) => {
-          const userInfo: userInfo = res.data.body;
-          const newUser = {
-            nickname: userInfo.nickname,
-            age: userInfo.age,
-            memberUUID: userInfo.memberUUID,
-            description: userInfo.description,
-            profileImage: userInfo.profileImage,
-          };
-
-          setRoomMemberList((prevState) => {
-            const prevList = prevState[roomInfo.uuid] || [];
-            const newList = [...prevList, newUser];
-
-            return {
-              ...prevState,
-              [roomInfo.uuid]: newList,
-            };
-          });
-        });
-      }
-    });
   };
 
   const fetchRoomChat = (roomUUID: string) => {
@@ -185,7 +141,7 @@ const Chat = () => {
   };
 
   const roomExitHandler = (type?: number) => {
-    setSelectedRoom({ uuid: "" });
+    setSelectedRoom({ uuid: "", memberList: [] });
     setFooterIsOn(true);
 
     if (type && type < 0) {
@@ -205,7 +161,6 @@ const Chat = () => {
           className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
           roomId={selectedRoom.uuid}
           title={selectedRoom.roomName}
-          count={selectedRoom.memberCount}
           roomExitHandler={roomExitHandler}
           roomType={selectedRoom.type}
           chatList={
@@ -215,56 +170,10 @@ const Chat = () => {
               : []
           }
           onTextSend={publishChatMsg}
-          members={
-            roomMemberList[selectedRoom.uuid] &&
-            roomMemberList[selectedRoom.uuid].length > 0
-              ? roomMemberList[selectedRoom.uuid]
-              : []
-          }
+          members={selectedRoom.memberList || null}
         />
       )}
-      {!selectedRoom.uuid && (
-        <div style={{ width: "100%" }}>
-          {/* // 테스트용 코드 */}
-          <input
-            type="text"
-            value={userUUID}
-            onChange={(e) => {
-              clearTimeout(timeoutFunc);
-
-              setRoomList([]);
-              setRoomMemberList({});
-              setChatList({});
-              ws.disconnect();
-
-              setUserUUID(e.target.value);
-              timeoutFunc = setTimeout(() => {
-                getChatRoomList(userUUID).then((res) => {
-                  const data: room[] = res.data;
-                  console.log(res.data);
-                  setRoomList(() => [...data]);
-                  data.forEach((room) => {
-                    // 각 방에 소켓 연결
-                    console.log(`${room.uuid}방에 연결`);
-                    connectChatServer(room.uuid);
-
-                    // 각 방 참여 멤버 정보 fetch
-                    fetchRoomMembers(room);
-
-                    // 각 방의 채팅 목록 fetch
-                    fetchRoomChat(room.uuid);
-                  });
-                });
-              }, 3000);
-            }}
-          />
-          <T_Chat
-            roomList={roomList}
-            chatList={chatList}
-            memberList={roomMemberList}
-          />
-        </div>
-      )}
+      {!selectedRoom.uuid && <T_Chat roomList={roomList} chatList={chatList} />}
 
       {/* <T_Chat />
       <T_ChatRoom

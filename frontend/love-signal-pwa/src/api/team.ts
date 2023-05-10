@@ -77,7 +77,7 @@ export const getOtherGenderTeam = async (
   console.log(kID);
   return axios({
     method: "post",
-    url: `http://k8b309.p.ssafy.io:8000/team/opposite-gender/teams?gender=${gender}&size=${size}`,
+    url: `${process.env.REACT_APP_API}/team/opposite-gender/teams?gender=${gender}&size=${size}`,
     data: { teamUUIDList },
     headers: {
       "X-Auth_Token": atk,

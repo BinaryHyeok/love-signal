@@ -73,7 +73,8 @@ public class ChatServiceImpl implements ChatService{
 
         for(Member oppositeMember : oppositeMembers) {
             nicknames.add(oppositeMember.getNickname());
-//            profileUrls.add() 여기에 프로필 사진
+            profileUrls.add(oppositeMember.getProfileImage().getStoredName());
+//            프로필 이미지 추가한 부분.
         }
 
         // SelectOrShareInfo 객체 생성
@@ -137,8 +138,9 @@ public class ChatServiceImpl implements ChatService{
         nicknames.add(member.getNickname());
         nicknames.add(oppositeNickname);
 
-//        profileUrls.add();    사진 url 넣기.
-//        profileUrls.add();
+//      프로필 이미지 추가한 부분
+        profileUrls.add(member.getProfileImage().getStoredName());
+        profileUrls.add(oppositeMember.getProfileImage().getStoredName());
 
         // 이성지목 메세지 정보 객체 생성.
         SelectOrShareInfo selectOrShareInfo = SelectOrShareInfo.builder()
@@ -194,10 +196,12 @@ public class ChatServiceImpl implements ChatService{
                     if(member.getGender().equals("M")) {
                         maleNicknames.add(member.getNickname());
 //                        maleProfileUrls.add() 여기에는 url 주소
+                        maleProfileUrls.add(member.getProfileImage().getStoredName());
                     }
                     else {
                         femaleNicknames.add(member.getNickname());
 //                        femaleProfileUrls.add() 여기에는 url 주소
+                        femaleNicknames.add(member.getProfileImage().getStoredName());
                     }
                 }
 

@@ -24,11 +24,11 @@ public class Member extends BaseEntity{
     @Column(name = "member_id", columnDefinition = "INT UNSIGNED")
     private Long memberId;
 
-    @Column(name = "login_id", nullable = false, unique = true)
-    private String loginId;
+    @Column(name = "kakao_uuid", nullable = false)
+    private String kakaoUUID;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
     @Column(name = "nickname", nullable = false, length = 20)
     private String nickname;
@@ -46,10 +46,9 @@ public class Member extends BaseEntity{
     @ColumnDefault("'F'")
     private String teamLeader;
 
-//    @OneToOne
-//    @JoinColumn(name = "profile_image_id", nullable = false)
-//    private ProfileImage profileImage;
 
+    @OneToOne(mappedBy = "member")
+    private ProfileImage profileImage;
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = true)

@@ -9,13 +9,14 @@ import { Pagination, Navigation } from "swiper";
 import ButtonTypeA from "../../Common/Button_Type_A";
 import { member } from "../../../../types/member";
 import { applyMeeting } from "../../../../api/team";
-import { imLeader, myTeamUUID } from "../../../../atom/member";
+import { imLeader, myTeamUUID, myatk } from "../../../../atom/member";
 
 import UserInfo from "./O_UserInfo";
 import SwiperManual from "./A_SwiperManual";
 import Exit from "./A_Exit";
 import { useRecoilState } from "recoil";
 import { motion, AnimatePresence } from "framer-motion";
+import { kid } from "../../../../atom/member";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -45,6 +46,8 @@ const CheckTeam: React.FC<propsType> = ({
   const [close, setClose] = useState(false);
 
   const [isLeader] = useRecoilState<boolean>(imLeader);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
     setBtnVisible(!myTeam);
@@ -70,7 +73,7 @@ const CheckTeam: React.FC<propsType> = ({
   //신청하기 버튼
   const applyTeam = () => {
     if (isLeader) {
-      applyMeeting("49a4f23f-1d5e-44bb-9eeb-473bbaf79b0a", oppositeTeamUUID)
+      applyMeeting(myUUID, oppositeTeamUUID, atk, kID)
         .then((res) => {
           setMsg(res.data.body);
           setApplyModal(true);

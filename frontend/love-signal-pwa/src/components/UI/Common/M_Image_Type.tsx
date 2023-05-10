@@ -5,7 +5,6 @@ import ProfileImg from "./ProfileImg";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CommonModal from "../../UI/Modal/CommonModal";
 import M_Image_Crop from "./M_Image_Crop";
-import { changeMyImg } from "../../../api/file";
 
 type propsType = {
   myImg: string;

@@ -41,7 +41,7 @@ const Chat = () => {
   const [me, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
-    socket = new SockJS(`${process.env.REACT_APP_API_CHAT}/ws-stomp`);
+    socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
     ws = Stomp.over(socket);
 
     // 더미 코드

@@ -95,7 +95,7 @@ const P_SignUp = () => {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
       expires, //만료기간 설정
       secure: true, //보안 설정
-      httpOnly: true, //보안 설정
+      // httpOnly: true, //보안 설정
     });
   };
 
@@ -142,12 +142,20 @@ const P_SignUp = () => {
     signUp(nickname, gender, birth, description, atk)
       .then(async (res) => {
         //성공하면 memberUUID 반환.
-        setMemberUUID(res.data.body.memberUUID);
+        console.log(res);
+        setMemberUUID(res.data.body.body);
         //성공한 후 이때 사진 저장시켜주어야함.
-        await changeMyImg(res.data.body.memberUUID, myImage);
+        console.log(res.data.body.body);
+        await changeMyImg(res.data.body.body, myImage)
+          .then((res) => {
+            console.log(res);
+            navigate("/Manual");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
         //사진 저장까지하고 회원가입 되었으니 manual 페이지로 이동.
-        navigate("/Manual");
       })
       .catch((err) => {
         console.log(err);

@@ -4,7 +4,10 @@ import style from "./styles/M_MainBtn.module.scss";
 const MainBtn = () => {
   return (
     <div className={style.buttonBox}>
-      <Link to="http://localhost:8888/auth/kakao/login" className={style.link}>
+      <Link
+        to="http://k8b309.p.ssafy.io:8000/auth/kakao/login"
+        className={style.link}
+      >
         시작하기
       </Link>
     </div>

@@ -4,7 +4,7 @@ import axios from "axios";
 export const changeMyImg = async (memberUUID: string, file: any) => {
   return await axios({
     method: "post",
-    url: `http://localhost:9010/file/profile/${memberUUID}`,
+    url: `http://k8b309.p.ssafy.io:8000/file/profile/${memberUUID}`,
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -15,6 +15,6 @@ export const changeMyImg = async (memberUUID: string, file: any) => {
 export const getMyImg = async (memberUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9005/file/profile/${memberUUID}`,
+    url: `http://k8b309.p.ssafy.io:8000/file/profile/${memberUUID}`,
   });
 };

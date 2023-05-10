@@ -9,7 +9,7 @@ export const changeMyInfo = async (
 ) => {
   return await axios({
     method: "put",
-    url: "http://localhost:9000/member",
+    url: "http://k8b309.p.ssafy.io:8000/member",
     data: {
       memberUUID: memberUUID,
       nickname: nickname,
@@ -22,7 +22,7 @@ export const changeMyInfo = async (
 export const withdrawMember = async (memberUUID: string) => {
   return await axios({
     method: "delete",
-    url: `http://localhost:9000/member/${memberUUID}`,
+    url: `http://k8b309.p.ssafy.io:8000/member/${memberUUID}`,
   });
 };
 
@@ -30,14 +30,14 @@ export const withdrawMember = async (memberUUID: string) => {
 export const inquireMember = async (memberUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9000/member/${memberUUID}`,
+    url: `http://k8b309.p.ssafy.io:8000/member/${memberUUID}`,
   });
 };
 
 export const duplicateCheck = async (nickname: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:8888/auth/check/nickname/${nickname}`,
+    url: `http://k8b309.p.ssafy.io:8000/auth/check/nickname/${nickname}`,
   });
 };
 
@@ -45,7 +45,7 @@ export const duplicateCheck = async (nickname: string) => {
 export const login = async (query: string) => {
   return await axios({
     method: "post",
-    url: `http://localhost:8888/auth/sign-in`,
+    url: `http://k8b309.p.ssafy.io:8000/auth/sign-in`,
     params: { authorizationCode: query },
   });
 };
@@ -65,7 +65,7 @@ export const signUp = async (
 ) => {
   return await axios({
     method: "post",
-    url: `http://localhost:8888/auth/sign-up`,
+    url: `http://k8b309.p.ssafy.io:8000/auth/sign-up`,
     headers: {
       "X-Auth_Token": atk,
       "X-Auth_ID": "kakaoID,",

@@ -1,10 +1,13 @@
 import axios from "axios";
 
+const API_CHAT_URL = process.env.REACT_APP_API_CHAT;
+const API_TEAM_URL = process.env.REACT_APP_API_TEAM;
+
 //채팅방 목록 불러오기
 export const getChatRoomList = async (uuid: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:8080/chatRoom/${uuid}`,
+    url: `${API_CHAT_URL}/chatRoom/${uuid}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -15,7 +18,7 @@ export const getChatRoomList = async (uuid: string) => {
 export const getChatRoom = async (id: string | number) => {
   return await axios({
     method: "get",
-    url: `http://localhost:8080/chatRoom/${id}`,
+    url: `${API_CHAT_URL}/chatRoom/${id}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -26,7 +29,7 @@ export const getChatRoom = async (id: string | number) => {
 export const makeChatRoom = async () => {
   return await axios({
     method: "post",
-    url: `http://localhost:8080/chatRoom`,
+    url: `${API_CHAT_URL}/chatRoom`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -38,7 +41,7 @@ export const makeChatRoom = async () => {
 export const deleteChatRoom = async (id: string | number) => {
   return await axios({
     method: "delete",
-    url: `http://localhost:9005/room/${id}`,
+    url: `${API_TEAM_URL}/room/${id}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -52,7 +55,7 @@ export const modifyChatRoomName = async (
 ) => {
   return await axios({
     method: "patch",
-    url: `http://localhost:9005/room/${id}/room-name/${roomname}`,
+    url: `${API_TEAM_URL}/room/${id}/room-name/${roomname}`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",

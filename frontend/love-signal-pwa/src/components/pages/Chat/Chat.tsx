@@ -39,8 +39,7 @@ const Chat = () => {
   const [me, setMe] = useRecoilState<string>(nickname);
 
   useEffect(() => {
-    setSelectedRoom({ uuid: "dgdoighdio" });
-    socket = new SockJS("http://localhost:8080/ws-stomp");
+    socket = new SockJS(`${process.env.REACT_APP_API_CHAT}/ws-stomp`);
     ws = Stomp.over(socket);
 
     // 더미 코드

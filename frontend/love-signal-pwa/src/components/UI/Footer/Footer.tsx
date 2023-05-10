@@ -24,7 +24,6 @@ const Footer = () => {
   let [, setClickNav] = useState<boolean[]>([false, false, false, false]);
 
   useEffect(() => {
-    setFooterIsOn(false);
     setClickNav(falseArr.map((_, index) => index === idx));
     setColor(color.map((_, index) => (index === idx ? "color" : "black")));
 

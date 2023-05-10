@@ -1,10 +1,12 @@
 import axios from "axios";
 
+const API_TEAM_URL = process.env.REACT_APP_API_TEAM;
+
 //동성 팀 생성
 export const makeTeam = async (memberUUID: string) => {
   return await axios({
     method: "post",
-    url: `http://localhost:9005/team/${memberUUID}`,
+    url: `${API_TEAM_URL}/team/${memberUUID}`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -16,7 +18,7 @@ export const makeTeam = async (memberUUID: string) => {
 export const joinTeam = async (memberUUID: string, teamUUID: string) => {
   return await axios({
     method: "post",
-    url: `http://localhost:9005/team/${teamUUID}/join/${memberUUID}`,
+    url: `${API_TEAM_URL}/team/${teamUUID}/join/${memberUUID}`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -28,7 +30,7 @@ export const joinTeam = async (memberUUID: string, teamUUID: string) => {
 export const withdrawTeam = async (memberUUID: string) => {
   return await axios({
     method: "delete",
-    url: `http://localhost:9005/team/${memberUUID}`,
+    url: `${API_TEAM_URL}/team/${memberUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -39,7 +41,7 @@ export const withdrawTeam = async (memberUUID: string) => {
 export const getMyTeam = async (teamUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9005/team/${teamUUID}`,
+    url: `${API_TEAM_URL}/team/${teamUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -54,7 +56,7 @@ export const getOtherGenderTeam = async (
 ) => {
   return axios({
     method: "post",
-    url: `http://localhost:9005/team/opposite-gender/teams?gender=${gender}&size=${size}`,
+    url: `${API_TEAM_URL}/team/opposite-gender/teams?gender=${gender}&size=${size}`,
     data: { teamUUIDList },
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -66,7 +68,7 @@ export const getOtherGenderTeam = async (
 export const receivemeetingList = async (teamUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9005/team/${teamUUID}/received-meetings`,
+    url: `${API_TEAM_URL}/team/${teamUUID}/received-meetings`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -77,7 +79,7 @@ export const receivemeetingList = async (teamUUID: string) => {
 export const sendmeetingList = async (teamUUID: string) => {
   return await axios({
     method: "get",
-    url: `http://localhost:9005/team/${teamUUID}/sent-meetings`,
+    url: `${API_TEAM_URL}/team/${teamUUID}/sent-meetings`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -91,7 +93,7 @@ export const applyMeeting = async (
 ) => {
   return await axios({
     method: "post",
-    url: `http://localhost:9005/team/${teamUUID}/send-meeting/${oppositeTeamUUID}`,
+    url: `${API_TEAM_URL}/team/${teamUUID}/send-meeting/${oppositeTeamUUID}`,
     data: {},
     // headers: {
     //   "X-Auth_Token": "AccessToken",
@@ -106,7 +108,7 @@ export const acceptMeeting = async (
 ) => {
   return await axios({
     method: "delete",
-    url: `http://localhost:9005/team/${teamUUID}/accept-meeting/${oppositeTeamUUID}`,
+    url: `${API_TEAM_URL}/team/${teamUUID}/accept-meeting/${oppositeTeamUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },
@@ -120,7 +122,7 @@ export const rejectMeeting = async (
 ) => {
   return await axios({
     method: "delete",
-    url: `http://localhost:9005/team/${teamUUID}/reject-meeting/${oppositeTeamUUID}`,
+    url: `${API_TEAM_URL}/team/${teamUUID}/reject-meeting/${oppositeTeamUUID}`,
     // headers: {
     //   "X-Auth_Token": "AccessToken",
     // },

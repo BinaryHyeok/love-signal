@@ -11,7 +11,7 @@ type PropsType = {
   roomType?: string;
   ulRef: React.RefObject<HTMLUListElement>;
   chatList: chat[];
-  members: member[];
+  members: member[] | null;
   onRoomExit: (type: number) => void;
 };
 

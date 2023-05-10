@@ -20,19 +20,17 @@ type PropsType = {
   className?: string;
   roomId?: string;
   title?: string;
-  count?: string;
   roomExitHandler: (type?: number) => void;
   roomType?: string;
   chatList: chat[];
   onTextSend: (text: chat) => void;
-  members: member[];
+  members: member[] | null;
 };
 
 const T_ChatRoom: React.FC<PropsType> = ({
   className,
   roomId,
   title,
-  count,
   roomExitHandler,
   roomType,
   chatList,
@@ -112,7 +110,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
         onRoomExit={onRoomExit}
         roomId={roomId}
         title={title}
-        count={count}
+        count={members && members.length > 0 ? members.length + "" : ""}
         background={roomType ? ENUM_BACKGROUND[roomType] : ""}
       />
       <O_ChatTextBox

@@ -1,5 +1,5 @@
 import style from "./Button_Type_A.module.scss";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 type propsType = {
   className?: string;
@@ -23,23 +23,25 @@ const Button_Type_A: React.FC<propsType> = ({
   children,
 }) => {
   return (
-    <motion.button
-      className={`${style.button} ${className}`}
-      style={{
-        width: `${width}`,
-        height: `${height}`,
-        background: `${background}`,
-        borderRadius: `${borderRadius}`,
-      }}
-      onClick={onClick}
-      disabled={disabled}
-      whileTap={{
-        scale: 1.05,
-        transition: { type: "spring", stiffness: 200, damping: 10 },
-      }}
-    >
-      {children}
-    </motion.button>
+    <AnimatePresence>
+      <motion.button
+        className={`${style.button} ${className}`}
+        style={{
+          width: `${width}`,
+          height: `${height}`,
+          background: `${background}`,
+          borderRadius: `${borderRadius}`,
+        }}
+        onClick={onClick}
+        disabled={disabled}
+        whileTap={{
+          scale: 1.05,
+          transition: { type: "spring", stiffness: 200, damping: 10 },
+        }}
+      >
+        {children}
+      </motion.button>
+    </AnimatePresence>
   );
 };
 

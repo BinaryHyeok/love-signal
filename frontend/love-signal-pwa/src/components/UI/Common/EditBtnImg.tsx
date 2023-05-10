@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./EditBtnImg.module.scss";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 type propsType = {
   imgClick: () => void;
@@ -8,7 +8,7 @@ type propsType = {
 
 const EditBtnImg: React.FC<propsType> = ({ imgClick }) => {
   return (
-    <>
+    <AnimatePresence>
       <motion.img
         src="/assets/EditBtn.png"
         className={style.EditBtn}
@@ -18,7 +18,7 @@ const EditBtnImg: React.FC<propsType> = ({ imgClick }) => {
           transition: { type: "spring", stiffness: 200, damping: 10 },
         }}
       />
-    </>
+    </AnimatePresence>
   );
 };
 

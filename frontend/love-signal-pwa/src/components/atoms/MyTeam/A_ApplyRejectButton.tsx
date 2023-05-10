@@ -3,23 +3,22 @@ import Button_Type_A from "../../UI/Common/Button_Type_A";
 import { myMemberUUID } from "../../../atom/member";
 
 import { rejectMeeting } from "../../../api/team";
+import { imLeader } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 
 type propsType = {
-  isLeader: boolean;
   oppsiteTeamUUID: string;
   clickBtn: boolean;
   setClickBtn: Dispatch<SetStateAction<boolean>>;
 };
 
 const A_ApplyRejectButton: React.FC<propsType> = ({
-  isLeader,
   oppsiteTeamUUID,
   clickBtn,
   setClickBtn,
 }) => {
   // const [myUUID] = useRecoilState<string>(myMemberUUID);
-
+  const [isLeader] = useRecoilState<boolean>(imLeader);
   //팀 거절을 눌렀을때.
   const rejectTeam = async () => {
     if (isLeader) {

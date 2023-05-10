@@ -30,9 +30,7 @@ const ContentLayout = () => {
           <Modal_portal>
             <div className={style.container}>
               <div className={style.background} onClick={closeAlert}></div>
-              <AlarmModal open={visible} closeModal={closeAlert}>
-                ddsfsdf
-              </AlarmModal>
+              <AlarmModal closeModal={closeAlert}>ddsfsdf</AlarmModal>
             </div>
           </Modal_portal>
         )}

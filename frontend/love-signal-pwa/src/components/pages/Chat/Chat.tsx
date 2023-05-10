@@ -9,7 +9,7 @@ import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
 import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
-import { nickname } from "../../../atom/member";
+import { kid, myMemberUUID, myatk, nickname } from "../../../atom/member";
 
 import { getChatRoomList } from "../../../api/room";
 
@@ -34,6 +34,10 @@ const Chat = () => {
   );
   const [roomList, setRoomList] = useState<room[]>([]);
   const [chatList, setChatList] = useState<roomChatList>({});
+
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
     socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);

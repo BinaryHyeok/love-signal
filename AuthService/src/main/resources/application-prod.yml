@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 9999
   ssl:
     enabled: false
 
@@ -14,15 +14,15 @@ spring:
           token-uri: https://kauth.kakao.com/oauth/token
           account-uri: https://kapi.kakao.com/v2/user/me?property_keys=["for_partner.uuid", "kakao_account.email"]
           logout-uri: https://kapi.kakao.com/v1/user/logout
-#          redirect-uri: https://www.love-signal.kr/signup
+          #          redirect-uri: https://www.love-signal.kr/signup
           redirect-uri: http://localhost:3000/signup
           client-id: 0bae6bcf8c40843c797b0bb3025272d5
-#  config:
-#    import: "optional:configserver:http://13.125.99.25:8888/"
-#  cloud:
-#    config:
-#      name: mysql
-#      profile: config
+  #  config:
+  #    import: "optional:configserver:http://13.125.99.25:8888/"
+  #  cloud:
+  #    config:
+  #      name: mysql
+  #      profile: config
 
   # datasource:
   #   driver-class-name: com.mysql.cj.jdbc.Driver
@@ -53,5 +53,4 @@ eureka:
     service-url:
       defaultZone: http://discoveryservice:8761/eureka
   instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
+    instance-id: ${spring.application.name}:${server.port}

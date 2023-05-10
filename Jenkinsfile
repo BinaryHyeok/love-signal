@@ -7,19 +7,6 @@ pipeline {
 
     stages {
 
-        stage('Copy files') {
-            steps {
-                sshagent([credentials: ['SSH_CREDENTIAL']]) {
-                    sh """
-                        ssh ubuntu@k8b309.p.ssafy.io "
-                            rm -rf /home/ubuntu/be_member
-                        "
-                        scp -r ${WORKSPACE} ubuntu@k8b309.p.ssafy.io:/home/ubuntu
-                    """
-                }
-            }
-        }
-
         stage('member-service Build') {
             steps {
                 script {
@@ -27,6 +14,16 @@ pipeline {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
+                }
+            }
+        }
+
+        stage('Copy new JAR file') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp MemberService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/member-service/build/libs
+                    """
                 }
             }
         }
@@ -48,7 +45,7 @@ pipeline {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
-                            cd /home/ubuntu/be_member
+                            cd /home/ubuntu/be_develop
                             docker compose -f docker-compose.yml stop member-service
                             docker compose -f docker-compose.yml rm -f member-service
                             docker compose -f docker-compose.yml build member-service
@@ -59,6 +56,8 @@ pipeline {
             }
         }
     }
+
+    // MatterMost Norification
     post {
         success {
             script{

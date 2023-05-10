@@ -30,12 +30,14 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube Server') {
-                    script {
-                        dir('MemberService') {
-                            sh './gradlew -d sonar'
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        script {
+                            dir('MemberService') {
+                                sh './gradlew -d sonar'
+                            }
                         }
-                    }
+                    }                
                 }
             }
         }

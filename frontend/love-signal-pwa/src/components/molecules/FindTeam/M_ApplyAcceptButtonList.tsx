@@ -4,7 +4,6 @@ import A_ApplyAcceptButton from "../../atoms/MyTeam/A_ApplyAcceptButton";
 import A_ApplyRejectButton from "../../atoms/MyTeam/A_ApplyRejectButton";
 
 type propsType = {
-  isLeader: boolean;
   haveOppositeTeam: boolean;
   oppsiteTeamUUID: string;
   clickBtn: boolean;
@@ -12,7 +11,6 @@ type propsType = {
 };
 
 const M_ApplyAcceptButtonList: React.FC<propsType> = ({
-  isLeader,
   haveOppositeTeam,
   oppsiteTeamUUID,
   clickBtn,
@@ -21,14 +19,12 @@ const M_ApplyAcceptButtonList: React.FC<propsType> = ({
   return (
     <ul className={style.acceptBtnList}>
       <A_ApplyAcceptButton
-        isLeader={isLeader}
         haveOppositeTeam={haveOppositeTeam}
         oppsiteTeamUUID={oppsiteTeamUUID}
         clickBtn={clickBtn}
         setClickBtn={setClickBtn}
       />
       <A_ApplyRejectButton
-        isLeader={isLeader}
         oppsiteTeamUUID={oppsiteTeamUUID}
         clickBtn={clickBtn}
         setClickBtn={setClickBtn}

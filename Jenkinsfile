@@ -10,7 +10,7 @@ pipeline {
         stage('auth-service Build') {
             steps {
                 script {
-                    dir('auth-service') {
+                    dir('AuthService') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube Server') {
                     script {
-                        dir('auth-service') {
+                        dir('AuthService') {
                             sh './gradlew -d sonar'
                         }
                     }

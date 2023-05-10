@@ -6,6 +6,7 @@ import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { room, roomMembers } from "../../../types/room";
 import { roomChatList } from "../../../types/chat";
+import O_NoChatList from "./O_NoChatList";
 
 type PropsType = {
   roomList: room[];
@@ -29,22 +30,25 @@ const O_ChatList: React.FC<PropsType> = ({
     });
     setFooterIsOn(false);
   };
+  console.log(roomList.length);
 
   return (
     <ul className={style.chatList}>
-      {roomList.map((room) => (
-        <M_ChatItem
-          key={room.uuid}
-          room={room}
-          onClick={selectRoomHandler}
-          lastChat={
-            chatList[room.uuid] && chatList[room.uuid].length > 0
-              ? chatList[room.uuid][chatList[room.uuid].length - 1]
-              : {}
-          }
-          members={memberList[room.uuid]}
-        />
-      ))}
+      {!(roomList.length > 0) && <O_NoChatList />}
+      {roomList.length > 0 &&
+        roomList.map((room) => (
+          <M_ChatItem
+            key={room.uuid}
+            room={room}
+            onClick={selectRoomHandler}
+            lastChat={
+              chatList[room.uuid] && chatList[room.uuid].length > 0
+                ? chatList[room.uuid][chatList[room.uuid].length - 1]
+                : {}
+            }
+            members={memberList[room.uuid]}
+          />
+        ))}
     </ul>
   );
 };

@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
-import style from "./styles/ExploreTeam.module.scss";
 import { useRecoilState } from "recoil";
 import { footerIdx } from "../../../atom/footer";
 import Loading from "../../UI/Loading/LoadingSpinner";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { team } from "../../../types/member";
-import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
-import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
-import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import { getOtherGenderTeam } from "../../../api/team";
-import A_Heartline from "../../atoms/Common/A_Heartline";
 import MsgModal from "../../UI/Modal/MsgModal";
+import T_OtherGender from "./T_OtherGender";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -84,57 +80,46 @@ const ExploreTeam = () => {
     setVisible(true);
   };
 
-  //무한스크롤이 구현되어있는 함수입니다.
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLDivElement;
-
-    const isEnd =
-      Math.round(target.scrollTop + target.clientHeight) >
-      target.scrollHeight - 100;
-
-    if (isEnd && !infinityScroll && lastList) {
-      setInfinityScroll(true);
-      getList();
-    }
-  };
-
   //뭔가 안이쁜데.. 코드가 짧아짐
   if (isLoading) {
     return (
       <>
         {visible ? (
-          <Modal_portal>
-            <CheckTeam
-              setVisible={setVisible}
-              visible={visible}
-              member={team[teamNumber].members}
-              oppositeTeamUUID={team[teamNumber].teamUUID}
-              myTeam={false}
-              applyModal={applyModal}
-              setMsg={setMsg}
-              setApplyModal={setApplyModal}
-            >
-              {applyModal && <MsgModal msg={msg} />}
-            </CheckTeam>
-          </Modal_portal>
+          <>
+            <Modal_portal>
+              <CheckTeam
+                setVisible={setVisible}
+                visible={visible}
+                member={team[teamNumber].members}
+                oppositeTeamUUID={team[teamNumber].teamUUID}
+                myTeam={false}
+                applyModal={applyModal}
+                setMsg={setMsg}
+                setApplyModal={setApplyModal}
+              >
+                {applyModal && <MsgModal msg={msg} />}
+              </CheckTeam>
+            </Modal_portal>
+            <T_OtherGender
+              getList={getList}
+              infinityScroll={infinityScroll}
+              lastList={lastList}
+              setInfinityScroll={setInfinityScroll}
+              viewDetail={viewDetail}
+              team={team}
+            />
+          </>
         ) : (
-          <div className={style.otherContainer}>
-            <A_OtherTeamDesc />
-            <div className={style.imgContainer} onScroll={handleScroll}>
-              {team.map((item, idx) => (
-                <ListBoxWithImgTitle
-                  title={
-                    <>
-                      <A_Heartline type="red" count="3" />
-                    </>
-                  }
-                  type="red"
-                >
-                  <PictureBox viewDetail={viewDetail} idx={idx} team={item} />
-                </ListBoxWithImgTitle>
-              ))}
-            </div>
-          </div>
+          <>
+            <T_OtherGender
+              getList={getList}
+              infinityScroll={infinityScroll}
+              lastList={lastList}
+              setInfinityScroll={setInfinityScroll}
+              viewDetail={viewDetail}
+              team={team}
+            />
+          </>
         )}
       </>
     );

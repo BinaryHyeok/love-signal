@@ -17,9 +17,9 @@ public class UriUtils {
 
     public String getServiceUri(String serviceName){
         List<ServiceInstance> instances = discoveryClient.getInstances(serviceName);
-        if (instances != null && !instances.isEmpty()) {
-            return instances.get(0).getUri().toString();
-        }
-        throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+//        if(instances == null || instances.isEmpty()){
+//            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+//        }
+        return instances.get(0).getUri().toString();
     }
 }

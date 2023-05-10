@@ -2,7 +2,22 @@
 pipeline {
     agent any
 
+    tools {
+        sonarQubeScanner 'SonarQube Scanner'
+    }
+
     stages {
+
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube Server') {  
+                    dir('frontend/love-signal-pwa') {
+                        sh 'sonar-scanner'
+                    }
+                }
+            }
+        }
+
         stage('Copy files') {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {

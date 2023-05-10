@@ -47,7 +47,9 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
             if(!kauthAccountResponse.getId().toString().equals(kakaoId)){
                 return handleUnAuthorized(exchange);
             }
-
+            System.out.println("========================");
+            System.out.println(kakaoId);;
+            System.out.println("========================");
             return chain.filter(exchange);
         });
 

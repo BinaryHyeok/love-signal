@@ -27,10 +27,18 @@ export const withdrawMember = async (memberUUID: string) => {
 };
 
 //회원정보 조회
-export const inquireMember = async (memberUUID: string) => {
+export const inquireMember = async (
+  memberUUID: string,
+  atk: string,
+  kID: string
+) => {
   return await axios({
     method: "get",
     url: `${process.env.REACT_APP_API}/member/${memberUUID}`,
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
+    },
   });
 };
 

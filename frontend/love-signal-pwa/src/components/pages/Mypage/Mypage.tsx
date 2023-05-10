@@ -6,7 +6,7 @@ import M_Image_Type from "../../UI/Common/M_Image_Type";
 import MyInfo from "./MyInfo";
 import { inquireMember } from "../../../api/auth";
 
-import { myMemberUUID } from "../../../atom/member";
+import { kid, myMemberUUID } from "../../../atom/member";
 import { withdrawMember } from "../../../api/auth";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import { changeMyImg } from "../../../api/file";
@@ -23,16 +23,19 @@ const Mypage = () => {
   const [myDescription, setMyDescription] = useState<string>("");
   const [myCropImage, setMyCropImage] = useState<FormData>(new FormData());
   const [start, setStart] = useState<boolean>(false);
-  const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [, setMyAtk] = useRecoilState<string>(myatk);
   const [, setMyAtkET] = useRecoilState<Date>(myatkET);
+
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
-    inquireMember("f6fc66c4-34cb-4f0d-ab89-34a974917654").then((MyInfo) => {
+    inquireMember(UUID, atk, kID).then((MyInfo) => {
       console.log(MyInfo.data.body.profileImage);
       setMyAge(MyInfo.data.body.age);
       setMyImg(MyInfo.data.body.profileImage);
@@ -56,7 +59,7 @@ const Mypage = () => {
 
   //회원탈퇴 함수입니다.
   const withdrawal = () => {
-    withdrawMember(myUUID)
+    withdrawMember(UUID)
       .then((err) => {})
       .catch((err) => {});
   };

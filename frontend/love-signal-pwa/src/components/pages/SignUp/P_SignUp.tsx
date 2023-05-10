@@ -8,7 +8,6 @@ import A_MainLogo from "./A_MainLogo";
 import M_SignUp_Introduce from "./M_SignUp_Introduce";
 import { duplicateCheck, login, signUp } from "../../../api/auth";
 import M_SignUp_Gender from "./M_SignUp_Gender";
-import { signupMember } from "../../../types/member";
 import { useRecoilState } from "recoil";
 import { kid, myMemberUUID, myatk, myatkET } from "../../../atom/member";
 import { changeMyImg } from "../../../api/file";
@@ -31,7 +30,7 @@ const P_SignUp = () => {
 
   //회원가입 관련 변수들
   const [atk, setAtk] = useRecoilState<string>(myatk);
-  const [atkET, setAtkET] = useRecoilState<Date>(myatkET);
+  const [, setAtkET] = useRecoilState<Date>(myatkET);
   const [kakaoId, setKakaoId] = useRecoilState<string>(kid);
   const [myImage, setMyImage] = useState<FormData>(new FormData());
   const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
@@ -48,26 +47,20 @@ const P_SignUp = () => {
         .then((res) => {
           console.log(res);
           if (res.data.body.memberUUID !== null) {
-            navigate("/OtherGender", { replace: true });
-            //memberUUID가 있다면 넌 이미 존재하는 거야.
+            navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
           } else {
-            console.log("넌 멤버UUID가 없어");
-
             saveMyInfo(
               res.data.body.accessToken,
               res.data.body.refreshToken,
               res.data.body.accessTokenExpireTime,
               res.data.body.refreshTokenExpireTime,
-              kakaoId
+              res.data.body.kakaoId
             );
           }
         })
         .catch((err) => {
           console.log(err);
         });
-      //가져온 quertParam으로 axios요청을 보낸 후
-      //데이터를 받아옴. => 여기서 memberUUID가 만약 null일 경우엔 이 페이지 그대로 진행 <= 아닐 경우엔 이미 회원이므로 OtherGender로 이동.
-      //axios로 받아온 데이터를 이제 recoil에 저장하고? 회원가입 절차 진행하면서 마지막에 버튼누를때 다시 Axios요청.
     }
   }, []);
 
@@ -138,8 +131,8 @@ const P_SignUp = () => {
   const registMember = () => {
     signUp(nickname, gender, birth, description, atk)
       .then((res) => {
+        console.log(res);
         setMemberUUID(res.data.body);
-        //성공한 후 이때 사진 저장시켜주어야함.
         changeMyImg(res.data.body, myImage)
           .then(() => {
             navigate("/Manual");
@@ -147,8 +140,6 @@ const P_SignUp = () => {
           .catch((err) => {
             console.log(err);
           });
-
-        //사진 저장까지하고 회원가입 되었으니 manual 페이지로 이동.
       })
       .catch((err) => {
         console.log(err);

@@ -9,7 +9,7 @@ import T_ChatRoom from "../../templates/Chat/T_ChatRoom";
 import { roomInfo } from "../../../atom/chatRoom";
 import { footerIsOn } from "../../../atom/footer";
 import { footerIdx } from "../../../atom/footer";
-import { nickname } from "../../../atom/member";
+import { kid, myMemberUUID, myatk, nickname } from "../../../atom/member";
 
 import { inquireMember } from "../../../api/auth";
 import { getChatRoomList } from "../../../api/room";
@@ -40,12 +40,16 @@ const Chat = () => {
   const [chatList, setChatList] = useState<roomChatList>({});
   const [me, setMe] = useRecoilState<string>(nickname);
 
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
+
   useEffect(() => {
     socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
     ws = Stomp.over(socket);
 
     // 더미 코드
-    inquireMember(userUUID).then((res) => {
+    inquireMember(UUID, atk, kID).then((res) => {
       setMe(res.data.body.nickname);
     });
     setMe("내 닉네임");
@@ -125,7 +129,7 @@ const Chat = () => {
 
     roomInfo.memberList?.forEach((member) => {
       if (member.memberUUID) {
-        inquireMember(member.memberUUID).then((res) => {
+        inquireMember(member.memberUUID, atk, kID).then((res) => {
           const userInfo: userInfo = res.data.body;
           const newUser = {
             nickname: userInfo.nickname,

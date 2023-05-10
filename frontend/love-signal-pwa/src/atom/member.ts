@@ -55,3 +55,9 @@ export const imLeader = atom<boolean>({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const myGender = atom<string>({
+  key: "gender",
+  default: "M",
+  effects_UNSTABLE: [persistAtom],
+});

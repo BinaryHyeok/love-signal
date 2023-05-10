@@ -5,10 +5,7 @@ import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
 import kr.lovesignal.chattingservice.model.request.SelectOrShareInfo;
 import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.pubsub.RedisPublisher;
-import kr.lovesignal.chattingservice.repository.ChatRepository;
-import kr.lovesignal.chattingservice.repository.ChatRoomJpaRepository;
-import kr.lovesignal.chattingservice.repository.MemberJpaRepository;
-import kr.lovesignal.chattingservice.repository.TeamJpaRepository;
+import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
@@ -33,7 +30,16 @@ public class ChatServiceImpl implements ChatService{
     private final MemberJpaRepository memberJpaRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;
     private final TeamJpaRepository teamJpaRepository;
+    private final ProfileImageJpaRepository profileImageJpaRepository;
     private final CommonUtils commonUtils;
+
+
+
+
+    public String getProfileImageStoredName(Member member) {
+        ProfileImage profileImage = profileImageJpaRepository.findByMemberAndExpired(member, "F");
+        return profileImage.getStoredName();
+    }
 
 
     /**
@@ -73,8 +79,9 @@ public class ChatServiceImpl implements ChatService{
 
         for(Member oppositeMember : oppositeMembers) {
             nicknames.add(oppositeMember.getNickname());
-            profileUrls.add(oppositeMember.getProfileImage().getStoredName());
 //            프로필 이미지 추가한 부분.
+            String profileImageUrl = getProfileImageStoredName(oppositeMember);
+            profileUrls.add(profileImageUrl);
         }
 
         // SelectOrShareInfo 객체 생성
@@ -139,8 +146,8 @@ public class ChatServiceImpl implements ChatService{
         nicknames.add(oppositeNickname);
 
 //      프로필 이미지 추가한 부분
-        profileUrls.add(member.getProfileImage().getStoredName());
-        profileUrls.add(oppositeMember.getProfileImage().getStoredName());
+        profileUrls.add(getProfileImageStoredName(member));
+        profileUrls.add(getProfileImageStoredName(oppositeMember));
 
         // 이성지목 메세지 정보 객체 생성.
         SelectOrShareInfo selectOrShareInfo = SelectOrShareInfo.builder()
@@ -196,12 +203,15 @@ public class ChatServiceImpl implements ChatService{
                     if(member.getGender().equals("M")) {
                         maleNicknames.add(member.getNickname());
 //                        maleProfileUrls.add() 여기에는 url 주소
-                        maleProfileUrls.add(member.getProfileImage().getStoredName());
+//                        maleProfileUrls.add(member.getProfileImage().getStoredName());
+                        maleProfileUrls.add(getProfileImageStoredName(member));
+
                     }
                     else {
                         femaleNicknames.add(member.getNickname());
 //                        femaleProfileUrls.add() 여기에는 url 주소
-                        femaleNicknames.add(member.getProfileImage().getStoredName());
+//                        femaleNicknames.add(member.getProfileImage().getStoredName());
+                        femaleProfileUrls.add(getProfileImageStoredName(member));
                     }
                 }
 

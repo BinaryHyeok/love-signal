@@ -23,7 +23,6 @@ public class ResMember {
                 .nickname(member.getNickname())
                 .gender(member.getGender())
                 .description(member.getDescription())
-                .profileImage(member.getProfileImage().getStoredName())
                 .build();
     }
 

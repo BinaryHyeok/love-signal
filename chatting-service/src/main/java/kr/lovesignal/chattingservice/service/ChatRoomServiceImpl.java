@@ -1,9 +1,6 @@
 package kr.lovesignal.chattingservice.service;
 
-import kr.lovesignal.chattingservice.entity.ChatRoom;
-import kr.lovesignal.chattingservice.entity.Member;
-import kr.lovesignal.chattingservice.entity.Participant;
-import kr.lovesignal.chattingservice.entity.RoomType;
+import kr.lovesignal.chattingservice.entity.*;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
 import kr.lovesignal.chattingservice.model.response.*;
 import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
@@ -42,6 +39,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomJpaRepository chatRoomJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final ParticipantJpaRepository participantJpaRepository;
+    private final ProfileImageJpaRepository profileImageJpaRepository;
 
 
     @PostConstruct
@@ -49,6 +47,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         topics = new HashMap<>();
     }
 
+
+
+    public String getProfileImageStoredName(Member member) {
+        ProfileImage profileImage = profileImageJpaRepository.findByMemberAndExpired(member, "F");
+        return profileImage.getStoredName();
+    }
 
 
     /**
@@ -79,6 +83,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 // 멤버를 뽑아서 반환 멤버 생성
                 Member member1 = participant1.getMember();
                 ResMember resMember = ResMember.toDto(member1);
+                resMember.setProfileImage(getProfileImageStoredName(member1));
                 // 멤버 나이 계산 및 주입
                 LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
                 int age = Period.between(birthDate, LocalDate.now()).getYears();

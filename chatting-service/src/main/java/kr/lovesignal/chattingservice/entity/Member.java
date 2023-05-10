@@ -47,8 +47,8 @@ public class Member extends BaseEntity{
     private String teamLeader;
 
 
-    @OneToOne(mappedBy = "member")
-    private ProfileImage profileImage;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProfileImage> profileImages = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = true)

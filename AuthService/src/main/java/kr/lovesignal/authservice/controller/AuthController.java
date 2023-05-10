@@ -61,7 +61,7 @@ public class AuthController {
 
         String strMemberUUID = authService.registerMember(signUpRequest, accessToken);
 
-        webClientService.createSystemChatRoomApi(strMemberUUID);
+//        webClientService.createSystemChatRoomApi(strMemberUUID);
 
         SuccessResponse successResponse = responseUtils.buildSuccessResponse(strMemberUUID);
 

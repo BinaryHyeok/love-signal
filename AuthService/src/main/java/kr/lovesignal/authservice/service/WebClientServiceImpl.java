@@ -154,29 +154,15 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public Mono<String> registerMember(SignUpRequest signUpRequest) {
-//        String uri = "http://localhost:9000/member/register";
-//
-//        List<ServiceInstance> instances = discoveryClient.getInstances("member-service");
-//        if(instances == null || instances.isEmpty()){
-//            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
-//        }
-//        else if(port == 9999){
-//            uri = instances.get(0).getUri().toString() + "/member/register";
-//        }
-        String uri;
-        if(port == 9999){
-            ServiceInstance instance = loadBalancerClient.choose("member-service");
-            if(instance == null){
-                throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
-            }
-            else{
-                uri = "http://" + instance.getHost() + ":" + instance.getPort() + "/member/register";
-            }
-        }
-        else{
-            uri = "http://localhost:9000/member/register";
-        }
+        String uri = "http://localhost:9000/member/register";
 
+        List<ServiceInstance> instances = discoveryClient.getInstances("member-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 9999){
+            uri = instances.get(0).getUri().toString() + "/member/register";
+        }
 
         return webClient.post()
                 .uri(uri)

@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.11'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "org.sonarqube" version "4.0.0.2929"
 }
 
 group = 'kr.lovesignal'
@@ -16,6 +17,17 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2021.0.6")
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "chatting-service"
+        property "sonar.projectName", "chatting-service"
+    }
 }
 
 dependencies {
@@ -43,8 +55,17 @@ dependencies {
 //    implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
 //    implementation 'io.projectreactor:reactor-util:3.4.9'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {

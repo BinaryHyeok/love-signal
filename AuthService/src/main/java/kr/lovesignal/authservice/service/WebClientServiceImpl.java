@@ -129,9 +129,16 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<String> getMemberUUID(String email) {
         String uri = "http://localhost:9000/member/UUID/by/" + email;
 
+        System.out.println("==================================");
+        System.out.println("포트전");
+        System.out.println("==================================");
+        System.out.println(port);
+        System.out.println(uri);
+
         if(port == 0){
             uri = uriUtils.getServiceUri("member-service") + "/member/UUID/by/" + email;
         }
+        System.out.println(uri);
 
         System.out.println(uri);
         return webClient.get()
@@ -144,17 +151,9 @@ public class WebClientServiceImpl implements WebClientService{
     public Mono<String> registerMember(SignUpRequest signUpRequest) {
         String uri = "http://localhost:9000/member/register";
 
-        System.out.println("==================================");
-        System.out.println("포트전");
-        System.out.println("==================================");
-        System.out.println(port);
         if(port == 0){
             uri = uriUtils.getServiceUri("member-service") + "/member/register/";
         }
-
-        System.out.println("==================================");
-        System.out.println("후");
-        System.out.println("==================================");
 
         System.out.println(uri);
         return webClient.post()

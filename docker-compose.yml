@@ -32,6 +32,8 @@ services:
     build:
       context: ./discoveryservice
       dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Seoul
     ports:
       - "8761:8761"
     restart: always
@@ -46,6 +48,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      - TZ=Asia/Seoul
     depends_on:
       - discoveryservice
     restart: always
@@ -60,6 +64,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8888:8888"
+    environment:
+      - TZ=Asia/Seoul
     depends_on:
       - discoveryservice
     restart: always
@@ -72,6 +78,8 @@ services:
     build:
       context: ./MemberService
       dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Seoul
     restart: always
     networks:
       - backend
@@ -82,6 +90,8 @@ services:
     build:
       context: ./TeamService
       dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Seoul
     restart: always
     networks:
       - backend
@@ -92,6 +102,8 @@ services:
     build:
       context: ./chatting-service
       dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Seoul
     restart: always
     networks:
       - backend
@@ -102,6 +114,8 @@ services:
     build:
       context: ./file-service
       dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Seoul
     restart: always
     networks:
       - backend
@@ -112,6 +126,8 @@ services:
     build:
       context: ./AuthService
       dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Seoul
     restart: always
     networks:
       - backend
@@ -123,6 +139,7 @@ services:
       - SONARQUBE_JDBC_URL=jdbc:postgresql://postgres:5432/sonar
       - SONARQUBE_JDBC_USERNAME=sonar
       - SONARQUBE_JDBC_PASSWORD=sonar
+      - TZ=Asia/Seoul
     ports:
       - "9000:9000"
     depends_on:
@@ -142,6 +159,7 @@ services:
       - POSTGRES_USER=sonar
       - POSTGRES_PASSWORD=sonar
       - POSTGRES_DB=sonar
+      - TZ=Asia/Seoul
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

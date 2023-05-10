@@ -6,7 +6,6 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 type PropsType = {
   team: applyTeam;
-  isLeader: boolean;
   haveOppositeTeam: boolean;
   idx: number;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
@@ -17,7 +16,6 @@ type PropsType = {
 
 const M_ApplyTeamListItem: React.FC<PropsType> = ({
   team,
-  isLeader,
   haveOppositeTeam,
   idx,
   setOppoTeamIdx,
@@ -39,7 +37,6 @@ const M_ApplyTeamListItem: React.FC<PropsType> = ({
         setOppoVisible={setOppoVisible}
       />
       <M_ApplyAcceptButtonList
-        isLeader={isLeader}
         haveOppositeTeam={haveOppositeTeam}
         oppsiteTeamUUID={oppositeTeamCode}
         clickBtn={clickBtn}

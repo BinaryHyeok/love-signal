@@ -1,46 +1,27 @@
 import style from "./AlarmModal.module.scss";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ExitImg from "./ExitImg";
 
-import { useEffect } from "react";
-
 type PropsType = {
-  open: boolean;
   closeModal: () => void;
   children: any;
 };
 
-const sidebar = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
-    transition: {
-      delay: 0.2,
-      type: "spring",
-      stiffness: 20,
-      restDelta: 2,
-    },
-  }),
-  closed: {
-    clipPath: "circle(30px at 40px 40px)",
-    transition: {
-      delay: 0.5,
-      type: "spring",
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
-
-const AlarmModal: React.FC<PropsType> = ({ open, closeModal, children }) => {
+const AlarmModal: React.FC<PropsType> = ({ closeModal, children }) => {
   return (
-    <motion.div
-      animate={open ? "open" : "closed"}
-      variants={sidebar}
-      className={style.modal}
-    >
-      <ExitImg closeModal={closeModal} />
-      <div>{children}</div>
-    </motion.div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key="modal"
+        initial={{ y: "50%", opacity: 0, scale: 0.5 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        exit={{ y: "50%", opacity: 0, transition: { duration: 0.2 } }}
+        className={style.modal}
+      >
+        <ExitImg closeModal={closeModal} />
+        <div>{children}</div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

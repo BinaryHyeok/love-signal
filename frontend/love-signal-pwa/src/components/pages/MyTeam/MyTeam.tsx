@@ -13,6 +13,7 @@ import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { applyTeam } from "../../../types/member";
 import { useNavigate } from "react-router-dom";
+import { imLeader } from "../../../atom/member";
 
 const MyTeam = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const MyTeam = () => {
   const [haveOppositeTeam, setHaveOppositeTeam] = useState<boolean>(false);
 
   //내가 현재 리더인지 파악해주는 state변수입니다.
-  const [isLeader, setIsLeader] = useState<boolean>(false);
+  const [isLeader, setIsLeader] = useRecoilState<boolean>(imLeader);
 
   //내 개인 UUID 입니다.
   // const [myUUID, setmyUUID] = useRecoilState<string>(myMemberUUID);
@@ -122,7 +123,6 @@ const MyTeam = () => {
           <T_MyTeam>
             <M_MyTeamDesc />
             <O_MyTeamBox
-              isLeader={isLeader}
               haveOppositeTeam={haveOppositeTeam}
               memberList={memberList}
               setMyVisible={setMyVisible}

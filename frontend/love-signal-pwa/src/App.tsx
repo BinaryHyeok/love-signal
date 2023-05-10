@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Main from "./components/pages/Main/Main";
 import P_SignUp from "./components/pages/SignUp/P_SignUp";
 import Login from "./components/Login/Login";
@@ -84,7 +85,11 @@ function App() {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <RouterProvider router={router} />;
+    </AnimatePresence>
+  );
 }
 
 export default App;

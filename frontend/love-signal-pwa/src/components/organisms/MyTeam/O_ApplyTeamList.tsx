@@ -5,7 +5,6 @@ import M_ApplyTeamListItem from "../../molecules/MyTeam/M_ApplyTeamListItem";
 
 type PropsType = {
   applyTeamList: applyTeam[];
-  isLeader: boolean;
   haveOppositeTeam: boolean;
   setOppoVisible: Dispatch<SetStateAction<boolean>>;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
@@ -15,7 +14,6 @@ type PropsType = {
 
 const O_ApplyTeamList: React.FC<PropsType> = ({
   applyTeamList,
-  isLeader,
   haveOppositeTeam,
   setOppoVisible,
   setOppoTeamIdx,
@@ -28,7 +26,6 @@ const O_ApplyTeamList: React.FC<PropsType> = ({
         <M_ApplyTeamListItem
           key={idx}
           team={team}
-          isLeader={isLeader}
           haveOppositeTeam={haveOppositeTeam}
           idx={idx}
           setOppoTeamIdx={setOppoTeamIdx}

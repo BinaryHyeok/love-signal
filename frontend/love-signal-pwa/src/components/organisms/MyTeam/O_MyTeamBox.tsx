@@ -7,12 +7,14 @@ import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import O_ApplyTeamList from "./O_ApplyTeamList";
 import { receivemeetingList } from "../../../api/team";
 import { myTeamUUID } from "../../../atom/member";
+import { myMemberUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { applyTeam } from "../../../types/member";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
+import { withdrawTeam } from "../../../api/team";
+import { imLeader } from "../../../atom/member";
 
 type propsType = {
-  isLeader: boolean;
   haveOppositeTeam: boolean;
   memberList: member[];
   setMyVisible: Dispatch<SetStateAction<boolean>>;
@@ -23,7 +25,6 @@ type propsType = {
 };
 
 const O_MyTeamBox: React.FC<propsType> = ({
-  isLeader,
   haveOppositeTeam,
   memberList,
   setMyVisible,
@@ -38,6 +39,8 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [start, setStart] = useState<boolean>(true);
   const [applyTeamExist, setApplyTeamExist] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [isleader, setIsLeader] = useRecoilState<boolean>(imLeader);
 
   useEffect(() => {
     if (start) {
@@ -71,11 +74,19 @@ const O_MyTeamBox: React.FC<propsType> = ({
     setIsLoading(true);
   };
 
-  //팀 나가기 함수입니다.(이슬 담당)
+  //팀 나가기 함수입니다.
   const exitTeam = () => {
     //팀 나가기에 대한 axios가 들어갈 요청입니다.
-    setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
-    navigate("/SameGender", { replace: true });
+    withdrawTeam(myUUID)
+      .then((res) => {
+        setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
+        setIsLeader(false);
+        navigate("/SameGender", { replace: true });
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -105,7 +116,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
             {applyTeamExist ? (
               <O_ApplyTeamList
                 applyTeamList={applyList}
-                isLeader={isLeader}
                 haveOppositeTeam={haveOppositeTeam}
                 setOppoVisible={setOppoVisible}
                 setOppoTeamIdx={setOppoTeamIdx}

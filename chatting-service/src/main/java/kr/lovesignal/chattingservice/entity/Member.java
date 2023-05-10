@@ -24,8 +24,8 @@ public class Member extends BaseEntity{
     @Column(name = "member_id", columnDefinition = "INT UNSIGNED")
     private Long memberId;
 
-    @Column(name = "kakao_uuid", nullable = false)
-    private String kakaoUUID;
+    @Column(name = "kakao_id", nullable = false)
+    private String kakaoId;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;

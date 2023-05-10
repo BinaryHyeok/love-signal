@@ -19,7 +19,7 @@ public class SignUpRequest {
         return MemberEntity.builder()
                 .email(email)
                 .kakaoId(kakaoId)
-                .email(email)
+                .birth(birth)
                 .nickname(nickname)
                 .gender(gender)
                 .description(description)

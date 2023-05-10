@@ -57,7 +57,9 @@ spring:
               - http://localhost:3000
               - https://www.love-signal.kr
             allow-credentials: true
-            allowedHeaders: '*'
+            allowedHeaders:
+              - X-Auth_Token
+              - X-Auth_ID
             allowedMethods:
               - PUT
               - GET

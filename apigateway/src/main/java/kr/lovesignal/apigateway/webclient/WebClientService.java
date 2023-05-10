@@ -22,7 +22,7 @@ public class WebClientService {
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
         headers.add("Authorization", authorization);
 
-        return webClient.get()
+        return webClient.()
                 .uri(accountUri)
                 .headers(header -> header.addAll(headers))
                 .retrieve()

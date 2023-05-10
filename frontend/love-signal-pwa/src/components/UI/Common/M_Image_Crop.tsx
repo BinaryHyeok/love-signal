@@ -25,16 +25,13 @@ const M_Image_Crop: React.FC<PropsType> = ({
   const getCropdata = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       const cropper = cropperRef.current?.cropper;
-      console.log(cropper.getImageData());
       const canvas = cropper.getCroppedCanvas();
       canvas.toBlob((blob) => {
         if (blob) {
           const formData = new FormData();
           formData.append("file", blob);
           setMyImage(formData);
-          console.log(formData);
-          console.log(formData.get("file")); //여기있는 formData를 끌고 올라가야해?..
-          // changeMyImg("4b2dbfcc-392d-4c88-ad76-96494d16c266", formData);
+          console.log(formData.get("file"));
         }
       }, "image/png");
       setVisible(!visible);

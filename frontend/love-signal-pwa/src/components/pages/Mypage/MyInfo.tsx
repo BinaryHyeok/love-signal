@@ -31,7 +31,6 @@ const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
 
   useEffect(() => {
     if (!start) {
-      //내정보 수정.(이슬 담당)
       changeMyInfo(myUUID, myNickName, myIntroduce)
         .then((res) => {
           console.log(res);

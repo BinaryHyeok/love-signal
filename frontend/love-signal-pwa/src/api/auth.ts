@@ -1,5 +1,4 @@
 import axios from "axios";
-import cookie from "react-cookies";
 
 //회원정보 수정
 export const changeMyInfo = async (
@@ -37,7 +36,9 @@ export const inquireMember = async (
     url: `${process.env.REACT_APP_API}/member/${memberUUID}`,
     headers: {
       "X-Auth_Token": atk,
-      // "X-Auth_ID": kID,
+      "X-Auth_ID": kID,
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
     },
   });
 };
@@ -83,6 +84,18 @@ export const signUp = async (
       gender: gender,
       birth: birth,
       description: description,
+    },
+  });
+};
+
+//로그아웃
+export const logout = async (atk: string, kID: string) => {
+  return await axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API_AUTH}/auth/logout`,
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
     },
   });
 };

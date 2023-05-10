@@ -5,13 +5,15 @@ import Button_Type_A from "../../UI/Common/Button_Type_A";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CommonModal from "../../UI/Modal/CommonModal";
 import M_ModalFindTeamWithCode from "./M_ModalFindTeamWithCode";
-import { joinTeam } from "../../../api/team";
-import { myMemberUUID } from "../../../atom/member";
+import { getMyTeam, joinTeam } from "../../../api/team";
+import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
 import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 
 import { AnimatePresence } from "framer-motion";
+import { member } from "../../../types/member";
+import Ground from "../../UI/Three/Ground";
 
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
@@ -19,9 +21,11 @@ const M_FindTeamMenuList = () => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [enterTeamUUID, setEnterTeamUUID] = useState<string>("");
+  const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
-  useEffect(() => {}, [visible]);
 
   //모달창 열어주는 함수입니다.
   const openRoomCodeModalHandler = () => {
@@ -31,24 +35,28 @@ const M_FindTeamMenuList = () => {
   //팀으로 입장.(임시);
   const enterTeam = () => {
     //여기에서 axios요청을해서 해당 팀으로 입장.
-    joinTeam(myUUID, enterTeamUUID)
-      .then((res) => {})
-      .catch((err) => {});
+    joinTeam(myUUID, enterTeamUUID, atk, kID)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 새로운 방을 생성해서 이동
   const createRoom = () => {
     setIsPending(true);
-    makeTeam(myUUID)
+    makeTeam(myUUID, atk, kID)
       .then((res) => {
         console.log(res.data); // 방 정보
+        setTeamUUID(res.data.body);
         setIsPending(false);
         navigate("/SameGender/build");
       })
       .catch((err) => {
         console.log(err);
         setIsPending(false);
-        navigate("/SameGender/build"); // 임시
       });
   };
 
@@ -56,7 +64,7 @@ const M_FindTeamMenuList = () => {
     <>
       {isPending && (
         <Modal_portal>
-          <LoadingSpinner />
+          <Ground />
         </Modal_portal>
       )}
       {!isPending && (

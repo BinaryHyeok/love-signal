@@ -6,7 +6,7 @@ import { member } from "../../../types/member";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import O_ApplyTeamList from "./O_ApplyTeamList";
 import { receivemeetingList } from "../../../api/team";
-import { myTeamUUID } from "../../../atom/member";
+import { kid, myTeamUUID, myatk } from "../../../atom/member";
 import { myMemberUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { applyTeam } from "../../../types/member";
@@ -41,10 +41,12 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [isleader, setIsLeader] = useRecoilState<boolean>(imLeader);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
     if (start) {
-      receivemeetingList(TeamUUID)
+      receivemeetingList(TeamUUID, atk, kID)
         .then((res) => {
           setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
           addApplyList(res.data.body.teams);
@@ -77,7 +79,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
   //팀 나가기 함수입니다.
   const exitTeam = () => {
     //팀 나가기에 대한 axios가 들어갈 요청입니다.
-    withdrawTeam(myUUID)
+    withdrawTeam(myUUID, atk, kID)
       .then((res) => {
         setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
         setIsLeader(false);

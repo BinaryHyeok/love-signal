@@ -72,7 +72,7 @@ const MyTeam = () => {
   };
 
   const getUserTeamInfo = async () => {
-    await getMyTeam(teamUUID)
+    await getMyTeam(teamUUID, atk, kID)
       .then((res) => {
         console.log(res);
         setMemberList(res.data.body.members);

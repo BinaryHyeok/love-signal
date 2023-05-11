@@ -31,7 +31,7 @@ const M_SignUp_Profile: React.FC<PropsType> = ({ onClick, setMyImage }) => {
             height="32px"
             background={changeImg ? "#FBCED3" : "#D9D9D9"}
             onClick={onClick}
-            disabled={changeImg}
+            disabled={!changeImg}
           >
             확인
           </Button_Type_A>

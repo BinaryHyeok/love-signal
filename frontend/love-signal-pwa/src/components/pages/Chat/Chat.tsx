@@ -31,10 +31,6 @@ const Chat = () => {
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
   const [myNick, ___] = useRecoilState(nickname);
 
-  // test용 state
-  const [userUUID, setUserUUID] = useState<string>(
-    "882a9377-c1a6-4802-a0d8-2f310c004fed"
-  );
   const [roomList, setRoomList] = useState<room[]>([]);
   const [chatList, setChatList] = useState<roomChatList>({});
 
@@ -46,13 +42,12 @@ const Chat = () => {
     socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
     ws = Stomp.over(socket);
 
-    getChatRoomList(userUUID).then((res) => {
+    getChatRoomList(UUID, atk, kID).then((res) => {
       const data: room[] = res.data;
       console.log(res.data);
       setRoomList(() => [...data]);
       data.forEach((room) => {
         // 각 방에 소켓 연결
-        console.log(`${room.uuid}방에 연결`);
         connectChatServer(room.uuid);
 
         // 각 방의 채팅 목록 fetch
@@ -82,10 +77,7 @@ const Chat = () => {
   }, []);
 
   const connectChatServer = async (roomUUID: string) => {
-    const header = {
-      "Access-Control-Allow-origin": "*",
-      "Access-Control-Allow-Credentials": "true",
-    };
+    const header = {};
     ws.connect(header, (frame: any) => {
       console.log("방 입장 : " + roomUUID);
       ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
@@ -119,7 +111,7 @@ const Chat = () => {
     console.log("룸 uuid " + roomUUID + "로 채팅 목록 조회");
     if (!roomUUID) return;
 
-    getChatList(roomUUID).then((res) => {
+    getChatList(roomUUID, atk, kID).then((res) => {
       const chatData = res.data;
       setChatList((prevState) => {
         const prevList = prevState[roomUUID] || [];

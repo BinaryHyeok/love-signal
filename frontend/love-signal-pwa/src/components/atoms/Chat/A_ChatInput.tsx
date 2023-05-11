@@ -21,7 +21,7 @@ const A_ChatInput: React.FC<PropsTypes> = ({
       value={text}
       onChange={onChange}
       disabled={isDisabled}
-      placeholder={isDisabled ? "채팅이 불가한 채팅방입니다." : ""}
+      placeholder={isDisabled ? "채팅이 불가능한 채팅방입니다." : ""}
       ref={inputRef}
     />
   );

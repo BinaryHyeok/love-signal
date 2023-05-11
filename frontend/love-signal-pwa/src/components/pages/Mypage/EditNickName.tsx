@@ -1,34 +1,23 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState, useEffect } from "react";
 import Input_Type_A from "../../UI/Common/Input_Type_A";
 import style from "./styles/NickName.module.scss";
 import Mypage_Check_Btn from "../../UI/Common/MyPage_Check_Btn";
-import Age from "./Age";
 
 type propsType = {
   nickname: string;
-  changeName: Dispatch<SetStateAction<boolean>>;
-  applyInfo: boolean;
-  setApplyInfo: Dispatch<SetStateAction<boolean>>;
-  setMyNickName: Dispatch<SetStateAction<string>>;
+  handleInfoUpdate: () => void;
 };
 
-const EditNickName: React.FC<propsType> = ({
-  nickname,
-  changeName,
-  applyInfo,
-  setApplyInfo,
-  setMyNickName,
-}) => {
-  const [tmpNickName, setTmpNickName] = useState<string>(nickname);
-  const ApplyNickName = () => {
-    changeName(true);
-    setMyNickName(tmpNickName);
-    setApplyInfo(!applyInfo);
-  };
+const EditNickName: React.FC<propsType> = ({ nickname, handleInfoUpdate }) => {
+  const [inivNick, setInitNick] = useState<string>("");
 
-  const changeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    setInitNick(nickname);
+  }, []);
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    setTmpNickName(target.value);
+    // setTmpNickName(target.value);
   };
 
   return (
@@ -37,13 +26,13 @@ const EditNickName: React.FC<propsType> = ({
       <div className={style.btnContainer}>
         <Input_Type_A
           type="text"
-          value={tmpNickName}
+          value={inivNick}
           id="닉네임변경해."
           className="editNickName"
-          onChange={changeNickName}
+          onChange={changeHandler}
         />
         <div className={style.editBtn}>
-          <Mypage_Check_Btn imgClick={ApplyNickName} />
+          <Mypage_Check_Btn imgClick={handleInfoUpdate} />
         </div>
       </div>
     </div>

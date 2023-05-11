@@ -14,6 +14,12 @@ spring:
       name: mysql
       profile: config
 
+  cache:
+    type: redis
+  redis:
+    host: 13.125.99.25
+    port: 6379
+
   # datasource:
   #   driver-class-name: com.mysql.cj.jdbc.Driver
   #   url: jdbc:mysql://k8b309.p.ssafy.io:3306/love?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true

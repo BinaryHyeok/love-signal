@@ -38,8 +38,8 @@ spring:
           uri: lb://chatting-service
           predicates:
             - Path=/chat/** , /chatRoom/**, /ws-stomp/**, /pub/**, /sub/**, /webjars/**
-          filters:
-            - name: Authentication
+#          filters:
+#            - name: Authentication
 
         - id: file-service
           uri: lb://file-service

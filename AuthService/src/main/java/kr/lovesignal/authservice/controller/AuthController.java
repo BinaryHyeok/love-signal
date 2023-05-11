@@ -93,8 +93,11 @@ public class AuthController {
     @ApiOperation(value = "로그아웃")
     public ResponseEntity<String> logout(@RequestHeader("X-Auth_Token") String accessToken){
 
-        webClientService.kakaoLogoutApi(accessToken);
-        webClientService.kakaoWithLogoutApi();
+        Long id = webClientService.kakaoLogoutApi(accessToken).block();
+        log.debug("토큰 만료 완료{}", id);
+        String state = webClientService.kakaoWithLogoutApi().block();
+        log.debug("카카오톡 로그아웃 완료{}",state);
+
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -45,7 +45,7 @@ const TeamBuild = () => {
       <T_TeamBuildRoom>
         <M_TeamBuildHeader teamCode="B309" />
         <O_TeamMemberList setMemberLength={setMemberLength} />
-        {isLeader && (
+        {/* {isLeader && (
           <Button_Type_A
             width="212px"
             height="52px"
@@ -53,7 +53,7 @@ const TeamBuild = () => {
             disabled={memberLength === 3 ? false : true}
             children="팀 생성하기"
           />
-        )}
+        )} */}
         <Button_Type_A
           width="212px"
           height="52px"

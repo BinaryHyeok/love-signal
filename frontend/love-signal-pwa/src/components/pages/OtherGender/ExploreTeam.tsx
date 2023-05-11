@@ -93,7 +93,8 @@ const ExploreTeam = () => {
 
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
-    await getOtherGenderTeam(gender, receiveList, uuidList, atk, kID)
+    const OGender: string = gender === "F" ? "M" : "F";
+    await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
       .then((res) => {
         console.log(gender);
         console.log(res);

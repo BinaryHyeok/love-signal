@@ -105,6 +105,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public String getMemberByEmail(String email) {
         MemberEntity findMember = memberRepository.findByEmailAndExpired(email, "F");
 
@@ -117,6 +118,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public String registerMember(SignUpRequest signUpRequest) {
 
         MemberEntity saveMember = signUpRequest.toEntity();
@@ -127,6 +129,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Boolean checkNicknameDuplicate(String nickname){
         MemberEntity findMember = memberRepository.findByNickname(nickname);
 

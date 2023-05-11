@@ -1,13 +1,13 @@
 import style from "./styles/Introduce.module.scss";
 
 type PropsType = {
-  myIntroduce: string;
+  description: string;
 };
 
-const MyIntroduce: React.FC<PropsType> = ({ myIntroduce }) => {
+const MyIntroduce: React.FC<PropsType> = ({ description }) => {
   return (
     <>
-      <div className={style.introduceText}>{myIntroduce}</div>
+      <div className={style.introduceText}>{description}</div>
     </>
   );
 };

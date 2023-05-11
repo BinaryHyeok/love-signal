@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Text_Type_A from "../../UI/Common/Text_Type_A";
 import style from "./styles/EditIntroduce.module.scss";
 import Mypage_Check_Btn from "../../UI/Common/MyPage_Check_Btn";
 
 type propsType = {
-  myIntroduce: string;
-  handleInfoUpdate: () => void;
+  description: string;
+  setDesc: (param: string) => void;
 };
 
-const EditIntroduce: React.FC<propsType> = ({
-  myIntroduce,
-  handleInfoUpdate,
-}) => {
-  const [tmpMyIntroduce, setTmpMyIntroduce] = useState<string>(myIntroduce);
+const EditIntroduce: React.FC<propsType> = ({ description, setDesc }) => {
+  const [currDesc, setCurrDesc] = useState<string>("");
+
+  useEffect(() => {
+    setCurrDesc(description);
+  }, []);
 
   const changeMyIntroduce = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const target = e.target as HTMLTextAreaElement;
-    setTmpMyIntroduce(target.value);
   };
+
+  const updateDescHandler = () => {};
 
   return (
     <div className={style.container}>
@@ -25,13 +27,13 @@ const EditIntroduce: React.FC<propsType> = ({
         <Text_Type_A
           type="textarea"
           id="자기소개"
-          value={tmpMyIntroduce}
+          value={currDesc}
           className="editIntroduce"
           onChange={changeMyIntroduce}
         />
       </div>
       <div className={style.button}>
-        <Mypage_Check_Btn imgClick={handleInfoUpdate} />
+        <Mypage_Check_Btn imgClick={updateDescHandler} />
       </div>
     </div>
   );

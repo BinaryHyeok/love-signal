@@ -5,33 +5,31 @@ import Introduce from "./Introduce";
 import EditNickName from "./EditNickName";
 import EditIntroduce from "./EditIntroduce";
 import Age from "./Age";
+import { useRecoilState } from "recoil";
+import { kid, myMemberUUID, myatk } from "../../../atom/member";
+import { changeMyInfo } from "../../../api/auth";
 
 type propsType = {
   age: number;
   nickname: string;
   description: string;
-  handleInfoUpdate: () => void;
+  setNick: (param: string) => void;
+  setDesc: (param: string) => void;
 };
 
 const MyInfo: React.FC<propsType> = ({
   age,
   nickname,
   description,
-  handleInfoUpdate,
+  setNick,
+  setDesc,
 }) => {
-  const [isNameChanging, setIsNameChanging] = useState<boolean>(false); //이름 바꿔줄 state
-  const [isDescChanging, setIsDescChanging] = useState<boolean>(false); //자기소개 바꿔줄 state
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
-  //시작값이 nickname
-  const [myNickName, setMyNickName] = useState<string>("");
-
-  //시작값이 description
-  const [myIntroduce, setMyIntroduce] = useState<string>(description);
-
-  useEffect(() => {
-    setMyNickName(nickname);
-    setMyIntroduce(description);
-  }, [nickname, description]);
+  const [isNameChanging, setIsNameChanging] = useState<boolean>(false);
+  const [isDescChanging, setIsDescChanging] = useState<boolean>(false);
 
   const toggleNameView = () => {
     setIsNameChanging((prev) => !prev);
@@ -41,25 +39,28 @@ const MyInfo: React.FC<propsType> = ({
     setIsDescChanging((prev) => !prev);
   };
 
+  const updateNickHandler = (newNick: string) => {
+    changeMyInfo(UUID, newNick, description, atk, kID);
+  };
+
   return (
     <>
       <div className={style.container}>
         {!isNameChanging ? (
-          <NickName nickname={myNickName} toggleMode={toggleNameView} />
+          <NickName nickname={nickname} toggleMode={toggleNameView} />
         ) : (
           <EditNickName
-            nickname={myNickName}
-            handleInfoUpdate={handleInfoUpdate}
+            nickname={nickname}
+            setNick={setNick}
+            toggleMode={toggleNameView}
+            nickSubmitHandler={updateNickHandler}
           />
         )}
 
         {!isDescChanging ? (
-          <Introduce myIntroduce={myIntroduce} toggleMode={toggleDescView} />
+          <Introduce description={description} toggleMode={toggleDescView} />
         ) : (
-          <EditIntroduce
-            myIntroduce={myIntroduce}
-            handleInfoUpdate={handleInfoUpdate}
-          />
+          <EditIntroduce description={description} setDesc={setDesc} />
         )}
         <Age age={age} />
       </div>

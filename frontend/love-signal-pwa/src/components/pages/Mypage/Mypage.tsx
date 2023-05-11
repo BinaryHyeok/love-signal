@@ -51,13 +51,6 @@ const Mypage = () => {
     });
   }, [setIdx]);
 
-  const myInfoSetter = (newNick: string, newDesc: string) => {
-    setMyNickName(newNick);
-    setMyDescription(newDesc);
-  };
-
-  const updateMyInfoHandler = () => {};
-
   //로그아웃 함수입니다.(종효 담당)
   const logOut = () => {
     //로그아웃시 없애야 할것
@@ -116,7 +109,8 @@ const Mypage = () => {
             age={myAge}
             nickname={myNickName}
             description={myDescription}
-            handleInfoUpdate={updateMyInfoHandler}
+            setNick={setMyNickName}
+            setDesc={setMyDescription}
           />
           <div className={style.drawal}>
             <Button_Type_A width="100%" onClick={logOut}>

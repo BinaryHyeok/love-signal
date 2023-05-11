@@ -66,7 +66,7 @@ public class ChatServiceImpl implements ChatService{
     public void saveShareMessage(String userUUID, String oppositeTeamUUID) {
         // 메세지를 공유하는 멤버
         UUID uuid = commonUtils.getValidUUID(userUUID);
-        Member member = memberJpaRepository.findMemberByUUID(uuid);
+        Member member = memberJpaRepository.findByUUID(uuid);
 
         // 이성팀 멤버 리스트 조회
         UUID teamUUID = commonUtils.getValidUUID(oppositeTeamUUID);
@@ -133,7 +133,7 @@ public class ChatServiceImpl implements ChatService{
     public void saveResultMessage(String roomUUID, String memberUUID, String oppositeNickname) {
         // 멤버 객체 찾기.
         UUID uuid = commonUtils.getValidUUID(memberUUID);
-        Member member = memberJpaRepository.findMemberByUUID(uuid);
+        Member member = memberJpaRepository.findByUUID(uuid);
 
         // 이성 객체 찾기.
         Member oppositeMember  = memberJpaRepository.findMemberByNickname(oppositeNickname);

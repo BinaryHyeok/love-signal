@@ -10,6 +10,7 @@ type propsType = {
   myImg: string;
   marginTop: string;
   setMyImage: Dispatch<SetStateAction<FormData>>;
+  setChangeImg: Dispatch<SetStateAction<boolean>>;
 };
 
 //마이페이지, 회원가입에 쓸 이미지
@@ -17,6 +18,7 @@ const M_Image_Type: React.FC<propsType> = ({
   myImg,
   marginTop,
   setMyImage,
+  setChangeImg,
 }) => {
   // const publicUrl = process.env.PUBLIC_URL;
   // const filesample = `${publicUrl}/assets/girl5.png`;
@@ -62,6 +64,7 @@ const M_Image_Type: React.FC<propsType> = ({
               visible={visible}
               setVisible={setVisible}
               setMyImage={setMyImage}
+              setChangeImg={setChangeImg}
             />
           </CommonModal>
         </Modal_portal>

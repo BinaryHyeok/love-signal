@@ -10,21 +10,28 @@ type PropsType = {
 };
 
 const M_SignUp_Profile: React.FC<PropsType> = ({ onClick, setMyImage }) => {
-  const [img] = useState<string>("");
+  const [img] = useState<string>("/assets/simpleImg.png");
+  const [changeImg, setChangeImg] = useState<boolean>(false);
   return (
     <>
       <div className={style.userInfo}>
         <A_SignUp_Desc1 />
         <div>
-          <M_Image_Type marginTop="16px" myImg={img} setMyImage={setMyImage} />
+          <M_Image_Type
+            marginTop="16px"
+            myImg={img}
+            setMyImage={setMyImage}
+            setChangeImg={setChangeImg}
+          />
         </div>
         <div className={style.checkBtn}>
           <Button_Type_A
             className="dupleCheck"
             width="236px"
             height="32px"
-            background="#FBCED3"
+            background={changeImg ? "#FBCED3" : "#D9D9D9"}
             onClick={onClick}
+            disabled={changeImg}
           >
             확인
           </Button_Type_A>

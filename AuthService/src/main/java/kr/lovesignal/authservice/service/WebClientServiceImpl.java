@@ -102,30 +102,30 @@ public class WebClientServiceImpl implements WebClientService{
                 .bodyToMono(KauthTokenResponse.class);
     }
 
-    @Override
-    public Mono<KauthAccountResponse> kakaoLogoutApi(String accessToken) {
-        String authorization = "Bearer " + accessToken;
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-        headers.add("Authorization", authorization);
-
-        return webClient.post()
-                .uri(logoutUri)
-                .headers(header -> header.addAll(headers))
-                .retrieve()
-                .bodyToMono(KauthAccountResponse.class);
-    }
-
-    @Override
-    public void kakaoWithLogoutApi() {
-        String uri = "https://kauth.kakao.com/oauth/logout?client_id=" + clientId + "&logout_redirect_uri=" + logoutRedirectUri;
-
-        webClient.get()
-                .uri(uri)
-                .retrieve()
-                .bodyToMono(String.class)
-                .subscribe();
-    }
+//    @Override
+//    public Mono<KauthAccountResponse> kakaoLogoutApi(String accessToken) {
+//        String authorization = "Bearer " + accessToken;
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+//        headers.add("Authorization", authorization);
+//
+//        return webClient.post()
+//                .uri(logoutUri)
+//                .headers(header -> header.addAll(headers))
+//                .retrieve()
+//                .bodyToMono(KauthAccountResponse.class);
+//    }
+//
+//    @Override
+//    public void kakaoWithLogoutApi() {
+//        String uri = "https://kauth.kakao.com/oauth/logout?client_id=" + clientId + "&logout_redirect_uri=" + logoutRedirectUri;
+//
+//        webClient.get()
+//                .uri(uri)
+//                .retrieve()
+//                .bodyToMono(String.class)
+//                .subscribe();
+//    }
 
     @Override
     public void createSystemChatRoomApi(String strMemberUUID){

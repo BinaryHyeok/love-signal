@@ -37,12 +37,7 @@ spring:
         - id: chatting-service
           uri: lb://chatting-service
           predicates:
-            - Path=/chat/**
-            - Path=/chatRoom/**
-            - Path=/ws-stomp/**
-            - Path=/pub/**
-            - Path=/sub/**
-            - Path=/webjars/**
+            - Path=/chat/** , /chatRoom/**, /ws-stomp/**, /pub/**, /sub/**, /webjars/**
           filters:
             - name: Authentication
 

@@ -1,7 +1,6 @@
 package kr.lovesignal.memberservice.model.request;
 
 import kr.lovesignal.memberservice.entity.MemberEntity;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -18,11 +17,16 @@ public class UpdateMemberRequest {
         return MemberEntity.builder()
                 .memberId(member.getMemberId())
                 .nickname(nickname)
+                .email(member.getEmail())
+                .kakaoId(member.getKakaoId())
                 .gender(member.getGender())
                 .birth(member.getBirth())
                 .description(description)
                 .teamLeader(member.getTeamLeader())
+                .profileImages(member.getProfileImages())
+                .participants(member.getParticipants())
                 .UUID(member.getUUID())
+                .team(member.getTeam())
                 .createdDate(member.getCreatedDate())
                 .updatedDate(LocalDateTime.now())
                 .expired(member.getExpired())

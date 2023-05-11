@@ -4,7 +4,9 @@ import axios from "axios";
 export const changeMyInfo = async (
   memberUUID: string,
   nickname: string,
-  description: string
+  description: string,
+  atk: string,
+  kID: string
 ) => {
   return await axios({
     method: "put",
@@ -13,6 +15,10 @@ export const changeMyInfo = async (
       memberUUID: memberUUID,
       nickname: nickname,
       description: description,
+    },
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
     },
   });
 };

@@ -3,6 +3,10 @@ server:
   ssl:
     enabled: false
 
+logging:
+  level:
+    root: DEBUG
+
 spring:
   application:
     name: chatting-service

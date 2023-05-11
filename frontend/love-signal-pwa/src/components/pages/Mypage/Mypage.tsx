@@ -109,6 +109,8 @@ const Mypage = () => {
             age={myAge}
             nickname={myNickName}
             description={myDescription}
+            setNick={setMyNickName}
+            setDesc={setMyDescription}
           />
           <div className={style.drawal}>
             <Button_Type_A width="100%" onClick={logOut}>

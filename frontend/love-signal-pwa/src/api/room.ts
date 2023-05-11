@@ -1,13 +1,18 @@
 import axios from "axios";
 
 //채팅방 목록 불러오기
-export const getChatRoomList = async (uuid: string) => {
+export const getChatRoomList = async (
+  uuid: string,
+  atk: string,
+  kID: string
+) => {
   return await axios({
     method: "get",
     url: `${process.env.REACT_APP_API}/chatRoom/${uuid}`,
-    // headers: {
-    //   "X-Auth_Token": "AccessToken",
-    // },
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
+    },
   });
 };
 

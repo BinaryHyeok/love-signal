@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { motion } from "framer-motion";
+
+import { contentVariants } from "../../atoms/Common/contentVariants";
 
 import style from "./styles/Chat.module.scss";
 
@@ -150,7 +153,11 @@ const Chat = () => {
   };
 
   return (
-    <div
+    <motion.div
+      variants={contentVariants}
+      initial="hidden"
+      animate="visible"
+      // exit="exit"
       className={`${style.container} ${
         selectedRoom.uuid ? style.expanded : ""
       }`}
@@ -186,7 +193,7 @@ const Chat = () => {
         // chatList={chat}
         // onTextSend={textSendHandler}
       /> */}
-    </div>
+    </motion.div>
   );
 };
 

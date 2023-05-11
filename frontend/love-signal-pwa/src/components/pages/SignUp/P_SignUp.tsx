@@ -12,6 +12,8 @@ import { useRecoilState } from "recoil";
 import { kid, myMemberUUID, myatk, myatkET } from "../../../atom/member";
 import { changeMyImg } from "../../../api/file";
 import cookie from "react-cookies";
+import { motion } from "framer-motion";
+import { contentVariants } from "../../atoms/Common/contentVariants";
 
 const P_SignUp = () => {
   const navigate = useNavigate();
@@ -147,7 +149,13 @@ const P_SignUp = () => {
   };
 
   return (
-    <div className={`${style.Container} diagonal-gradient`}>
+    <motion.div
+      variants={contentVariants}
+      initial="hidden"
+      animate="visible"
+      // exit="exit"
+      className={`${style.Container} diagonal-gradient`}
+    >
       <div className={style.center}>
         <A_MainLogo />
         {!checkProfileOk && !checkNickOk && !checkBirthOk && !checkGenderOk && (
@@ -189,7 +197,7 @@ const P_SignUp = () => {
           />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

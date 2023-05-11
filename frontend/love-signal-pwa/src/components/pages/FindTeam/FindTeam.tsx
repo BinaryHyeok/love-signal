@@ -10,6 +10,8 @@ import O_FindTeamMenu from "../../organisms/FindTeam/O_FindTeamMenu";
 import { getMyTeam, withdrawTeam } from "../../../api/team";
 import { myMemberUUID } from "../../../atom/member";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";
+import { motion } from "framer-motion";
+import { contentVariants } from "../../atoms/Common/contentVariants";
 
 const FindTeam = () => {
   const navigate = useNavigate();
@@ -40,14 +42,20 @@ const FindTeam = () => {
   const [myUUID] = useRecoilState<string>(myMemberUUID);
 
   return (
-    <div className={`${style.container}`}>
+    <motion.div
+      variants={contentVariants}
+      initial="hidden"
+      animate="visible"
+      // exit="exit"
+      className={`${style.container}`}
+    >
       <TeamBuildFilter>
         <T_FindTeam>
           <M_FindTeamDesc />
           <O_FindTeamMenu />
         </T_FindTeam>
       </TeamBuildFilter>
-    </div>
+    </motion.div>
   );
 };
 

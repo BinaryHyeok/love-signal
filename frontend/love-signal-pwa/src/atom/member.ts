@@ -61,3 +61,8 @@ export const myGender = atom<string>({
   default: "M",
   effects_UNSTABLE: [persistAtom],
 });
+
+export const validRoomId = atom<boolean>({
+  key: "validRoomId",
+  default: false,
+});

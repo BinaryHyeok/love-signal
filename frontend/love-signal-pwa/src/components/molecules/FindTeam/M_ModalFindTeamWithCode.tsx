@@ -6,11 +6,13 @@ import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
 import A_Heartline from "../../atoms/Common/A_Heartline";
 
 type PropsType = {
+  isErr: boolean;
   enterTeam: () => void;
   setEnterTeamUUID: Dispatch<SetStateAction<string>>;
 };
 
 const M_ModalFindTeamWithCode: React.FC<PropsType> = ({
+  isErr,
   enterTeam,
   setEnterTeamUUID,
 }) => {
@@ -33,7 +35,13 @@ const M_ModalFindTeamWithCode: React.FC<PropsType> = ({
         margin="8px 0 16px 0"
         onChange={writeTeamCode}
       />
+      {isErr && (
+        <A_TextHighlight color="blue">
+          유효하지 않은 방 코드입니다.
+        </A_TextHighlight>
+      )}
       <Button_Type_B
+        margin="8px 0 8px 0"
         width="120px"
         height="30px"
         background="#CAD9FF"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "./styles/TeamBuild.module.scss";
 import T_TeamBuildRoom from "../../templates/TeamBuild/T_TeamBuildRoom";
 import M_TeamBuildHeader from "../../molecules/TeamBuild/M_TeamBuildHeader";
@@ -14,6 +14,7 @@ import {
   myatk,
 } from "../../../atom/member";
 import { useNavigate } from "react-router-dom";
+import { inquireMember } from "../../../api/auth";
 
 const TeamBuild = () => {
   const navigate = useNavigate();
@@ -24,6 +25,16 @@ const TeamBuild = () => {
   const [kID] = useRecoilState<string>(kid);
   const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [isLeader, setIsLeader] = useRecoilState<boolean>(imLeader);
+
+  useEffect(() => {
+    inquireMember(myUUID, atk, kID)
+      .then((res) => {
+        setTeamUUID(res.data.body.teamUUID);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   //팀 나가기 함수입니다.
   const exitTeam = () => {
@@ -45,7 +56,7 @@ const TeamBuild = () => {
       <T_TeamBuildRoom>
         <M_TeamBuildHeader teamCode="B309" />
         <O_TeamMemberList setMemberLength={setMemberLength} />
-        {isLeader && (
+        {/* {isLeader && (
           <Button_Type_A
             width="212px"
             height="52px"
@@ -53,7 +64,7 @@ const TeamBuild = () => {
             disabled={memberLength === 3 ? false : true}
             children="팀 생성하기"
           />
-        )}
+        )} */}
         <Button_Type_A
           width="212px"
           height="52px"

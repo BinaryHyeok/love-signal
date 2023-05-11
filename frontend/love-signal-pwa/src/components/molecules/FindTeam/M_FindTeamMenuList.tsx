@@ -9,11 +9,11 @@ import { getMyTeam, joinTeam } from "../../../api/team";
 import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
-import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 
 import { AnimatePresence } from "framer-motion";
 import { member } from "../../../types/member";
 import Ground from "../../UI/Three/Ground";
+import { validRoomId } from "../../../atom/member";
 
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ const M_FindTeamMenuList = () => {
   const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
+  const [isErr, setIsErr] = useRecoilState<boolean>(validRoomId);
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
 
@@ -37,9 +38,20 @@ const M_FindTeamMenuList = () => {
     //여기에서 axios요청을해서 해당 팀으로 입장.
     joinTeam(myUUID, enterTeamUUID, atk, kID)
       .then((res) => {
+        setIsErr(false);
         console.log(res);
+        //여기서 setTeamUUID를 설정해야합니다.
+        setTeamUUID(enterTeamUUID);
+        getMyTeam(enterTeamUUID, atk, kID).then((res) => {
+          if (res.data.body.members.length === 3) {
+            navigate("/Samegender/myTeam");
+          } else {
+            navigate("/Samegender/build");
+          }
+        });
       })
       .catch((err) => {
+        setIsErr(true);
         console.log(err);
       });
   };
@@ -97,6 +109,7 @@ const M_FindTeamMenuList = () => {
             height="200px"
           >
             <M_ModalFindTeamWithCode
+              isErr={isErr}
               enterTeam={enterTeam}
               setEnterTeamUUID={setEnterTeamUUID}
             />

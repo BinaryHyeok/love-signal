@@ -82,7 +82,10 @@ const Chat = () => {
   }, []);
 
   const connectChatServer = async (roomUUID: string) => {
-    const header = {};
+    const header = {
+      "Access-Control-Allow-origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+    };
     ws.connect(header, (frame: any) => {
       console.log("방 입장 : " + roomUUID);
       ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {

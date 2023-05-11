@@ -55,9 +55,7 @@ const Mypage = () => {
     logout(atk, kID)
       .then((res) => {
         cookie.remove("rtk", { path: "/" });
-        setMyAtk("");
-        setMyAtkET(new Date());
-
+        localStorage.removeItem("localStorage");
         navigate("/");
       })
       .catch((err) => {

@@ -2,19 +2,23 @@ import style from "./styles/GenderLabel.module.scss";
 
 type propstType = {
   gender: string;
-  changeGender: (e: React.MouseEvent<HTMLElement>) => void;
+  changeGender: (e: React.ChangeEvent<HTMLElement>) => void;
 };
 
 const A_FemaleLabel: React.FC<propstType> = ({ gender, changeGender }) => {
   return (
     <div className={style.container}>
-      <label className={`${style.selectGender} ${style.female}`}>
+      <label
+        className={`${style.selectGender} ${style.female}`}
+        htmlFor="female"
+      >
         <input
           type="radio"
-          name="F"
+          name="gender"
           value="F"
-          checked={gender === "F"}
-          onClick={changeGender}
+          id="female"
+          // checked={false}
+          onChange={changeGender}
           className={style.radio}
         />
         <img src="/assets/female.png" id="F" className={style.genderImg} />

@@ -9,7 +9,7 @@ type propsType = {
 };
 
 const Input_Type_C: React.FC<propsType> = ({ gender, setGender }) => {
-  const changeGender = (e: React.MouseEvent<HTMLElement>) => {
+  const changeGender = (e: React.ChangeEvent<HTMLElement>) => {
     const target = e.target as HTMLInputElement;
     setGender(target.value);
   };

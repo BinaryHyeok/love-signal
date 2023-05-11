@@ -9,6 +9,7 @@ import { myMemberUUID, myTeamUUID } from "../../../atom/member";
 import { changeMyInfo } from "../../../api/auth";
 import { myatk } from "../../../atom/member";
 import { kid } from "../../../atom/member";
+import Age from "./Age";
 
 type propsType = {
   age: number;
@@ -57,14 +58,9 @@ const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
     <>
       <div className={style.container}>
         {changeName ? (
-          <NickName
-            age={age}
-            nickname={myNickName}
-            changeName={setChangeName}
-          />
+          <NickName nickname={myNickName} changeName={setChangeName} />
         ) : (
           <EditNickName
-            age={age}
             nickname={myNickName}
             changeName={setChangeName}
             applyInfo={applyInfo}
@@ -87,6 +83,7 @@ const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
             setMyIntroduce={setMyIntroduce}
           />
         )}
+        <Age age={age} />
       </div>
     </>
   );

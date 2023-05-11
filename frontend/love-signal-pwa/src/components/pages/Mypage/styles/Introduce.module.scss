@@ -2,12 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .introduceText {
   margin-top: 0.8rem;
-  width: 272px;
+  width: calc(100% - 32px);
   overflow-wrap: break-word;
+  height: 1.2rem;
   margin-bottom: 5.6px;
   text-align: center;
 }

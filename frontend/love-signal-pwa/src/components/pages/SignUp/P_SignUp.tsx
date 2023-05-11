@@ -55,6 +55,7 @@ const P_SignUp = () => {
           );
           if (res.data.body.memberUUID !== null) {
             navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
+            setMemberUUID(res.data.body.memberUUID);
           }
         })
         .catch((err) => {

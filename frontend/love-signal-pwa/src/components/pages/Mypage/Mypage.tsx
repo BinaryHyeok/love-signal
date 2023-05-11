@@ -4,7 +4,7 @@ import style from "./styles/Mypage.module.scss";
 import { useRecoilState } from "recoil";
 import M_Image_Type from "../../UI/Common/M_Image_Type";
 import MyInfo from "./MyInfo";
-import { inquireMember } from "../../../api/auth";
+import { inquireMember, logout } from "../../../api/auth";
 
 import { kid, myMemberUUID } from "../../../atom/member";
 import { withdrawMember } from "../../../api/auth";
@@ -51,11 +51,18 @@ const Mypage = () => {
     //쿠키에 저장된 rtk삭제.
     //Recoil에 저장된 atk삭제.
     //Recoil에 저장된 만료기간 삭제.
-    cookie.remove("rtk", { path: "/" });
-    setMyAtk("");
-    setMyAtkET(new Date());
 
-    navigate("/");
+    logout(atk, kID)
+      .then((res) => {
+        cookie.remove("rtk", { path: "/" });
+        setMyAtk("");
+        setMyAtkET(new Date());
+
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("로그아웃 실패");
+      });
   };
 
   //회원탈퇴 함수입니다.

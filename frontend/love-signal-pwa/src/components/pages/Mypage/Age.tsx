@@ -5,7 +5,7 @@ type PropsType = { age: number };
 const Age: React.FC<PropsType> = ({ age }) => {
   return (
     <>
-      <div className={style.age}>({age})</div>
+      <div className={style.age}>{age}살</div>
     </>
   );
 };

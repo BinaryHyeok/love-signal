@@ -59,27 +59,18 @@ const TeamBuild = () => {
   };
 
   return (
-    <motion.div
-      variants={contentVariants}
-      initial="hidden"
-      animate="visible"
-      // exit="exit"
-      className={style.container}
-    >
-      <TeamBuildFilter>
+    <TeamBuildFilter>
+      <motion.div
+        variants={contentVariants}
+        initial="hidden"
+        animate="visible"
+        // exit="exit"
+        className={style.container}
+      >
         <T_TeamBuildRoom>
           <M_TeamBuildHeader teamCode="나의 팀" />
           <M_TeamCode />
           <O_TeamMemberList setMemberLength={setMemberLength} />
-          {/* {isLeader && (
-          <Button_Type_A
-            width="212px"
-            height="52px"
-            background={memberLength === 3 ? "#cad9ff" : "#d9d9d9"}
-            disabled={memberLength === 3 ? false : true}
-            children="팀 생성하기"
-          />
-        )} */}
           <Button_Type_A
             width="90%"
             height="40px"
@@ -92,8 +83,8 @@ const TeamBuild = () => {
             * 주의 : 팀 나가기를 누르면 방이 터집니다
           </A_TextHighlight_Blink>
         </T_TeamBuildRoom>
-      </TeamBuildFilter>
-    </motion.div>
+      </motion.div>
+    </TeamBuildFilter>
   );
 };
 

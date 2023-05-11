@@ -24,20 +24,25 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
   //팀이 있는지 없는지 파악.
   const TeamFilter = () => {
     if (teamUUID !== null || teamUUID !== "") {
-      getMyTeam(teamUUID, atk, kID).then((res) => {
-        //내가 상대팀을 가지고 있는지를 파악.
-        setTeamUUID(res.data.body.teamUUID);
-        if (
-          !res.data.body.haveMeetingTeam &&
-          res.data.body.members.length !== 3
-        ) {
-          navigate("/Samegender/build");
-        } else {
-          navigate("/Samegender/myTeam");
-        }
-      });
+      getMyTeam(teamUUID, atk, kID)
+        .then((res) => {
+          //내가 상대팀을 가지고 있는지를 파악.
+          setTeamUUID(res.data.body.teamUUID);
+          if (
+            !res.data.body.haveMeetingTeam &&
+            res.data.body.members.length !== 3
+          ) {
+            navigate("/Samegender/build");
+          } else {
+            navigate("/Samegender/myTeam");
+          }
+        })
+        .catch(() => {
+          navigate("/SameGender", { replace: true });
+        });
     } else {
       setTeamUUID("");
+      navigate("/SameGender", { replace: true });
     }
   };
 

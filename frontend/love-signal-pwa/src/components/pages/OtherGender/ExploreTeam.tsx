@@ -67,8 +67,6 @@ const ExploreTeam = () => {
     const OGender: string = gender === "F" ? "M" : "F";
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
       .then((res) => {
-        console.log(gender);
-        console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
         adduuidList(res.data.body.teams);

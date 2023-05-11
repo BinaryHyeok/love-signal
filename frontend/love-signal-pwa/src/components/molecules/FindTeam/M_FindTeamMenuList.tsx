@@ -41,6 +41,13 @@ const M_FindTeamMenuList = () => {
       .then((res) => {
         setIsErr(false);
         console.log(res);
+        getMyTeam(enterTeamUUID, atk, kID).then((res) => {
+          if (res.data.body.members.length === 3) {
+            navigate("/Samegender/myTeam");
+          } else {
+            navigate("/Samegender/build");
+          }
+        });
       })
       .catch((err) => {
         setIsErr(true);

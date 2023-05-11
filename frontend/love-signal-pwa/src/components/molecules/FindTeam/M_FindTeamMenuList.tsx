@@ -38,6 +38,7 @@ const M_FindTeamMenuList = () => {
       .then((res) => {
         console.log(res);
         //여기서 setTeamUUID를 설정해야합니다.
+        setTeamUUID(enterTeamUUID);
         getMyTeam(enterTeamUUID, atk, kID).then((res) => {
           if (res.data.body.members.length === 3) {
             navigate("/Samegender/myTeam");

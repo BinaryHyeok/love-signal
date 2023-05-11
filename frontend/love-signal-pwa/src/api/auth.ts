@@ -23,14 +23,6 @@ export const changeMyInfo = async (
   });
 };
 
-//회원탈퇴
-export const withdrawMember = async (memberUUID: string) => {
-  return await axios({
-    method: "delete",
-    url: `${process.env.REACT_APP_API}/member/${memberUUID}`,
-  });
-};
-
 //회원정보 조회
 export const inquireMember = async (
   memberUUID: string,
@@ -90,18 +82,6 @@ export const signUp = async (
       gender: gender,
       birth: birth,
       description: description,
-    },
-  });
-};
-
-//로그아웃
-export const logout = async (atk: string, kID: string) => {
-  return await axios({
-    method: "post",
-    url: `${process.env.REACT_APP_API_AUTH}/auth/logout`,
-    headers: {
-      "X-Auth_Token": atk,
-      "X-Auth_ID": kID,
     },
   });
 };

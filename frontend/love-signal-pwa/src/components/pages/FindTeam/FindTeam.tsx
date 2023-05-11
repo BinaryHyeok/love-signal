@@ -42,20 +42,20 @@ const FindTeam = () => {
   const [myUUID] = useRecoilState<string>(myMemberUUID);
 
   return (
-    <motion.div
-      variants={contentVariants}
-      initial="hidden"
-      animate="visible"
-      // exit="exit"
-      className={`${style.container}`}
-    >
-      <TeamBuildFilter>
+    <TeamBuildFilter>
+      <motion.div
+        variants={contentVariants}
+        initial="hidden"
+        animate="visible"
+        // exit="exit"
+        className={`${style.container}`}
+      >
         <T_FindTeam>
           <M_FindTeamDesc />
           <O_FindTeamMenu />
         </T_FindTeam>
-      </TeamBuildFilter>
-    </motion.div>
+      </motion.div>
+    </TeamBuildFilter>
   );
 };
 

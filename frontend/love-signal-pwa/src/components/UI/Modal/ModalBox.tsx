@@ -3,6 +3,7 @@ import style from "./ModalBox.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 
 type propsType = {
+  visible: boolean;
   width: string;
   height: string;
   closeModal: () => void;
@@ -10,6 +11,7 @@ type propsType = {
 };
 
 const ModalBox: React.FC<propsType> = ({
+  visible,
   width,
   height,
   closeModal,
@@ -18,7 +20,7 @@ const ModalBox: React.FC<propsType> = ({
   return (
     <AnimatePresence>
       <motion.div
-        className={style.modal}
+        className={`${style.modal} ${visible ? "" : `${style.dropdown}`}`}
         key="modal"
         style={{
           width: `${width}`,

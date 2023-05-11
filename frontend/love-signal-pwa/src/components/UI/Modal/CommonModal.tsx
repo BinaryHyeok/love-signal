@@ -24,12 +24,15 @@ const MemberDetail: React.FC<propsType> = ({
 
   const closeModal = () => {
     setIsErr(false);
-    setVisible(false);
+    setTimeout(() => {
+      setVisible(false);
+    }, 400);
   };
   return (
     <div className={style.container}>
       <div className={style.background} onClick={closeModal}></div>
       <ModalBox
+        visible={visible}
         width={width}
         height={height}
         closeModal={closeModal}

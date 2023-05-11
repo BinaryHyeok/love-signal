@@ -66,8 +66,3 @@ export const validRoomId = atom<boolean>({
   key: "validRoomId",
   default: false,
 });
-
-// export const copyRoodId = atom<boolean>({
-//   key: "isCopy",
-//   default: false,
-// });

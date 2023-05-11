@@ -35,6 +35,9 @@ public class AuthController {
     @Value("${spring.security.oauth2.client.kakao.redirect-uri}")
     private String redirectUri;
 
+    @Value("${spring.security.oauth2.client.kakao.logout-redirect-uri}")
+    private String logoutRedirectUri;
+
     @GetMapping("/kakao/login")
     public void kakaoOauthLogin(HttpServletResponse response) throws IOException {
         String redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, redirectUri);
@@ -90,20 +93,26 @@ public class AuthController {
                 .body(successResponse);
     }
 
-    @PostMapping("/logout")
-    @ApiOperation(value = "로그아웃")
-    public ResponseEntity<String> logout(@RequestHeader("X-Auth_Token") String accessToken){
+//    @PostMapping("/logout")
+//    @ApiOperation(value = "로그아웃")
+//    public ResponseEntity<String> logout(@RequestHeader("X-Auth_Token") String accessToken){
+//
+//        KauthAccountResponse k = webClientService.kakaoLogoutApi(accessToken).block();
+//        System.out.println("토큰 만료 완료");
+//        System.out.println(k.getId());
+//        webClientService.kakaoWithLogoutApi();
+//        System.out.println("카카오톡 로그아웃 완료");
+//
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body("로그아웃 되었습니다.");
+//    }
 
-        KauthAccountResponse k = webClientService.kakaoLogoutApi(accessToken).block();
-        System.out.println("토큰 만료 완료");
-        System.out.println(k.getId());
-        webClientService.kakaoWithLogoutApi();
-        System.out.println("카카오톡 로그아웃 완료");
-
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("로그아웃 되었습니다.");
+    @GetMapping("/kakao/logout")
+    public void kakaoOauthLogout(HttpServletResponse response) throws IOException {
+        String redirect_uri = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s", clientId, logoutRedirectUri);
+        response.sendRedirect(redirect_uri);
     }
 
 

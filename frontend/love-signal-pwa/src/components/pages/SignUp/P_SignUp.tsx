@@ -46,16 +46,15 @@ const P_SignUp = () => {
       login(queryParam)
         .then((res) => {
           console.log(res);
+          saveMyInfo(
+            res.data.body.accessToken,
+            res.data.body.refreshToken,
+            res.data.body.accessTokenExpireTime,
+            res.data.body.refreshTokenExpireTime,
+            res.data.body.kakaoId
+          );
           if (res.data.body.memberUUID !== null) {
             navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
-          } else {
-            saveMyInfo(
-              res.data.body.accessToken,
-              res.data.body.refreshToken,
-              res.data.body.accessTokenExpireTime,
-              res.data.body.refreshTokenExpireTime,
-              res.data.body.kakaoId
-            );
           }
         })
         .catch((err) => {

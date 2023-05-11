@@ -8,11 +8,12 @@ import { team } from "../../../types/member";
 import { getOtherGenderTeam } from "../../../api/team";
 import MsgModal from "../../UI/Modal/MsgModal";
 import T_OtherGender from "./T_OtherGender";
-import { imLeader, myGender, myatk } from "../../../atom/member";
+import { imLeader, myGender, myatk, myatkET } from "../../../atom/member";
 import { kid } from "../../../atom/member";
-import { inquireMember } from "../../../api/auth";
+import { expireATK, inquireMember } from "../../../api/auth";
 import { myMemberUUID } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
+import cookie from "react-cookies";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -33,12 +34,39 @@ const ExploreTeam = () => {
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
-  const [atk] = useRecoilState<string>(myatk);
-  const [kID] = useRecoilState<string>(kid);
+  const [atk, setATK] = useRecoilState<string>(myatk);
+  const [atkET, setAtkET] = useRecoilState<Date>(myatkET);
+  const [kID, setKakaoId] = useRecoilState<string>(kid);
   const [leader, setLeader] = useRecoilState<boolean>(imLeader);
   const [gender, setGender] = useRecoilState<string>(myGender);
 
+  const expireCompare = () => {
+    const date = new Date();
+    const rtk = cookie.load("rtk");
+    const date1 = new Date(atkET);
+    console.log(atkET);
+
+    if (date > date1) {
+      //내 atk의 만료시간이 끝났기 때문에 refreshToken을 보내줘.
+      expireATK(rtk)
+        .then((res) => {
+          setATK(res.data.body.accessToken);
+          let nowDate: Date = new Date();
+          nowDate.setSeconds(
+            nowDate.getSeconds() + res.data.body.accessTokenExpireTime
+          );
+          setAtkET(nowDate);
+          setKakaoId(res.data.body.kakaoId);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   useEffect(() => {
+    expireCompare();
     getMyInfo();
     setIdx(0);
     getList();

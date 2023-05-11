@@ -117,13 +117,14 @@ public class WebClientServiceImpl implements WebClientService{
     }
 
     @Override
-    public Mono<String> kakaoWithLogoutApi() {
+    public void kakaoWithLogoutApi() {
         String uri = "https://kauth.kakao.com/oauth/logout?client_id=" + clientId + "&logout_redirect_uri=" + logoutRedirectUri;
 
-        return webClient.get()
+        webClient.get()
                 .uri(uri)
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(String.class)
+                .subscribe();
     }
 
     @Override

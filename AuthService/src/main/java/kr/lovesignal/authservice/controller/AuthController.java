@@ -95,9 +95,10 @@ public class AuthController {
     public ResponseEntity<String> logout(@RequestHeader("X-Auth_Token") String accessToken){
 
         KauthAccountResponse k = webClientService.kakaoLogoutApi(accessToken).block();
-        log.debug("토큰 만료 완료{}", k.getId());
-        String state = webClientService.kakaoWithLogoutApi().block();
-        log.debug("카카오톡 로그아웃 완료{}",state);
+        System.out.println("토큰 만료 완료");
+        System.out.println(k.getId());
+        webClientService.kakaoWithLogoutApi();
+        System.out.println("카카오톡 로그아웃 완료");
 
 
         return ResponseEntity

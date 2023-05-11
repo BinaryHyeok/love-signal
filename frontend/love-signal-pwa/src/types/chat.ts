@@ -12,6 +12,7 @@ export type chat = {
   createdDate?: string;
   updatedDate?: string;
   expired?: String;
+  notReadPerson?: string[];
   selectOrShareInfo?: {
     nicknames: string[];
     profiles: string[];

@@ -3,7 +3,6 @@ import Input_Type_A from "../../UI/Common/Input_Type_A";
 import style from "./styles/NickName.module.scss";
 import Mypage_Check_Btn from "../../UI/Common/MyPage_Check_Btn";
 import { duplicateCheck } from "../../../api/auth";
-import { changeMyInfo } from "../../../api/auth";
 
 type propsType = {
   nickname: string;
@@ -50,7 +49,6 @@ const EditNickName: React.FC<propsType> = ({
 
   return (
     <div className={style.containerEdit}>
-      {/* <div>닉네임</div> */}
       <div className={style.btnContainer}>
         <Input_Type_A
           type="text"

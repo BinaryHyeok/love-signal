@@ -19,7 +19,7 @@ const FindTeam = () => {
   useEffect(() => {
     setIdx(1);
     //내가 만약 teamUUID를 가지고있다면 그 MyTeam으로 가야한다.
-    if (teamUUID !== "") {
+    if (teamUUID !== null || teamUUID !== "") {
       getMyTeam(teamUUID, atk, kID).then((res) => {
         //내가 상대팀을 가지고 있는지를 파악.
         if (

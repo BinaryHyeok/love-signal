@@ -9,7 +9,6 @@ import { getMyTeam, joinTeam } from "../../../api/team";
 import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
-import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 
 import { AnimatePresence } from "framer-motion";
 import { member } from "../../../types/member";
@@ -41,6 +40,7 @@ const M_FindTeamMenuList = () => {
       .then((res) => {
         setIsErr(false);
         console.log(res);
+        //여기서 setTeamUUID를 설정해야합니다.
         getMyTeam(enterTeamUUID, atk, kID).then((res) => {
           if (res.data.body.members.length === 3) {
             navigate("/Samegender/myTeam");

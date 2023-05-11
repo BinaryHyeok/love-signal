@@ -35,6 +35,7 @@ const EditNickName: React.FC<propsType> = ({
       toggleMode();
       return;
     }
+
     duplicateCheck(currNick)
       .then(() => {
         nickSubmitHandler(currNick);

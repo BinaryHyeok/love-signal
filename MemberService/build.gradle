@@ -73,6 +73,9 @@ dependencies {
     // spring cloud config
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
+    // Actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 }
 
 dependencyManagement {

@@ -13,7 +13,7 @@ public interface WebClientService {
 
     Mono<KauthTokenResponse> refreshKakaoTokenApi(String refreshToken);
 
-    Mono<Long> kakaoLogoutApi(String accessToken);
+    Mono<KauthAccountResponse> kakaoLogoutApi(String accessToken);
 
     Mono<String> kakaoWithLogoutApi();
 

@@ -3,6 +3,7 @@ package kr.lovesignal.authservice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.lovesignal.authservice.model.request.SignUpRequest;
+import kr.lovesignal.authservice.model.response.KauthAccountResponse;
 import kr.lovesignal.authservice.model.response.SuccessResponse;
 import kr.lovesignal.authservice.service.AuthService;
 import kr.lovesignal.authservice.service.WebClientService;
@@ -93,8 +94,8 @@ public class AuthController {
     @ApiOperation(value = "로그아웃")
     public ResponseEntity<String> logout(@RequestHeader("X-Auth_Token") String accessToken){
 
-        Long id = webClientService.kakaoLogoutApi(accessToken).block();
-        log.debug("토큰 만료 완료{}", id);
+        KauthAccountResponse k = webClientService.kakaoLogoutApi(accessToken).block();
+        log.debug("토큰 만료 완료{}", k.getId());
         String state = webClientService.kakaoWithLogoutApi().block();
         log.debug("카카오톡 로그아웃 완료{}",state);
 

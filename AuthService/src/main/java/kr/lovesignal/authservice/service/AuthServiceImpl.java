@@ -7,6 +7,7 @@ import kr.lovesignal.authservice.model.response.*;
 import kr.lovesignal.authservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class AuthServiceImpl implements AuthService{
      * @return 등록한 유저의 UUID
      */
     @Override
+    @Transactional
     public String registerMember(SignUpRequest signUpRequest, String accessToken) {
 
         KauthAccountResponse kauthAccountResponse =

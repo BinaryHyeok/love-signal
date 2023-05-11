@@ -19,6 +19,7 @@ const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [myAge, setMyAge] = useState<number>(0);
   const [myImg, setMyImg] = useState<string>("");
+  const [changeImg, setChangeImg] = useState<boolean>(false); //changeImg가 true면 이미지 바뀐것. 언젠간 쓰지않을까.
   const [myNickName, setMyNickName] = useState<string>("");
   const [myDescription, setMyDescription] = useState<string>("");
   const [myCropImage, setMyCropImage] = useState<FormData>(new FormData());
@@ -65,11 +66,11 @@ const Mypage = () => {
   };
 
   //회원탈퇴 함수입니다.
-  const withdrawal = () => {
-    withdrawMember(UUID)
-      .then((err) => {})
-      .catch((err) => {});
-  };
+  // const withdrawal = () => {
+  //   withdrawMember(UUID)
+  //     .then((err) => {})
+  //     .catch((err) => {});
+  // };
 
   useEffect(() => {
     if (start) {
@@ -90,6 +91,7 @@ const Mypage = () => {
             myImg={myImg}
             marginTop="8px"
             setMyImage={setMyCropImage}
+            setChangeImg={setChangeImg}
           />
           <MyInfo
             age={myAge}
@@ -101,11 +103,11 @@ const Mypage = () => {
               로그아웃
             </Button_Type_A>
           </div>
-          <div className={style.drawal2}>
+          {/* <div className={style.drawal2}>
             <Button_Type_A width="100%" onClick={withdrawal}>
               회원탈퇴
             </Button_Type_A>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

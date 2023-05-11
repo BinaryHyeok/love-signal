@@ -5,7 +5,8 @@ import { footerIsOn } from "../../../atom/footer";
 import { useRecoilState } from "recoil";
 import style from "./Footer.module.scss";
 import A_FooterIcon from "./A_FooterIcon";
-import { myTeamUUID } from "../../../atom/member";
+import { kid, myTeamUUID, myatk } from "../../../atom/member";
+import { getMyTeam } from "../../../api/team";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Footer = () => {
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [isOn, setFooterIsOn] = useRecoilState<boolean>(footerIsOn);
   const [myTUUID, setMyT] = useRecoilState<string>(myTeamUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   const [color, setColor] = useState<string[]>([
     "black",
@@ -50,7 +53,16 @@ const Footer = () => {
       if (myTUUID === null || myTUUID === "") {
         setNav(1, "/SameGender");
       } else {
-        setNav(1, "/SameGender/Myteam");
+        getMyTeam(myTUUID, atk, kID).then((res) => {
+          if (
+            !res.data.body.haveMeetingTeam &&
+            res.data.body.members.length !== 3
+          ) {
+            setNav(1, "/SameGender/build");
+          } else {
+            setNav(1, "/SameGender/Myteam");
+          }
+        });
       }
     } else if (navid === 2) {
       setNav(2, "/Chat");

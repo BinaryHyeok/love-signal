@@ -52,14 +52,18 @@ public class AuthServiceImpl implements AuthService{
 
         String memberUUID = webClientService.getMemberUUID(kauthAccountResponse.getKakao_account().getEmail()).block();
 
+        int accessTokenExpireTime = kauthTokenResponse.getExpires_in() != null ?
+                kauthTokenResponse.getExpires_in().intValue() : 0;
+        int refreshTokenExpireTime = kauthTokenResponse.getRefresh_token_expires_in() != null ?
+                kauthTokenResponse.getRefresh_token_expires_in().intValue() : 0;
+
         SignInResponse signInResponse = SignInResponse.builder()
                 .memberUUID(memberUUID)
                 .kakaoId(kauthAccountResponse.getId().toString())
                 .accessToken(kauthTokenResponse.getAccess_token())
-                .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
+                .accessTokenExpireTime(accessTokenExpireTime)
                 .refreshToken(kauthTokenResponse.getRefresh_token())
-                .refreshTokenExpireTime(kauthTokenResponse.getRefresh_token_expires_in() == null ?
-                        0 : kauthTokenResponse.getRefresh_token_expires_in().intValue())
+                .refreshTokenExpireTime(refreshTokenExpireTime)
                 .build();
 
         return responseUtils.buildSuccessResponse(signInResponse);
@@ -96,12 +100,17 @@ public class AuthServiceImpl implements AuthService{
 
         String memberUUID = webClientService.getMemberUUID(kauthAccountResponse.getKakao_account().getEmail()).block();
 
+        int accessTokenExpireTime = kauthTokenResponse.getExpires_in() != null ?
+                kauthTokenResponse.getExpires_in().intValue() : 0;
+        int refreshTokenExpireTime = kauthTokenResponse.getRefresh_token_expires_in() != null ?
+                kauthTokenResponse.getRefresh_token_expires_in().intValue() : 0;
+
         SignInResponse refreshResponse = SignInResponse.builder()
                 .accessToken(kauthTokenResponse.getAccess_token())
                 .kakaoId(kauthAccountResponse.getId().toString())
-                .accessTokenExpireTime(kauthTokenResponse.getExpires_in().intValue())
+                .accessTokenExpireTime(accessTokenExpireTime)
                 .refreshToken(kauthTokenResponse.getRefresh_token())
-                .refreshTokenExpireTime(kauthTokenResponse.getRefresh_token_expires_in().intValue())
+                .refreshTokenExpireTime(refreshTokenExpireTime)
                 .memberUUID(memberUUID)
                 .build();
 

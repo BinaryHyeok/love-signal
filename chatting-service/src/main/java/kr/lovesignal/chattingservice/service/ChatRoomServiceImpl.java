@@ -63,6 +63,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public List<ResChatRoom> getChatRoomList(String userUUID) {
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findByUUID(uuid);
+        if(member == null){
+            System.out.println("이거왜 널임?");
+        }
         System.out.println("================================================");
         System.out.println(uuid.toString());
         System.out.println(member);

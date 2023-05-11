@@ -14,12 +14,12 @@ spring:
       name: mysql,redis
       profile: config
 
-#  cache:
-#    type: redis
-#  redis:
-#    host: 13.125.99.25
-#    port: 6379
-#    password: lovesignal
+  cache:
+    type: redis
+  redis:
+    host: 13.125.99.25
+    port: 6379
+    password: lovesignal
 
   # datasource:
   #   driver-class-name: com.mysql.cj.jdbc.Driver

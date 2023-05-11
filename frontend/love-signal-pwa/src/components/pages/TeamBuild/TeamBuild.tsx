@@ -69,8 +69,8 @@ const TeamBuild = () => {
           />
         )} */}
         <Button_Type_A
-          width="212px"
-          height="52px"
+          width="90%"
+          height="40px"
           background="#BCC5F0"
           onClick={exitTeam}
           children="팀 나가기"

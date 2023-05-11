@@ -9,6 +9,7 @@ import M_FindTeamDesc from "../../molecules/FindTeam/M_FindTeamDesc";
 import O_FindTeamMenu from "../../organisms/FindTeam/O_FindTeamMenu";
 import { getMyTeam, withdrawTeam } from "../../../api/team";
 import { myMemberUUID } from "../../../atom/member";
+import TeamBuildFilter from "../../Filter/TeamBuildFilter";
 
 const FindTeam = () => {
   const navigate = useNavigate();
@@ -40,10 +41,12 @@ const FindTeam = () => {
 
   return (
     <div className={`${style.container}`}>
-      <T_FindTeam>
-        <M_FindTeamDesc />
-        <O_FindTeamMenu />
-      </T_FindTeam>
+      <TeamBuildFilter>
+        <T_FindTeam>
+          <M_FindTeamDesc />
+          <O_FindTeamMenu />
+        </T_FindTeam>
+      </TeamBuildFilter>
     </div>
   );
 };

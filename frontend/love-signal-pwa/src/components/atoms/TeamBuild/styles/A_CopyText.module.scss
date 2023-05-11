@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  width: 288px;
+  justify-content: right;
+  align-items: center;
+  .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    padding: 5px 0 5px 0;
+    background-color: #cad9ff;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+}

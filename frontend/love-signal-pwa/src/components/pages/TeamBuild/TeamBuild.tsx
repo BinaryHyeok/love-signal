@@ -18,6 +18,10 @@ import { inquireMember } from "../../../api/auth";
 import A_Clipboard from "../../atoms/TeamBuild/A_Clipboard";
 import M_TeamCode from "../../molecules/TeamBuild/M_TeamCode";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";
+import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
+import A_TextHighlight_Blink from "../../atoms/Common/A_TextHighlight_Blink";
+import { motion } from "framer-motion";
+import { contentVariants } from "../../atoms/Common/contentVariants";
 
 const TeamBuild = () => {
   const navigate = useNavigate();
@@ -55,7 +59,13 @@ const TeamBuild = () => {
   };
 
   return (
-    <div className={style.container}>
+    <motion.div
+      variants={contentVariants}
+      initial="hidden"
+      animate="visible"
+      // exit="exit"
+      className={style.container}
+    >
       <TeamBuildFilter>
         <T_TeamBuildRoom>
           <M_TeamBuildHeader teamCode="나의 팀" />
@@ -77,9 +87,13 @@ const TeamBuild = () => {
             onClick={exitTeam}
             children="팀 나가기"
           />
+          <br />
+          <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+            * 주의 : 팀 나가기를 누르면 방이 터집니다
+          </A_TextHighlight_Blink>
         </T_TeamBuildRoom>
       </TeamBuildFilter>
-    </div>
+    </motion.div>
   );
 };
 

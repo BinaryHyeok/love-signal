@@ -5,6 +5,8 @@ import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import A_Heartline from "../../atoms/Common/A_Heartline";
+import { motion } from "framer-motion";
+import { contentVariants } from "../../atoms/Common/contentVariants";
 
 type propsType = {
   getList: () => void;
@@ -38,7 +40,13 @@ const T_OtherGender: React.FC<propsType> = ({
   };
 
   return (
-    <div className={style.otherContainer}>
+    <motion.div
+      variants={contentVariants}
+      initial="hidden"
+      animate="visible"
+      // exit="exit"
+      className={style.otherContainer}
+    >
       <A_OtherTeamDesc />
       <div className={style.imgContainer} onScroll={handleScroll}>
         {team.map((item, idx) => (
@@ -54,7 +62,7 @@ const T_OtherGender: React.FC<propsType> = ({
           </ListBoxWithImgTitle>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -14,6 +14,7 @@ import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { applyTeam } from "../../../types/member";
 import { useNavigate } from "react-router-dom";
 import { imLeader } from "../../../atom/member";
+import TeamBuildFilter from "../../Filter/TeamBuildFilter";
 
 const MyTeam = () => {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ const MyTeam = () => {
   };
 
   return (
-    <>
+    <TeamBuildFilter>
       {myVisible && !oppoVisible && (
         <Modal_portal>
           <CheckTeam
@@ -136,7 +137,7 @@ const MyTeam = () => {
           </T_MyTeam>
         </div>
       )}
-    </>
+    </TeamBuildFilter>
   );
 };
 

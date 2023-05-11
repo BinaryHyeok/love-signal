@@ -13,7 +13,7 @@ const Footer = () => {
 
   const [idx, setIdx] = useRecoilState<number>(footerIdx);
   const [isOn, setFooterIsOn] = useRecoilState<boolean>(footerIsOn);
-  const [myTUUID, setMyT] = useRecoilState<string>(myTeamUUID);
+  const [myTUUID, setMyTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
@@ -50,10 +50,9 @@ const Footer = () => {
     if (navid === 0) {
       setNav(0, "/OtherGender");
     } else if (navid === 1) {
-      if (myTUUID === null || myTUUID === "") {
-        setNav(1, "/SameGender");
-      } else {
-        getMyTeam(myTUUID, atk, kID).then((res) => {
+      getMyTeam(myTUUID, atk, kID)
+        .then((res) => {
+          console.log(res);
           if (
             !res.data.body.haveMeetingTeam &&
             res.data.body.members.length !== 3
@@ -62,8 +61,11 @@ const Footer = () => {
           } else {
             setNav(1, "/SameGender/Myteam");
           }
+        })
+        .catch(() => {
+          setNav(1, "/SameGender");
+          setMyTeamUUID("");
         });
-      }
     } else if (navid === 2) {
       setNav(2, "/Chat");
     } else if (navid === 3) {

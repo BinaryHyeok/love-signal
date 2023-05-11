@@ -11,14 +11,15 @@ spring:
     import: "optional:configserver:http://13.125.99.25:8888/"
   cloud:
     config:
-      name: mysql
+      name: mysql,redis
       profile: config
 
-  cache:
-    type: redis
-  redis:
-    host: 13.125.99.25
-    port: 6379
+#  cache:
+#    type: redis
+#  redis:
+#    host: 13.125.99.25
+#    port: 6379
+#    password: lovesignal
 
   # datasource:
   #   driver-class-name: com.mysql.cj.jdbc.Driver

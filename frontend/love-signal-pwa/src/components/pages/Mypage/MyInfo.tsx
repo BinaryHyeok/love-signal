@@ -5,8 +5,10 @@ import Introduce from "./Introduce";
 import EditNickName from "./EditNickName";
 import EditIntroduce from "./EditIntroduce";
 import { useRecoilState } from "recoil";
-import { myMemberUUID } from "../../../atom/member";
+import { myMemberUUID, myTeamUUID } from "../../../atom/member";
 import { changeMyInfo } from "../../../api/auth";
+import { myatk } from "../../../atom/member";
+import { kid } from "../../../atom/member";
 
 type propsType = {
   age: number;
@@ -16,7 +18,6 @@ type propsType = {
 
 const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
   const [changeName, setChangeName] = useState<boolean>(true); //이름 바꿔줄 state
-
   //시작값이 nickname
   const [myNickName, setMyNickName] = useState<string>(nickname);
   const [changeIntroduce, setChangeIntroduce] = useState<boolean>(true); //자기소개 바꿔줄 state
@@ -29,9 +30,12 @@ const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [applyInfo, setApplyInfo] = useState<boolean>(false);
 
+  const [ATK] = useRecoilState<string>(myatk);
+  const [KID] = useRecoilState<string>(kid);
+
   useEffect(() => {
     if (!start) {
-      changeMyInfo(myUUID, myNickName, myIntroduce)
+      changeMyInfo(myUUID, myNickName, myIntroduce, ATK, KID)
         .then((res) => {
           console.log(res);
         })

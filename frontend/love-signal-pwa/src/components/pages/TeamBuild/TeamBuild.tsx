@@ -15,6 +15,8 @@ import {
 } from "../../../atom/member";
 import { useNavigate } from "react-router-dom";
 import { inquireMember } from "../../../api/auth";
+import A_Clipboard from "../../atoms/TeamBuild/A_Clipboard";
+import M_TeamCode from "../../molecules/TeamBuild/M_TeamCode";
 
 const TeamBuild = () => {
   const navigate = useNavigate();
@@ -54,7 +56,8 @@ const TeamBuild = () => {
   return (
     <div className={style.container}>
       <T_TeamBuildRoom>
-        <M_TeamBuildHeader teamCode="B309" />
+        <M_TeamBuildHeader teamCode="나의 팀" />
+        <M_TeamCode />
         <O_TeamMemberList setMemberLength={setMemberLength} />
         {/* {isLeader && (
           <Button_Type_A
@@ -68,7 +71,7 @@ const TeamBuild = () => {
         <Button_Type_A
           width="212px"
           height="52px"
-          background="#fbced3"
+          background="#BCC5F0"
           onClick={exitTeam}
           children="팀 나가기"
         />

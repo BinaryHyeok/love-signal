@@ -51,9 +51,6 @@ const ExploreTeam = () => {
   }, [visible]);
 
   const getMyInfo = async () => {
-    console.log(UUID);
-    console.log(atk);
-    console.log(kID);
     await inquireMember(UUID, atk, kID)
       .then((res) => {
         console.log(res);

@@ -17,6 +17,7 @@ import java.util.List;
 @DynamicInsert
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"participants", "profileImages"} )
 public class Member extends BaseEntity{
 
     @Id

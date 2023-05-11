@@ -47,7 +47,7 @@ const Footer = () => {
     if (navid === 0) {
       setNav(0, "/OtherGender");
     } else if (navid === 1) {
-      if (myTUUID === "") {
+      if (myTUUID === null || myTUUID === "") {
         setNav(1, "/SameGender");
       } else {
         setNav(1, "/SameGender/Myteam");

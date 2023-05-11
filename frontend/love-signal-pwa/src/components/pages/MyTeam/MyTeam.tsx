@@ -48,11 +48,6 @@ const MyTeam = () => {
   useEffect(() => {
     getUserInfo();
     getUserTeamInfo();
-    if (teamUUID === "") {
-      // 아래의 것은 이전 브라우저 기록을 바꿔주는 것. 내일 작업하면서 해봐야겠다.
-      // window.history.replaceState({ page: 1 }, "page 1", "/Samegender");
-      navigate("/Samegender", { replace: true });
-    }
   }, []);
 
   //axios로 내 정보 받아오기.

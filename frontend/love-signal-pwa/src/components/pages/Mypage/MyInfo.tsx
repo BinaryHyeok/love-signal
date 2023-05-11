@@ -43,6 +43,7 @@ const MyInfo: React.FC<propsType> = ({ age, nickname, description }) => {
     }
   }, [applyInfo]);
 
+  //최초 정보 불러오기
   useEffect(() => {
     setMyNickName(nickname);
     setMyIntroduce(description);

@@ -2,6 +2,7 @@ import style from "./Button_Type_B.module.scss";
 
 type propsType = {
   className?: string;
+  margin: string;
   width?: string;
   height?: string;
   background?: string;
@@ -13,6 +14,7 @@ type propsType = {
 
 const Button_Type_B: React.FC<propsType> = ({
   className = "",
+  margin,
   width,
   height,
   background,
@@ -25,6 +27,7 @@ const Button_Type_B: React.FC<propsType> = ({
     <button
       className={`${style.button} ${className}`}
       style={{
+        margin: `${margin}`,
         width: `${width}`,
         height: `${height}`,
         background: `${background}`,

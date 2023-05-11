@@ -11,6 +11,7 @@ type PropsType = {
   width?: string;
   background?: string;
   margin?: string;
+  inputRef?: React.RefObject<HTMLInputElement>;
 };
 
 const Input_Type_A: React.FC<PropsType> = ({
@@ -23,6 +24,7 @@ const Input_Type_A: React.FC<PropsType> = ({
   width,
   margin,
   background,
+  inputRef,
 }) => {
   return (
     <div style={{ width, margin }} className={style.container}>
@@ -32,9 +34,10 @@ const Input_Type_A: React.FC<PropsType> = ({
         id={id}
         value={value}
         onChange={onChange}
-        className={`${style[className]}`}
+        className={`input ${style[className]}`}
         placeholder={placeholder}
         style={{ background }}
+        ref={inputRef}
       />
     </div>
   );

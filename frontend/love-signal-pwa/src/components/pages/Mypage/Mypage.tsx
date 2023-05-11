@@ -81,6 +81,8 @@ const Mypage = () => {
             age={myAge}
             nickname={myNickName}
             description={myDescription}
+            setNick={setMyNickName}
+            setDesc={setMyDescription}
           />
           <div className={style.logout}>
             <Link

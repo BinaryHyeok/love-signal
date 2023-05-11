@@ -13,7 +13,7 @@ import { myMemberUUID } from "../../../atom/member";
 const FindTeam = () => {
   const navigate = useNavigate();
   const [, setIdx] = useRecoilState<number>(footerIdx);
-  const [teamUUID] = useRecoilState<string>(myTeamUUID);
+  const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   useEffect(() => {
@@ -31,6 +31,8 @@ const FindTeam = () => {
           navigate("/Samegender/myTeam");
         }
       });
+    } else {
+      setTeamUUID("");
     }
   }, []);
 

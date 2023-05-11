@@ -13,7 +13,7 @@ const M_TeamMemberProfile: React.FC<PropsType> = ({ member }) => {
       <div className={style.profile}>
         <span className={style.nickname}>{member.nickname}</span>
         <span className={style.age}>
-          {member.age < 1 ? "" : `, ${member.age}`}
+          {member.age < 1 ? "" : `${" "}(${member.age})`}
         </span>
       </div>
       {member.nickname !== "LOADING" ? (

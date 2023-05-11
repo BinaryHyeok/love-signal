@@ -1,13 +1,16 @@
 import style from "./styles/A_CopyText.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 type PropsType = {
+  test: number;
+  className: string;
   children: any;
 };
 
-const A_CopyText: React.FC<PropsType> = ({ children }) => {
+const A_CopyText: React.FC<PropsType> = ({ test, className, children }) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
+        key={test}
         initial={{
           opacity: 0,
           scale: 0.6,
@@ -22,7 +25,7 @@ const A_CopyText: React.FC<PropsType> = ({ children }) => {
         }}
         className={style.container}
       >
-        <div className={style.text}>{children}</div>
+        <div className={`${style.text} ${style[className]}`}>{children}</div>
       </motion.div>
     </AnimatePresence>
   );

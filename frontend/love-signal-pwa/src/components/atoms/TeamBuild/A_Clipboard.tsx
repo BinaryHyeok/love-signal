@@ -3,17 +3,34 @@ import { myTeamUUID } from "../../../atom/member";
 import copy from "clipboard-copy";
 import style from "./styles/A_Clipboard.module.scss";
 import { motion } from "framer-motion";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type PropsType = {
+  test: number;
+  setTest: Dispatch<SetStateAction<number>>;
   isCopy: boolean;
   setIsCopy: Dispatch<SetStateAction<boolean>>;
+  isView: boolean;
+  setIsView: Dispatch<SetStateAction<boolean>>;
 };
 
-const A_Clipboard: React.FC<PropsType> = ({ isCopy, setIsCopy }) => {
+const A_Clipboard: React.FC<PropsType> = ({
+  test,
+  setTest,
+  isCopy,
+  setIsCopy,
+  isView,
+  setIsView,
+}) => {
   const [teamUUID] = useRecoilState<string>(myTeamUUID);
+  const [start, setStart] = useState<boolean>(false);
 
-  useEffect(() => {}, [isCopy]);
+  useEffect(() => {
+    //맨처음이면
+    if (!start) {
+      setStart(true);
+    }
+  }, []);
   const copyToClipboard = (text: string) => {
     copy(text)
       .then(() => {
@@ -27,6 +44,19 @@ const A_Clipboard: React.FC<PropsType> = ({ isCopy, setIsCopy }) => {
   const handleCopyClick = () => {
     copyToClipboard(teamUUID);
     setIsCopy(true);
+    //처음 누를때, 일정시간 지나면 텍스트 없애줌
+    if (isView && start) {
+      setTimeout(() => {
+        setIsView(false);
+      }, 5000);
+      //이후에 누를 때, 일정시간 지나면 텍스트 없애줌
+    } else {
+      setIsView(true);
+      setTest(Math.random());
+      setTimeout(() => {
+        setIsView(false);
+      }, 5000);
+    }
   };
 
   return (

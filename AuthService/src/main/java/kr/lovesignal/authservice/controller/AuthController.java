@@ -94,6 +94,7 @@ public class AuthController {
     public ResponseEntity<String> logout(@RequestHeader("X-Auth_Token") String accessToken){
 
         webClientService.kakaoLogoutApi(accessToken);
+        webClientService.kakaoWithLogoutApi();
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -44,10 +44,11 @@ public class WebClientServiceImpl implements WebClientService{
     @Value("${spring.security.oauth2.client.kakao.logout-uri}")
     private String logoutUri;
 
+    @Value("${spring.security.oauth2.client.kakao.logout-redirect-uri}")
+    private String logoutRedirectUri;
+
     @Value("${server.port}")
     private int port;
-
-
 
     @Override
     public Mono<KauthTokenResponse> getKakaoTokenApi(String authorizationCode) {
@@ -113,6 +114,17 @@ public class WebClientServiceImpl implements WebClientService{
                 .headers(header -> header.addAll(headers))
                 .retrieve()
                 .bodyToMono(Float.class);
+    }
+
+    @Override
+    public void kakaoWithLogoutApi() {
+        String uri = "https://kauth.kakao.com/oauth/logout?client_id=" + clientId + "&logout_redirect_uri=" + logoutRedirectUri;
+
+        webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
     }
 
     @Override

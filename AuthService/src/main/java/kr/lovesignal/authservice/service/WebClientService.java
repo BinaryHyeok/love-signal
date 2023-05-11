@@ -15,6 +15,8 @@ public interface WebClientService {
 
     Mono<Float> kakaoLogoutApi(String accessToken);
 
+    void kakaoWithLogoutApi();
+
     void createSystemChatRoomApi(String strMemberUUID);
 
     Mono<String> getMemberUUID(String email);

@@ -3,7 +3,7 @@ import { myTeamUUID } from "../../../atom/member";
 import copy from "clipboard-copy";
 import style from "./styles/A_Clipboard.module.scss";
 import { motion } from "framer-motion";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 type PropsType = {
   isCopy: boolean;
@@ -13,6 +13,7 @@ type PropsType = {
 const A_Clipboard: React.FC<PropsType> = ({ isCopy, setIsCopy }) => {
   const [teamUUID] = useRecoilState<string>(myTeamUUID);
 
+  useEffect(() => {}, [isCopy]);
   const copyToClipboard = (text: string) => {
     copy(text)
       .then(() => {

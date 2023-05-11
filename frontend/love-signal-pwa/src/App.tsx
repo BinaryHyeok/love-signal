@@ -15,6 +15,7 @@ import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
 import Ground from "./components/UI/Three/Ground";
 import Test from "./components/pages/Test";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const router = createBrowserRouter([
@@ -80,7 +81,11 @@ function App() {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <AnimatePresence>
+      <RouterProvider router={router} />;
+    </AnimatePresence>
+  );
 }
 
 export default App;

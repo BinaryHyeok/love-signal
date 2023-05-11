@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
-import { footerIdx } from "../../../atom/footer";
-import style from "./styles/Mypage.module.scss";
-import { useRecoilState } from "recoil";
-import M_Image_Type from "../../UI/Common/M_Image_Type";
-import MyInfo from "./MyInfo";
-import { inquireMember, logout } from "../../../api/auth";
-
-import { kid, myMemberUUID } from "../../../atom/member";
-import { withdrawMember } from "../../../api/auth";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
-import { changeMyImg } from "../../../api/file";
-import cookie from "react-cookies";
 import { useNavigate } from "react-router-dom";
+import cookie from "react-cookies";
+import { useRecoilState } from "recoil";
+import { motion } from "framer-motion";
+
+import { contentVariants } from "../../atoms/Common/contentVariants";
+
+import style from "./styles/Mypage.module.scss";
+
+import M_Image_Type from "../../UI/Common/M_Image_Type";
+import Button_Type_A from "../../UI/Common/Button_Type_A";
+import MyInfo from "./MyInfo";
+
+import { inquireMember, logout } from "../../../api/auth";
+import { withdrawMember } from "../../../api/auth";
+import { changeMyImg } from "../../../api/file";
+
+import { footerIdx } from "../../../atom/footer";
+import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
 import { myatkET } from "../../../atom/member";
 
@@ -83,7 +89,13 @@ const Mypage = () => {
 
   return (
     <>
-      <div className={style.myPageContainer}>
+      <motion.div
+        variants={contentVariants}
+        initial="hidden"
+        animate="visible"
+        // exit="exit"
+        className={style.myPageContainer}
+      >
         <div className={style.scrollContainer}>
           <M_Image_Type
             myImg={myImg}
@@ -107,7 +119,7 @@ const Mypage = () => {
             </Button_Type_A>
           </div> */}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

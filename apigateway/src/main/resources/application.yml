@@ -39,6 +39,9 @@ spring:
           predicates:
             - Path=/chat/**
             - Path=/chatRoom/**
+            - Path=/ws-stomp/**
+            - Path=/pub/**
+            - Path=/sub/**
           filters:
             - name: Authentication
 

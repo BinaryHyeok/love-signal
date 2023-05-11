@@ -2,7 +2,7 @@ import style from "./styles/GenderLabel.module.scss";
 
 type propstType = {
   gender: string;
-  changeGender: (e: React.MouseEvent<HTMLElement>) => void;
+  changeGender: (e: React.ChangeEvent<HTMLElement>) => void;
 };
 
 const A_FemaleLabel: React.FC<propstType> = ({ gender, changeGender }) => {
@@ -17,8 +17,8 @@ const A_FemaleLabel: React.FC<propstType> = ({ gender, changeGender }) => {
           name="gender"
           value="F"
           id="female"
-          checked={false}
-          onClick={changeGender}
+          // checked={false}
+          onChange={changeGender}
           className={style.radio}
         />
         <img src="/assets/female.png" id="F" className={style.genderImg} />

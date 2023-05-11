@@ -23,7 +23,6 @@ public class AuthServiceImpl implements AuthService{
      * @return 등록한 유저의 UUID
      */
     @Override
-    @Transactional
     public String registerMember(SignUpRequest signUpRequest, String accessToken) {
 
         KauthAccountResponse kauthAccountResponse =

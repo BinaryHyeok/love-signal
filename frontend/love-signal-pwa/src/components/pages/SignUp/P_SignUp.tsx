@@ -106,7 +106,10 @@ const P_SignUp = () => {
   };
 
   const handleBirth = () => {
-    setCheckBirthOk(!checkBirthOk);
+    if (birth.length === 8) {
+      //다 입력되어야지 바꿔줄수있다.
+      setCheckBirthOk(!checkBirthOk);
+    }
   };
 
   const handleGender = () => {
@@ -176,11 +179,7 @@ const P_SignUp = () => {
           />
         )}
         {checkProfileOk && checkNickOk && !checkBirthOk && !checkGenderOk && (
-          <M_SignUp_Birth
-            birth={birth}
-            onClick={handleBirth}
-            setBirth={setBirth}
-          />
+          <M_SignUp_Birth onClick={handleBirth} setBirth={setBirth} />
         )}
         {checkProfileOk && checkNickOk && checkBirthOk && !checkGenderOk && (
           <M_SignUp_Gender

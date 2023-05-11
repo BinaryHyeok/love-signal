@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_TEAM_URL = process.env.REACT_APP_API_TEAM;
 
-//동성 팀 생성
+//동성 팀 생성v
 export const makeTeam = async (
   memberUUID: string,
   atk: string,
@@ -20,7 +20,7 @@ export const makeTeam = async (
   });
 };
 
-//동성 팀 참가
+//동성 팀 참가v
 export const joinTeam = async (
   memberUUID: string,
   teamUUID: string,
@@ -37,7 +37,7 @@ export const joinTeam = async (
   });
 };
 
-//동성 팀 탈퇴
+//동성 팀 탈퇴v
 export const withdrawTeam = async (
   memberUUID: string,
   atk: string,
@@ -53,7 +53,7 @@ export const withdrawTeam = async (
   });
 };
 
-//자신의 팀 불러오기
+//자신의 팀 불러오기v
 export const getMyTeam = async (teamUUID: string, atk: string, kID: string) => {
   return await axios({
     method: "get",
@@ -65,7 +65,7 @@ export const getMyTeam = async (teamUUID: string, atk: string, kID: string) => {
   });
 };
 
-//이성팀 목록 불러오기
+//이성팀 목록 불러오기v
 export const getOtherGenderTeam = async (
   gender: string,
   size: number,
@@ -73,8 +73,6 @@ export const getOtherGenderTeam = async (
   atk: string,
   kID: string
 ) => {
-  console.log(atk);
-  console.log(kID);
   return axios({
     method: "post",
     url: `${process.env.REACT_APP_API}/team/opposite-gender/teams?gender=${gender}&size=${size}`,

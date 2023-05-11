@@ -10,7 +10,6 @@ import MyTeam from "./components/pages/MyTeam/MyTeam";
 import Mypage from "./components/pages/Mypage/Mypage";
 import RootLayout from "./components/pages/Common/RootLayout";
 import Chat from "./components/pages/Chat/Chat";
-// import Codepen from "./components/UI/Loading/LoadingSpinner";
 import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
 import Ground from "./components/UI/Three/Ground";

@@ -24,9 +24,9 @@ const Ground = () => {
         <OrbitControls
           autoRotate={true}
           autoRotateSpeed={15}
-          enablePan={false}
+          enablePan={true}
           enableZoom={false}
-          enableRotate={false}
+          enableRotate={true}
         />
         <Suspense fallback={null}>
           <Heart />

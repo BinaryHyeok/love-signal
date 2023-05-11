@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cookie from "react-cookies";
 import { useRecoilState } from "recoil";
 import { motion } from "framer-motion";
@@ -12,8 +12,7 @@ import M_Image_Type from "../../UI/Common/M_Image_Type";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import MyInfo from "./MyInfo";
 
-import { inquireMember, logout } from "../../../api/auth";
-import { withdrawMember } from "../../../api/auth";
+import { inquireMember } from "../../../api/auth";
 import { changeMyImg } from "../../../api/file";
 
 import { footerIdx } from "../../../atom/footer";
@@ -51,33 +50,6 @@ const Mypage = () => {
     });
   }, [setIdx]);
 
-  //로그아웃 함수입니다.(종효 담당)
-  const logOut = () => {
-    //로그아웃시 없애야 할것
-    //쿠키에 저장된 rtk삭제.
-    //Recoil에 저장된 atk삭제.
-    //Recoil에 저장된 만료기간 삭제.
-
-    logout(atk, kID)
-      .then((res) => {
-        cookie.remove("rtk", { path: "/" });
-        setMyAtk("");
-        setMyAtkET(new Date());
-
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log("로그아웃 실패");
-      });
-  };
-
-  //회원탈퇴 함수입니다.
-  // const withdrawal = () => {
-  //   withdrawMember(UUID)
-  //     .then((err) => {})
-  //     .catch((err) => {});
-  // };
-
   useEffect(() => {
     if (start) {
       console.log(atk);
@@ -112,16 +84,14 @@ const Mypage = () => {
             setNick={setMyNickName}
             setDesc={setMyDescription}
           />
-          <div className={style.drawal}>
-            <Button_Type_A width="100%" onClick={logOut}>
+          <div className={style.logout}>
+            <Link
+              to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout`}
+              className={style.link}
+            >
               로그아웃
-            </Button_Type_A>
+            </Link>
           </div>
-          {/* <div className={style.drawal2}>
-            <Button_Type_A width="100%" onClick={withdrawal}>
-              회원탈퇴
-            </Button_Type_A>
-          </div> */}
         </div>
       </motion.div>
     </>

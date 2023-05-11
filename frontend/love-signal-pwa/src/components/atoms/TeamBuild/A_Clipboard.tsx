@@ -54,6 +54,7 @@ const A_Clipboard: React.FC<PropsType> = ({
       timeout = setTimeout(() => {
         setIsView(false);
       }, 5000);
+      //만약 이미 열려있는데 또 눌렀을 때,
     } else {
       setTest(Math.random());
       clearTimeout(timeout);

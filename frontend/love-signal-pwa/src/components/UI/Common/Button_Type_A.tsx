@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import style from "./Button_Type_A.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 

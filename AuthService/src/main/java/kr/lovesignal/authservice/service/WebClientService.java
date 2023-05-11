@@ -13,7 +13,7 @@ public interface WebClientService {
 
     Mono<KauthTokenResponse> refreshKakaoTokenApi(String refreshToken);
 
-    Mono kakaoLogoutApi(String accessToken);
+    Mono<Float> kakaoLogoutApi(String accessToken);
 
     void createSystemChatRoomApi(String strMemberUUID);
 

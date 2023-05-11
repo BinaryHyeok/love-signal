@@ -102,7 +102,7 @@ public class WebClientServiceImpl implements WebClientService{
     }
 
     @Override
-    public Mono kakaoLogoutApi(String accessToken) {
+    public Mono<Float> kakaoLogoutApi(String accessToken) {
         String authorization = "Bearer " + accessToken;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -112,7 +112,7 @@ public class WebClientServiceImpl implements WebClientService{
                 .uri(logoutUri)
                 .headers(header -> header.addAll(headers))
                 .retrieve()
-                .bodyToMono(Mono.class);
+                .bodyToMono(Float.class);
     }
 
     @Override

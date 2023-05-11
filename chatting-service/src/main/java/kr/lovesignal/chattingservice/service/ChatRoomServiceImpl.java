@@ -62,7 +62,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public List<ResChatRoom> getChatRoomList(String userUUID) {
         UUID uuid = commonUtils.getValidUUID(userUUID);
-        Member member = memberJpaRepository.findMemberByUUID(uuid);
+        Member member = memberJpaRepository.findByUUID(uuid);
 
         // 멤버가 참여하고 있는 Participant 정보들
         List<Participant> memberParticipants = member.getParticipants();
@@ -115,7 +115,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public void exitChatRoom(List<String> strMemberUUIDs) {
         for(String strMemberUUID : strMemberUUIDs) {
             UUID memberUUID = commonUtils.getValidUUID(strMemberUUID);
-            Member member = memberJpaRepository.findMemberByUUID(memberUUID);
+            Member member = memberJpaRepository.findByUUID(memberUUID);
 
             List<Participant> participants = member.getParticipants();
             for(Participant participant : participants) {
@@ -152,7 +152,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         ChatRoom chatRoom = chatRoomJpaRepository.save(room);
 
         UUID uuid = commonUtils.getValidUUID(userUUID);
-        Member member = memberJpaRepository.findMemberByUUID(uuid);
+        Member member = memberJpaRepository.findByUUID(uuid);
 
         Participant participant = Participant.builder()
                 .member(member) // 추가
@@ -179,7 +179,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         // 채팅방에 멤버 참여시키기, 입장 메세지 저장.
         for(String userUUID : userUUIDs) {
             UUID uuid = commonUtils.getValidUUID(userUUID);
-            Member member = memberJpaRepository.findMemberByUUID(uuid);
+            Member member = memberJpaRepository.findByUUID(uuid);
 
             Participant participant  = Participant.builder()
                     .member(member) // 추가
@@ -205,8 +205,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         // selector , selected 각각 Member 객체 찾아오기.
         UUID uuid = commonUtils.getValidUUID(selectorUUID);
         UUID uuid2 = commonUtils.getValidUUID(selectedUUID);
-        Member selector = memberJpaRepository.findMemberByUUID(uuid);
-        Member selected = memberJpaRepository.findMemberByUUID(uuid2);
+        Member selector = memberJpaRepository.findByUUID(uuid);
+        Member selected = memberJpaRepository.findByUUID(uuid2);
 
         // 현재 참여 중인 혼성 채팅방 찾기.
         List<Participant> participants = selector.getParticipants();

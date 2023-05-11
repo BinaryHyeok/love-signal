@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import style from "./styles/MyInfo.module.scss";
 import NickName from "./NickName";
 import Introduce from "./Introduce";
@@ -43,6 +43,10 @@ const MyInfo: React.FC<propsType> = ({
     changeMyInfo(UUID, newNick, description, atk, kID);
   };
 
+  const updateDescHandler = (newDesc: string) => {
+    changeMyInfo(UUID, nickname, newDesc, atk, kID);
+  };
+
   return (
     <>
       <div className={style.container}>
@@ -60,7 +64,12 @@ const MyInfo: React.FC<propsType> = ({
         {!isDescChanging ? (
           <Introduce description={description} toggleMode={toggleDescView} />
         ) : (
-          <EditIntroduce description={description} setDesc={setDesc} />
+          <EditIntroduce
+            description={description}
+            setDesc={setDesc}
+            toggleMode={toggleDescView}
+            descSubmitHandler={updateDescHandler}
+          />
         )}
         <Age age={age} />
       </div>

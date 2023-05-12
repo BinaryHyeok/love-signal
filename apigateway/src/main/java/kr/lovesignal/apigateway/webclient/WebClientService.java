@@ -17,8 +17,8 @@ public class WebClientService {
     private String accountUri;
 
     public Mono<KauthAccountResponse> getKakaoAccountApi(String accessToken) {
-        String authorization = "Bearer " + accessToken;
         HttpHeaders headers = new HttpHeaders();
+        String authorization = "Bearer " + accessToken;
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
         headers.add("Authorization", authorization);
 

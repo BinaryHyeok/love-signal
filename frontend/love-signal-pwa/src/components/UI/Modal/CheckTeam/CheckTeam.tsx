@@ -27,6 +27,7 @@ type propsType = {
   setMsg: Dispatch<SetStateAction<string>>;
   applyModal: boolean;
   setApplyModal: Dispatch<SetStateAction<boolean>>;
+  memberLength?: number;
   children: React.ReactNode;
 };
 
@@ -38,10 +39,12 @@ const CheckTeam: React.FC<propsType> = ({
   setMsg,
   applyModal,
   setApplyModal,
+  memberLength,
   children,
 }) => {
   const [myUUID] = useRecoilState<string>(myTeamUUID); //현재는 사용안하지만 이후에 사용예정.
   const [btnVisible, setBtnVisible] = useState<boolean>(false);
+  const [btnBlack, setBtnBlack] = useState<boolean>(false);
 
   const [close, setClose] = useState(false);
 
@@ -51,6 +54,13 @@ const CheckTeam: React.FC<propsType> = ({
 
   useEffect(() => {
     setBtnVisible(!myTeam);
+    if (memberLength) {
+      if (memberLength === 3 && isLeader) {
+        setBtnBlack(false);
+      } else {
+        setBtnBlack(true);
+      }
+    }
   }, []);
 
   const closeModal = () => {
@@ -169,10 +179,10 @@ const CheckTeam: React.FC<propsType> = ({
                 <ButtonTypeA
                   width="104px"
                   height="32px"
-                  background={isLeader ? "#FBCED3" : "#CCCCCC"}
+                  background={btnBlack ? "#FBCED3" : "#CCCCCC"}
                   onClick={applyTeam}
                 >
-                  {isLeader ? (
+                  {btnBlack ? (
                     <img src="/assets/send_invite.png" alt="" />
                   ) : (
                     <img src="/assets/send_blackinvite.png" alt="" />

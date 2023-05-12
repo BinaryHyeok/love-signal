@@ -61,6 +61,8 @@ spring:
             allowedHeaders:
               - Access-Control-Allow-Credentials
               - Access-Control-Allow-Origin
+              - X-Auth_Token
+              - X-Auth_ID
             allowedMethods:
               - PUT
               - GET

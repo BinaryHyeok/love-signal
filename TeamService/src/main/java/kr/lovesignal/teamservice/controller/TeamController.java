@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "TeamController")
@@ -159,6 +158,7 @@ public class TeamController {
 
         teamService.accpetMeeting(teamUUID, oppositeTeamUUID);
 
+        System.out.println("========================미팅수락===============");
         List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID, oppositeTeamUUID);
         webClientService.makeChatRoomApi(memberUUIDs);
 
@@ -171,7 +171,7 @@ public class TeamController {
     @ApiOperation(value = "미팅 거절")
     public ResponseEntity<SuccessResponse> rejectMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
 
-        log.debug("========================미팅거절===============");
+        System.out.println("========================미팅거절===============");
         SuccessResponse successResponse = teamService.rejectMeeting(teamUUID, oppositeTeamUUID);
 
         return ResponseEntity

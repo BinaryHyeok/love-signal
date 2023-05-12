@@ -288,22 +288,26 @@ public class TeamServiceImpl implements TeamService{
 
         log.debug("=================================");
         log.debug("미팅 저장 시작");
+        System.out.println("미팅 저장 시작");
         log.debug("=================================");
 
         meetingTeamRepository.save(saveMeetingTeam);
 
         log.debug("=================================");
         log.debug("미팅 저장 끝");
+        System.out.println("미팅 저장 끝");
         log.debug("=================================");
 
         for(TeamEntity team : teams){
             deleteAllMeeting(team);
             log.debug("=================================");
             log.debug("팀 수정 시작");
+            System.out.println("팀 수정 시작");
             log.debug("=================================");
             teamRepository.save(buildMeetingTeamEntity(team));
             log.debug("=================================");
             log.debug("팀 수정 끝 ");
+            System.out.println("팀 수정 끝");
             log.debug("=================================");
         }
     }

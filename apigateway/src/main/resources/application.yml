@@ -49,7 +49,7 @@ spring:
             - name: Authentication
 
       default-filters:
-#        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
 
       globalcors:
         cors-configurations:

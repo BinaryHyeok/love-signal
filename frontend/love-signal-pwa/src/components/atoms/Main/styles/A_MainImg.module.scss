@@ -1,14 +1,22 @@
 .mainImg {
-  width: 320px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
-  position: relative;
-  left: 4px;
+  position: fixed;
+  top: 20%;
   margin: 0 auto;
 
   img {
-    width: 100%;
+    width: 320px;
+    animation: shine 1s infinite;
+    margin: 0 auto;
+    @keyframes shine {
+      to {
+        background-position: 0 0, 100% 0, /* move highlight to right */ 120px 0,
+          120px 40px, 120px 80px, 120px 120px;
+      }
+    }
   }
 }

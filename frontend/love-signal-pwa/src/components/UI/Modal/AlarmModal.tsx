@@ -10,18 +10,17 @@ type PropsType = {
 };
 
 const AlarmModal: React.FC<PropsType> = ({ closeModal, children }) => {
-  const [isVisible] = useRecoilState<boolean>(alarmModal);
-  const { animate } = useRecoilValue(modalState);
+  const [isVisible, setIsVisible] = useRecoilState<boolean>(alarmModal);
+  const [aninmation, setAnimation] = useRecoilState<boolean>(alarmModal);
   const setIsOpen = useSetRecoilState(modalState);
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key="div"
-        initial={{ y: "50%", opacity: 0, scale: 0.5 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
+        initial={{ y: "-20%", opacity: 0, scale: 1 }}
+        animate={{ y: "0", opacity: 1, scale: 1 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        // exit={{ y: "50%", opacity: 0, transition: { duration: 0.2 } }}
         className={style.modal}
       >
         <ExitImg closeModal={closeModal} />

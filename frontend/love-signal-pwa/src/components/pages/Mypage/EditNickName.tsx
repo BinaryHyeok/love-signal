@@ -5,14 +5,14 @@ import Mypage_Check_Btn from "../../UI/Common/MyPage_Check_Btn";
 import { duplicateCheck } from "../../../api/auth";
 
 type propsType = {
-  nickname: string;
+  mynickname: string;
   setNick: (param: string) => void;
   toggleMode: () => void;
   nickSubmitHandler: (param: string) => void;
 };
 
 const EditNickName: React.FC<propsType> = ({
-  nickname,
+  mynickname,
   setNick,
   toggleMode,
   nickSubmitHandler,
@@ -21,7 +21,7 @@ const EditNickName: React.FC<propsType> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setCurrNick(nickname);
+    setCurrNick(mynickname);
   }, []);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const EditNickName: React.FC<propsType> = ({
   };
 
   const updateNickHandler = () => {
-    if (currNick === nickname) {
+    if (currNick === mynickname) {
       toggleMode();
       return;
     }

@@ -143,7 +143,7 @@ export const acceptMeeting = async (
 ) => {
   return await axios({
     method: "delete",
-    url: `${process.env.REACT_APP_API}/${teamUUID}/accept-meeting/${oppositeTeamUUID}`,
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}/accept-meeting/${oppositeTeamUUID}`,
     headers: {
       "X-Auth_Token": atk,
       "X-Auth_ID": kID,

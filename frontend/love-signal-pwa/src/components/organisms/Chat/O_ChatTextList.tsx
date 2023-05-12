@@ -28,10 +28,11 @@ const O_ChatTextList: React.FC<PropsType> = ({
         <M_ChatTextItem
           key={idx}
           roomType={roomType}
+          chatType={item.type}
           isMe={item.nickname === me}
           profileImage={
             members &&
-            members.filter((m) => m.nickname === item.nickname)[0].profileImage
+            members.filter((m) => m.nickname === item.nickname)[0]?.profileImage
           }
           chat={item}
         />

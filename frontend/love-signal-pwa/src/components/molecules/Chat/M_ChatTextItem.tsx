@@ -18,7 +18,7 @@ const ENUM_BACKGROUND: { [key: string]: string } = {
 
 type PropsType = {
   roomType?: string;
-  type?: string;
+  chatType?: string;
   isMe?: boolean;
   profileImage?: string | null;
   chat: chat;
@@ -26,13 +26,14 @@ type PropsType = {
 
 const M_ChatTextItem: React.FC<PropsType> = ({
   roomType,
-  type,
+  chatType,
   isMe,
   profileImage,
   chat,
 }) => {
+  console.log(chat, profileImage);
   let text = null;
-  if (type === "TEXT") {
+  if (chatType === "TEXT") {
     text = isMe ? (
       <A_ChatText_TypeA
         background={roomType ? ENUM_BACKGROUND[roomType] : ""}
@@ -44,27 +45,28 @@ const M_ChatTextItem: React.FC<PropsType> = ({
         <A_ChatText_TypeB content={chat.content} nickname={chat.nickname} />
       </>
     );
-  } else if (type && type in ["ENTER", "EXIT"]) {
+  } else if (chatType && ["ENTER", "EXIT"].includes(chatType)) {
     text = <A_ChatText_Notice content={chat.content} />;
-  } else if (type === "SELECT") {
+  } else if (chatType === "SELECT") {
     text = (
       <M_ChatText_Select
         systemName={chat.nickname ? chat.nickname : ""}
         selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
       />
     );
-  } else if (type === "RESULT") {
+  } else if (chatType === "RESULT") {
     text = <M_ChatText_Result />;
   }
 
   let sendTime = null;
-  if (type && !(type in ["ENTER", "EXIT"])) {
+  if (chatType && !["ENTER", "EXIT"].includes(chatType)) {
     sendTime = <A_ChatSendTime createdDate={chat.createdDate} />;
   }
+  console.log(text);
   return (
     <li
       className={`${style.outerBox} ${isMe ? style.isMe : ""} ${
-        type && (type in ["ENTER", "EXIT"] ? style.notice : "")
+        chatType && (["ENTER", "EXIT"].includes(chatType) ? style.notice : "")
       }`}
     >
       {text}

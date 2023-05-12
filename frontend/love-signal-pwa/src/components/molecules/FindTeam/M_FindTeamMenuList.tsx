@@ -10,10 +10,10 @@ import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
 
-import { AnimatePresence } from "framer-motion";
-import { member } from "../../../types/member";
 import Ground from "../../UI/Three/Ground";
 import { validRoomId } from "../../../atom/member";
+
+let timeout: NodeJS.Timer;
 
 const M_FindTeamMenuList = () => {
   const navigate = useNavigate();
@@ -25,12 +25,17 @@ const M_FindTeamMenuList = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const [isErr, setIsErr] = useRecoilState<boolean>(validRoomId);
+  const [animation, setAnimation] = useState<boolean>(false);
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
 
   //모달창 열어주는 함수입니다.
   const openRoomCodeModalHandler = () => {
+    setAnimation(false);
+    clearTimeout(timeout);
     setVisible(true);
+    console.log(animation);
+    console.log(visible);
   };
 
   //팀으로 입장.(임시);
@@ -58,6 +63,9 @@ const M_FindTeamMenuList = () => {
 
   // 새로운 방을 생성해서 이동
   const createRoom = () => {
+    console.log(animation);
+    // clearTimeout(timeout);
+    setAnimation(false);
     setIsPending(true);
     makeTeam(myUUID, atk, kID)
       .then((res) => {
@@ -103,6 +111,9 @@ const M_FindTeamMenuList = () => {
       {visible && (
         <Modal_portal>
           <CommonModal
+            timeout={timeout}
+            animation={animation}
+            setAnimation={setAnimation}
             setVisible={setVisible}
             visible={visible}
             width="304px"

@@ -51,6 +51,7 @@ const T_OtherGender: React.FC<propsType> = ({
       <div className={style.imgContainer} onScroll={handleScroll}>
         {team.map((item, idx) => (
           <ListBoxWithImgTitle
+            key={idx}
             title={
               <>
                 <A_Heartline type="red" count="3" />

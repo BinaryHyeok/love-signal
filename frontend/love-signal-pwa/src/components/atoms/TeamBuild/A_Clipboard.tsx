@@ -14,6 +14,8 @@ type PropsType = {
   setIsView: Dispatch<SetStateAction<boolean>>;
 };
 
+let timeout: any = null;
+
 const A_Clipboard: React.FC<PropsType> = ({
   test,
   setTest,
@@ -25,12 +27,6 @@ const A_Clipboard: React.FC<PropsType> = ({
   const [teamUUID] = useRecoilState<string>(myTeamUUID);
   const [start, setStart] = useState<boolean>(false);
 
-  useEffect(() => {
-    //맨처음이면
-    if (!start) {
-      setStart(true);
-    }
-  }, []);
   const copyToClipboard = (text: string) => {
     copy(text)
       .then(() => {
@@ -45,15 +41,24 @@ const A_Clipboard: React.FC<PropsType> = ({
     copyToClipboard(teamUUID);
     setIsCopy(true);
     //처음 누를때, 일정시간 지나면 텍스트 없애줌
-    if (isView && start) {
-      setTimeout(() => {
+    if (isView && !start) {
+      setStart(true);
+      timeout = setTimeout(() => {
         setIsView(false);
       }, 5000);
       //이후에 누를 때, 일정시간 지나면 텍스트 없애줌
-    } else {
+    } else if (!isView && start) {
       setIsView(true);
       setTest(Math.random());
-      setTimeout(() => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        setIsView(false);
+      }, 5000);
+      //만약 이미 열려있는데 또 눌렀을 때,
+    } else {
+      setTest(Math.random());
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
         setIsView(false);
       }, 5000);
     }

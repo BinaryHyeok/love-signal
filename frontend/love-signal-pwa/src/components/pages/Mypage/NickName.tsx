@@ -4,17 +4,17 @@ import Mypage_Edit_Btn from "../../UI/Common/Mypage_Edit_Btn";
 import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
 
 type propsType = {
-  nickname: string;
+  mynickname: string;
   toggleMode: () => void;
 };
 
-const NickName: React.FC<propsType> = ({ nickname, toggleMode }) => {
+const NickName: React.FC<propsType> = ({ mynickname, toggleMode }) => {
   return (
     <div className={style.container}>
       {/* <div>닉네임</div> */}
       <div className={style.btnContainer}>
         <div className={style.nickname}>
-          <A_TextHighlight color="red">{nickname}</A_TextHighlight>
+          <A_TextHighlight color="red">{mynickname}</A_TextHighlight>
         </div>
         <div className={style.editBtn}>
           <Mypage_Edit_Btn imgClick={toggleMode} />

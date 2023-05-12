@@ -103,35 +103,39 @@ const O_MyTeamBox: React.FC<propsType> = ({
           children="팀 나가기"
         />
       </div>
-      <ListBoxWithImgTitle
-        title={
-          <>
-            <img src="/assets/mail.png" />
-            <span>신청목록</span>
-            <img src="/assets/mail.png" />
-          </>
-        }
-        type="blue"
-      >
-        {isLoading ? (
-          <>
-            {applyTeamExist ? (
-              <O_ApplyTeamList
-                applyTeamList={applyList}
-                haveOppositeTeam={haveOppositeTeam}
-                setOppoVisible={setOppoVisible}
-                setOppoTeamIdx={setOppoTeamIdx}
-                clickBtn={clickBtn}
-                setClickBtn={setClickBtn}
-              />
-            ) : (
-              <>팀이 존재하지 않습니다..</>
-            )}
-          </>
-        ) : (
-          <>로딩중이다데스..</>
-        )}
-      </ListBoxWithImgTitle>
+      {haveOppositeTeam ? (
+        <ListBoxWithImgTitle
+          title={
+            <>
+              <img src="/assets/mail.png" />
+              <span>신청목록</span>
+              <img src="/assets/mail.png" />
+            </>
+          }
+          type="blue"
+        >
+          {isLoading ? (
+            <>
+              {applyTeamExist ? (
+                <O_ApplyTeamList
+                  applyTeamList={applyList}
+                  haveOppositeTeam={haveOppositeTeam}
+                  setOppoVisible={setOppoVisible}
+                  setOppoTeamIdx={setOppoTeamIdx}
+                  clickBtn={clickBtn}
+                  setClickBtn={setClickBtn}
+                />
+              ) : (
+                <>팀이 존재하지 않습니다..</>
+              )}
+            </>
+          ) : (
+            <>로딩중이다데스..</>
+          )}
+        </ListBoxWithImgTitle>
+      ) : (
+        <>여기엔 상대팀이 들어가야해.</>
+      )}
     </div>
   );
 };

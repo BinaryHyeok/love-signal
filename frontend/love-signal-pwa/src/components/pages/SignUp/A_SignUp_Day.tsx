@@ -1,4 +1,5 @@
 import React from "react";
+import style from "./styles/SignUp.module.scss";
 
 type propsType = {
   handleDayChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -16,7 +17,7 @@ const A_SignUp_Day: React.FC<propsType> = ({
   days,
 }) => {
   return (
-    <>
+    <span className={style.dayTag}>
       <label htmlFor="day"></label>
       <select
         id="day"
@@ -33,7 +34,7 @@ const A_SignUp_Day: React.FC<propsType> = ({
         ))}
       </select>
       일
-    </>
+    </span>
   );
 };
 

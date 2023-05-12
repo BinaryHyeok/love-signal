@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { footerIdx } from "../../../atom/footer";
-import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { team } from "../../../types/member";
@@ -13,7 +12,6 @@ import { kid } from "../../../atom/member";
 import { expireATK, inquireMember } from "../../../api/auth";
 import { myMemberUUID } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
-import cookie from "react-cookies";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 

@@ -37,7 +37,8 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
             navigate("/Samegender/myTeam", { replace: true });
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           navigate("/SameGender", { replace: true });
         });
     } else {

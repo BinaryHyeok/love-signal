@@ -15,7 +15,7 @@ const MainBtn = () => {
         to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/login`}
         className={style.link}
       >
-        시작하기
+        <img src="/assets/kakao2.png" className={style.kakao} />
       </Link>
     </motion.div>
   );

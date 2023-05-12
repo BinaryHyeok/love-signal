@@ -46,7 +46,7 @@ const CheckTeam: React.FC<propsType> = ({
 }) => {
   const [myUUID] = useRecoilState<string>(myTeamUUID); //현재는 사용안하지만 이후에 사용예정.
   const [btnVisible, setBtnVisible] = useState<boolean>(false);
-  const [activeBtn, setActiveBtn] = useState<boolean>(false);
+  const [applyActiveBtn, setApplyActiveBtn] = useState<boolean>(false);
 
   const [close, setClose] = useState(false);
 
@@ -57,9 +57,9 @@ const CheckTeam: React.FC<propsType> = ({
   useEffect(() => {
     setBtnVisible(!myTeam);
     if (memberLength === 3 && !haveTeam && isLeader) {
-      setActiveBtn(true);
+      setApplyActiveBtn(true);
     } else {
-      setActiveBtn(false);
+      setApplyActiveBtn(false);
     }
   }, []);
 
@@ -176,19 +176,23 @@ const CheckTeam: React.FC<propsType> = ({
                 <ButtonTypeA
                   width="104px"
                   height="32px"
-                  background="#CAD9FF"
+                  background={memberLength === 3 ? "#CAD9FF" : "#CCCCCC"}
                   className={style.button}
                   onClick={shareTeam}
                 >
-                  <img src="/assets/share.png" alt="" />
+                  {memberLength === 3 ? (
+                    <img src="/assets/share.png" alt="" />
+                  ) : (
+                    <img src="/assets/shareblack.png" alt="" />
+                  )}
                 </ButtonTypeA>
                 <ButtonTypeA
                   width="104px"
                   height="32px"
-                  background={activeBtn ? "#FBCED3" : "#CCCCCC"}
+                  background={applyActiveBtn ? "#FBCED3" : "#CCCCCC"}
                   onClick={applyTeam}
                 >
-                  {activeBtn ? (
+                  {applyActiveBtn ? (
                     <img src="/assets/send_invite.png" alt="" />
                   ) : (
                     <img src="/assets/send_blackinvite.png" alt="" />

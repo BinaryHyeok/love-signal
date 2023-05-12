@@ -5,6 +5,7 @@ const ListBoxWithImgTitle = (props: any) => {
   return (
     <AnimatePresence>
       <motion.div
+        key={props.key}
         whileTap={{
           scale: 1.05,
           transition: { type: "spring", stiffness: 200, damping: 10 },

@@ -282,11 +282,25 @@ public class TeamServiceImpl implements TeamService{
                 .femaleTeam(femaleTeam)
                 .build();
 
+        System.out.println("==========================================");
+        System.out.println("미팅 저장 시작");
+        System.out.println("==========================================");
+
         meetingTeamRepository.save(saveMeetingTeam);
+
+        System.out.println("==========================================");
+        System.out.println("미팅 저장 끝");
+        System.out.println("==========================================");
 
         for(TeamEntity team : teams){
             deleteAllMeeting(team);
+            System.out.println("==========================================");
+            System.out.println("팀 정보수정 시작");
+            System.out.println("==========================================");
             teamRepository.save(buildMeetingTeamEntity(team));
+            System.out.println("==========================================");
+            System.out.println("팀 정보수정 끝");
+            System.out.println("==========================================");
         }
     }
 
@@ -370,6 +384,9 @@ public class TeamServiceImpl implements TeamService{
     // 0 : 신청한 팀, 1 : 신청을 받은 팀
     @Transactional(readOnly = true)
     public List<TeamEntity> getMeetingTeams(String strSendTeamUUID, String strReceiveTeamUUID){
+        System.out.println("==========================================");
+        System.out.println("여기는 미팅 팀 리스트들 만드는곳 시작");
+        System.out.println("==========================================");
         UUID sendTeamUUID = commonUtils.getValidUUID(strSendTeamUUID);
         UUID receiveTeamUUID = commonUtils.getValidUUID(strReceiveTeamUUID);
 
@@ -386,14 +403,23 @@ public class TeamServiceImpl implements TeamService{
         List<TeamEntity> teams = new ArrayList<>();
         teams.add(sendTeam);
         teams.add(receiveTeam);
+        System.out.println("==========================================");
+        System.out.println("여기는 미팅 팀 리스트들 만드는곳 끝");
+        System.out.println("==========================================");
 
         return teams;
     }
 
     @Transactional
     public void deleteAllMeeting(TeamEntity team){
+        System.out.println("==========================================");
+        System.out.println("미팅삭제 시작");
+        System.out.println("==========================================");
         meetingRepository.deleteBySendTeam(team);
         meetingRepository.deleteByReceiveTeam(team);
+        System.out.println("==========================================");
+        System.out.println("미팅 삭제 끝");
+        System.out.println("==========================================");
     }
 
     @Transactional(readOnly = true)

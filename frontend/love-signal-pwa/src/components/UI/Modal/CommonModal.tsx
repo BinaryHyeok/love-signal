@@ -30,16 +30,12 @@ const MemberDetail: React.FC<propsType> = ({
   const [isErr, setIsErr] = useRecoilState<boolean>(validRoomId);
 
   const closeModal = () => {
-    console.log(animation);
-    console.log(visible);
     setIsErr(false);
     clearTimeout(timeout);
     setAnimation(true);
     timeout = setTimeout(() => {
       setVisible(false);
     }, 500);
-    console.log(animation);
-    console.log(visible);
   };
   return (
     <div className={style.container}>

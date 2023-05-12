@@ -74,6 +74,7 @@ const MyTeam = () => {
         setMemberList(res.data.body.members);
         //내가 상대팀을 가지고 있는지를 파악.
         if (!res.data.body.haveMeetingTeam) {
+          //상대팀이 없을시 true로 변경.
           setHaveOppositeTeam(true);
         }
       })

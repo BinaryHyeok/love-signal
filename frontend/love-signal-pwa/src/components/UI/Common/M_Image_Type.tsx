@@ -13,7 +13,7 @@ type propsType = {
   setChangeImg: Dispatch<SetStateAction<boolean>>;
 };
 
-let timeout: any = null;
+let timeout: NodeJS.Timer;
 
 //마이페이지, 회원가입에 쓸 이미지
 const M_Image_Type: React.FC<propsType> = ({
@@ -45,6 +45,8 @@ const M_Image_Type: React.FC<propsType> = ({
             <div className={style.imgBackGround}>
               <ProfileImg fileImg={cropData} />
               <EditBtn
+                timeout={timeout}
+                setAnimation={setAnimation}
                 setFileImg={setFileImg}
                 visible={visible}
                 setVisible={setVisible}
@@ -54,26 +56,47 @@ const M_Image_Type: React.FC<propsType> = ({
         </div>
       )}
       {visible && (
-        <Modal_portal>
-          <CommonModal
-            timeout={timeout}
-            animation={animation}
-            setAnimation={setAnimation}
-            setVisible={setVisible}
-            visible={visible}
-            width="304px"
-            height="600px"
+        <>
+          <div
+            className={style.Container}
+            style={{ marginTop: `${marginTop}` }}
           >
-            <M_Image_Crop
-              image={fileImg}
-              setCropData={setCropData}
-              visible={visible}
+            <div className={style.imgback}>
+              <div className={style.imgBackGround}>
+                <ProfileImg fileImg={cropData} />
+                <EditBtn
+                  timeout={timeout}
+                  setAnimation={setAnimation}
+                  setFileImg={setFileImg}
+                  visible={visible}
+                  setVisible={setVisible}
+                />
+              </div>
+            </div>
+          </div>
+          <Modal_portal>
+            <CommonModal
+              timeout={timeout}
+              animation={animation}
+              setAnimation={setAnimation}
               setVisible={setVisible}
-              setMyImage={setMyImage}
-              setChangeImg={setChangeImg}
-            />
-          </CommonModal>
-        </Modal_portal>
+              visible={visible}
+              width="304px"
+              height="600px"
+            >
+              <M_Image_Crop
+                timeout={timeout}
+                setAnimation={setAnimation}
+                image={fileImg}
+                setCropData={setCropData}
+                visible={visible}
+                setVisible={setVisible}
+                setMyImage={setMyImage}
+                setChangeImg={setChangeImg}
+              />
+            </CommonModal>
+          </Modal_portal>
+        </>
       )}
     </>
   );

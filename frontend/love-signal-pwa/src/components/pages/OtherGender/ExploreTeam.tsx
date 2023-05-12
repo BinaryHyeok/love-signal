@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { footerIdx } from "../../../atom/footer";
-import LoadingSpinner from "../../templates/Loading/LoadingSpinner";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { team } from "../../../types/member";
-import { getOtherGenderTeam } from "../../../api/team";
+import { getMyTeam, getOtherGenderTeam } from "../../../api/team";
 import MsgModal from "../../UI/Modal/MsgModal";
 import T_OtherGender from "./T_OtherGender";
 import { imLeader, myGender, myatk, myatkET } from "../../../atom/member";
 import { kid } from "../../../atom/member";
-import { expireATK, inquireMember } from "../../../api/auth";
+import { inquireMember } from "../../../api/auth";
 import { myMemberUUID } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
 import cookie from "react-cookies";
@@ -31,6 +30,8 @@ const ExploreTeam = () => {
   let [receiveList, setReceiveList] = useState<number>(NUMBER); //받아올 리스트 수.
   let [infinityScroll, setInfinityScroll] = useState<boolean>(true); //일정 스크롤 이상내려가면 false로 바뀌고 axios요청이 성공하면 true로 다시변경.(무한스크롤)
   let [lastList, setLastList] = useState<boolean>(true); //백에서 더이상 받아올 팀이 없는지 확인해줄 state.
+  let [memberLength, setMemberLength] = useState<number>(0);
+  let [haveTeam, setHaveTeam] = useState<boolean>(false);
 
   const [msg, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
@@ -55,9 +56,15 @@ const ExploreTeam = () => {
   const getMyInfo = async () => {
     await inquireMember(UUID, atk, kID)
       .then((res) => {
-        console.log(res);
         setGender(res.data.body.gender);
         setLeader(res.data.body.teamLeader);
+        if (res.data.body.teamLeader) {
+          //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
+          getMyTeam(res.data.body.teamUUID, atk, kID).then((res) => {
+            setHaveTeam(res.data.body.haveMeetingTeam);
+            setMemberLength(res.data.body.members.length);
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -125,6 +132,8 @@ const ExploreTeam = () => {
                 applyModal={applyModal}
                 setMsg={setMsg}
                 setApplyModal={setApplyModal}
+                haveTeam={haveTeam}
+                memberLength={memberLength}
               >
                 {applyModal && <MsgModal msg={msg} />}
               </CheckTeam>

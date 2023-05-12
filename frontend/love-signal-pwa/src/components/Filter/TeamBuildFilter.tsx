@@ -32,12 +32,13 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
             !res.data.body.haveMeetingTeam &&
             res.data.body.members.length !== 3
           ) {
-            navigate("/Samegender/build");
+            navigate("/Samegender/build", { replace: true });
           } else {
-            navigate("/Samegender/myTeam");
+            navigate("/Samegender/myTeam", { replace: true });
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           navigate("/SameGender", { replace: true });
         });
     } else {

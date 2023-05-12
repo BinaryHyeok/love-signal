@@ -152,9 +152,9 @@ public class TeamController {
                 .body(successResponse);
     }
 
-    @DeleteMapping("/{teamUUID}/accpet-meeting/{oppositeTeamUUID}")
+    @DeleteMapping("/{teamUUID}/accept-meeting/{oppositeTeamUUID}")
     @ApiOperation(value = "미팅 수락")
-    public ResponseEntity<String> accpetMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+    public ResponseEntity<String> acceptMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
         System.out.println("========================미팅수락===============");
 
         teamService.accpetMeeting(teamUUID, oppositeTeamUUID);

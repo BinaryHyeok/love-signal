@@ -82,7 +82,7 @@ export const getOtherGenderTeam = async (
   });
 };
 
-//미팅 신청받은 목록 불러오기
+//미팅 신청받은 목록 불러오기v
 export const receivemeetingList = async (
   teamUUID: string,
   atk: string,
@@ -116,7 +116,7 @@ export const sendmeetingList = async (
   });
 };
 
-//미팅 신청하기
+//미팅 신청하기v
 export const applyMeeting = async (
   teamUUID: string,
   oppositeTeamUUID: string,
@@ -151,7 +151,7 @@ export const acceptMeeting = async (
   });
 };
 
-//미팅 거절
+//미팅 거절v
 export const rejectMeeting = async (
   teamUUID: string,
   oppositeTeamUUID: string,

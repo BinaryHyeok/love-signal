@@ -8,10 +8,11 @@ import Age from "./Age";
 import { useRecoilState } from "recoil";
 import { kid, myMemberUUID, myatk } from "../../../atom/member";
 import { changeMyInfo } from "../../../api/auth";
+import { nickname } from "../../../atom/member";
 
 type propsType = {
   age: number;
-  nickname: string;
+  mynickname: string;
   description: string;
   setNick: (param: string) => void;
   setDesc: (param: string) => void;
@@ -19,7 +20,7 @@ type propsType = {
 
 const MyInfo: React.FC<propsType> = ({
   age,
-  nickname,
+  mynickname,
   description,
   setNick,
   setDesc,
@@ -27,6 +28,7 @@ const MyInfo: React.FC<propsType> = ({
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
+  const [, setMyNickname] = useRecoilState<string>(nickname);
 
   const [isNameChanging, setIsNameChanging] = useState<boolean>(false);
   const [isDescChanging, setIsDescChanging] = useState<boolean>(false);
@@ -41,20 +43,21 @@ const MyInfo: React.FC<propsType> = ({
 
   const updateNickHandler = (newNick: string) => {
     changeMyInfo(UUID, newNick, description, atk, kID);
+    setMyNickname(newNick);
   };
 
   const updateDescHandler = (newDesc: string) => {
-    changeMyInfo(UUID, nickname, newDesc, atk, kID);
+    changeMyInfo(UUID, mynickname, newDesc, atk, kID);
   };
 
   return (
     <>
       <div className={style.container}>
         {!isNameChanging ? (
-          <NickName nickname={nickname} toggleMode={toggleNameView} />
+          <NickName mynickname={mynickname} toggleMode={toggleNameView} />
         ) : (
           <EditNickName
-            nickname={nickname}
+            mynickname={mynickname}
             setNick={setNick}
             toggleMode={toggleNameView}
             nickSubmitHandler={updateNickHandler}

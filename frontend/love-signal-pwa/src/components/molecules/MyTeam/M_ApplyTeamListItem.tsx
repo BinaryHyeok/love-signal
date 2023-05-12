@@ -23,7 +23,6 @@ const M_ApplyTeamListItem: React.FC<PropsType> = ({
   clickBtn,
   setClickBtn,
 }) => {
-  //실제론 team안에있는 상대팀의 teamUUID를 넣어야합니다.
   const [oppositeTeamCode, setOppositeTeamCode] = useState<string>("");
   useEffect(() => {
     setOppositeTeamCode(team.teamUUID);

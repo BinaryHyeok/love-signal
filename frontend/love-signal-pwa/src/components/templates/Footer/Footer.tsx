@@ -52,7 +52,6 @@ const Footer = () => {
     } else if (navid === 1) {
       getMyTeam(myTUUID, atk, kID)
         .then((res) => {
-          console.log(res);
           if (
             !res.data.body.haveMeetingTeam &&
             res.data.body.members.length !== 3

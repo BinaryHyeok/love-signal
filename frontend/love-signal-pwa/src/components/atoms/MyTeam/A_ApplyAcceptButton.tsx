@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import { acceptMeeting } from "../../../api/team";
 import { useRecoilState } from "recoil";
-import { kid, myMemberUUID, myatk } from "../../../atom/member";
+import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
 import { imLeader } from "../../../atom/member";
 
 type propsType = {
@@ -20,12 +20,12 @@ const A_ApplyAcceptButton: React.FC<propsType> = ({
 }) => {
   const [isLeader] = useRecoilState<boolean>(imLeader);
   //버튼 클릭시 팀 수락한거임.
-  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [myTUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const acceptTeam = () => {
     if (isLeader) {
-      acceptMeeting(myUUID, oppsiteTeamUUID, atk, kID);
+      acceptMeeting(myTUUID, oppsiteTeamUUID, atk, kID);
       setClickBtn(!clickBtn);
     }
   };

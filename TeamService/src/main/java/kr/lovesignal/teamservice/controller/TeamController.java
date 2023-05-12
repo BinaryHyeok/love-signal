@@ -155,10 +155,10 @@ public class TeamController {
     @DeleteMapping("/{teamUUID}/accpet-meeting/{oppositeTeamUUID}")
     @ApiOperation(value = "미팅 수락")
     public ResponseEntity<String> accpetMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
+        System.out.println("========================미팅수락===============");
 
         teamService.accpetMeeting(teamUUID, oppositeTeamUUID);
 
-        System.out.println("========================미팅수락===============");
         List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID, oppositeTeamUUID);
         webClientService.makeChatRoomApi(memberUUIDs);
 

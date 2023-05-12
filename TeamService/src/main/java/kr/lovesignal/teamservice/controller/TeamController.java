@@ -155,7 +155,6 @@ public class TeamController {
     @DeleteMapping("/{teamUUID}/accept-meeting/{oppositeTeamUUID}")
     @ApiOperation(value = "미팅 수락")
     public ResponseEntity<String> acceptMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
-        System.out.println("========================미팅수락===============");
 
         teamService.accpetMeeting(teamUUID, oppositeTeamUUID);
 
@@ -171,7 +170,6 @@ public class TeamController {
     @ApiOperation(value = "미팅 거절")
     public ResponseEntity<SuccessResponse> rejectMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
 
-        System.out.println("========================미팅거절===============");
         SuccessResponse successResponse = teamService.rejectMeeting(teamUUID, oppositeTeamUUID);
 
         return ResponseEntity

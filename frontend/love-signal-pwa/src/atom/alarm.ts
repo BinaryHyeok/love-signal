@@ -12,3 +12,8 @@ export const modalState = atom({
     animate: false,
   },
 });
+
+export const timeState = atom({
+  key: "timeState",
+  default: null,
+});

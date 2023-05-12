@@ -1,4 +1,5 @@
 import style from "./Button_Type_B.module.scss";
+import { motion } from "framer-motion";
 
 type propsType = {
   className?: string;
@@ -24,7 +25,11 @@ const Button_Type_B: React.FC<propsType> = ({
   children,
 }) => {
   return (
-    <button
+    <motion.button
+      whileTap={{
+        scale: 1.05,
+        transition: { type: "spring", stiffness: 200, damping: 10 },
+      }}
       className={`${style.button} ${className}`}
       style={{
         margin: `${margin}`,
@@ -37,7 +42,7 @@ const Button_Type_B: React.FC<propsType> = ({
       disabled={disabled}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };
 

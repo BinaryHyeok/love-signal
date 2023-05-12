@@ -1,4 +1,5 @@
 import React from "react";
+import style from "./styles/SignUp.module.scss";
 
 type propsType = {
   handleYearChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -11,9 +12,15 @@ const A_SignUp_Year: React.FC<propsType> = ({ handleYearChange, myYear }) => {
     (_, i) => new Date().getFullYear() - 30 + i
   );
   return (
-    <>
+    <span className={style.yearTag}>
       <label htmlFor="year"></label>
-      <select id="year" name="year" onChange={handleYearChange} value={myYear}>
+      <select
+        className={style.selectBox}
+        id="year"
+        name="year"
+        onChange={handleYearChange}
+        value={myYear}
+      >
         <option value="">--</option>
         {years.map((year) => (
           <option key={year} value={year}>
@@ -22,7 +29,7 @@ const A_SignUp_Year: React.FC<propsType> = ({ handleYearChange, myYear }) => {
         ))}
       </select>
       년
-    </>
+    </span>
   );
 };
 

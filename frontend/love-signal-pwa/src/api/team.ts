@@ -8,8 +8,6 @@ export const makeTeam = async (
   atk: string,
   kID: string
 ) => {
-  console.log(atk);
-  console.log(kID);
   return await axios({
     method: "post",
     url: `${process.env.REACT_APP_API}/team/${memberUUID}`,

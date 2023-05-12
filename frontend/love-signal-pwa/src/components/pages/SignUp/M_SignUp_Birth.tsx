@@ -70,7 +70,7 @@ const M_SignUp_Birth: React.FC<PropsType> = ({ onClick, setBirth }) => {
   return (
     <div className={style.userInfo}>
       <A_SignUp_Desc3 />
-      <div>
+      <div className={style.birthContainer}>
         <A_SignUp_Year handleYearChange={handleYearChange} myYear={myYear} />
         <A_SignUp_Month
           handleMonthChange={handleMonthChange}

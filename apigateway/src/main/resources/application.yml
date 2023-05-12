@@ -63,6 +63,7 @@ spring:
               - Access-Control-Allow-Origin
               - X-Auth_Token
               - X-Auth_ID
+              - Content-Type
             allowedMethods:
               - PUT
               - GET

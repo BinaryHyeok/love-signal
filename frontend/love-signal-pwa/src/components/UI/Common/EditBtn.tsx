@@ -5,12 +5,20 @@ const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024; // 5MB
 const ALLOW_FILE_EXTENSION = "jpg,jpeg,png";
 
 type propsType = {
+  timeout: any;
+  setAnimation: Dispatch<SetStateAction<boolean>>;
   setFileImg: Dispatch<SetStateAction<string>>;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
 };
 
-const EditBtn: React.FC<propsType> = ({ setFileImg, visible, setVisible }) => {
+const EditBtn: React.FC<propsType> = ({
+  timeout,
+  setAnimation,
+  setFileImg,
+  visible,
+  setVisible,
+}) => {
   const [file, setFile] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const onChangeImg = (
@@ -75,6 +83,8 @@ const EditBtn: React.FC<propsType> = ({ setFileImg, visible, setVisible }) => {
     }
     console.log(files);
 
+    setAnimation(false);
+    clearTimeout(timeout);
     setFile(files);
     setVisible(true);
     setFileImg(URL.createObjectURL(files));

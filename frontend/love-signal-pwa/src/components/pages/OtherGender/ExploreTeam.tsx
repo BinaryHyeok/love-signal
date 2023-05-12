@@ -12,6 +12,9 @@ import { kid } from "../../../atom/member";
 import { inquireMember } from "../../../api/auth";
 import { myMemberUUID } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
+import cookie from "react-cookies";
+import { motion } from "framer-motion";
+import { contentVariants } from "../../atoms/Common/contentVariants";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -135,25 +138,34 @@ const ExploreTeam = () => {
                 {applyModal && <MsgModal msg={msg} />}
               </CheckTeam>
             </Modal_portal>
-            <T_OtherGender
-              getList={getList}
-              infinityScroll={infinityScroll}
-              lastList={lastList}
-              setInfinityScroll={setInfinityScroll}
-              viewDetail={viewDetail}
-              team={team}
-            />
+            <div>
+              <T_OtherGender
+                getList={getList}
+                infinityScroll={infinityScroll}
+                lastList={lastList}
+                setInfinityScroll={setInfinityScroll}
+                viewDetail={viewDetail}
+                team={team}
+              />
+            </div>
           </>
         ) : (
           <>
-            <T_OtherGender
-              getList={getList}
-              infinityScroll={infinityScroll}
-              lastList={lastList}
-              setInfinityScroll={setInfinityScroll}
-              viewDetail={viewDetail}
-              team={team}
-            />
+            <motion.div
+              variants={contentVariants}
+              initial="hidden"
+              animate="visible"
+              // exit="exit"
+            >
+              <T_OtherGender
+                getList={getList}
+                infinityScroll={infinityScroll}
+                lastList={lastList}
+                setInfinityScroll={setInfinityScroll}
+                viewDetail={viewDetail}
+                team={team}
+              />
+            </motion.div>
           </>
         )}
       </>

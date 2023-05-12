@@ -6,6 +6,8 @@ import style from "./M_Image_Crop.module.scss";
 import M_Image_Crop_Desc from "./M_Image_Crop_Desc";
 
 type PropsType = {
+  timeout: any;
+  setAnimation: Dispatch<SetStateAction<boolean>>;
   image?: string;
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
@@ -15,6 +17,8 @@ type PropsType = {
 };
 
 const M_Image_Crop: React.FC<PropsType> = ({
+  timeout,
+  setAnimation,
   image,
   setCropData,
   visible,
@@ -36,7 +40,10 @@ const M_Image_Crop: React.FC<PropsType> = ({
           setChangeImg(true);
         }
       }, "image/png");
-      setVisible(!visible);
+      setAnimation(true);
+      timeout = setTimeout(() => {
+        setVisible(false);
+      }, 500);
       setCropData(canvas.toDataURL());
     }
   };

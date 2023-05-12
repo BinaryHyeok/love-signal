@@ -10,51 +10,59 @@ $box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
   border-radius: 10px;
   position: absolute;
   display: flex;
-  z-index: 4;
+  z-index: 99999;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .disappear {
-  animation: fadeout 1s;
-  -moz-animation: fadeout 1s; /* Firefox */
-  -webkit-animation: fadeout 1s; /* Safari and Chrome */
-  -o-animation: fadeout 1s; /* Opera */
+  animation: fadeout 0.8s;
+  -moz-animation: fadeout 0.8s; /* Firefox */
+  -webkit-animation: fadeout 0.8s; /* Safari and Chrome */
+  -o-animation: fadeout 0.8s; /* Opera */
   animation-fill-mode: forwards;
   @keyframes fadeout {
     from {
       opacity: 1;
+      scale: 1;
     }
     to {
       opacity: 0;
+      scale: 0.6;
     }
   }
   @-moz-keyframes fadeout {
     /* Firefox */
     from {
       opacity: 1;
+      scale: 1;
     }
     to {
       opacity: 0;
+      scale: 0.6;
     }
   }
   @-webkit-keyframes fadeout {
     /* Safari and Chrome */
     from {
       opacity: 1;
+      scale: 1;
     }
     to {
       opacity: 0;
+      scale: 0.6;
     }
   }
   @-o-keyframes fadeout {
     /* Opera */
     from {
       opacity: 1;
+      scale: 1;
     }
     to {
       opacity: 0;
+      scale: 0.6;
     }
   }
 }

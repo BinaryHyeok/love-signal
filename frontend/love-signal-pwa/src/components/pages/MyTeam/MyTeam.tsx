@@ -3,7 +3,6 @@ import style from "./styles/MyTeam.module.scss";
 import T_MyTeam from "../../templates/MyTeam/T_MyTeam";
 import M_MyTeamDesc from "../../molecules/MyTeam/M_MyTeamDesc";
 import O_MyTeamBox from "../../organisms/MyTeam/O_MyTeamBox";
-import { inquireMember } from "../../../api/auth";
 import { kid, myMemberUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { member } from "../../../types/member";
@@ -12,21 +11,17 @@ import { getMyTeam } from "../../../api/team";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { applyTeam } from "../../../types/member";
-import { useNavigate } from "react-router-dom";
-import { imLeader } from "../../../atom/member";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";
 
 const MyTeam = () => {
-  const navigate = useNavigate();
   //내가 상대팀이 있는지 파악해주는 state변수입니다.
   const [haveOppositeTeam, setHaveOppositeTeam] = useState<boolean>(false);
 
-  //내가 현재 리더인지 파악해주는 state변수입니다.
-  const [isLeader, setIsLeader] = useRecoilState<boolean>(imLeader);
-
   const [memberList, setMemberList] = useState<member[]>([]);
+  const [matchMember, setMatchMemberList] = useState<member[]>([]);
+  const [matchTeamUUID, setMatchTeamUUID] = useState<string>("");
   const [applyList, setApplyList] = useState<applyTeam[]>([]);
-  const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [teamUUID] = useRecoilState<string>(myTeamUUID);
 
   const [oppoTeamIdx, setOppoTeamIdx] = useState<number>(0);
 
@@ -39,38 +34,17 @@ const MyTeam = () => {
   const [msg, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
-  const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
-  //들어올 때 마다 axios요청을해서 내 개인정보를 불러오고 거기에 팀 리더인지, 팀이 있는지를 파악해주자.
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
   useEffect(() => {
-    getUserInfo();
     getUserTeamInfo();
   }, []);
-
-  //axios로 내 정보 받아오기.
-  const getUserInfo = async () => {
-    await inquireMember(UUID, atk, kID)
-      .then((res) => {
-        console.log(res.data.body); //해당 정보 보고 판단.
-        // setmyUUID(res.data.body.memberUUID);
-        setTeamUUID(res.data.body.teamUUID);
-        //내가 리더면 변경.
-        if (res.data.body.teamLeader) {
-          setIsLeader(true);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const getUserTeamInfo = async () => {
     await getMyTeam(teamUUID, atk, kID)
       .then((res) => {
-        console.log(res);
         setMemberList(res.data.body.members);
         //내가 상대팀을 가지고 있는지를 파악.
         if (!res.data.body.haveMeetingTeam) {
@@ -106,8 +80,12 @@ const MyTeam = () => {
           <CheckTeam
             setVisible={setOppoVisible}
             visible={oppoVisible}
-            member={applyList[oppoTeamIdx].members}
-            oppositeTeamUUID={applyList[oppoTeamIdx].teamUUID}
+            member={
+              haveOppositeTeam ? applyList[oppoTeamIdx].members : matchMember
+            }
+            oppositeTeamUUID={
+              haveOppositeTeam ? applyList[oppoTeamIdx].teamUUID : matchTeamUUID
+            }
             myTeam={true}
             applyModal={applyModal}
             setMsg={setMsg}
@@ -129,6 +107,9 @@ const MyTeam = () => {
               applyList={applyList}
               setApplyList={setApplyList}
               setOppoTeamIdx={setOppoTeamIdx}
+              matchMember={matchMember}
+              setMatchMemberList={setMatchMemberList}
+              setMatchTeamUUID={setMatchTeamUUID}
             />
           </T_MyTeam>
         </div>

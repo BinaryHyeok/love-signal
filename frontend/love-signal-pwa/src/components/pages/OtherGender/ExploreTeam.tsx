@@ -38,11 +38,8 @@ const ExploreTeam = () => {
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk, setATK] = useRecoilState<string>(myatk);
-  const [atkET, setAtkET] = useRecoilState<Date>(myatkET);
   const [kID, setKakaoId] = useRecoilState<string>(kid);
-  const [leader, setLeader] = useRecoilState<boolean>(imLeader);
   const [gender, setGender] = useRecoilState<string>(myGender);
-  const [mynick, setNickname] = useRecoilState<string>(nickname);
 
   useEffect(() => {
     getMyInfo();
@@ -57,10 +54,6 @@ const ExploreTeam = () => {
   const getMyInfo = async () => {
     await inquireMember(UUID, atk, kID)
       .then((res) => {
-        console.log(res);
-        setGender(res.data.body.gender);
-        setLeader(res.data.body.teamLeader);
-        setNickname(res.data.body.nickname);
         if (res.data.body.teamLeader) {
           //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
           getMyTeam(res.data.body.teamUUID, atk, kID).then((res) => {

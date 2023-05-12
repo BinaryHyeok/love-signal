@@ -14,34 +14,20 @@ import {
   myatk,
 } from "../../../atom/member";
 import { useNavigate } from "react-router-dom";
-import { inquireMember } from "../../../api/auth";
-import A_Clipboard from "../../atoms/TeamBuild/A_Clipboard";
 import M_TeamCode from "../../molecules/TeamBuild/M_TeamCode";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";
-import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
 import A_TextHighlight_Blink from "../../atoms/Common/A_TextHighlight_Blink";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 
 const TeamBuild = () => {
   const navigate = useNavigate();
-  const DUMMY_DISABLED = false;
   const [memberLength, setMemberLength] = useState<number>(0);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [isLeader, setIsLeader] = useRecoilState<boolean>(imLeader);
-
-  useEffect(() => {
-    inquireMember(myUUID, atk, kID)
-      .then((res) => {
-        setTeamUUID(res.data.body.teamUUID);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   //팀 나가기 함수입니다.
   const exitTeam = () => {

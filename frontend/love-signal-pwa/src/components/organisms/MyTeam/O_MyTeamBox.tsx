@@ -5,7 +5,7 @@ import M_MyTeamList from "../../molecules/MyTeam/M_MyTeamList";
 import { member } from "../../../types/member";
 import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
 import O_ApplyTeamList from "./O_ApplyTeamList";
-import { receivemeetingList } from "../../../api/team";
+import { receiveMatchMember, receivemeetingList } from "../../../api/team";
 import { kid, myTeamUUID, myatk } from "../../../atom/member";
 import { myMemberUUID } from "../../../atom/member";
 import { useRecoilState } from "recoil";
@@ -13,6 +13,8 @@ import { applyTeam } from "../../../types/member";
 import Button_Type_A from "../../UI/Common/Button_Type_A";
 import { withdrawTeam } from "../../../api/team";
 import { imLeader } from "../../../atom/member";
+import A_Heartline from "../../atoms/Common/A_Heartline";
+import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 
 type propsType = {
   haveOppositeTeam: boolean;
@@ -22,6 +24,9 @@ type propsType = {
   applyList: applyTeam[];
   setApplyList: Dispatch<SetStateAction<applyTeam[]>>;
   setOppoTeamIdx: Dispatch<SetStateAction<number>>;
+  matchMember: member[];
+  setMatchMemberList: Dispatch<SetStateAction<member[]>>;
+  setMatchTeamUUID: Dispatch<SetStateAction<string>>;
 };
 
 const O_MyTeamBox: React.FC<propsType> = ({
@@ -32,6 +37,9 @@ const O_MyTeamBox: React.FC<propsType> = ({
   setOppoTeamIdx,
   applyList,
   setApplyList,
+  matchMember,
+  setMatchMemberList,
+  setMatchTeamUUID,
 }) => {
   const navigate = useNavigate();
   const [TeamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
@@ -40,21 +48,35 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [applyTeamExist, setApplyTeamExist] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
-  const [isleader, setIsLeader] = useRecoilState<boolean>(imLeader);
+  const [, setIsLeader] = useRecoilState<boolean>(imLeader);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
     if (start) {
-      receivemeetingList(TeamUUID, atk, kID)
-        .then((res) => {
-          setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
-          addApplyList(res.data.body.teams);
-          setStart(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (haveOppositeTeam) {
+        receivemeetingList(TeamUUID, atk, kID)
+          .then((res) => {
+            setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
+            addApplyList(res.data.body.teams);
+            setStart(false);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
+        receiveMatchMember(TeamUUID, atk, kID)
+          .then((res) => {
+            console.log(res);
+            setMatchMemberList(res.data.body.members);
+            setMatchTeamUUID(res.data.body.teamUUID);
+            setStart(false);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
   }, [clickBtn]);
 
@@ -89,6 +111,10 @@ const O_MyTeamBox: React.FC<propsType> = ({
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const openModal = () => {
+    setOppoVisible(true);
   };
 
   return (
@@ -134,7 +160,22 @@ const O_MyTeamBox: React.FC<propsType> = ({
           )}
         </ListBoxWithImgTitle>
       ) : (
-        <>여기엔 상대팀이 들어가야해.</>
+        <ListBoxWithImgTitle
+          title={
+            <>
+              <A_Heartline type="red" count="3" />
+              <span>상대 팀</span>
+              <A_Heartline type="red" count="3" />
+            </>
+          }
+          type="red"
+        >
+          <ul className={style.teamList} onClick={openModal}>
+            {matchMember.map((member, idx) => (
+              <A_MyTeamListItem key={idx} member={member} />
+            ))}
+          </ul>
+        </ListBoxWithImgTitle>
       )}
     </div>
   );

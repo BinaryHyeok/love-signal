@@ -31,7 +31,6 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   profileImage,
   chat,
 }) => {
-  console.log(chat, profileImage);
   let text = null;
   if (chatType === "TEXT") {
     text = isMe ? (
@@ -62,7 +61,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   if (chatType && !["ENTER", "EXIT"].includes(chatType)) {
     sendTime = <A_ChatSendTime createdDate={chat.createdDate} />;
   }
-  console.log(text);
+
   return (
     <li
       className={`${style.outerBox} ${isMe ? style.isMe : ""} ${

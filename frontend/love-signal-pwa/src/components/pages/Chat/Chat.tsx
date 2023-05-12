@@ -82,6 +82,7 @@ const Chat = () => {
       console.log("방 입장 : " + roomUUID);
       ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
         const messages = JSON.parse(res.body);
+        console.log(messages);
 
         setChatList((prevState) => {
           const prevList = prevState[roomUUID] || [];

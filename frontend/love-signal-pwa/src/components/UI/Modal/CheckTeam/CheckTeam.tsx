@@ -27,6 +27,7 @@ type propsType = {
   setMsg: Dispatch<SetStateAction<string>>;
   applyModal: boolean;
   setApplyModal: Dispatch<SetStateAction<boolean>>;
+  haveTeam?: boolean;
   memberLength?: number;
   children: React.ReactNode;
 };
@@ -39,12 +40,13 @@ const CheckTeam: React.FC<propsType> = ({
   setMsg,
   applyModal,
   setApplyModal,
+  haveTeam,
   memberLength,
   children,
 }) => {
   const [myUUID] = useRecoilState<string>(myTeamUUID); //현재는 사용안하지만 이후에 사용예정.
   const [btnVisible, setBtnVisible] = useState<boolean>(false);
-  const [btnBlack, setBtnBlack] = useState<boolean>(false);
+  const [activeBtn, setActiveBtn] = useState<boolean>(false);
 
   const [close, setClose] = useState(false);
 
@@ -54,12 +56,10 @@ const CheckTeam: React.FC<propsType> = ({
 
   useEffect(() => {
     setBtnVisible(!myTeam);
-    if (memberLength) {
-      if (memberLength === 3 && isLeader) {
-        setBtnBlack(false);
-      } else {
-        setBtnBlack(true);
-      }
+    if (memberLength === 3 && !haveTeam && isLeader) {
+      setActiveBtn(true);
+    } else {
+      setActiveBtn(false);
     }
   }, []);
 
@@ -82,7 +82,7 @@ const CheckTeam: React.FC<propsType> = ({
 
   //신청하기 버튼
   const applyTeam = () => {
-    if (isLeader) {
+    if (memberLength === 3 && !haveTeam && isLeader) {
       applyMeeting(myUUID, oppositeTeamUUID, atk, kID)
         .then((res) => {
           setMsg(res.data.body);
@@ -95,7 +95,13 @@ const CheckTeam: React.FC<propsType> = ({
           console.log(applyModal);
         });
     } else {
-      setMsg("팀의 리더가 아닙니다.");
+      if (haveTeam) {
+        setMsg("이미 팀이 존재 합니다");
+      } else if (!isLeader) {
+        setMsg("팀의 리더가 아닙니다.");
+      } else if (memberLength !== 3) {
+        setMsg("팀원이 가득차지 않았습니다.");
+      }
       setApplyModal(true);
     }
   };
@@ -179,10 +185,10 @@ const CheckTeam: React.FC<propsType> = ({
                 <ButtonTypeA
                   width="104px"
                   height="32px"
-                  background={btnBlack ? "#FBCED3" : "#CCCCCC"}
+                  background={activeBtn ? "#FBCED3" : "#CCCCCC"}
                   onClick={applyTeam}
                 >
-                  {btnBlack ? (
+                  {activeBtn ? (
                     <img src="/assets/send_invite.png" alt="" />
                   ) : (
                     <img src="/assets/send_blackinvite.png" alt="" />

@@ -28,6 +28,7 @@ const ExploreTeam = () => {
   let [infinityScroll, setInfinityScroll] = useState<boolean>(true); //일정 스크롤 이상내려가면 false로 바뀌고 axios요청이 성공하면 true로 다시변경.(무한스크롤)
   let [lastList, setLastList] = useState<boolean>(true); //백에서 더이상 받아올 팀이 없는지 확인해줄 state.
   let [memberLength, setMemberLength] = useState<number>(0);
+  let [haveTeam, setHaveTeam] = useState<boolean>(false);
 
   const [msg, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
@@ -57,6 +58,7 @@ const ExploreTeam = () => {
         if (res.data.body.teamLeader) {
           //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
           getMyTeam(res.data.body.teamUUID, atk, kID).then((res) => {
+            setHaveTeam(res.data.body.haveMeetingTeam);
             setMemberLength(res.data.body.members.length);
           });
         }
@@ -127,6 +129,7 @@ const ExploreTeam = () => {
                 applyModal={applyModal}
                 setMsg={setMsg}
                 setApplyModal={setApplyModal}
+                haveTeam={haveTeam}
                 memberLength={memberLength}
               >
                 {applyModal && <MsgModal msg={msg} />}

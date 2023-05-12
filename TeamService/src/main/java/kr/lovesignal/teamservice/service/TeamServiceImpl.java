@@ -500,6 +500,24 @@ public class TeamServiceImpl implements TeamService{
         return terminateTeam(leaveMember.getTeam());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Team getMeetingTeam(String strTeamUUID) {
+        UUID UUID = commonUtils.getValidUUID(strTeamUUID);
+
+        TeamEntity myTeam = teamRepository.findByUUIDAndExpiredAndMeeting(UUID, "F", "T")
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        MeetingTeamEntity meetingTeam = findMeetingTeam(myTeam);
+
+        TeamEntity oppositeTeam = "M".equals(myTeam.getGender()) ?
+                meetingTeam.getFemaleTeam() : meetingTeam.getMaleTeam();
+
+        Team team = makeTeam(oppositeTeam);
+
+        return team;
+    }
+
     @Transactional
     public List<String> terminateTeam(TeamEntity team){
         List<String> memberUUIDs = new ArrayList<>();

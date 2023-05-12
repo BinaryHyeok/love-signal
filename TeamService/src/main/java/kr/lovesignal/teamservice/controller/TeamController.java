@@ -176,4 +176,16 @@ public class TeamController {
                 .status(HttpStatus.OK)
                 .body(successResponse);
     }
+
+    @GetMapping("/{teamUUID}/meeting-team")
+    public ResponseEntity<SuccessResponse> getMeetingTeam(@PathVariable String teamUUID){
+
+        Team team = teamService.getMeetingTeam(teamUUID);
+        Team teamResult = webClientService.getProfileImagesByTeamApi(team).block();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(responseUtils.buildSuccessResponse(teamResult));
+    }
+
 }

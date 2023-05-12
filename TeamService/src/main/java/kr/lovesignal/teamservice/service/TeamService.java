@@ -52,4 +52,6 @@ public interface TeamService {
 
     public List<String> deleteTeamByMember(String strMemberUUID);
 
+    public Team getMeetingTeam(String strTeamUUID);
+
 }

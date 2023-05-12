@@ -45,8 +45,6 @@ public class SwaggerConfig {
     public Docket buildDocket(String groupName, Predicate<String> predicates) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo()) // API 문서에 대한 설명
-//                .securityContexts(Arrays.asList(securityContext())) // swagger에서 jwt 토큰값 넣기위한 설정 1
-//                .securitySchemes(Arrays.asList(apiKey())) // swagger에서 jwt 토큰값 넣기위한 설정 2
                 .useDefaultResponseMessages(false)
                 .groupName(groupName)
                 .select()
@@ -61,25 +59,6 @@ public class SwaggerConfig {
                 .title(API_NAME)
                 .version(API_VERSION)
                 .description(API_DESCRIPTION)
-                //.license("license")
-                //.licenseUrl("license URL")
                 .build();
     }
-
-//    // swagger에서 jwt 토큰값 넣기위한 설정
-//    private ApiKey apiKey() {
-//        return new ApiKey("JWT", "Authorization", "header"); // <type> : JWT
-//        // return new ApiKey("Bearer", "Authorization", "header"); // <type> : Bearer
-//    }
-//
-//    private SecurityContext securityContext() {
-//        return SecurityContext.builder().securityReferences(defaultAuth()).build();
-//    }
-//
-//    private List<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
-//    }
 }

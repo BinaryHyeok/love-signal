@@ -29,6 +29,13 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  cache:
+    type: redis
+    redis:
+      host: localhost
+      port: 6379
+      passoword: lovesignal
+
   jpa:
     hibernate:
       ddl-auto: none

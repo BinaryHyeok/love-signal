@@ -40,13 +40,7 @@ const T_OtherGender: React.FC<propsType> = ({
   };
 
   return (
-    <motion.div
-      variants={contentVariants}
-      initial="hidden"
-      animate="visible"
-      // exit="exit"
-      className={style.otherContainer}
-    >
+    <div className={style.otherContainer}>
       <A_OtherTeamDesc />
       <div className={style.imgContainer} onScroll={handleScroll}>
         {team.map((item, idx) => (
@@ -63,7 +57,7 @@ const T_OtherGender: React.FC<propsType> = ({
           </ListBoxWithImgTitle>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 };
 

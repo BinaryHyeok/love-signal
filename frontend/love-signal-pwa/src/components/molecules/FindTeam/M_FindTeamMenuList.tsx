@@ -34,8 +34,6 @@ const M_FindTeamMenuList = () => {
     setAnimation(false);
     clearTimeout(timeout);
     setVisible(true);
-    console.log(animation);
-    console.log(visible);
   };
 
   //팀으로 입장.(임시);

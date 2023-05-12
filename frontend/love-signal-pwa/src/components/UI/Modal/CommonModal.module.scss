@@ -17,10 +17,10 @@ $background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(2px);
   }
   .disappear {
-    animation: fadeout 1s;
-    -moz-animation: fadeout 1s; /* Firefox */
-    -webkit-animation: fadeout 1s; /* Safari and Chrome */
-    -o-animation: fadeout 1s; /* Opera */
+    animation: fadeout 0.8s;
+    -moz-animation: fadeout 0.8s; /* Firefox */
+    -webkit-animation: fadeout 0.8s; /* Safari and Chrome */
+    -o-animation: fadeout 0.8s; /* Opera */
     animation-fill-mode: forwards;
     @keyframes fadeout {
       from {

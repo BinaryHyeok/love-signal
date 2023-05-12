@@ -39,6 +39,7 @@ const Input_Type_A: React.FC<PropsType> = ({
         style={{ background }}
         ref={inputRef}
       />
+      <div className={style.highlight}></div>
     </div>
   );
 };

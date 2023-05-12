@@ -57,6 +57,7 @@ const ExploreTeam = () => {
   const getMyInfo = async () => {
     await inquireMember(UUID, atk, kID)
       .then((res) => {
+        console.log(res);
         setGender(res.data.body.gender);
         setLeader(res.data.body.teamLeader);
         setNickname(res.data.body.nickname);

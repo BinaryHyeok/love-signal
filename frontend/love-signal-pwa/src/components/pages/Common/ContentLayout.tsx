@@ -9,6 +9,7 @@ import AlarmModal from "../../UI/Modal/AlarmModal";
 
 import style from "./styles/ContentLayout.module.scss";
 import ATKFilter from "../../Filter/ATKFilter";
+import GetMyInfo from "../../Filter/GetMyInfo";
 // import { useEffect, useState } from "react";
 
 const ContentLayout = () => {
@@ -37,7 +38,9 @@ const ContentLayout = () => {
           </Modal_portal>
         )}
         <ATKFilter>
-          <Outlet />
+          <GetMyInfo>
+            <Outlet />
+          </GetMyInfo>
         </ATKFilter>
       </div>
       <Footer />

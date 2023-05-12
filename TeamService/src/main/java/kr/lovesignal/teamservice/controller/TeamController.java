@@ -171,6 +171,7 @@ public class TeamController {
     @ApiOperation(value = "미팅 거절")
     public ResponseEntity<SuccessResponse> rejectMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
 
+        log.debug("========================미팅거절===============");
         SuccessResponse successResponse = teamService.rejectMeeting(teamUUID, oppositeTeamUUID);
 
         return ResponseEntity

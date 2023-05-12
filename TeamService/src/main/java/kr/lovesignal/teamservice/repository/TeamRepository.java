@@ -37,4 +37,6 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
 
      Optional<TeamEntity> findByTeamIdAndExpired(Long TeamId, String expired);
 
+     List<TeamEntity> findByMeetingAndExpired(String meeting, String expired);
+
 }

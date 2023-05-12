@@ -195,8 +195,10 @@ public class TeamServiceImpl implements TeamService{
 
         List<Team> sendTeams = new ArrayList<>();
         for(MeetingEntity sendTeam : sendTeamEntities){
-            Team team = makeTeam(sendTeam.getSendTeam());
-            sendTeams.add(team);
+            if("F".equals(sendTeam.getSendTeam().getExpired())){
+                Team team = makeTeam(sendTeam.getSendTeam());
+                sendTeams.add(team);
+            }
         }
 
         TeamResponse teamResponse = TeamResponse.builder()

@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -95,6 +96,26 @@ public class WebClientServiceImpl implements WebClientService{
         }
 
         webClient.put()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
+    }
+
+    @Override
+    public void sendMeetingMemberUUIDs(List<UUID> memberUUIDs) {
+        String uri = "http://localhost:4444/fcm/notification";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/fcm/notification";
+        }
+
+        webClient.post()
                 .uri(uri)
                 .bodyValue(memberUUIDs)
                 .retrieve()

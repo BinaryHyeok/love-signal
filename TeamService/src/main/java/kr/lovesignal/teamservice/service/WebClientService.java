@@ -5,6 +5,7 @@ import kr.lovesignal.teamservice.model.response.TeamResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface WebClientService {
 
@@ -15,4 +16,6 @@ public interface WebClientService {
     public Mono<Team> getProfileImagesByTeamApi(Team team);
 
     public void exitChatRoomApi(List<String> memberUUIDs);
+
+    public void sendMeetingMemberUUIDs(List<UUID> memberUUIDs);
 }

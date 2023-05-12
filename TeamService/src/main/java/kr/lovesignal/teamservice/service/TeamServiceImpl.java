@@ -18,6 +18,7 @@ import kr.lovesignal.teamservice.repository.TeamRepository;
 import kr.lovesignal.teamservice.util.CommonUtils;
 import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -28,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService{
@@ -282,25 +284,27 @@ public class TeamServiceImpl implements TeamService{
                 .femaleTeam(femaleTeam)
                 .build();
 
-        System.out.println("==========================================");
-        System.out.println("미팅 저장 시작");
-        System.out.println("==========================================");
+
+
+        log.debug("=================================");
+        log.debug("미팅 저장 시작");
+        log.debug("=================================");
 
         meetingTeamRepository.save(saveMeetingTeam);
 
-        System.out.println("==========================================");
-        System.out.println("미팅 저장 끝");
-        System.out.println("==========================================");
+        log.debug("=================================");
+        log.debug("미팅 저장 끝");
+        log.debug("=================================");
 
         for(TeamEntity team : teams){
             deleteAllMeeting(team);
-            System.out.println("==========================================");
-            System.out.println("팀 정보수정 시작");
-            System.out.println("==========================================");
+            log.debug("=================================");
+            log.debug("팀 수정 시작");
+            log.debug("=================================");
             teamRepository.save(buildMeetingTeamEntity(team));
-            System.out.println("==========================================");
-            System.out.println("팀 정보수정 끝");
-            System.out.println("==========================================");
+            log.debug("=================================");
+            log.debug("팀 수정 끝 ");
+            log.debug("=================================");
         }
     }
 
@@ -384,9 +388,9 @@ public class TeamServiceImpl implements TeamService{
     // 0 : 신청한 팀, 1 : 신청을 받은 팀
     @Transactional(readOnly = true)
     public List<TeamEntity> getMeetingTeams(String strSendTeamUUID, String strReceiveTeamUUID){
-        System.out.println("==========================================");
-        System.out.println("여기는 미팅 팀 리스트들 만드는곳 시작");
-        System.out.println("==========================================");
+        log.debug("=================================");
+        log.debug("미팅 팀들 뽑기 시작");
+        log.debug("=================================");
         UUID sendTeamUUID = commonUtils.getValidUUID(strSendTeamUUID);
         UUID receiveTeamUUID = commonUtils.getValidUUID(strReceiveTeamUUID);
 
@@ -403,23 +407,23 @@ public class TeamServiceImpl implements TeamService{
         List<TeamEntity> teams = new ArrayList<>();
         teams.add(sendTeam);
         teams.add(receiveTeam);
-        System.out.println("==========================================");
-        System.out.println("여기는 미팅 팀 리스트들 만드는곳 끝");
-        System.out.println("==========================================");
+        log.debug("=================================");
+        log.debug("미팅 팀들 뽑기 끝");
+        log.debug("=================================");
 
         return teams;
     }
 
     @Transactional
     public void deleteAllMeeting(TeamEntity team){
-        System.out.println("==========================================");
-        System.out.println("미팅삭제 시작");
-        System.out.println("==========================================");
+        log.debug("=================================");
+        log.debug("미팅 삭제 시작");
+        log.debug("=================================");
         meetingRepository.deleteBySendTeam(team);
         meetingRepository.deleteByReceiveTeam(team);
-        System.out.println("==========================================");
-        System.out.println("미팅 삭제 끝");
-        System.out.println("==========================================");
+        log.debug("=================================");
+        log.debug("미팅 삭제 끝");
+        log.debug("=================================");
     }
 
     @Transactional(readOnly = true)

@@ -31,7 +31,11 @@ const M_FindTeamMenuList = () => {
 
   //모달창 열어주는 함수입니다.
   const openRoomCodeModalHandler = () => {
+    setAnimation(false);
+    clearTimeout(timeout);
     setVisible(true);
+    console.log(animation);
+    console.log(visible);
   };
 
   //팀으로 입장.(임시);

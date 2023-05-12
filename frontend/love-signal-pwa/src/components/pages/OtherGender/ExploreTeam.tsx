@@ -12,9 +12,9 @@ import { kid } from "../../../atom/member";
 import { inquireMember } from "../../../api/auth";
 import { myMemberUUID } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
-import cookie from "react-cookies";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
+import { nickname } from "../../../atom/member";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -42,6 +42,7 @@ const ExploreTeam = () => {
   const [kID, setKakaoId] = useRecoilState<string>(kid);
   const [leader, setLeader] = useRecoilState<boolean>(imLeader);
   const [gender, setGender] = useRecoilState<string>(myGender);
+  const [mynick, setNickname] = useRecoilState<string>(nickname);
 
   useEffect(() => {
     getMyInfo();
@@ -58,6 +59,7 @@ const ExploreTeam = () => {
       .then((res) => {
         setGender(res.data.body.gender);
         setLeader(res.data.body.teamLeader);
+        setNickname(res.data.body.nickname);
         if (res.data.body.teamLeader) {
           //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
           getMyTeam(res.data.body.teamUUID, atk, kID).then((res) => {

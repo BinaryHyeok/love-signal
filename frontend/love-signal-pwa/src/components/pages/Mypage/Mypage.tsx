@@ -79,7 +79,7 @@ const Mypage = () => {
           />
           <MyInfo
             age={myAge}
-            nickname={myNickName}
+            mynickname={myNickName}
             description={myDescription}
             setNick={setMyNickName}
             setDesc={setMyDescription}

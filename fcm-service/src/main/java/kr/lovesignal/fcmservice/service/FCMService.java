@@ -1,7 +1,15 @@
 package kr.lovesignal.fcmservice.service;
 
-import kr.lovesignal.fcmservice.model.request.MeetingMemberList;
+import java.util.List;
+import java.util.UUID;
+
+import kr.lovesignal.fcmservice.model.request.TokenRequest;
 
 public interface FCMService {
-	void sendSelectionNotification(MeetingMemberList meetingMemberList);
+
+	// 토큰 등록
+	void registerToken(TokenRequest tokenRequest);
+
+	// 알람 보내기
+	void sendNotification(List<UUID> memberUUIDs);
 }

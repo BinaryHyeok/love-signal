@@ -34,16 +34,19 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // MySQL
-//    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     // JPA
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // Firebase
     implementation 'com.google.firebase:firebase-admin:8.1.0'
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Spring Cloud Config
+//    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 }
 
 //dependencyManagement {

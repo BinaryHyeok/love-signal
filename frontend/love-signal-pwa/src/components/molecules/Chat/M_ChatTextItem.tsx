@@ -12,7 +12,7 @@ import { chat } from "../../../types/chat";
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
   SYSTEM: "#fafbce",
-  GROUP: "#fbced3",
+  MEETING: "#fbced3",
   SECRET: "#dccefb",
 };
 
@@ -48,13 +48,31 @@ const M_ChatTextItem: React.FC<PropsType> = ({
     text = <A_ChatText_Notice content={chat.content} />;
   } else if (chatType === "SELECT") {
     text = (
-      <M_ChatText_Select
-        systemName={chat.nickname ? chat.nickname : ""}
-        selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
-      />
+      <>
+        <A_ChatSenderImg
+          senderImg={`${"/assets"}/profile_notice.png`}
+          isSystem={true}
+        />
+        <M_ChatText_Select
+          systemName={chat.nickname ? chat.nickname : ""}
+          selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
+        />
+      </>
     );
   } else if (chatType === "RESULT") {
-    text = <M_ChatText_Result />;
+    text = (
+      <>
+        <A_ChatSenderImg
+          senderImg={`${"/assets"}/profile_notice.png`}
+          isSystem={true}
+        />
+        <M_ChatText_Result
+          systemName={chat.nickname ? chat.nickname : ""}
+          selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
+        />
+        ;
+      </>
+    );
   }
 
   let sendTime = null;

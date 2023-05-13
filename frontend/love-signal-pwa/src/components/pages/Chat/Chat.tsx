@@ -18,7 +18,7 @@ import { getChatRoomList } from "../../../api/room";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { chat, roomChatList } from "../../../types/chat";
+import { chat, roomChatList, selectOrShareInfo } from "../../../types/chat";
 import { room } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 
@@ -49,6 +49,33 @@ const Chat = () => {
       data.forEach((room) => {
         // 각 방에 소켓 연결
         connectChatServer(room.uuid);
+        const DUMMY_SELECT: selectOrShareInfo = {
+          nicknames: [],
+          profiles: [],
+          isSelected: "F",
+        };
+        const DUMMY_CHAT: chat = {
+          roomUUID: room.uuid,
+          nickname: "러브시그널",
+          uuid: "100",
+          type: "SELECT",
+          createdDate: "2023-05-13T22:00:00",
+          selectOrShareInfo: DUMMY_SELECT,
+        };
+        room.memberList?.forEach((item, idx) => {
+          if (idx < 3) {
+            DUMMY_SELECT.nicknames?.push(item.nickname);
+            DUMMY_SELECT.profiles?.push(item.profileImage);
+          }
+        });
+        setChatList((prevState) => {
+          const prevList = prevState[room.uuid] || [];
+          const newList = [...prevList, DUMMY_CHAT];
+          return {
+            ...prevState,
+            [room.uuid]: newList,
+          };
+        });
 
         // 각 방의 채팅 목록 fetch
         fetchRoomChat(room.uuid);

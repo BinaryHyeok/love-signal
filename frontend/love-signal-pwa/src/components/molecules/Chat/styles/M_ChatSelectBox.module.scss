@@ -1,0 +1,36 @@
+.selectOneBox {
+  width: 30%;
+
+  .imgBox {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+
+    .profileImg {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .selectBtn {
+    width: 100%;
+    outline: none;
+    border: none;
+    background: none;
+    margin: 4px 0 6px 0;
+    background-color: #fbced3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+
+    img {
+      margin: 4px 0;
+      width: 60%;
+      object-fit: cover;
+    }
+  }
+}

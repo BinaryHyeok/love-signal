@@ -1,9 +1,35 @@
 import React from "react";
 import styles from "./styles/M_ChatText_Result.module.scss";
-import A_ChatText_TypeA from "../../atoms/Chat/A_ChatText_TypeA";
+import A_ChatText_TypeB from "../../atoms/Chat/A_ChatText_TypeB";
+import { selectOrShareInfo } from "../../../types/chat";
 
-const M_ChatText_Result = () => {
-  return <A_ChatText_TypeA content={"대충 내용"} background="#fff" />;
+type PropsType = {
+  systemName: string;
+  selectInfo: selectOrShareInfo;
+};
+
+const M_ChatText_Result: React.FC<PropsType> = ({ systemName, selectInfo }) => {
+  let content = (
+    <div className={""}>
+      <div className={"imgBox"}>
+        <img src={selectInfo.profiles ? selectInfo.profiles[0] : ""} />
+      </div>
+      <div className={"imgBox"}>
+        <img src={""} />
+      </div>
+      <div className={"imgBox"}>
+        <img src={selectInfo.profiles ? selectInfo.profiles[1] : ""} />
+      </div>
+    </div>
+  );
+  return (
+    <A_ChatText_TypeB
+      nickname={systemName}
+      content={content}
+      background="#fff"
+      isNotice={true}
+    />
+  );
 };
 
 export default M_ChatText_Result;

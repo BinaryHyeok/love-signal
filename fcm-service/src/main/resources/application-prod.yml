@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: team-service
+    name: chatting-service
 
   config:
     import: "optional:configserver:http://13.125.99.25:8888/"
@@ -44,4 +44,3 @@ eureka:
       defaultZone: http://discoveryservice:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-

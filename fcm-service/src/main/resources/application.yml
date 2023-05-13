@@ -20,12 +20,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  profiles:
-    active:
 
 logging:
   level:
-    org.hibernate.type: trace     # Show Query Parameter
+    org.hibernate.type: trace
 
 eureka:
   client:

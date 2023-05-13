@@ -1,0 +1,31 @@
+.resultBox {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 4px 2px;
+
+  .imgBox {
+    width: 30%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .arrow {
+    width: 15%;
+    aspect-ratio: 1;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}

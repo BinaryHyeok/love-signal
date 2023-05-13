@@ -9,15 +9,16 @@ type PropsType = {
 };
 
 const M_ChatText_Result: React.FC<PropsType> = ({ systemName, selectInfo }) => {
+  console.log(selectInfo);
   let content = (
-    <div className={""}>
-      <div className={"imgBox"}>
+    <div className={styles.resultBox}>
+      <div className={styles.imgBox}>
         <img src={selectInfo.profileUrls ? selectInfo.profileUrls[0] : ""} />
       </div>
-      <div className={"imgBox"}>
-        <img src={""} />
+      <div className={styles.arrow}>
+        <img src={"/assets/hand_with_love.png"} />
       </div>
-      <div className={"imgBox"}>
+      <div className={styles.imgBox}>
         <img src={selectInfo.profileUrls ? selectInfo.profileUrls[1] : ""} />
       </div>
     </div>

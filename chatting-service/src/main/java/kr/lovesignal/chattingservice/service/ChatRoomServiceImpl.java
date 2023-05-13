@@ -300,7 +300,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 30 11 * * *")
+    @Scheduled(cron = "0 30 23 * * *")
     public void secretChatRoomExpiredT() {
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
         for(ChatRoom chatRoom : list) {

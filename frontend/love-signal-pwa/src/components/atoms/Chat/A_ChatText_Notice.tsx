@@ -6,7 +6,6 @@ type PropsType = {
 };
 
 const A_ChatText_Notice: React.FC<PropsType> = ({ content }) => {
-  console.log(content);
   return <p className={style.text}>{content}</p>;
 };
 

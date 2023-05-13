@@ -10,5 +10,15 @@
 
   img {
     width: 100%;
+    object-fit: cover;
+  }
+
+  &.systemMsg {
+    background-color: #fbced3;
+
+    img {
+      position: relative;
+      top: 2px;
+    }
   }
 }

@@ -19,6 +19,8 @@ import TeamBuildFilter from "../../Filter/TeamBuildFilter";
 import A_TextHighlight_Blink from "../../atoms/Common/A_TextHighlight_Blink";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
+import ATKFilter from "../../Filter/ATKFilter";
+import GetMyInfo from "../../Filter/GetMyInfo";
 
 const TeamBuild = () => {
   const navigate = useNavigate();
@@ -45,32 +47,36 @@ const TeamBuild = () => {
   };
 
   return (
-    <TeamBuildFilter>
-      <motion.div
-        variants={contentVariants}
-        initial="hidden"
-        animate="visible"
-        // exit="exit"
-        className={style.container}
-      >
-        <T_TeamBuildRoom>
-          <M_TeamBuildHeader teamCode="나의 팀" />
-          <M_TeamCode />
-          <O_TeamMemberList setMemberLength={setMemberLength} />
-          <Button_Type_A
-            width="90%"
-            height="40px"
-            background="#BCC5F0"
-            onClick={exitTeam}
-            children="팀 나가기"
-          />
-          <br />
-          <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
-            * 주의 : 팀 나가기를 누르면 방이 터집니다
-          </A_TextHighlight_Blink>
-        </T_TeamBuildRoom>
-      </motion.div>
-    </TeamBuildFilter>
+    <ATKFilter>
+      <GetMyInfo>
+        <TeamBuildFilter>
+          <motion.div
+            variants={contentVariants}
+            initial="hidden"
+            animate="visible"
+            // exit="exit"
+            className={style.container}
+          >
+            <T_TeamBuildRoom>
+              <M_TeamBuildHeader teamCode="나의 팀" />
+              <M_TeamCode />
+              <O_TeamMemberList setMemberLength={setMemberLength} />
+              <Button_Type_A
+                width="90%"
+                height="40px"
+                background="#BCC5F0"
+                onClick={exitTeam}
+                children="팀 나가기"
+              />
+              <br />
+              <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+                * 주의 : 팀 나가기를 누르면 방이 터집니다
+              </A_TextHighlight_Blink>
+            </T_TeamBuildRoom>
+          </motion.div>
+        </TeamBuildFilter>
+      </GetMyInfo>
+    </ATKFilter>
   );
 };
 

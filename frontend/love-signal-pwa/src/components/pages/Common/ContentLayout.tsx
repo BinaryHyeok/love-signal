@@ -8,8 +8,6 @@ import Modal_portal from "../../UI/Modal/Modal_portal";
 import AlarmModal from "../../UI/Modal/AlarmModal";
 
 import style from "./styles/ContentLayout.module.scss";
-import ATKFilter from "../../Filter/ATKFilter";
-import GetMyInfo from "../../Filter/GetMyInfo";
 
 const ContentLayout = () => {
   const [visible, setVisible] = useRecoilState<boolean>(alarmModal);
@@ -36,11 +34,7 @@ const ContentLayout = () => {
             </div>
           </Modal_portal>
         )}
-        <ATKFilter>
-          <GetMyInfo>
-            <Outlet />
-          </GetMyInfo>
-        </ATKFilter>
+        <Outlet />
       </div>
       <Footer />
     </>

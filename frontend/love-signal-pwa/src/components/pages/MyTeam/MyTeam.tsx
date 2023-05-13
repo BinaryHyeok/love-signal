@@ -12,6 +12,8 @@ import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { applyTeam } from "../../../types/member";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";
+import ATKFilter from "../../Filter/ATKFilter";
+import GetMyInfo from "../../Filter/GetMyInfo";
 
 const MyTeam = () => {
   //내가 상대팀이 있는지 파악해주는 state변수입니다.
@@ -73,63 +75,71 @@ const MyTeam = () => {
   };
 
   return (
-    <TeamBuildFilter>
-      {myVisible && !oppoVisible && (
-        <Modal_portal>
-          <CheckTeam
-            setVisible={setMyVisible}
-            visible={myVisible}
-            member={memberList}
-            oppositeTeamUUID=""
-            myTeam={true}
-            setMsg={setMsg}
-            applyModal={applyModal}
-            setApplyModal={setApplyModal}
-          >
-            <></>
-          </CheckTeam>
-        </Modal_portal>
-      )}
-      {!myVisible && oppoVisible && (
-        <Modal_portal>
-          <CheckTeam
-            setVisible={setOppoVisible}
-            visible={oppoVisible}
-            member={
-              haveOppositeTeam ? applyList[oppoTeamIdx].members : matchMember
-            }
-            oppositeTeamUUID={
-              haveOppositeTeam ? applyList[oppoTeamIdx].teamUUID : matchTeamUUID
-            }
-            myTeam={true}
-            applyModal={applyModal}
-            setMsg={setMsg}
-            setApplyModal={setApplyModal}
-          >
-            <></>
-          </CheckTeam>
-        </Modal_portal>
-      )}
-      {!myVisible && !oppoVisible && (
-        <div className={style.container}>
-          <T_MyTeam>
-            <M_MyTeamDesc />
-            <O_MyTeamBox
-              haveOppositeTeam={haveOppositeTeam}
-              memberList={memberList}
-              setMyVisible={setMyVisible}
-              setOppoVisible={setOppoVisible}
-              applyList={applyList}
-              setApplyList={setApplyList}
-              setOppoTeamIdx={setOppoTeamIdx}
-              matchMember={matchMember}
-              setMatchMemberList={setMatchMemberList}
-              setMatchTeamUUID={setMatchTeamUUID}
-            />
-          </T_MyTeam>
-        </div>
-      )}
-    </TeamBuildFilter>
+    <ATKFilter>
+      <GetMyInfo>
+        <TeamBuildFilter>
+          {myVisible && !oppoVisible && (
+            <Modal_portal>
+              <CheckTeam
+                setVisible={setMyVisible}
+                visible={myVisible}
+                member={memberList}
+                oppositeTeamUUID=""
+                myTeam={true}
+                setMsg={setMsg}
+                applyModal={applyModal}
+                setApplyModal={setApplyModal}
+              >
+                <></>
+              </CheckTeam>
+            </Modal_portal>
+          )}
+          {!myVisible && oppoVisible && (
+            <Modal_portal>
+              <CheckTeam
+                setVisible={setOppoVisible}
+                visible={oppoVisible}
+                member={
+                  haveOppositeTeam
+                    ? applyList[oppoTeamIdx].members
+                    : matchMember
+                }
+                oppositeTeamUUID={
+                  haveOppositeTeam
+                    ? applyList[oppoTeamIdx].teamUUID
+                    : matchTeamUUID
+                }
+                myTeam={true}
+                applyModal={applyModal}
+                setMsg={setMsg}
+                setApplyModal={setApplyModal}
+              >
+                <></>
+              </CheckTeam>
+            </Modal_portal>
+          )}
+          {!myVisible && !oppoVisible && (
+            <div className={style.container}>
+              <T_MyTeam>
+                <M_MyTeamDesc />
+                <O_MyTeamBox
+                  haveOppositeTeam={haveOppositeTeam}
+                  memberList={memberList}
+                  setMyVisible={setMyVisible}
+                  setOppoVisible={setOppoVisible}
+                  applyList={applyList}
+                  setApplyList={setApplyList}
+                  setOppoTeamIdx={setOppoTeamIdx}
+                  matchMember={matchMember}
+                  setMatchMemberList={setMatchMemberList}
+                  setMatchTeamUUID={setMatchTeamUUID}
+                />
+              </T_MyTeam>
+            </div>
+          )}
+        </TeamBuildFilter>
+      </GetMyInfo>
+    </ATKFilter>
   );
 };
 

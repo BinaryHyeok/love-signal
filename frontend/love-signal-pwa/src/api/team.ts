@@ -167,3 +167,19 @@ export const rejectMeeting = async (
     },
   });
 };
+
+//미팅 성공시 가져올 상대팀 리스트
+export const receiveMatchMember = async (
+  teamUUID: string,
+  atk: string,
+  kID: string
+) => {
+  return await axios({
+    method: "get",
+    url: `${process.env.REACT_APP_API}/team/${teamUUID}/meeting-team`,
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
+    },
+  });
+};

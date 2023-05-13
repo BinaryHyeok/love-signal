@@ -24,6 +24,8 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
     const date = new Date();
     const rtk = cookie.load("rtk");
     const myET = new Date(atkET);
+    console.log(rtk);
+
     if (rtk === undefined) {
       if (atk === "") {
         //로그인 페이지로 이동시켜야되는데 localStorage의 값 비워주기.
@@ -56,32 +58,26 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
         }
       }
     } else {
-      if (atk === "") {
-        //rtk로 재발급 받아와!
-        expireATK(rtk)
-          .then((res) => {
-            setATK(res.data.body.accessToken);
-            let nowDate: Date = new Date();
-            nowDate.setSeconds(
-              nowDate.getSeconds() + res.data.body.accessTokenExpireTime
+      expireATK(rtk)
+        .then((res) => {
+          setATK(res.data.body.accessToken);
+          let nowDate: Date = new Date();
+          nowDate.setSeconds(
+            nowDate.getSeconds() + res.data.body.accessTokenExpireTime
+          );
+          setAtkET(nowDate);
+          setKakaoId(res.data.body.kakaoId);
+          if (res.data.body.refreshToken !== null) {
+            //rtk가 존재한다면?
+            setCookie(
+              res.data.body.refreshToken,
+              res.data.body.refreshTokenExpireTime
             );
-            setAtkET(nowDate);
-            setKakaoId(res.data.body.kakaoId);
-            console.log(res);
-            if (res.data.body.refreshToken !== null) {
-              //rtk가 존재한다면?
-              setCookie(
-                res.data.body.refreshToken,
-                res.data.body.refreshTokenExpireTime
-              );
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        //둘다있는건데 뭐 할 필요가있음?.. 이건 제외
-      }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

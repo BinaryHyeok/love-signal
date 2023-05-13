@@ -14,7 +14,8 @@ import { myMemberUUID } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
-import { nickname } from "../../../atom/member";
+import ATKFilter from "../../Filter/ATKFilter";
+import GetMyInfo from "../../Filter/GetMyInfo";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -38,11 +39,8 @@ const ExploreTeam = () => {
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk, setATK] = useRecoilState<string>(myatk);
-  const [atkET, setAtkET] = useRecoilState<Date>(myatkET);
   const [kID, setKakaoId] = useRecoilState<string>(kid);
-  const [leader, setLeader] = useRecoilState<boolean>(imLeader);
   const [gender, setGender] = useRecoilState<string>(myGender);
-  const [mynick, setNickname] = useRecoilState<string>(nickname);
 
   useEffect(() => {
     getMyInfo();
@@ -57,10 +55,6 @@ const ExploreTeam = () => {
   const getMyInfo = async () => {
     await inquireMember(UUID, atk, kID)
       .then((res) => {
-        console.log(res);
-        setGender(res.data.body.gender);
-        setLeader(res.data.body.teamLeader);
-        setNickname(res.data.body.nickname);
         if (res.data.body.teamLeader) {
           //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
           getMyTeam(res.data.body.teamUUID, atk, kID).then((res) => {
@@ -122,56 +116,58 @@ const ExploreTeam = () => {
   //뭔가 안이쁜데.. 코드가 짧아짐
   if (isLoading) {
     return (
-      <>
-        {visible ? (
-          <>
-            <Modal_portal>
-              <CheckTeam
-                setVisible={setVisible}
-                visible={visible}
-                member={team[teamNumber].members}
-                oppositeTeamUUID={team[teamNumber].teamUUID}
-                myTeam={false}
-                applyModal={applyModal}
-                setMsg={setMsg}
-                setApplyModal={setApplyModal}
-                haveTeam={haveTeam}
-                memberLength={memberLength}
+      <ATKFilter>
+        <GetMyInfo>
+          {visible ? (
+            <>
+              <Modal_portal>
+                <CheckTeam
+                  setVisible={setVisible}
+                  visible={visible}
+                  member={team[teamNumber].members}
+                  oppositeTeamUUID={team[teamNumber].teamUUID}
+                  myTeam={false}
+                  applyModal={applyModal}
+                  setMsg={setMsg}
+                  setApplyModal={setApplyModal}
+                  haveTeam={haveTeam}
+                  memberLength={memberLength}
+                >
+                  {applyModal && <MsgModal msg={msg} />}
+                </CheckTeam>
+              </Modal_portal>
+              <div>
+                <T_OtherGender
+                  getList={getList}
+                  infinityScroll={infinityScroll}
+                  lastList={lastList}
+                  setInfinityScroll={setInfinityScroll}
+                  viewDetail={viewDetail}
+                  team={team}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <motion.div
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+                // exit="exit"
               >
-                {applyModal && <MsgModal msg={msg} />}
-              </CheckTeam>
-            </Modal_portal>
-            <div>
-              <T_OtherGender
-                getList={getList}
-                infinityScroll={infinityScroll}
-                lastList={lastList}
-                setInfinityScroll={setInfinityScroll}
-                viewDetail={viewDetail}
-                team={team}
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            <motion.div
-              variants={contentVariants}
-              initial="hidden"
-              animate="visible"
-              // exit="exit"
-            >
-              <T_OtherGender
-                getList={getList}
-                infinityScroll={infinityScroll}
-                lastList={lastList}
-                setInfinityScroll={setInfinityScroll}
-                viewDetail={viewDetail}
-                team={team}
-              />
-            </motion.div>
-          </>
-        )}
-      </>
+                <T_OtherGender
+                  getList={getList}
+                  infinityScroll={infinityScroll}
+                  lastList={lastList}
+                  setInfinityScroll={setInfinityScroll}
+                  viewDetail={viewDetail}
+                  team={team}
+                />
+              </motion.div>
+            </>
+          )}
+        </GetMyInfo>
+      </ATKFilter>
     );
   } else {
     return (

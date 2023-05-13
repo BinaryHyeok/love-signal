@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import cookie from "react-cookies";
 import { useRecoilState } from "recoil";
 import { motion } from "framer-motion";
+import ATKFilter from "../../Filter/ATKFilter";
+import GetMyInfo from "../../Filter/GetMyInfo";
 
 import { contentVariants } from "../../atoms/Common/contentVariants";
 
@@ -42,7 +44,6 @@ const Mypage = () => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
     inquireMember(UUID, atk, kID).then((MyInfo) => {
-      console.log(MyInfo);
       setMyAge(MyInfo.data.body.age);
       setMyImg(MyInfo.data.body.profileImage);
       setMyNickName(MyInfo.data.body.nickname);
@@ -62,39 +63,41 @@ const Mypage = () => {
   }, [myCropImage]);
 
   return (
-    <>
-      <motion.div
-        variants={contentVariants}
-        initial="hidden"
-        animate="visible"
-        // exit="exit"
-        className={style.myPageContainer}
-      >
-        <div className={style.scrollContainer}>
-          <M_Image_Type
-            myImg={myImg}
-            marginTop="8px"
-            setMyImage={setMyCropImage}
-            setChangeImg={setChangeImg}
-          />
-          <MyInfo
-            age={myAge}
-            mynickname={myNickName}
-            description={myDescription}
-            setNick={setMyNickName}
-            setDesc={setMyDescription}
-          />
-          <div className={style.logout}>
-            <Link
-              to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout`}
-              className={style.link}
-            >
-              로그아웃
-            </Link>
+    <ATKFilter>
+      <GetMyInfo>
+        <motion.div
+          variants={contentVariants}
+          initial="hidden"
+          animate="visible"
+          // exit="exit"
+          className={style.myPageContainer}
+        >
+          <div className={style.scrollContainer}>
+            <M_Image_Type
+              myImg={myImg}
+              marginTop="8px"
+              setMyImage={setMyCropImage}
+              setChangeImg={setChangeImg}
+            />
+            <MyInfo
+              age={myAge}
+              mynickname={myNickName}
+              description={myDescription}
+              setNick={setMyNickName}
+              setDesc={setMyDescription}
+            />
+            <div className={style.logout}>
+              <Link
+                to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout`}
+                className={style.link}
+              >
+                로그아웃
+              </Link>
+            </div>
           </div>
-        </div>
-      </motion.div>
-    </>
+        </motion.div>
+      </GetMyInfo>
+    </ATKFilter>
   );
 };
 

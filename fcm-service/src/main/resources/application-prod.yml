@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: chatting-service
+    name: fcm-service
 
   config:
     import: "optional:configserver:http://13.125.99.25:8888/"

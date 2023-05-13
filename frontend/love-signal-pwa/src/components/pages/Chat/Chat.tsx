@@ -18,7 +18,7 @@ import { getChatRoomList } from "../../../api/room";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { chat, roomChatList } from "../../../types/chat";
+import { chat, roomChatList, selectOrShareInfo } from "../../../types/chat";
 import { room } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 
@@ -42,17 +42,13 @@ const Chat = () => {
   const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
-    socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
-    ws = Stomp.over(socket);
+    initStompClient();
 
     getChatRoomList(UUID, atk, kID).then((res) => {
       const data: room[] = res.data;
-      console.log(res.data);
+      console.log(data);
       setRoomList(() => [...data]);
       data.forEach((room) => {
-        // 각 방에 소켓 연결
-        connectChatServer(room.uuid);
-
         // 각 방의 채팅 목록 fetch
         fetchRoomChat(room.uuid);
       });
@@ -75,34 +71,94 @@ const Chat = () => {
         resizeVisualViewportHandler
       );
       // 웹 소켓 종료
-      ws.disconnect();
+      clearStompClient();
     };
   }, []);
 
+  useEffect(() => {
+    if (!selectedRoom.uuid) {
+      // 채팅방 들어가지 않았을 때
+      clearStompClient();
+    } else {
+      // 채팅방에 들어갔을 때
+      clearStompClient();
+      initStompClient();
+
+      connectChatServer(selectedRoom.uuid);
+      const DUMMY_SELECT: selectOrShareInfo = {
+        nicknames: [],
+        profiles: [],
+        isSelected: "F",
+      };
+      const DUMMY_CHAT: chat = {
+        roomUUID: selectedRoom.uuid,
+        nickname: "러브시그널",
+        uuid: "100",
+        type: "SELECT",
+        createdDate: "2023-05-13T22:00:00",
+        selectOrShareInfo: DUMMY_SELECT,
+      };
+      selectedRoom.memberList?.forEach((item, idx) => {
+        if (idx < 3) {
+          DUMMY_SELECT.nicknames?.push(item.nickname);
+          DUMMY_SELECT.profiles?.push(item.profileImage);
+        }
+      });
+      setChatList((prevState) => {
+        const prevList = prevState[selectedRoom.uuid] || [];
+        const newList = [...prevList, DUMMY_CHAT];
+        return {
+          ...prevState,
+          [selectedRoom.uuid]: newList,
+        };
+      });
+
+      // 각 방의 채팅 목록 fetch
+      fetchRoomChat(selectedRoom.uuid);
+    }
+  }, [selectedRoom]);
+
+  const initStompClient = () => {
+    socket = new SockJS(`${process.env.REACT_APP_API}/ws-stomp`);
+    ws = Stomp.over(socket);
+  };
+
+  const clearStompClient = () => {
+    if (ws.connected) {
+      ws.disconnect();
+    }
+  };
+
   const connectChatServer = async (roomUUID: string) => {
     const header = {};
-    ws.connect(header, (frame: any) => {
-      console.log("방 입장 : " + roomUUID);
-      ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
-        const messages = JSON.parse(res.body);
+    ws.connect(
+      header,
+      (frame: any) => {
+        ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
+          const messages = JSON.parse(res.body);
+          console.log(messages);
 
-        setChatList((prevState) => {
-          const prevList = prevState[roomUUID] || [];
-          const newList = [...prevList, messages];
-          return {
-            ...prevState,
-            [roomUUID]: newList,
-          };
+          setChatList((prevState) => {
+            const prevList = prevState[roomUUID] || [];
+            const newList = [...prevList, messages];
+            return {
+              ...prevState,
+              [roomUUID]: newList,
+            };
+          });
         });
-      });
 
-      publishChatMsg({
-        type: "TOPIC",
-        roomUUID: roomUUID,
-        nickname: myNick,
-        content: "",
-      });
-    });
+        publishChatMsg({
+          type: "TOPIC",
+          roomUUID: roomUUID,
+          nickname: myNick,
+          content: "",
+        });
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
   };
 
   const publishChatMsg = (newChat: chat) => {
@@ -117,8 +173,7 @@ const Chat = () => {
     getChatList(roomUUID, atk, kID).then((res) => {
       const chatData = res.data;
       setChatList((prevState) => {
-        const prevList = prevState[roomUUID] || [];
-        const newList = [...prevList, ...chatData];
+        const newList = [...chatData];
         return {
           ...prevState,
           [roomUUID]: newList,
@@ -185,18 +240,6 @@ const Chat = () => {
           {!selectedRoom.uuid && (
             <T_Chat roomList={roomList} chatList={chatList} />
           )}
-
-          {/* <T_Chat />
-      <T_ChatRoom
-        className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
-        roomId={selectedRoom.uuid}
-        title={selectedRoom.roomName}
-        count={selectedRoom.memberCount}
-        roomExitHandler={roomExitHandler}
-        roomType={selectedRoom.type}
-        // chatList={chat}
-        // onTextSend={textSendHandler}
-      /> */}
         </motion.div>
       </GetMyInfo>
     </ATKFilter>

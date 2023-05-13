@@ -19,6 +19,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
   chatList,
   members,
 }) => {
+  console.log(roomType);
   const [me, _] = useRecoilState<string>(nickname);
   console.log("부모에서 가져온 채팅 목록 : ", chatList);
   console.log("부모에서 가져온 룸 멤버 정보 : ", members);

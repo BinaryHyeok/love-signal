@@ -13,15 +13,15 @@ export type chat = {
   updatedDate?: string;
   expired?: String;
   notReadPerson?: string[];
-  selectOrShareInfo?: {
-    nicknames: string[];
-    profiles: string[];
-    isSelected: string;
-  };
+  selectOrShareInfo?: selectOrShareInfo;
 };
 
 export type roomChatList = {
   [key: string]: chat[];
 };
 
-export type selectOrShareInfo = {};
+export type selectOrShareInfo = {
+  nicknames?: string[];
+  profiles?: string[];
+  isSelected?: string;
+};

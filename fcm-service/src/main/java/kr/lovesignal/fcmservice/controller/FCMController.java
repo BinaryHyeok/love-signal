@@ -33,7 +33,10 @@ public class FCMController {
 	@PostMapping("/notification")
 	public ResponseEntity<String> sendNotification(@RequestBody List<UUID> memberUUIDs) {
 		fcmService.sendNotification(memberUUIDs);
-		
+
+		System.out.println(memberUUIDs);
+
+
 		return new ResponseEntity<>("Push Notifidcation", HttpStatus.OK);
 	}
 

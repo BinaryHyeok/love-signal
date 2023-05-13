@@ -22,6 +22,6 @@ export type roomChatList = {
 
 export type selectOrShareInfo = {
   nicknames?: string[];
-  profiles?: string[];
+  profileUrls?: string[];
   isSelected?: string;
 };

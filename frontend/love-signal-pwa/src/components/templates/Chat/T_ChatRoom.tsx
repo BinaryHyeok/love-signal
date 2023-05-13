@@ -70,8 +70,6 @@ const T_ChatRoom: React.FC<PropsType> = ({
   const textSendHandler = (content: string) => {
     if (content.trim().length < 1) return;
 
-    // const now = new Date();
-    // const currTime = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}}}`;
     const newChat: chat = {
       type: "TEXT",
       roomUUID: roomId,
@@ -80,7 +78,6 @@ const T_ChatRoom: React.FC<PropsType> = ({
     };
 
     // 채팅 서버에 채팅 publish
-    // publishChatMsg(newChat);
     onTextSend(newChat);
   };
 

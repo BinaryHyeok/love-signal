@@ -1,16 +1,25 @@
 import React from "react";
 import style from "./styles/M_ChatText_Select.module.scss";
 import A_ChatText_TypeB from "../../atoms/Chat/A_ChatText_TypeB";
-import { selectOrShareInfo } from "../../../types/chat";
+import { chat, selectOrShareInfo } from "../../../types/chat";
 import M_ChatSelectBox from "./M_ChatSelectBox";
+import { selectOneMember } from "../../../api/chat";
+import { useRecoilState } from "recoil";
+import { myMemberUUID } from "../../../atom/member";
 
 type PropsType = {
   systemName: string;
   selectInfo: selectOrShareInfo;
+  chat: chat;
 };
-const M_ChatText_Select: React.FC<PropsType> = ({ systemName, selectInfo }) => {
+const M_ChatText_Select: React.FC<PropsType> = ({
+  systemName,
+  selectInfo,
+  chat,
+}) => {
+  const [memberUUID, _] = useRecoilState<string>(myMemberUUID);
   const selectOneHandler = (nickname: string) => {
-    console.log(`select : ${nickname}`);
+    selectOneMember(chat.roomUUID || "", chat.uuid || "", memberUUID, nickname);
   };
 
   let content = (
@@ -19,8 +28,9 @@ const M_ChatText_Select: React.FC<PropsType> = ({ systemName, selectInfo }) => {
         <M_ChatSelectBox
           key={idx}
           nickname={item}
-          profile={selectInfo.profiles ? selectInfo.profiles[idx] : ""}
+          profile={selectInfo.profileUrls ? selectInfo.profileUrls[idx] : ""}
           selectHandler={selectOneHandler}
+          isSelect={true}
         />
       ))}
     </ul>

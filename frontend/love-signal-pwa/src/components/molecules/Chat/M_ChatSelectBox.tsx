@@ -4,16 +4,20 @@ import style from "./styles/M_ChatSelectBox.module.scss";
 type PropsType = {
   nickname: string;
   profile: string;
-  selectHandler: (param: string) => void;
+  selectHandler?: (param: string) => void;
+  isSelect?: boolean;
 };
 
 const M_ChatSelectBox: React.FC<PropsType> = ({
   nickname,
   profile,
   selectHandler,
+  isSelect,
 }) => {
   const selectOne = () => {
-    selectHandler(nickname);
+    if (selectHandler) {
+      selectHandler(nickname);
+    }
   };
 
   return (
@@ -21,9 +25,11 @@ const M_ChatSelectBox: React.FC<PropsType> = ({
       <div className={style.imgBox}>
         <img src={profile} className={style.profileImg} />
       </div>
-      <button className={style.selectBtn} onClick={selectOne}>
-        <img src={`${"/assets"}/heart with arrow.png`} />
-      </button>
+      {isSelect && (
+        <button className={style.selectBtn} onClick={selectOne}>
+          <img src={`${"/assets"}/heart with arrow.png`} />
+        </button>
+      )}
     </li>
   );
 };

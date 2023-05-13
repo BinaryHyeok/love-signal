@@ -151,28 +151,51 @@ const Chat = () => {
       setChatList((prevState) => {
         const newList = [...chatData];
 
-        // const DUMMY_SELECT: selectOrShareInfo = {
-        //   nicknames: [],
-        //   profileUrls: [],
-        //   isSelected: "F",
-        // };
-        // const DUMMY_CHAT: chat = {
-        //   roomUUID: selectedRoom.uuid,
-        //   nickname: "러브시그널",
-        //   uuid: "100",
-        //   type: "SELECT",
-        //   createdDate: "2023-05-13T22:00:00",
-        //   selectOrShareInfo: DUMMY_SELECT,
-        //   content: "나 더미 선택",
-        // };
-        // selectedRoom.memberList?.forEach((item, idx) => {
-        //   if (idx < 3) {
-        //     DUMMY_SELECT.nicknames?.push(item.nickname);
-        //     DUMMY_SELECT.profileUrls?.push(item.profileImage);
-        //   }
-        // });
+        const DUMMY_SELECT: selectOrShareInfo = {
+          nicknames: [],
+          profileUrls: [],
+          isSelected: "T",
+        };
+        const DUMMY_RESULT: selectOrShareInfo = {
+          nicknames: [],
+          profileUrls: [],
+          isSelected: "T",
+        };
+        const DUMMY_CHAT: chat = {
+          roomUUID: selectedRoom.uuid,
+          nickname: "러브시그널",
+          uuid: "100",
+          type: "SELECT",
+          createdDate: "2023-05-13T22:00:00",
+          selectOrShareInfo: DUMMY_SELECT,
+          content: "나 더미 선택",
+        };
+        const DUMMY_CHAT2: chat = {
+          roomUUID: selectedRoom.uuid,
+          nickname: "러브시그널",
+          uuid: "101",
+          type: "RESULT",
+          createdDate: "2023-05-13T22:02:00",
+          selectOrShareInfo: DUMMY_RESULT,
+          content: "나 더미 결과",
+        };
+        selectedRoom.memberList?.forEach((item, idx) => {
+          if (idx < 3) {
+            DUMMY_SELECT.nicknames?.push(item.nickname);
+            DUMMY_SELECT.profileUrls?.push(item.profileImage);
+          }
+          if (
+            selectedRoom.memberList?.length &&
+            selectedRoom.memberList?.length > 2 &&
+            (idx === 0 || idx === 2)
+          ) {
+            DUMMY_RESULT.nicknames?.push(item.nickname);
+            DUMMY_RESULT.profileUrls?.push(item.profileImage);
+          }
+        });
+        newList.push(DUMMY_CHAT);
+        newList.push(DUMMY_CHAT2);
 
-        // newList.push(DUMMY_CHAT);
         return {
           ...prevState,
           [roomUUID]: newList,

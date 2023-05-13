@@ -5,6 +5,7 @@ type PropsType = {
   nickname: string;
   profile: string;
   selectHandler?: (param: string) => void;
+  isSelected?: boolean;
   isSelect?: boolean;
 };
 
@@ -12,10 +13,11 @@ const M_ChatSelectBox: React.FC<PropsType> = ({
   nickname,
   profile,
   selectHandler,
+  isSelected,
   isSelect,
 }) => {
   const selectOne = () => {
-    if (selectHandler) {
+    if (!isSelected && selectHandler) {
       selectHandler(nickname);
     }
   };
@@ -26,7 +28,10 @@ const M_ChatSelectBox: React.FC<PropsType> = ({
         <img src={profile} className={style.profileImg} />
       </div>
       {isSelect && (
-        <button className={style.selectBtn} onClick={selectOne}>
+        <button
+          className={`${style.selectBtn} ${isSelected ? style.selected : ""}`}
+          onClick={selectOne}
+        >
           <img src={`${"/assets"}/heart with arrow.png`} />
         </button>
       )}

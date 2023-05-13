@@ -30,6 +30,7 @@ const M_ChatText_Select: React.FC<PropsType> = ({
           nickname={item}
           profile={selectInfo.profileUrls ? selectInfo.profileUrls[idx] : ""}
           selectHandler={selectOneHandler}
+          isSelected={selectInfo.isSelected === "T"}
           isSelect={true}
         />
       ))}

@@ -32,5 +32,9 @@
       width: 60%;
       object-fit: cover;
     }
+
+    &.selected {
+      filter: brightness(50%);
+    }
   }
 }

@@ -27,6 +27,7 @@ const A_ApplyAcceptButton: React.FC<propsType> = ({
     if (isLeader) {
       acceptMeeting(myTUUID, oppsiteTeamUUID, atk, kID);
       setClickBtn(!clickBtn);
+      window.location.reload();
     }
   };
 

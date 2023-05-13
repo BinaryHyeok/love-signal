@@ -8,6 +8,7 @@ import {
   myTeamUUID,
   myatk,
   nickname,
+  teamBuildState,
 } from "../../atom/member";
 import { inquireMember } from "../../api/auth";
 
@@ -21,6 +22,7 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
   const [, setTeamLeader] = useRecoilState<boolean>(imLeader);
   const [, setNickname] = useRecoilState<string>(nickname);
   const [, setGender] = useRecoilState<string>(myGender);
+  const [, setTeamBuildState] = useRecoilState<boolean>(teamBuildState);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
@@ -33,6 +35,7 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
         setTeamLeader(res.data.body.teamLeader);
         setNickname(res.data.body.nickname);
         setGender(res.data.body.gender);
+        // setTeamBuildState(res.data.body.뭐시기);
       })
       .catch((err) => {
         console.log(err);

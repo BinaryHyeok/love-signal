@@ -32,7 +32,7 @@ const MatchHeart = (props: any) => {
                     material={materials.phong1}
                     morphTargetDictionary={nodes["0"].morphTargetDictionary}
                     morphTargetInfluences={nodes["0"].morphTargetInfluences}
-                    position={[12, -2, 7]}
+                    position={[12, 0, 7]}
                   />
                 </group>
               </group>

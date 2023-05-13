@@ -1,4 +1,4 @@
-import style from "./styles/Introduce.module.scss";
+import style from "./styles/MyIntroduce.module.scss";
 
 type PropsType = {
   description: string;

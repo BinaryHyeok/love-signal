@@ -20,6 +20,38 @@ spring:
   cloud:
     gateway:
       routes:
+
+        ## Actuator 라우팅
+        - id: member-service-actuator
+          uri: lb://member-service
+          predicates:
+            - Path=/member/actuator/**
+
+        - id: team-service-actuator
+          uri: lb://team-service
+          predicates:
+            - Path=/team/actuator/**
+
+        - id: chatting-service-actuator
+          uri: lb://chatting-service
+          predicates:
+            - Path=/chat/actuator/**
+
+        - id: file-service-actuator
+          uri: lb://file-service
+          predicates:
+            - Path=/file/actuator/**
+
+        - id: auth-service-actuator
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/actuator/**
+
+        - id: fcm-service-actuator
+          uri: lb://fcm-service
+          predicates:
+            - Path=/fcm/actuator/**
+
         ## 서비스 라우팅
         - id: member-service
           uri: lb://member-service
@@ -55,38 +87,6 @@ spring:
             - Path=/fcm/**
           filters:
             - name: Authentication
-        
-        ## Actuator 라우팅
-        - id: member-service-actuator
-          uri: lb://member-service
-          predicates:
-            - Path=/member/actuator/**
-
-        - id: team-service-actuator
-          uri: lb://team-service
-          predicates:
-            - Path=/team/actuator/**
-
-        - id: chatting-service-actuator
-          uri: lb://chatting-service
-          predicates:
-            - Path=/chat/actuator/**
-
-        - id: file-service-actuator
-          uri: lb://file-service
-          predicates:
-            - Path=/file/actuator/**
-
-        - id: auth-service-actuator
-          uri: lb://auth-service
-          predicates:
-            - Path=/auth/actuator/**
-
-        - id: fcm-service-actuator
-          uri: lb://fcm-service
-          predicates:
-            - Path=/fcm/actuator/**
-        ## =============================
 
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials

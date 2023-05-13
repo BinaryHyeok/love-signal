@@ -1,4 +1,4 @@
-import style from "./CheckTeam.module.scss";
+import style from "./styles/CheckTeam.module.scss";
 import { useEffect, Dispatch, SetStateAction, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper";
 
-import ButtonTypeA from "../../Common/Button_Type_A";
+import Button_Type_A from "../../../atoms/Common/Button_Type_A";
 import { member } from "../../../../types/member";
 import { applyMeeting } from "../../../../api/team";
 import {
@@ -185,7 +185,7 @@ const CheckTeam: React.FC<propsType> = ({
           {btnVisible ? (
             <div className={style.bottomContainer}>
               <div className={style.buttonContainer}>
-                <ButtonTypeA
+                <Button_Type_A
                   width="104px"
                   height="32px"
                   background={memberLength === 3 ? "#CAD9FF" : "#CCCCCC"}
@@ -197,8 +197,8 @@ const CheckTeam: React.FC<propsType> = ({
                   ) : (
                     <img src="/assets/shareblack.png" alt="" />
                   )}
-                </ButtonTypeA>
-                <ButtonTypeA
+                </Button_Type_A>
+                <Button_Type_A
                   width="104px"
                   height="32px"
                   background={applyActiveBtn ? "#FBCED3" : "#CCCCCC"}
@@ -209,7 +209,7 @@ const CheckTeam: React.FC<propsType> = ({
                   ) : (
                     <img src="/assets/send_blackinvite.png" alt="" />
                   )}
-                </ButtonTypeA>
+                </Button_Type_A>
               </div>
               {children}
             </div>

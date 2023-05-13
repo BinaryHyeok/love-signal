@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./A_FooterIcon.module.scss";
+import style from "./styles/A_FooterIcon.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 
 type propsType = {

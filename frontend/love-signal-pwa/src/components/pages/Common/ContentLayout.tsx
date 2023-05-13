@@ -5,7 +5,7 @@ import { alarmModal } from "../../../atom/alarm";
 import Header from "../../templates/Header/Header";
 import Footer from "../../templates/Footer/Footer";
 import Modal_portal from "../../UI/Modal/Modal_portal";
-import AlarmModal from "../../UI/Modal/AlarmModal";
+import AlarmModal from "../../UI/Modal/Alarm/AlarmModal";
 
 import style from "./styles/ContentLayout.module.scss";
 

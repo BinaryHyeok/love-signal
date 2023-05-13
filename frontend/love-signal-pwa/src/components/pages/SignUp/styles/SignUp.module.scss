@@ -7,60 +7,7 @@
   .center {
     margin-top: 40px;
   }
-  .bold {
-    font-weight: 700;
-  }
-  .text {
-    text-align: center;
-  }
   .checkBtn > button {
     margin: 0 auto;
-  }
-  .userInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    // justify-content: center;
-    .nickName {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-    }
-    .birthContainer {
-      margin: 8px;
-      .yearTag {
-        margin: 0px 8px 0px 8px;
-      }
-      .monthTag {
-        margin: 0px 8px 0px 8px;
-      }
-      .dayTag {
-        margin: 0px 8px 0px 8px;
-      }
-      .selectBox {
-        height: 20px;
-        border-radius: 0px;
-        border: none;
-      }
-    }
-    .gender {
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-    }
-    .rmsg {
-      // margin-top: 8px;
-      margin-bottom: 8px;
-      color: red;
-    }
-    .bmsg {
-      margin-bottom: 8px;
-      color: black;
-    }
-    .btmRmsg {
-      margin-top: 8px;
-      // margin-bottom: 8px;
-      color: red;
-    }
   }
 }

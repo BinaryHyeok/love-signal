@@ -1,7 +1,7 @@
 import style from "./styles/Main.module.scss";
 import A_MainImg from "../../atoms/Main/A_MainImg";
-import A_MainModal from "./A_MainModal";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
+import A_MainModal from "../../UI/Modal/Main/A_MainModal";
+import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import { useState } from "react";
 
 let timeout: NodeJS.Timer;

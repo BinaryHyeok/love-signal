@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import cookie from "react-cookies";
+import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { motion } from "framer-motion";
 import ATKFilter from "../../Filter/ATKFilter";
@@ -10,7 +9,7 @@ import { contentVariants } from "../../atoms/Common/contentVariants";
 
 import style from "./styles/Mypage.module.scss";
 
-import M_Image_Type from "../../UI/Common/M_Image_Type";
+import M_Image_Type from "../../molecules/Common/M_Image_Type";
 import MyInfo from "../../templates/Mypage/MyInfo";
 
 import { inquireMember } from "../../../api/auth";
@@ -43,7 +42,7 @@ const Mypage = () => {
       setMyNickName(MyInfo.data.body.nickname);
       setMyDescription(MyInfo.data.body.description);
     });
-  }, [setIdx]);
+  }, [UUID, atk, kID]);
 
   useEffect(() => {
     if (start) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import style from "./styles/EditIntroduce.module.scss";
 import Mypage_Check_Btn from "../../atoms/Mypage/MyPage_Check_Btn";
-import Input_Type_A from "../../UI/Common/Input_Type_A";
+import Input_Type_A from "../../atoms/Common/Input_Type_A";
 
 type propsType = {
   description: string;

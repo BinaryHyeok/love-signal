@@ -1,4 +1,4 @@
-import style from "./A_Exit.module.scss";
+import style from "./styles/A_Exit.module.scss";
 
 type propsType = {
   closeModal: () => void;

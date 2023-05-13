@@ -3,7 +3,7 @@ import style from "./styles/ExploreTeam.module.scss";
 import { team } from "../../../types/member";
 import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 import PictureBox from "../../molecules/OtherGender/M_OtherTeamPicture";
-import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
+import ListBoxWithImgTitle from "../../atoms/Common/ListBoxWithImgTitle";
 import A_Heartline from "../../atoms/Common/A_Heartline";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";

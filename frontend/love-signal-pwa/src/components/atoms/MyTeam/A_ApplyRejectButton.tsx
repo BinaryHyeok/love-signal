@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
-import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
+import Button_Type_A from "../Common/Button_Type_A";
+import { kid, myTeamUUID, myatk } from "../../../atom/member";
 
 import { rejectMeeting } from "../../../api/team";
 import { imLeader } from "../../../atom/member";

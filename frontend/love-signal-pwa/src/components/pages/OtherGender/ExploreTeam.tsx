@@ -5,7 +5,7 @@ import Modal_portal from "../../UI/Modal/Modal_portal";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 import { team } from "../../../types/member";
 import { getMyTeam, getOtherGenderTeam } from "../../../api/team";
-import MsgModal from "../../UI/Modal/MsgModal";
+import MsgModal from "../../UI/Modal/Msg/MsgModal";
 import T_OtherGender from "./T_OtherGender";
 import { imLeader, myGender, myTeamUUID, myatk } from "../../../atom/member";
 import { kid } from "../../../atom/member";

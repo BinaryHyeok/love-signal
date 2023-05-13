@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./styles/M_FindTeamMenuList.module.scss";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
+import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import Modal_portal from "../../UI/Modal/Modal_portal";
-import CommonModal from "../../UI/Modal/CommonModal";
+import CommonModal from "../../UI/Modal/Common/CommonModal";
 import M_ModalFindTeamWithCode from "./M_ModalFindTeamWithCode";
 import { getMyTeam, joinTeam } from "../../../api/team";
 import {
@@ -45,7 +45,7 @@ const M_FindTeamMenuList = () => {
     setVisible(true);
   };
 
-  //팀으로 입장.(임시);
+  //팀으로 입장.
   const enterTeam = () => {
     //여기에서 axios요청을해서 해당 팀으로 입장.
     joinTeam(myUUID, enterTeamUUID, atk, kID)

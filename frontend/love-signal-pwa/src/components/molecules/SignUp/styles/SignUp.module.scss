@@ -1,0 +1,33 @@
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+  .nickName {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .birthContainer {
+    margin: 8px;
+  }
+  .gender {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .rmsg {
+    // margin-top: 8px;
+    margin-bottom: 8px;
+    color: red;
+  }
+  .bmsg {
+    margin-bottom: 8px;
+    color: black;
+  }
+  .btmRmsg {
+    margin-top: 8px;
+    // margin-bottom: 8px;
+    color: red;
+  }
+}

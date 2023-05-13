@@ -1,4 +1,4 @@
-import style from "./A_Image.module.scss";
+import style from "./styles/A_Image.module.scss";
 
 type propsType = {
   profileImage: string;

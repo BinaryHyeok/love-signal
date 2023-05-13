@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { footerIdx } from "../../../atom/footer";
 import { footerIsOn } from "../../../atom/footer";
 import { useRecoilState } from "recoil";
-import style from "./Footer.module.scss";
+import style from "./styles/Footer.module.scss";
 import A_FooterIcon from "./A_FooterIcon";
 
 const Footer = () => {

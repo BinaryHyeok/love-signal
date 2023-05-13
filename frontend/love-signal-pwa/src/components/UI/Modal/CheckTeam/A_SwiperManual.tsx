@@ -1,4 +1,4 @@
-import style from "./A_SwiperManual.module.scss";
+import style from "./styles/A_SwiperManual.module.scss";
 
 import { motion, AnimatePresence } from "framer-motion";
 

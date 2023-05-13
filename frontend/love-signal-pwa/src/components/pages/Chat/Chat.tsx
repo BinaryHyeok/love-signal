@@ -85,33 +85,6 @@ const Chat = () => {
       initStompClient();
 
       connectChatServer(selectedRoom.uuid);
-      const DUMMY_SELECT: selectOrShareInfo = {
-        nicknames: [],
-        profiles: [],
-        isSelected: "F",
-      };
-      const DUMMY_CHAT: chat = {
-        roomUUID: selectedRoom.uuid,
-        nickname: "러브시그널",
-        uuid: "100",
-        type: "SELECT",
-        createdDate: "2023-05-13T22:00:00",
-        selectOrShareInfo: DUMMY_SELECT,
-      };
-      selectedRoom.memberList?.forEach((item, idx) => {
-        if (idx < 3) {
-          DUMMY_SELECT.nicknames?.push(item.nickname);
-          DUMMY_SELECT.profiles?.push(item.profileImage);
-        }
-      });
-      setChatList((prevState) => {
-        const prevList = prevState[selectedRoom.uuid] || [];
-        const newList = [...prevList, DUMMY_CHAT];
-        return {
-          ...prevState,
-          [selectedRoom.uuid]: newList,
-        };
-      });
 
       // 각 방의 채팅 목록 fetch
       fetchRoomChat(selectedRoom.uuid);
@@ -135,17 +108,20 @@ const Chat = () => {
       header,
       (frame: any) => {
         ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
-          const messages = JSON.parse(res.body);
-          console.log(messages);
+          const message = JSON.parse(res.body);
 
-          setChatList((prevState) => {
-            const prevList = prevState[roomUUID] || [];
-            const newList = [...prevList, messages];
-            return {
-              ...prevState,
-              [roomUUID]: newList,
-            };
-          });
+          if (message.type === "RESULT") {
+            fetchRoomChat(roomUUID);
+          } else {
+            setChatList((prevState) => {
+              const prevList = prevState[roomUUID] || [];
+              const newList = [...prevList, message];
+              return {
+                ...prevState,
+                [roomUUID]: newList,
+              };
+            });
+          }
         });
 
         publishChatMsg({
@@ -174,6 +150,29 @@ const Chat = () => {
       const chatData = res.data;
       setChatList((prevState) => {
         const newList = [...chatData];
+
+        // const DUMMY_SELECT: selectOrShareInfo = {
+        //   nicknames: [],
+        //   profileUrls: [],
+        //   isSelected: "F",
+        // };
+        // const DUMMY_CHAT: chat = {
+        //   roomUUID: selectedRoom.uuid,
+        //   nickname: "러브시그널",
+        //   uuid: "100",
+        //   type: "SELECT",
+        //   createdDate: "2023-05-13T22:00:00",
+        //   selectOrShareInfo: DUMMY_SELECT,
+        //   content: "나 더미 선택",
+        // };
+        // selectedRoom.memberList?.forEach((item, idx) => {
+        //   if (idx < 3) {
+        //     DUMMY_SELECT.nicknames?.push(item.nickname);
+        //     DUMMY_SELECT.profileUrls?.push(item.profileImage);
+        //   }
+        // });
+
+        // newList.push(DUMMY_CHAT);
         return {
           ...prevState,
           [roomUUID]: newList,

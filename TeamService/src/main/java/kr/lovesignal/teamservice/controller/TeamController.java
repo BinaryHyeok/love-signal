@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.List;
 
 @RestController
@@ -154,5 +155,10 @@ public class TeamController {
                 .status(HttpStatus.OK)
                 .body(responseUtils.buildSuccessResponse(teamResult));
     }
+
+//    @PostMapping("/matching/{memberUUID}")
+//    public ResponseEntity<?> matchingTeam(@PathVariable String memberUUID){
+//
+//    }
 
 }

@@ -33,6 +33,7 @@ public enum ErrorCode {
     CAN_NOT_JOIN_OPPOSITE_GENDER_TEAM (HttpStatus.CONFLICT, "성별이 다른 팀에 참가할 수 없습니다"),
     CAN_NOT_MEETING_SAME_GENDER_TEAM(HttpStatus.CONFLICT, "성별이 같은 팀과 미팅을 할 수 없습니다"),
     ALREADY_SENT_MEETING(HttpStatus.CONFLICT, "이미 미팅 신청한 팀입니다"),
+    ALREADY_START_MEETING(HttpStatus.CONFLICT, "미팅이 진행중인 팀에는 참가할 수 없습니다."),
 
 
 

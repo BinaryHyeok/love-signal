@@ -70,6 +70,10 @@ public class TeamServiceImpl implements TeamService{
     public void JoinTeam(String strTeamUUID, String strMemberUUID) {
 
         TeamEntity team = findTeamByTeamUUID(strTeamUUID);
+        if("T".equals(team.getMeeting())){
+            throw new CustomException(ErrorCode.ALREADY_START_MEETING);
+        }
+
         if(team.getMemberCount() >= 3){
             throw new CustomException(ErrorCode.TEAM_IS_FULL);
         }

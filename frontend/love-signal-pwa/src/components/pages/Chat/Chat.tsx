@@ -22,6 +22,9 @@ import { chat, roomChatList } from "../../../types/chat";
 import { room } from "../../../types/room";
 import { getChatList } from "../../../api/chat";
 
+import ATKFilter from "../../Filter/ATKFilter";
+import GetMyInfo from "../../Filter/GetMyInfo";
+
 let socket: any;
 let ws: any;
 
@@ -148,36 +151,42 @@ const Chat = () => {
   };
 
   return (
-    <motion.div
-      variants={contentVariants}
-      initial="hidden"
-      animate="visible"
-      // exit="exit"
-      className={`${style.container} ${
-        selectedRoom.uuid ? style.expanded : ""
-      }`}
-    >
-      {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
-      {selectedRoom.uuid && (
-        <T_ChatRoom
-          className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
-          roomId={selectedRoom.uuid}
-          title={selectedRoom.roomName}
-          roomExitHandler={roomExitHandler}
-          roomType={selectedRoom.type}
-          chatList={
-            chatList[selectedRoom.uuid] &&
-            chatList[selectedRoom.uuid].length > 0
-              ? chatList[selectedRoom.uuid]
-              : []
-          }
-          onTextSend={publishChatMsg}
-          members={selectedRoom.memberList || null}
-        />
-      )}
-      {!selectedRoom.uuid && <T_Chat roomList={roomList} chatList={chatList} />}
+    <ATKFilter>
+      <GetMyInfo>
+        <motion.div
+          variants={contentVariants}
+          initial="hidden"
+          animate="visible"
+          // exit="exit"
+          className={`${style.container} ${
+            selectedRoom.uuid ? style.expanded : ""
+          }`}
+        >
+          {/* 채팅방 타입은 SYSTEM, TEAM, MEETING, SECRET, SIGNAL 나뉘어져 있음 */}
+          {selectedRoom.uuid && (
+            <T_ChatRoom
+              className={`${
+                selectedRoom.uuid ? "slide-in-enter" : ""
+              } common-bg`}
+              roomId={selectedRoom.uuid}
+              title={selectedRoom.roomName}
+              roomExitHandler={roomExitHandler}
+              roomType={selectedRoom.type}
+              chatList={
+                chatList[selectedRoom.uuid] &&
+                chatList[selectedRoom.uuid].length > 0
+                  ? chatList[selectedRoom.uuid]
+                  : []
+              }
+              onTextSend={publishChatMsg}
+              members={selectedRoom.memberList || null}
+            />
+          )}
+          {!selectedRoom.uuid && (
+            <T_Chat roomList={roomList} chatList={chatList} />
+          )}
 
-      {/* <T_Chat />
+          {/* <T_Chat />
       <T_ChatRoom
         className={`${selectedRoom.uuid ? "slide-in-enter" : ""} common-bg`}
         roomId={selectedRoom.uuid}
@@ -188,7 +197,9 @@ const Chat = () => {
         // chatList={chat}
         // onTextSend={textSendHandler}
       /> */}
-    </motion.div>
+        </motion.div>
+      </GetMyInfo>
+    </ATKFilter>
   );
 };
 

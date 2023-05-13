@@ -8,6 +8,8 @@ import O_FindTeamMenu from "../../organisms/FindTeam/O_FindTeamMenu";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
+import ATKFilter from "../../Filter/ATKFilter";
+import GetMyInfo from "../../Filter/GetMyInfo";
 
 const FindTeam = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -16,20 +18,24 @@ const FindTeam = () => {
   }, []);
 
   return (
-    <TeamBuildFilter>
-      <motion.div
-        variants={contentVariants}
-        initial="hidden"
-        animate="visible"
-        // exit="exit"
-        className={`${style.container}`}
-      >
-        <T_FindTeam>
-          <M_FindTeamDesc />
-          <O_FindTeamMenu />
-        </T_FindTeam>
-      </motion.div>
-    </TeamBuildFilter>
+    <ATKFilter>
+      <GetMyInfo>
+        <TeamBuildFilter>
+          <motion.div
+            variants={contentVariants}
+            initial="hidden"
+            animate="visible"
+            // exit="exit"
+            className={`${style.container}`}
+          >
+            <T_FindTeam>
+              <M_FindTeamDesc />
+              <O_FindTeamMenu />
+            </T_FindTeam>
+          </motion.div>
+        </TeamBuildFilter>
+      </GetMyInfo>
+    </ATKFilter>
   );
 };
 

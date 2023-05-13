@@ -11,7 +11,7 @@ public enum ErrorCode {
     // Client Error 4xx
     // 400 BAD_REQUEST : 잘못된 요청
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다"),
-    INVALID_UUID(HttpStatus.BAD_REQUEST, "UUID가 올바르지 않습니다."),
+    INVALID_UUID(HttpStatus.BAD_REQUEST, "코드가 올바르지 않습니다."),
     NOT_MATCHING_TEAM(HttpStatus.BAD_REQUEST, "조건에 해당하는 미팅 신청이 없습니다."),
 
     // 401 UNAUTHORIZED : 인증되지 않은 사용자

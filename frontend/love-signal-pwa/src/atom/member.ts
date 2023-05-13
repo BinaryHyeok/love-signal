@@ -66,3 +66,9 @@ export const validRoomId = atom<boolean>({
   key: "validRoomId",
   default: false,
 });
+
+export const teamBuildState = atom<boolean>({
+  key: "teamBuildState",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});

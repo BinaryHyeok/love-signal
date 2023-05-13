@@ -1,16 +1,16 @@
 import React from "react";
-import style from "./MyPage_Edit_Btn.module.scss";
+import style from "./styles/MyPage_Check_Btn.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 
 type propsType = {
   imgClick: () => void;
 };
 
-const Mypage_Edit_Btn: React.FC<propsType> = ({ imgClick }) => {
+const Mypage_Check_Btn: React.FC<propsType> = ({ imgClick }) => {
   return (
     <AnimatePresence>
       <motion.img
-        src="/assets/EditBtn.png"
+        src="/assets/btn_check_violet.png"
         className={style.EditBtn}
         onClick={imgClick}
         whileTap={{
@@ -22,4 +22,4 @@ const Mypage_Edit_Btn: React.FC<propsType> = ({ imgClick }) => {
   );
 };
 
-export default Mypage_Edit_Btn;
+export default Mypage_Check_Btn;

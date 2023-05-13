@@ -11,8 +11,7 @@ import { contentVariants } from "../../atoms/Common/contentVariants";
 import style from "./styles/Mypage.module.scss";
 
 import M_Image_Type from "../../UI/Common/M_Image_Type";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
-import MyInfo from "./MyInfo";
+import MyInfo from "../../templates/Mypage/MyInfo";
 
 import { inquireMember } from "../../../api/auth";
 import { changeMyImg } from "../../../api/file";
@@ -20,7 +19,6 @@ import { changeMyImg } from "../../../api/file";
 import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
-import { myatkET } from "../../../atom/member";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);

@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./styles/Introduce.module.scss";
-import Mypage_Edit_Btn from "../../UI/Common/Mypage_Edit_Btn";
-import MyIntroduce from "./MyIntroduce";
+import Mypage_Edit_Btn from "../../atoms/Mypage/Mypage_Edit_Btn";
+import MyIntroduce from "../../atoms/Mypage/MyIntroduce";
 
 type propsType = {
   description: string;

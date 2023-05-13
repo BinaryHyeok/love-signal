@@ -13,7 +13,6 @@ import Chat from "./components/pages/Chat/Chat";
 import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
 import Ground from "./components/UI/Three/Ground";
-import Test from "./components/pages/Test";
 import { AnimatePresence } from "framer-motion";
 
 function App() {
@@ -40,10 +39,6 @@ function App() {
           element: <Ground />,
         },
         {
-          path: "/Test2",
-          element: <Test />,
-        },
-        {
           path: "/",
           element: <ContentLayout />,
           children: [
@@ -56,7 +51,7 @@ function App() {
               element: <FindTeam />,
             },
             {
-              path: "/SameGender/build",
+              path: "/SameGender/Build",
               element: <TeamBuild />,
             },
             {

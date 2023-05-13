@@ -88,13 +88,13 @@ const O_MyTeamBox: React.FC<propsType> = ({
             }
             setMatchMemberList([...newList]);
             setMatchTeamUUID(res.data.body.teamUUID);
-            setIsLoading(true);
             setStart(false);
           })
           .catch((err) => {
             console.log(err);
           });
       }
+      setIsLoading(true);
     }
   }, [clickBtn]);
 
@@ -113,7 +113,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
     applyTeamList.forEach((item) => {
       setApplyList((applyTeam) => [...applyTeam, item]);
     });
-    setIsLoading(true);
   };
 
   //팀 나가기 함수입니다.

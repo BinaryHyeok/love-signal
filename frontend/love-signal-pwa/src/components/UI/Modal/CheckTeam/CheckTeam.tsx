@@ -153,7 +153,6 @@ const CheckTeam: React.FC<propsType> = ({
             }}
             onSlideChange={closeManual}
             loop={true}
-            // navigation={true}
             modules={[Pagination, Navigation]}
             className={style.swiper}
           >
@@ -193,7 +192,7 @@ const CheckTeam: React.FC<propsType> = ({
                   className={style.button}
                   onClick={shareTeamBtn}
                 >
-                  {memberLength === 3 ? (
+                  {!haveTeam && memberLength === 3 ? (
                     <img src="/assets/share.png" alt="" />
                   ) : (
                     <img src="/assets/shareblack.png" alt="" />

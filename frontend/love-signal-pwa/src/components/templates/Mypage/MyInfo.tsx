@@ -1,10 +1,10 @@
 import { useState } from "react";
 import style from "./styles/MyInfo.module.scss";
-import NickName from "./NickName";
-import Introduce from "./Introduce";
-import EditNickName from "./EditNickName";
-import EditIntroduce from "./EditIntroduce";
-import Age from "./Age";
+import NickName from "../../molecules/Mypage/NickName";
+import Introduce from "../../molecules/Mypage/Introduce";
+import EditNickName from "../../molecules/Mypage/EditNickName";
+import EditIntroduce from "../../molecules/Mypage/EditIntroduce";
+import Age from "../../atoms/Mypage/Age";
 import { useRecoilState } from "recoil";
 import { kid, myMemberUUID, myatk } from "../../../atom/member";
 import { changeMyInfo } from "../../../api/auth";

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { kid, myTeamUUID, myatk } from "../../atom/member";
+import { kid, myTeamUUID, myatk, teamBuildState } from "../../atom/member";
 import { getMyTeam } from "../../api/team";
 import { footerIdx } from "../../atom/footer";
 
@@ -12,6 +12,7 @@ type propsType = {
 //FindTeam, MyTeam, TeamBuild페이지에 들어가야 합니다.
 const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
   const [_, setIdx] = useRecoilState(footerIdx);
+  const [myTeamBuildState] = useRecoilState<boolean>(teamBuildState);
   useEffect(() => {
     setIdx(1);
     TeamFilter();
@@ -35,9 +36,9 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
             !res.data.body.haveMeetingTeam &&
             res.data.body.members.length !== 3
           ) {
-            navigate("/Samegender/build", { replace: true });
+            navigate("/Samegender/Build", { replace: true });
           } else {
-            navigate("/Samegender/myTeam", { replace: true });
+            navigate("/Samegender/MyTeam", { replace: true });
           }
         })
         .catch((err) => {
@@ -45,8 +46,12 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
           navigate("/SameGender", { replace: true });
         });
     } else {
+      if (myTeamBuildState) {
+        navigate("/SameGender/Match", { replace: true });
+      } else {
+        navigate("/SameGender", { replace: true });
+      }
       setTeamUUID("");
-      navigate("/SameGender", { replace: true });
     }
   };
 

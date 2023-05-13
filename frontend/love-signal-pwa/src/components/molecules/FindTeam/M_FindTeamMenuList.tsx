@@ -6,12 +6,19 @@ import Modal_portal from "../../UI/Modal/Modal_portal";
 import CommonModal from "../../UI/Modal/CommonModal";
 import M_ModalFindTeamWithCode from "./M_ModalFindTeamWithCode";
 import { getMyTeam, joinTeam } from "../../../api/team";
-import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
+import {
+  kid,
+  myMemberUUID,
+  myTeamUUID,
+  myatk,
+  teamBuildState,
+} from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { makeTeam } from "../../../api/team";
 
 import Ground from "../../UI/Three/Ground";
 import { validRoomId } from "../../../atom/member";
+import MatchTeam from "../../pages/FindTeam/MatchTeam";
 
 let timeout: NodeJS.Timer;
 
@@ -21,14 +28,15 @@ const M_FindTeamMenuList = () => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [enterTeamUUID, setEnterTeamUUID] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
+  const [animation, setAnimation] = useState<boolean>(false);
+
   const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const [isErr, setIsErr] = useRecoilState<boolean>(validRoomId);
-  const [errMsg, setErrMsg] = useState<string>("");
-  const [animation, setAnimation] = useState<boolean>(false);
-
-  //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
+  const [myTeamBuildState, setMyTeamBuildState] =
+    useRecoilState<boolean>(teamBuildState);
 
   //모달창 열어주는 함수입니다.
   const openRoomCodeModalHandler = () => {
@@ -48,9 +56,9 @@ const M_FindTeamMenuList = () => {
         setTeamUUID(enterTeamUUID);
         getMyTeam(enterTeamUUID, atk, kID).then((res) => {
           if (res.data.body.members.length === 3) {
-            navigate("/Samegender/myTeam");
+            navigate("/Samegender/myTeam", { replace: true });
           } else {
-            navigate("/Samegender/build");
+            navigate("/Samegender/build", { replace: true });
           }
         });
       })
@@ -76,7 +84,7 @@ const M_FindTeamMenuList = () => {
         console.log(res.data); // 방 정보
         setTeamUUID(res.data.body);
         setIsPending(false);
-        navigate("/SameGender/build");
+        navigate("/SameGender/build", { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -87,56 +95,66 @@ const M_FindTeamMenuList = () => {
   //빠른 매칭
   const fastMatch = () => {
     setAnimation(false);
+    setMyTeamBuildState(true);
+    //매칭을 시작한다는 axios를 보내주어야 합니다.
     setIsPending(true);
   };
 
   return (
     <>
-      {isPending && (
-        <Modal_portal>
-          <Ground />
-        </Modal_portal>
-      )}
-      {!isPending && (
-        <div className={style.menuList}>
-          <Button_Type_A className={style.menu} onClick={fastMatch}>
-            <img src="/assets/LIGHTENING.png" />
-            빠른 매칭 <img src="/assets/LIGHTENING.png" />
-          </Button_Type_A>
-          <Button_Type_A className={style.menu} onClick={createRoom}>
-            <img src="/assets/SWEET_HOME.png" />
-            룸 생성하기
-            <img src="/assets/SWEET_HOME.png" />
-          </Button_Type_A>
-          <Button_Type_A
-            className={style.menu}
-            onClick={openRoomCodeModalHandler}
-          >
-            <img src="/assets/KEY.png" />
-            룸 검색하기
-            <img src="/assets/KEY.png" />
-          </Button_Type_A>
-        </div>
-      )}
-      {visible && (
-        <Modal_portal>
-          <CommonModal
-            timeout={timeout}
-            animation={animation}
-            setAnimation={setAnimation}
-            setVisible={setVisible}
-            visible={visible}
-            width="304px"
-            height="200px"
-          >
-            <M_ModalFindTeamWithCode
-              isErr={isErr}
-              enterTeam={enterTeam}
-              setEnterTeamUUID={setEnterTeamUUID}
-              errMsg={errMsg}
-            />
-          </CommonModal>
-        </Modal_portal>
+      {myTeamBuildState ? (
+        <>
+          <MatchTeam />
+        </>
+      ) : (
+        <>
+          {isPending && (
+            <Modal_portal>
+              <Ground />
+            </Modal_portal>
+          )}
+          {!isPending && (
+            <div className={style.menuList}>
+              <Button_Type_A className={style.menu} onClick={fastMatch}>
+                <img src="/assets/LIGHTENING.png" />
+                빠른 매칭 <img src="/assets/LIGHTENING.png" />
+              </Button_Type_A>
+              <Button_Type_A className={style.menu} onClick={createRoom}>
+                <img src="/assets/SWEET_HOME.png" />
+                룸 생성하기
+                <img src="/assets/SWEET_HOME.png" />
+              </Button_Type_A>
+              <Button_Type_A
+                className={style.menu}
+                onClick={openRoomCodeModalHandler}
+              >
+                <img src="/assets/KEY.png" />
+                룸 검색하기
+                <img src="/assets/KEY.png" />
+              </Button_Type_A>
+            </div>
+          )}
+          {visible && (
+            <Modal_portal>
+              <CommonModal
+                timeout={timeout}
+                animation={animation}
+                setAnimation={setAnimation}
+                setVisible={setVisible}
+                visible={visible}
+                width="304px"
+                height="200px"
+              >
+                <M_ModalFindTeamWithCode
+                  isErr={isErr}
+                  enterTeam={enterTeam}
+                  setEnterTeamUUID={setEnterTeamUUID}
+                  errMsg={errMsg}
+                />
+              </CommonModal>
+            </Modal_portal>
+          )}
+        </>
       )}
     </>
   );

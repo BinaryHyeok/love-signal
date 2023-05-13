@@ -7,10 +7,8 @@ import { team } from "../../../types/member";
 import { getMyTeam, getOtherGenderTeam } from "../../../api/team";
 import MsgModal from "../../UI/Modal/MsgModal";
 import T_OtherGender from "./T_OtherGender";
-import { imLeader, myGender, myatk, myatkET } from "../../../atom/member";
+import { imLeader, myGender, myTeamUUID, myatk } from "../../../atom/member";
 import { kid } from "../../../atom/member";
-import { inquireMember } from "../../../api/auth";
-import { myMemberUUID } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
@@ -37,10 +35,11 @@ const ExploreTeam = () => {
   const [msg, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
-  const [UUID] = useRecoilState<string>(myMemberUUID);
-  const [atk, setATK] = useRecoilState<string>(myatk);
-  const [kID, setKakaoId] = useRecoilState<string>(kid);
-  const [gender, setGender] = useRecoilState<string>(myGender);
+  const [TUUID] = useRecoilState<string>(myTeamUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
+  const [gender] = useRecoilState<string>(myGender);
+  const [isLeader] = useRecoilState<boolean>(imLeader);
 
   useEffect(() => {
     getMyInfo();
@@ -53,19 +52,17 @@ const ExploreTeam = () => {
   }, [visible]);
 
   const getMyInfo = async () => {
-    await inquireMember(UUID, atk, kID)
-      .then((res) => {
-        if (res.data.body.teamLeader) {
-          //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
-          getMyTeam(res.data.body.teamUUID, atk, kID).then((res) => {
-            setHaveTeam(res.data.body.haveMeetingTeam);
-            setMemberLength(res.data.body.members.length);
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isLeader) {
+      //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
+      getMyTeam(TUUID, atk, kID)
+        .then((res) => {
+          setHaveTeam(res.data.body.haveMeetingTeam);
+          setMemberLength(res.data.body.members.length);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   //리스트를 받아올 axios 함수입니다.

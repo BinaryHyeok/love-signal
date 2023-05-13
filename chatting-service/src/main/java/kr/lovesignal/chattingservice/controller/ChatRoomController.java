@@ -73,11 +73,6 @@ public class ChatRoomController {
     @ApiOperation(value = "채팅방 나가기", notes = "채팅방을 만료시켜서 목록에서 제거한다.")
     @PutMapping("/exit")
     public ResponseEntity<String> exitChatRoom(@RequestBody List<String> memberUUIDs) {
-        System.out.println("======================================================");
-        System.out.println("여기는 채팅방 나가기 API 입니당");
-        for(String uuid : memberUUIDs) {
-            System.out.println(uuid);
-        }
         chatRoomService.exitChatRoom(memberUUIDs);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }

@@ -63,12 +63,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public List<ResChatRoom> getChatRoomList(String userUUID) {
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findByUUID(uuid);
-        if(member == null){
-            System.out.println("이거왜 널임?");
-        }
-        System.out.println("================================================");
-        System.out.println(uuid.toString());
-        System.out.println(member);
 
         // 멤버가 참여하고 있는 Participant 정보들
         List<Participant> memberParticipants = member.getParticipants();
@@ -94,8 +88,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
                 int age = Period.between(birthDate, LocalDate.now()).getYears();
                 resMember.setAge(age);
-
-                memberList.add(resMember);
+                if(resChatRoom.getExpired().equals("F"))
+                    memberList.add(resMember);
             }
 
             // 알맹이 리스트를 ResChatRoom 객체에 주입

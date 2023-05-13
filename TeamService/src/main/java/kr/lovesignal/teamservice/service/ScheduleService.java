@@ -8,6 +8,7 @@ import kr.lovesignal.teamservice.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,10 @@ public class ScheduleService {
     private final WebClientService webClientService;
 
 
-    @Scheduled(cron = "59 59 9 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "59 59 16 * * *", zone = "Asia/Seoul")
+    @Transactional(readOnly = true)
     public void sendMeetingMemberUUIDs(){
-//        List<UUID> memberUUIDs = new ArrayList<>();
+        List<UUID> memberUUIDs = new ArrayList<>();
 //        List<TeamEntity> meetingTeams = teamRepository.findByMeetingAndExpired("T", "F");
 //
 //        for(TeamEntity meetingTeam : meetingTeams){
@@ -33,11 +35,12 @@ public class ScheduleService {
 //                memberUUIDs.add(meetingMember.getUUID());
 //            }
 //        }
-//
-//        webClientService.sendMeetingMemberUUIDs(memberUUIDs);
 
         for(int i = 0; i < 100; i++){
-        System.out.println("스케쥴러 되냐?");
+            memberUUIDs.add(UUID.randomUUID());
         }
+
+        webClientService.sendMeetingMemberUUIDs(memberUUIDs);
+
     }
 }

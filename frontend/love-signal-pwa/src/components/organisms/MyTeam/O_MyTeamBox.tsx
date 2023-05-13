@@ -69,6 +69,9 @@ const O_MyTeamBox: React.FC<propsType> = ({
         receiveMatchMember(TeamUUID, atk, kID)
           .then((res) => {
             console.log(res);
+            if (res.data.body.members.length !== 3) {
+              //만약 상대팀의 멤버가 3명이 아니라면? (더미데이터 넣어주기.)
+            }
             setMatchMemberList(res.data.body.members);
             setMatchTeamUUID(res.data.body.teamUUID);
             setStart(false);

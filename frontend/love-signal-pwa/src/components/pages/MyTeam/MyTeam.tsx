@@ -37,6 +37,8 @@ const MyTeam = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
+  const MEMBER_LOADING_IMG = "/assets/member_loading.png";
+
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
   useEffect(() => {
     getUserTeamInfo();
@@ -45,7 +47,20 @@ const MyTeam = () => {
   const getUserTeamInfo = async () => {
     await getMyTeam(teamUUID, atk, kID)
       .then((res) => {
-        setMemberList(res.data.body.members);
+        const newList = [...res.data.body.members];
+        if (res.data.body.members.length !== 3) {
+          //나의 팀 페이지로 왔는데 길이가 3이 아니라는것은 현재 팀 매칭이 되어있으면서 중간에 팀원이 나간것입니다.
+          while (newList.length < 3) {
+            newList.push({
+              memberUUID: "",
+              nickname: "나간 사람",
+              age: 0,
+              description: "팀을 나간 인원입니다.",
+              profileImage: MEMBER_LOADING_IMG,
+            });
+          }
+        }
+        setMemberList([...newList]);
         //내가 상대팀을 가지고 있는지를 파악.
         if (!res.data.body.haveMeetingTeam) {
           //상대팀이 없을시 true로 변경.

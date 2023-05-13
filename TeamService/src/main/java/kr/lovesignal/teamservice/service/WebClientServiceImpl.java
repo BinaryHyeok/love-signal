@@ -85,14 +85,14 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public void exitChatRoomApi(List<String> memberUUIDs) {
-        String uri = "http://localhost:8080/chatroom/exit";
+        String uri = "http://localhost:8080/chatRoom/exit";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("chatting-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/chatroom/exit";
+            uri = instances.get(0).getUri().toString() + "/chatRoom/exit";
         }
 
         webClient.put()

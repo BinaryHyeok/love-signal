@@ -31,14 +31,10 @@ const Mypage = () => {
   const [myDescription, setMyDescription] = useState<string>("");
   const [myCropImage, setMyCropImage] = useState<FormData>(new FormData());
   const [start, setStart] = useState<boolean>(false);
-  const [, setMyAtk] = useRecoilState<string>(myatk);
-  const [, setMyAtkET] = useRecoilState<Date>(myatkET);
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIdx(3);
@@ -53,9 +49,6 @@ const Mypage = () => {
 
   useEffect(() => {
     if (start) {
-      console.log(atk);
-      console.log(kID);
-
       changeMyImg(UUID, myCropImage, atk, kID);
     } else {
       setStart(true);

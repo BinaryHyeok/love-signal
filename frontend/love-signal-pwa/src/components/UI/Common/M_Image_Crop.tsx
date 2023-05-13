@@ -10,10 +10,10 @@ type PropsType = {
   setAnimation: Dispatch<SetStateAction<boolean>>;
   image?: string;
   setVisible: Dispatch<SetStateAction<boolean>>;
-  visible: boolean;
   setCropData: Dispatch<SetStateAction<string>>;
   setMyImage: Dispatch<SetStateAction<FormData>>;
   setChangeImg: Dispatch<SetStateAction<boolean>>;
+  extension: string;
 };
 
 const M_Image_Crop: React.FC<PropsType> = ({
@@ -21,10 +21,10 @@ const M_Image_Crop: React.FC<PropsType> = ({
   setAnimation,
   image,
   setCropData,
-  visible,
   setVisible,
   setMyImage,
   setChangeImg,
+  extension,
 }) => {
   const cropperRef = createRef<ReactCropperElement>();
 
@@ -39,7 +39,7 @@ const M_Image_Crop: React.FC<PropsType> = ({
           setMyImage(formData);
           setChangeImg(true);
         }
-      }, "image/png");
+      }, `image/${extension}`);
       setAnimation(true);
       timeout = setTimeout(() => {
         setVisible(false);

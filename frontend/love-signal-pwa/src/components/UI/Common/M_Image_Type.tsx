@@ -29,6 +29,7 @@ const M_Image_Type: React.FC<propsType> = ({
   const [cropData, setCropData] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
+  const [extension, setExtension] = useState<string>("");
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
   useEffect(() => {}, [visible]);
@@ -50,6 +51,7 @@ const M_Image_Type: React.FC<propsType> = ({
                 setFileImg={setFileImg}
                 visible={visible}
                 setVisible={setVisible}
+                setExtension={setExtension}
               />
             </div>
           </div>
@@ -70,6 +72,7 @@ const M_Image_Type: React.FC<propsType> = ({
                   setFileImg={setFileImg}
                   visible={visible}
                   setVisible={setVisible}
+                  setExtension={setExtension}
                 />
               </div>
             </div>
@@ -89,10 +92,10 @@ const M_Image_Type: React.FC<propsType> = ({
                 setAnimation={setAnimation}
                 image={fileImg}
                 setCropData={setCropData}
-                visible={visible}
                 setVisible={setVisible}
                 setMyImage={setMyImage}
                 setChangeImg={setChangeImg}
+                extension={extension}
               />
             </CommonModal>
           </Modal_portal>

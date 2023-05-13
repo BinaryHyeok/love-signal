@@ -25,6 +25,7 @@ const M_FindTeamMenuList = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const [isErr, setIsErr] = useRecoilState<boolean>(validRoomId);
+  const [errMsg, setErrMsg] = useState<string>("");
   const [animation, setAnimation] = useState<boolean>(false);
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
@@ -54,6 +55,11 @@ const M_FindTeamMenuList = () => {
         });
       })
       .catch((err) => {
+        if (err.response.status <= 500) {
+          setErrMsg(err.response.data.message);
+        } else {
+          setErrMsg("관리자에게 문의 부탁드립니다.");
+        }
         setIsErr(true);
         console.log(err);
       });
@@ -78,6 +84,12 @@ const M_FindTeamMenuList = () => {
       });
   };
 
+  //빠른 매칭
+  const fastMatch = () => {
+    setAnimation(false);
+    setIsPending(true);
+  };
+
   return (
     <>
       {isPending && (
@@ -87,7 +99,7 @@ const M_FindTeamMenuList = () => {
       )}
       {!isPending && (
         <div className={style.menuList}>
-          <Button_Type_A className={style.menu}>
+          <Button_Type_A className={style.menu} onClick={fastMatch}>
             <img src="/assets/LIGHTENING.png" />
             빠른 매칭 <img src="/assets/LIGHTENING.png" />
           </Button_Type_A>
@@ -121,6 +133,7 @@ const M_FindTeamMenuList = () => {
               isErr={isErr}
               enterTeam={enterTeam}
               setEnterTeamUUID={setEnterTeamUUID}
+              errMsg={errMsg}
             />
           </CommonModal>
         </Modal_portal>

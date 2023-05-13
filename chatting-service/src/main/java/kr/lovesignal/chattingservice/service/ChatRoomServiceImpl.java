@@ -88,13 +88,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
                 int age = Period.between(birthDate, LocalDate.now()).getYears();
                 resMember.setAge(age);
-                if(resChatRoom.getExpired().equals("F"))
-                    memberList.add(resMember);
+                memberList.add(resMember);
             }
 
             // 알맹이 리스트를 ResChatRoom 객체에 주입
             resChatRoom.setMemberList(memberList);
-            chatRoomList.add(resChatRoom);
+            if(resChatRoom.getExpired().equals("F"))
+                chatRoomList.add(resChatRoom);
         }
 
         return chatRoomList;

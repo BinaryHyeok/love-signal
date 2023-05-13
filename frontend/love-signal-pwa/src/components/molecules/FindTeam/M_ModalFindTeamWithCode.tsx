@@ -9,12 +9,14 @@ type PropsType = {
   isErr: boolean;
   enterTeam: () => void;
   setEnterTeamUUID: Dispatch<SetStateAction<string>>;
+  errMsg: string;
 };
 
 const M_ModalFindTeamWithCode: React.FC<PropsType> = ({
   isErr,
   enterTeam,
   setEnterTeamUUID,
+  errMsg,
 }) => {
   const writeTeamCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -24,7 +26,7 @@ const M_ModalFindTeamWithCode: React.FC<PropsType> = ({
     <div className={style.modalContent}>
       <A_Heartline type="blue" count="3" />
       <span>
-        <A_TextHighlight color="blue">룸 코드</A_TextHighlight>로 입장하기
+        <A_TextHighlight color="blue">팀 코드</A_TextHighlight>로 입장하기
       </span>
       <Input_Type_A
         type="text"
@@ -35,11 +37,7 @@ const M_ModalFindTeamWithCode: React.FC<PropsType> = ({
         margin="8px 0 16px 0"
         onChange={writeTeamCode}
       />
-      {isErr && (
-        <A_TextHighlight color="blue">
-          유효하지 않은 방 코드입니다.
-        </A_TextHighlight>
-      )}
+      {isErr && <A_TextHighlight color="blue">{errMsg}</A_TextHighlight>}
       <Button_Type_B
         margin="8px 0 8px 0"
         width="120px"

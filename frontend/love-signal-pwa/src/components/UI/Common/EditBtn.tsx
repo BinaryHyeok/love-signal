@@ -1,8 +1,8 @@
 import React, { useState, useRef, Dispatch, SetStateAction } from "react";
 import EditBtnImg from "./EditBtnImg";
 import EditBtnInput from "./EditBtnInput";
-const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024; // 5MB
-const ALLOW_FILE_EXTENSION = "jpg,jpeg,png";
+const FILE_SIZE_MAX_LIMIT = 10 * 1024 * 1024; // 10MB
+const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif";
 
 type propsType = {
   timeout: any;
@@ -10,6 +10,7 @@ type propsType = {
   setFileImg: Dispatch<SetStateAction<string>>;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
+  setExtension: Dispatch<SetStateAction<string>>;
 };
 
 const EditBtn: React.FC<propsType> = ({
@@ -18,6 +19,7 @@ const EditBtn: React.FC<propsType> = ({
   setFileImg,
   visible,
   setVisible,
+  setExtension,
 }) => {
   const [file, setFile] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -34,6 +36,7 @@ const EditBtn: React.FC<propsType> = ({
     const fileExtensionValid = ({ name }: { name: string }): boolean => {
       // 파일 확장자
       const extension = removeFileName(name);
+      setExtension(extension);
       /**
        * 허용가능한 확장자가 있는지 확인하는 부분은 indexOf를 사용해도 괜찮고,
        * 새롭게 나온 includes를 사용해도 괜찮고, 그밖의 다른 방법을 사용해도 좋다.
@@ -95,26 +98,6 @@ const EditBtn: React.FC<propsType> = ({
       fileInputRef.current.click();
     }
   };
-
-  // axios 요청 함수.
-  // const onSubmitImg = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   console.log(file);
-  //   if (file) {
-  //     const formData = new FormData();
-  //     formData.append("image", file);
-  //     console.log(formData.get("image"));
-  //     await axios({
-  //       method: "post",
-  //       url: "/mypage/file",
-  //       data: formData,
-  //       headers: {
-  //         "X-Auth_Token": "AccessToken",
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-  //   }
-  // };
   return (
     <>
       <EditBtnImg imgClick={handleImageClick} />

@@ -11,3 +11,19 @@ export const getChatList = async (uuid: string, atk: string, kID: string) => {
     },
   });
 };
+
+//채팅에 이성팀 공유
+export const shareTeam = async (userUUID: string, teamUUID: string) => {
+  return await axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API}/chat/share`,
+    data: {
+      userUUID: userUUID,
+      teamUUID: teamUUID,
+    },
+    // headers :{
+    //   "X-Auth_Token" : atk,
+    //   "X-Auth_ID" : kID
+    // }
+  });
+};

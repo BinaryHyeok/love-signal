@@ -29,6 +29,8 @@ type propsType = {
   setMatchTeamUUID: Dispatch<SetStateAction<string>>;
 };
 
+const MEMBER_LOADING_IMG = "/assets/member_loading.png";
+
 const O_MyTeamBox: React.FC<propsType> = ({
   haveOppositeTeam,
   memberList,
@@ -69,10 +71,22 @@ const O_MyTeamBox: React.FC<propsType> = ({
         receiveMatchMember(TeamUUID, atk, kID)
           .then((res) => {
             console.log(res);
+            const newList = [...res.data.body.members];
             if (res.data.body.members.length !== 3) {
-              //만약 상대팀의 멤버가 3명이 아니라면? (더미데이터 넣어주기.)
+              if (res.data.body.members.length !== 3) {
+                //나의 팀 페이지로 왔는데 길이가 3이 아니라는것은 현재 팀 매칭이 되어있으면서 중간에 팀원이 나간것입니다.
+                while (newList.length < 3) {
+                  newList.push({
+                    memberUUID: "",
+                    nickname: "나간 사람",
+                    age: 0,
+                    description: "팀을 나간 인원입니다.",
+                    profileImage: MEMBER_LOADING_IMG,
+                  });
+                }
+              }
             }
-            setMatchMemberList(res.data.body.members);
+            setMatchMemberList([...newList]);
             setMatchTeamUUID(res.data.body.teamUUID);
             setStart(false);
           })

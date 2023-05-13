@@ -9,7 +9,12 @@ import { Pagination, Navigation } from "swiper";
 import ButtonTypeA from "../../Common/Button_Type_A";
 import { member } from "../../../../types/member";
 import { applyMeeting } from "../../../../api/team";
-import { imLeader, myTeamUUID, myatk } from "../../../../atom/member";
+import {
+  imLeader,
+  myMemberUUID,
+  myTeamUUID,
+  myatk,
+} from "../../../../atom/member";
 
 import UserInfo from "./O_UserInfo";
 import SwiperManual from "./A_SwiperManual";
@@ -17,6 +22,7 @@ import Exit from "./A_Exit";
 import { useRecoilState } from "recoil";
 import { motion, AnimatePresence } from "framer-motion";
 import { kid } from "../../../../atom/member";
+import { shareTeam } from "../../../../api/chat";
 
 type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -44,7 +50,8 @@ const CheckTeam: React.FC<propsType> = ({
   memberLength,
   children,
 }) => {
-  const [myUUID] = useRecoilState<string>(myTeamUUID); //현재는 사용안하지만 이후에 사용예정.
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [myTUUID] = useRecoilState<string>(myTeamUUID); //현재는 사용안하지만 이후에 사용예정.
   const [btnVisible, setBtnVisible] = useState<boolean>(false);
   const [applyActiveBtn, setApplyActiveBtn] = useState<boolean>(false);
 
@@ -76,14 +83,20 @@ const CheckTeam: React.FC<propsType> = ({
   };
 
   //공유하기 버튼
-  const shareTeam = () => {
-    alert("임시 공유하기 버튼 함수입니다.");
+  const shareTeamBtn = () => {
+    shareTeam(myUUID, myTUUID)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   //신청하기 버튼
   const applyTeam = () => {
     if (memberLength === 3 && !haveTeam && isLeader) {
-      applyMeeting(myUUID, oppositeTeamUUID, atk, kID)
+      applyMeeting(myTUUID, oppositeTeamUUID, atk, kID)
         .then((res) => {
           setMsg(res.data.body);
           setApplyModal(true);
@@ -178,7 +191,7 @@ const CheckTeam: React.FC<propsType> = ({
                   height="32px"
                   background={memberLength === 3 ? "#CAD9FF" : "#CCCCCC"}
                   className={style.button}
-                  onClick={shareTeam}
+                  onClick={shareTeamBtn}
                 >
                   {memberLength === 3 ? (
                     <img src="/assets/share.png" alt="" />

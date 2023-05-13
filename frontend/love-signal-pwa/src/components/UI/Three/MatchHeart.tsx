@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 
-const Test = (props: any) => {
+const MatchHeart = (props: any) => {
   const group = useRef();
   const { nodes, materials, animations }: any = useGLTF("/models/heart2.glb");
 
@@ -44,6 +44,6 @@ const Test = (props: any) => {
   );
 };
 
-export default Test;
+export default MatchHeart;
 
 useGLTF.preload("/heart.glb");

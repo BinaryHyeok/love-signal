@@ -32,7 +32,7 @@ public class FCMServiceImpl implements FCMService{
 	@Override
 	public void sendNotification(List<UUID> memberUUIDs) {
 
-		List<FCMEntity> fcmEntities = fcmRepository.findAllByMemberUUID(memberUUIDs);
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByMemberUUIDIn(memberUUIDs);
 
 		for(FCMEntity fcmEntity : fcmEntities){
 			if(fcmEntity.getToken() != null){

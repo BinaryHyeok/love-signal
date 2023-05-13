@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import kr.lovesignal.fcmservice.entity.FCMEntity;
 
 public interface FCMRepository extends JpaRepository<FCMEntity, Long> {
-	List<FCMEntity> findAllByMemberUUID(List<UUID> memberUUIDs);
+	List<FCMEntity> findAllByMemberUUIDIn(List<UUID> memberUUIDs);
 }

@@ -20,3 +20,18 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  profiles:
+    active:
+
+logging:
+  level:
+    org.hibernate.type: trace     # Show Query Parameter
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${server.port}

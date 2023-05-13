@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/M_MyTeamList.module.scss";
-import ListBoxWithImgTitle from "../../UI/Common/ListBoxWithImgTitle";
+import ListBoxWithImgTitle from "../../atoms/Common/ListBoxWithImgTitle";
 import { member } from "../../../types/member";
 import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 import A_Heartline from "../../atoms/Common/A_Heartline";

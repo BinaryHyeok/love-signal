@@ -4,7 +4,7 @@ import { PerspectiveCamera } from "three";
 import { OrbitControls } from "@react-three/drei";
 import MatchHeart from "../../UI/Three/MatchHeart";
 import style from "./styles/MatchGround.module.scss";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
+import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import { useRecoilState } from "recoil";
 import { teamBuildState } from "../../../atom/member";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";

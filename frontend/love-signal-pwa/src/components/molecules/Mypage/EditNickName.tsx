@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Input_Type_A from "../../UI/Common/Input_Type_A";
+import Input_Type_A from "../../atoms/Common/Input_Type_A";
 import style from "./styles/NickName.module.scss";
 import Mypage_Check_Btn from "../../atoms/Mypage/MyPage_Check_Btn";
 import { duplicateCheck } from "../../../api/auth";

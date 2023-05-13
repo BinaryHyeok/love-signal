@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/M_ModalFindTeamWithCode.module.scss";
-import Input_Type_A from "../../UI/Common/Input_Type_A";
-import Button_Type_B from "../../UI/Common/Button_Type_B";
+import Input_Type_A from "../../atoms/Common/Input_Type_A";
+import Button_Type_B from "../../atoms/Common/Button_Type_B";
 import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
 import A_Heartline from "../../atoms/Common/A_Heartline";
 

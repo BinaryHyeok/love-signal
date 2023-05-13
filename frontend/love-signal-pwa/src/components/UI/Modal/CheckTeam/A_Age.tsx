@@ -1,5 +1,3 @@
-// import style from "./A_Age.module.scss";
-
 type propsType = {
   age: number;
 };

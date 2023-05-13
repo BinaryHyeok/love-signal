@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Main from "./components/pages/Main/Main";
-import P_SignUp from "./components/pages/SignUp/P_SignUp";
+import SignUp from "./components/pages/SignUp/SignUp";
 import Login from "./components/Login/Login";
 import Manual from "./components/Manual/Manual";
 import ExploreTeam from "./components/pages/OtherGender/ExploreTeam";
@@ -24,7 +24,7 @@ function App() {
         { index: true, element: <Main /> },
         {
           path: "/Signup",
-          element: <P_SignUp />,
+          element: <SignUp />,
         },
         {
           path: "/Login",

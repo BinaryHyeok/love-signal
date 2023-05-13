@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
+import Button_Type_A from "../Common/Button_Type_A";
 import { acceptMeeting } from "../../../api/team";
 import { useRecoilState } from "recoil";
-import { kid, myMemberUUID, myTeamUUID, myatk } from "../../../atom/member";
+import { kid, myTeamUUID, myatk } from "../../../atom/member";
 import { imLeader } from "../../../atom/member";
 
 type propsType = {

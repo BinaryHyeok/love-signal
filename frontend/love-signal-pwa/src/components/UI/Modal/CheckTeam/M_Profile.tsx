@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./M_Profile.module.scss";
+import style from "./styles/M_Profile.module.scss";
 import Nickname from "./A_Nickname";
 import Age from "./A_Age";
 import Description from "./A_Description";

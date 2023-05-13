@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./A_Description.module.scss";
+import style from "./styles/A_Description.module.scss";
 
 type propsType = {
   description: string;

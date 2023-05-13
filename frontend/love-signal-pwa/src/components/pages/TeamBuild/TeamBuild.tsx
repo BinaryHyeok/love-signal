@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import style from "./styles/TeamBuild.module.scss";
 import T_TeamBuildRoom from "../../templates/TeamBuild/T_TeamBuildRoom";
 import M_TeamBuildHeader from "../../molecules/TeamBuild/M_TeamBuildHeader";
-import Button_Type_A from "../../UI/Common/Button_Type_A";
+import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import O_TeamMemberList from "../../organisms/TeamBuild/O_TeamMemberList";
 import { withdrawTeam } from "../../../api/team";
 import { useRecoilState } from "recoil";

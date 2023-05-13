@@ -93,7 +93,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // 알맹이 리스트를 ResChatRoom 객체에 주입
             resChatRoom.setMemberList(memberList);
-            if(resChatRoom.getExpired().equals("F"))
+            if(participant.getExpired().equals("F"))
                 chatRoomList.add(resChatRoom);
         }
 

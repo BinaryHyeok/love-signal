@@ -8,6 +8,7 @@ import A_ChatText_Notice from "../../atoms/Chat/A_ChatText_Notice";
 import M_ChatText_Select from "./M_ChatText_Select";
 import M_ChatText_Result from "./M_ChatText_Result";
 import { chat } from "../../../types/chat";
+import M_ChatText_Share from "./M_ChatText_Share";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -54,6 +55,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
           isSystem={true}
         />
         <M_ChatText_Select
+          chat={chat}
           systemName={chat.nickname ? chat.nickname : ""}
           selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
         />
@@ -71,6 +73,17 @@ const M_ChatTextItem: React.FC<PropsType> = ({
           selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
         />
         ;
+      </>
+    );
+  } else if (chatType === "SHARE") {
+    console.log(chat);
+    text = (
+      <>
+        <A_ChatSenderImg senderImg={profileImage || ""} />
+        <M_ChatText_Share
+          sender={chat.nickname ? chat.nickname : ""}
+          selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
+        />
       </>
     );
   }

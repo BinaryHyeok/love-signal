@@ -27,3 +27,22 @@ export const shareTeam = async (userUUID: string, teamUUID: string) => {
     // }
   });
 };
+
+// 선택의 시간, 선택
+export const selectOneMember = async (
+  roomUUID: string,
+  chatUUID: string,
+  memberUUID: string,
+  oppositeNick: string
+) => {
+  return await axios({
+    method: "put",
+    url: `${process.env.REACT_APP_API}/chat/select`,
+    data: {
+      roomUUID,
+      chatUUID,
+      memberUUID,
+      oppositeNick,
+    },
+  });
+};

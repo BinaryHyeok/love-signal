@@ -12,13 +12,13 @@ const M_ChatText_Result: React.FC<PropsType> = ({ systemName, selectInfo }) => {
   let content = (
     <div className={""}>
       <div className={"imgBox"}>
-        <img src={selectInfo.profiles ? selectInfo.profiles[0] : ""} />
+        <img src={selectInfo.profileUrls ? selectInfo.profileUrls[0] : ""} />
       </div>
       <div className={"imgBox"}>
         <img src={""} />
       </div>
       <div className={"imgBox"}>
-        <img src={selectInfo.profiles ? selectInfo.profiles[1] : ""} />
+        <img src={selectInfo.profileUrls ? selectInfo.profileUrls[1] : ""} />
       </div>
     </div>
   );

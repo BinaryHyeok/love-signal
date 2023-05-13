@@ -10,7 +10,6 @@ import kr.lovesignal.teamservice.service.TeamService;
 import kr.lovesignal.teamservice.service.WebClientService;
 import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,12 +41,7 @@ public class TeamController {
     @ApiOperation(value = "팀 참가")
     public ResponseEntity<String> joinTeam(@PathVariable String teamUUID, @PathVariable String memberUUID){
 
-        int memberCount = teamService.JoinTeam(teamUUID, memberUUID);
-
-        if(memberCount == 3){
-            List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID);
-            webClientService.makeChatRoomApi(memberUUIDs);
-        }
+        teamService.JoinTeam(teamUUID, memberUUID);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -58,31 +52,7 @@ public class TeamController {
     @ApiOperation(value = "팀 탈퇴")
     public ResponseEntity<String> leaveTeam(@PathVariable String memberUUID){
 
-        boolean[] result = teamService.leaveTeam(memberUUID);
-        boolean isMeeting = result[0];
-        boolean isRemainTeam = result[1];
-        boolean isBuilding = result[2];
-
-        List<String> memberUUIDs;
-        String type;
-        if(isMeeting) {
-            if (isRemainTeam) {
-                // 한사람이 모든 채팅방에서 나간다.
-                memberUUIDs = teamService.deleteMemberFromTeam(memberUUID);
-            }
-            else{
-                // 미팅과 팀 해체 및 모든 채팅방에서 나간다.
-                memberUUIDs = teamService.deleteMeetingTeam(memberUUID);
-            }
-        }
-        else{
-            //팀 해체
-            memberUUIDs = teamService.deleteTeamByMember(memberUUID);
-        }
-
-        if(isBuilding){
-            webClientService.exitChatRoomApi(memberUUIDs);
-        }
+        teamService.leaveTeam(memberUUID);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -156,10 +126,7 @@ public class TeamController {
     @ApiOperation(value = "미팅 수락")
     public ResponseEntity<String> acceptMeeting(@PathVariable String teamUUID, @PathVariable String oppositeTeamUUID){
 
-        teamService.accpetMeeting(teamUUID, oppositeTeamUUID);
-
-        List<String> memberUUIDs = teamService.makeChatRoomMembers(teamUUID, oppositeTeamUUID);
-        webClientService.makeChatRoomApi(memberUUIDs);
+        teamService.acceptMeeting(teamUUID, oppositeTeamUUID);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

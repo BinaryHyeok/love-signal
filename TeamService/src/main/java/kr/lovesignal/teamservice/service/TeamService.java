@@ -13,10 +13,10 @@ public interface TeamService {
     public SuccessResponse<String> createTeam(String memberUUID);
 
     //동성 팀 가입
-    public int JoinTeam(String teamUUID, String memberUUID);
+    public void JoinTeam(String teamUUID, String memberUUID);
 
     //동성 팀 탈퇴
-    public boolean[] leaveTeam(String memberUUID);
+    public void leaveTeam(String memberUUID);
 
     // 동성 팀 및 이성 팀 조회
     public Team getTeamByTeamUUID(String teamUUID);
@@ -37,21 +37,12 @@ public interface TeamService {
     public SuccessResponse<String> createMeeting(String teamUUID, String oppositeTeamUUID);
 
     // 미팅 수락
-    public void accpetMeeting(String teamUUID, String oppositeTeamUUID);
+    public void acceptMeeting(String teamUUID, String oppositeTeamUUID);
 
     // 미팅 거절
     public SuccessResponse<String> rejectMeeting(String teamUUID, String oppositeTeamUUID);
 
-    public List<String> makeChatRoomMembers(String teamUUID);
-
-    public List<String> makeChatRoomMembers(String teamUUID, String oppositeTeamUUID);
-
-    public List<String> deleteMemberFromTeam(String strMemberUUID);
-
-    public List<String> deleteMeetingTeam(String strMemberUUID);
-
-    public List<String> deleteTeamByMember(String strMemberUUID);
-
+    // 미팅중인 팀 호출
     public Team getMeetingTeam(String strTeamUUID);
 
 }

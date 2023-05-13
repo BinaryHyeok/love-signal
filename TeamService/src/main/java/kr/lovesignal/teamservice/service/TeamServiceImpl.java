@@ -39,25 +39,23 @@ public class TeamServiceImpl implements TeamService{
     private final TeamRepository teamRepository;
     private final MeetingRepository meetingRepository;
     private final MeetingTeamRepository meetingTeamRepository;
+    private final WebClientService webClientService;
 
     @Override
     @Transactional
     public SuccessResponse<String> createTeam(String strMemberUUID) {
 
-        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+        MemberEntity hostMember = findMemberByMemberUUID(strMemberUUID);
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpired(UUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        if(hasTeam(findMember)){
+        if(hasTeam(hostMember)){
             throw new CustomException(ErrorCode.ALREADY_JOIN_TEAM);
         }
 
         TeamEntity saveTeam = TeamEntity.builder()
-                .gender(findMember.getGender())
+                .gender(hostMember.getGender())
                 .build();
 
-        MemberEntity saveMember = buildMemberEntityWithTeam(findMember, saveTeam, true);
+        MemberEntity saveMember = buildMemberEntityWithTeam(hostMember, saveTeam, true);
 
         teamRepository.save(saveTeam);
         memberRepository.save(saveMember);
@@ -69,67 +67,78 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional
-    public int JoinTeam(String strTeamUUID, String strMemberUUID) {
-        UUID teamUUID = commonUtils.getValidUUID(strTeamUUID);
-        UUID memberUUID = commonUtils.getValidUUID(strMemberUUID);
+    public void JoinTeam(String strTeamUUID, String strMemberUUID) {
 
-        TeamEntity findTeam = teamRepository.findByUUIDAndExpiredAndMeeting(teamUUID, "F", "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
-
-        if(findTeam.getMemberCount() >= 3){
+        TeamEntity team = findTeamByTeamUUID(strTeamUUID);
+        if(team.getMemberCount() >= 3){
             throw new CustomException(ErrorCode.TEAM_IS_FULL);
         }
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpired(memberUUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        if(!findMember.getGender().equals(findTeam.getGender())){
+        MemberEntity member = findMemberByMemberUUID(strMemberUUID);
+        if(!member.getGender().equals(team.getGender())){
             throw new CustomException(ErrorCode.CAN_NOT_JOIN_OPPOSITE_GENDER_TEAM);
         }
 
-        TeamEntity saveTeam = buildTeamEntityUpdateMember(findTeam , true);
+        TeamEntity saveTeam = buildTeamEntityUpdateMember(team , true);
         teamRepository.save(saveTeam);
 
-        MemberEntity saveMember = buildMemberEntityWithTeam(findMember, saveTeam, false);
+        MemberEntity saveMember = buildMemberEntityWithTeam(member, saveTeam, false);
         memberRepository.save(saveMember);
 
-        return saveTeam.getMemberCount();
+
+        if(saveTeam.getMemberCount() >= 3){
+            List<String> memberUUIDs = makeTeamChatMembers(saveTeam);
+            webClientService.makeChatRoomApi(memberUUIDs);
+        }
     }
 
     @Override
     @Transactional
-    public boolean[] leaveTeam(String strMemberUUID) {
+    public void leaveTeam(String strMemberUUID) {
 
-        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+        MemberEntity leaveMember = findMemberByMemberUUID(strMemberUUID);
 
-        MemberEntity findMember = memberRepository.findByUUIDAndExpired(UUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        if(!hasTeam(findMember)){
+        if(!hasTeam(leaveMember)){
             throw new CustomException(ErrorCode.NOT_HAVE_TEAM);
         }
 
         boolean isMeeting = false;
-        boolean isRemainTeam = findMember.getTeam().getMemberCount() - 1 > 0 ? true : false;
-        boolean isBuilding = findMember.getTeam().getMemberCount() == 3 ? true : false;
+        boolean isRemainTeam = leaveMember.getTeam().getMemberCount() - 1 > 0 ? true : false;
+        boolean isBuilding = leaveMember.getTeam().getMemberCount() == 3 ? true : false;
 
         // 미팅 중이라면 혼자만 탈퇴
-        if("T".equals(findMember.getTeam().getMeeting())){
+        if("T".equals(leaveMember.getTeam().getMeeting())){
             isMeeting = true;
             isBuilding = true;
         }
 
-        return new boolean[]{isMeeting, isRemainTeam, isBuilding};
+        List<String> memberUUIDs;
+        if(isMeeting) {
+            if (isRemainTeam) {
+                // 한사람이 모든 채팅방에서 나간다.
+                memberUUIDs = deleteMemberFromTeam(leaveMember);
+            }
+            else{
+                // 미팅과 팀 해체 및 모든 채팅방에서 나간다.
+                memberUUIDs = deleteMeetingTeam(leaveMember);
+            }
+        }
+        else{
+            //팀 해체
+            memberUUIDs = deleteTeamByMember(leaveMember);
+        }
+
+        if(isBuilding){
+            // 채팅방이 있는 유저였다면 채팅방 나가기
+            webClientService.exitChatRoomApi(memberUUIDs);
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
     public Team getTeamByTeamUUID(String strTeamUUID) {
 
-        UUID UUID = commonUtils.getValidUUID(strTeamUUID);
-
-        TeamEntity findTeam = teamRepository.findByUUIDAndExpired(UUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+        TeamEntity findTeam = findTeamByTeamUUID(strTeamUUID);
 
         Team team = makeTeam(findTeam);
 
@@ -262,7 +271,7 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     @Transactional
-    public void accpetMeeting(String strReceiveTeamUUID, String strSendTeamUUID) {
+    public void acceptMeeting(String strReceiveTeamUUID, String strSendTeamUUID) {
 
         List<TeamEntity> teams = getMeetingTeams(strSendTeamUUID, strReceiveTeamUUID);
 
@@ -289,6 +298,9 @@ public class TeamServiceImpl implements TeamService{
             deleteAllMeeting(team);
             teamRepository.save(buildMeetingTeamEntity(team));
         }
+
+        List<String> memberUUIDs = makeMeetingChatMembers(maleTeam, femaleTeam);
+        webClientService.makeChatRoomApi(memberUUIDs);
     }
 
     @Override
@@ -312,7 +324,7 @@ public class TeamServiceImpl implements TeamService{
 
 
     public boolean hasTeam(MemberEntity member){
-        return null != member.getTeam() ? true : false;
+        return member.getTeam() != null ? true : false;
     }
 
     public MemberEntity buildMemberEntityWithTeam(MemberEntity member, TeamEntity team, boolean isTeamLeader){
@@ -361,7 +373,6 @@ public class TeamServiceImpl implements TeamService{
                 .build();
     }
 
-    @Transactional(readOnly = true)
     public Team makeTeam(TeamEntity teamEntity){
         List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(teamEntity, "F");
         Team team = Team.buildTeamResponse(teamEntity, memberEntities);
@@ -369,7 +380,6 @@ public class TeamServiceImpl implements TeamService{
     }
 
     // 0 : 신청한 팀, 1 : 신청을 받은 팀
-    @Transactional(readOnly = true)
     public List<TeamEntity> getMeetingTeams(String strSendTeamUUID, String strReceiveTeamUUID){
         UUID sendTeamUUID = commonUtils.getValidUUID(strSendTeamUUID);
         UUID receiveTeamUUID = commonUtils.getValidUUID(strReceiveTeamUUID);
@@ -391,20 +401,14 @@ public class TeamServiceImpl implements TeamService{
         return teams;
     }
 
-    @Transactional
     public void deleteAllMeeting(TeamEntity team){
         meetingRepository.deleteBySendTeam(team);
         meetingRepository.deleteByReceiveTeam(team);
     }
 
-    @Transactional(readOnly = true)
-    public List<String> makeChatRoomMembers(String strTeamUUID){
-        UUID teamUUID = commonUtils.getValidUUID(strTeamUUID);
+    public List<String> makeTeamChatMembers(TeamEntity team){
 
-        TeamEntity findTeam = teamRepository.findByUUIDAndExpired(teamUUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
-
-        List<MemberEntity> findMembers = memberRepository.findByTeamAndExpired(findTeam, "F");
+        List<MemberEntity> findMembers = memberRepository.findByTeamAndExpired(team, "F");
 
         List<String> memberUUIDs = new ArrayList<>();
         for(MemberEntity member : findMembers){
@@ -414,25 +418,18 @@ public class TeamServiceImpl implements TeamService{
         return memberUUIDs;
     }
 
-    @Transactional(readOnly = true)
-    public List<String> makeChatRoomMembers(String strTeamUUID, String strOppositeTeamUUID){
+    public List<String> makeMeetingChatMembers(TeamEntity maleTeam, TeamEntity femaleTeam){
         List<String> memberUUIDs = new ArrayList<>();
-        memberUUIDs.addAll(makeChatRoomMembers(strTeamUUID));
-        memberUUIDs.addAll(makeChatRoomMembers(strOppositeTeamUUID));
+        memberUUIDs.addAll(makeTeamChatMembers(maleTeam));
+        memberUUIDs.addAll(makeTeamChatMembers(femaleTeam));
 
         return memberUUIDs;
     }
 
 
 
-    @Transactional
-    public List<String> deleteMemberFromTeam(String strMemberUUID){
+    public List<String> deleteMemberFromTeam(MemberEntity leaveMember){
         List<String> memberUUIDs = new ArrayList<>();
-
-        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
-
-        MemberEntity leaveMember = memberRepository.findByUUIDAndExpired(UUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         TeamEntity saveTeam = buildTeamEntityUpdateMember(leaveMember.getTeam(), false);
         teamRepository.save(saveTeam);
@@ -440,18 +437,12 @@ public class TeamServiceImpl implements TeamService{
         MemberEntity saveMember = buildMemberEntityWithTeam(leaveMember, null, false);
         memberRepository.save(saveMember);
 
-        memberUUIDs.add(strMemberUUID);
+        memberUUIDs.add(leaveMember.getUUID().toString());
         return memberUUIDs;
     }
 
-    @Transactional
-    public List<String> deleteMeetingTeam(String strMemberUUID){
+    public List<String> deleteMeetingTeam(MemberEntity leaveMember){
         List<String> memberUUIDs = new ArrayList<>();
-
-        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
-
-        MemberEntity leaveMember = memberRepository.findByUUIDAndExpired(UUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         MeetingTeamEntity meetingTeam = findMeetingTeam(leaveMember.getTeam());
         TeamEntity maleTeam = meetingTeam.getMaleTeam();
@@ -460,22 +451,12 @@ public class TeamServiceImpl implements TeamService{
         memberUUIDs.addAll(terminateTeam(maleTeam));
         memberUUIDs.addAll(terminateTeam(femaleTeam));
 
-        MeetingTeamEntity expiredMeetingTeam = MeetingTeamEntity.builder()
-                .meetingTeamId(meetingTeam.getMeetingTeamId())
-                .maleTeam(maleTeam)
-                .femaleTeam(femaleTeam)
-                .UUID(meetingTeam.getUUID())
-                .createdDate(meetingTeam.getCreatedDate())
-                .updatedDate(LocalDateTime.now())
-                .expired("T")
-                .build();
-
-        meetingTeamRepository.save(expiredMeetingTeam);
+        // 미팅이 끝났으므로 팀 만료
+        saveExpiredMeetingTeam(meetingTeam, maleTeam, femaleTeam);
 
         return memberUUIDs;
     }
 
-    @Transactional(readOnly = true)
     public MeetingTeamEntity findMeetingTeam(TeamEntity team){
         MeetingTeamEntity meetingTeam;
         if("M".equals(team.getGender())){
@@ -490,14 +471,11 @@ public class TeamServiceImpl implements TeamService{
         return meetingTeam;
     }
 
-    @Transactional
-    public List<String> deleteTeamByMember(String strMemberUUID){
-        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+    public List<String> deleteTeamByMember(MemberEntity leaveMember){
 
-        MemberEntity leaveMember = memberRepository.findByUUIDAndExpired(UUID, "F")
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        List<String> exitRoomMemberUUIDs = terminateTeam(leaveMember.getTeam());
 
-        return terminateTeam(leaveMember.getTeam());
+        return exitRoomMemberUUIDs;
     }
 
     @Override
@@ -518,7 +496,6 @@ public class TeamServiceImpl implements TeamService{
         return team;
     }
 
-    @Transactional
     public List<String> terminateTeam(TeamEntity team){
         List<String> memberUUIDs = new ArrayList<>();
         List<MemberEntity> members = memberRepository.findByTeamAndExpired(team, "F");
@@ -542,5 +519,42 @@ public class TeamServiceImpl implements TeamService{
         teamRepository.save(saveTeam);
 
         return memberUUIDs;
+    }
+
+    public MemberEntity findMemberByMemberUUID(String strMemberUUID){
+        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+
+        MemberEntity member = memberRepository.findByUUIDAndExpired(UUID, "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return member;
+    }
+
+    public TeamEntity findTeamByTeamUUID(String strTeamUUID){
+        UUID UUID = commonUtils.getValidUUID(strTeamUUID);
+
+        TeamEntity team = teamRepository.findByUUIDAndExpired(UUID, "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+
+        return team;
+    }
+
+    public void saveExpiredMeetingTeam(
+            MeetingTeamEntity meetingTeam,
+            TeamEntity maleTeam,
+            TeamEntity femaleTeam){
+
+        MeetingTeamEntity expiredMeetingTeam = MeetingTeamEntity.builder()
+                .meetingTeamId(meetingTeam.getMeetingTeamId())
+                .maleTeam(maleTeam)
+                .femaleTeam(femaleTeam)
+                .UUID(meetingTeam.getUUID())
+                .createdDate(meetingTeam.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .expired("T")
+                .build();
+
+        meetingTeamRepository.save(expiredMeetingTeam);
+
     }
 }

@@ -20,6 +20,7 @@ const A_SignUp_Day: React.FC<propsType> = ({
     <span className={style.dayTag}>
       <label htmlFor="day"></label>
       <select
+        className={style.selectBox}
         id="day"
         name="day"
         onChange={handleDayChange}

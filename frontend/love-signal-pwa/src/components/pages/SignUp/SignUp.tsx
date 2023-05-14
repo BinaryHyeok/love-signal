@@ -113,6 +113,8 @@ const SignUp = () => {
   };
 
   const handleGender = () => {
+    console.log(gender);
+
     setCheckGenderOk(!checkGenderOk);
   };
 

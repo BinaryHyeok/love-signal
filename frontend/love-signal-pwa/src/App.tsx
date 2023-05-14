@@ -14,24 +14,8 @@ import ContentLayout from "./components/pages/Common/ContentLayout";
 import Ground from "./components/UI/Three/Ground";
 import { AnimatePresence } from "framer-motion";
 import MatchTeam from "./components/pages/FindTeam/MatchTeam";
-import { useEffect } from "react";
-// const { initializeApp } = require("firebase/app");
 
 function App() {
-  useEffect(() => {
-    // const firebaseConfig = {
-    //   apiKey: process.env.REACT_APP_PUSH_VAPID,
-    //   authDomain: process.env.REACT_APP_PUSH_DOMAIN,
-    //   projectId: process.env.REACT_APP_PUSH_PROJECT_ID,
-    //   storageBucket: process.env.REACT_APP_PUSH_PROCESS_BUCKET,
-    //   messagingSenderId: process.env.REACT_APP_PUSH_SENDER_ID,
-    //   appId: process.env.REACT_APP_PUSH_APP_ID,
-    //   measurementId: process.env.REACT_APP_PUSH_MEASUREMENT,
-    // };
-    // const app = initializeApp(firebaseConfig);
-    // console.log(app);
-  }, []);
-
   const router = createBrowserRouter([
     {
       path: "/",

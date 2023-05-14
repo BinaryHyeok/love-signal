@@ -117,6 +117,7 @@ public class ChatServiceImpl implements ChatService{
 
         // chat save 메서드 실행
         saveChatMessage(reqChatMessage);
+        messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), reqChatMessage);
 
     }
 

@@ -1,0 +1,54 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 24px 16px 24px;
+}
+
+.switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 16vmin;
+  height: 9vmin;
+  padding: 0 2.4vmin;
+  border-radius: 30vmin;
+  background-color: rgb(210, 210, 210);
+  transition: background-color 0.25s;
+  box-shadow: -2px -2px 5px rgba(255, 255, 255, 0.5),
+    2.5px 2.5px 5px rgba(77, 63, 83, 0.5);
+  //   margin: 10px;
+}
+
+.handle {
+  display: block;
+  width: 6.5vmin;
+  height: 6.5vmin;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.switch[data-active="true"] {
+  background-color: #fbced3;
+  justify-content: flex-end;
+}
+
+.switch[data-active="true"] label {
+  background: rgba(255, 255, 255, 1);
+}

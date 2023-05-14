@@ -66,14 +66,6 @@ $profile: #fff;
       border-radius: 10px;
     }
 
-    // progressbar 컬러 수정해야함 !
-    .swiperSlide
-      > .swiper
-      > .swiper-pagination
-      > .swiper-pagination-progressbar {
-      background-color: red;
-    }
-
     // 처음 슬라이드
     .swipeLeft {
       margin-top: 16px;
@@ -100,7 +92,9 @@ $profile: #fff;
       }
     }
   }
+
   .bottomContainer {
+    width: 243px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -108,8 +102,9 @@ $profile: #fff;
     position: relative;
     // 버튼
     .buttonContainer {
+      width: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
       margin-top: 16px;
       .button {

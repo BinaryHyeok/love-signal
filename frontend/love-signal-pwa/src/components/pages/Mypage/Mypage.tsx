@@ -18,7 +18,11 @@ import { changeMyImg } from "../../../api/file";
 import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
-import { fetchPWAToken, requestPushPermission } from "../../../api/pwa";
+import {
+  fetchPWAToken,
+  requestPushPermission,
+  sendFCMToken,
+} from "../../../api/pwa";
 import { initializeApp } from "firebase/app";
 import { getMessaging } from "firebase/messaging";
 
@@ -56,6 +60,7 @@ const Mypage = () => {
           fetchPWAToken(getMessaging(app))
             .then((token) => {
               console.log(token);
+              sendFCMToken(UUID, atk, kID, token);
             })
             .catch((err) => {
               console.error(err);

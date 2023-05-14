@@ -322,7 +322,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      * 동성혼성 채팅방 기간 만료
      */
-    @Scheduled(cron = "0 11 18 * * *")
+    @Scheduled(cron = "0 24 18 * * *")
     public void chatRoomExpired() {
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
         for(ChatRoom meetingRoom : chatRooms) {
@@ -338,6 +338,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     participant.setExpired("T");
                     participant.getMember().getTeam().setExpired("T");
                     participantJpaRepository.save(participant);
+
+                    List<Participant> memberParticipants = participant.getMember().getParticipants();
+                    for(Participant memeberParticipant : memberParticipants) {
+                        ChatRoom chatRoom = memeberParticipant.getChatRoom();
+                        if(chatRoom.getType().equals("TEAM")) {
+                            chatRoom.setExpired("T");
+                        }
+                    }
                 }
 //            }
         }

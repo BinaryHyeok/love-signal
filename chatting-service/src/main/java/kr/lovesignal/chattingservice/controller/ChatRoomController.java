@@ -62,8 +62,8 @@ public class ChatRoomController {
     @PostMapping("/OneToOne")
     public ResponseEntity<String> createSelectChatRoom(@RequestBody ReqSelectInfo reqSelectInfo) {
         String selectorUUID = reqSelectInfo.getSelectorUUID();
-        String selectedUUID = reqSelectInfo.getSelectedUUID();
-        chatRoomService.createOneToOneChatRoom(selectorUUID, selectedUUID);
+        String selectedNickname = reqSelectInfo.getSelectedNickname();
+        chatRoomService.createOneToOneChatRoom(selectorUUID, selectedNickname);
         return new ResponseEntity<>(SUCCESS, HttpStatus.CREATED);
     }
 

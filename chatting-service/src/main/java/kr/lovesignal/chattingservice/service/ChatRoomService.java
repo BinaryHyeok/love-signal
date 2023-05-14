@@ -16,7 +16,7 @@ public interface ChatRoomService {
 
     ChatRoom createSameOrAllGenderChatRoom(List<String> memberUUIDs);
 
-    void createOneToOneChatRoom(String selectorUUID, String selectedUUID);
+    void createOneToOneChatRoom(String selectorUUID, String selectedNickname);
 
     List<ResChatRoom> getChatRoomList(String userUUID);
 

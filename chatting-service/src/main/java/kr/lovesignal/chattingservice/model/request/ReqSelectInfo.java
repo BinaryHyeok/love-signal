@@ -10,6 +10,6 @@ import lombok.Setter;
 public class ReqSelectInfo {
 
     private String selectorUUID;
-    private String selectedUUID;
+    private String selectedNickname;
 
 }

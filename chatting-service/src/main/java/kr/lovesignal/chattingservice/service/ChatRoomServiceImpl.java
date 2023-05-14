@@ -203,12 +203,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public void createOneToOneChatRoom(String selectorUUID, String selectedUUID) {
+    public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) {
         // selector , selected 각각 Member 객체 찾아오기.
+
         UUID uuid = commonUtils.getValidUUID(selectorUUID);
-        UUID uuid2 = commonUtils.getValidUUID(selectedUUID);
         Member selector = memberJpaRepository.findByUUID(uuid);
-        Member selected = memberJpaRepository.findByUUID(uuid2);
+        Member selected = memberJpaRepository.findMemberByNickname(selectedNickname);
+        UUID uuid2 = selected.getUUID();
+        String selectedUUID = uuid2.toString();
 
         // 현재 참여 중인 혼성 채팅방 찾기.
         List<Participant> participants = selector.getParticipants();
@@ -225,17 +227,17 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         int createdHour = meetingRoom.getCreatedDate().getHour();
 
         // 혼성 채팅방이 16시 전에 생성됐을 때
-        if(createdHour < 16) {
+//        if(createdHour < 16) { 일단은 조건 분기 다 빼놓기. 테스트를 위함.
             // nightNumber 가 2 이면 마지막 선택 SIGNAL, nightNumber 가 0, 1 이면 익명 선택 SECRET
             String roomType = nightNumber==2?"SIGNAL":"SECRET";
             secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
-        }
-        // 혼성 채팅방이 16시 이후에 생성됐을 때
-        else if(createdHour >= 16) {
-            // nightNumber 가 3 이면 마지막 선택 SIGNAL, nightNumber 가 0,1,2 이면 익명 선택 SECRET
-            String roomType = nightNumber==3?"SIGNAL":"SECRET";
-            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
-        }
+//        }
+//        // 혼성 채팅방이 16시 이후에 생성됐을 때
+//        else if(createdHour >= 16) {
+//            // nightNumber 가 3 이면 마지막 선택 SIGNAL, nightNumber 가 0,1,2 이면 익명 선택 SECRET
+//            String roomType = nightNumber==3?"SIGNAL":"SECRET";
+//            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
+//        }
 
 
     }
@@ -275,7 +277,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 30 22 * * *")
+    @Scheduled(cron = "0 52 17 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -302,7 +304,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 30 23 * * *")
+    @Scheduled(cron = "0 54 17 * * *")
     public void secretChatRoomExpiredT() {
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
         for(ChatRoom chatRoom : list) {
@@ -320,15 +322,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      * 동성혼성 채팅방 기간 만료
      */
-    @Scheduled(cron = "0 0 11 * * *")
+    @Scheduled(cron = "0 56 17 * * *")
     public void chatRoomExpired() {
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
         for(ChatRoom meetingRoom : chatRooms) {
             int createdHour = meetingRoom.getCreatedDate().getHour();
             int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
 
-            if((createdHour < 16 && nightNumber == 2) || (createdHour >= 16 && nightNumber == 3)) {
-                meetingRoom.setExpired("T");
+//            if((createdHour < 16 && nightNumber == 2) || (createdHour >= 16 && nightNumber == 3)) { 일단 조건 분기 빼
+                meetingRoom.setExpired("T"); 
                 chatRoomJpaRepository.save(meetingRoom);
                 List<Participant> participants = meetingRoom.getParticipants();
 
@@ -337,7 +339,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     participant.getMember().getTeam().setExpired("T");
                     participantJpaRepository.save(participant);
                 }
-            }
+//            }
         }
     }
 

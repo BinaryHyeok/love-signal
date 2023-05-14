@@ -35,7 +35,7 @@ spring:
     hibernate:
       ddl-auto: update
     generate-ddl: true
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
     open-in-view: false

@@ -277,7 +277,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 52 17 * * *")
+    @Scheduled(cron = "0 7 18 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -304,7 +304,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 54 17 * * *")
+    @Scheduled(cron = "0 9 18 * * *")
     public void secretChatRoomExpiredT() {
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
         for(ChatRoom chatRoom : list) {
@@ -322,7 +322,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      * 동성혼성 채팅방 기간 만료
      */
-    @Scheduled(cron = "0 56 17 * * *")
+    @Scheduled(cron = "0 11 18 * * *")
     public void chatRoomExpired() {
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
         for(ChatRoom meetingRoom : chatRooms) {

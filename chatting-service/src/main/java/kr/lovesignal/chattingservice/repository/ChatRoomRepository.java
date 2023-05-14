@@ -29,7 +29,7 @@ public class ChatRoomRepository {
 
         // 같은 HK 로 MEETING 룸에서 만든 모든 1:1 채팅방 조회.
         List<ResSelectChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
-        
+
         if(list == null)
             return chatRoom;
 

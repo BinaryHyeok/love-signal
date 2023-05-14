@@ -1,49 +1,25 @@
-import { useEffect, useRef } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import React, { useState } from "react";
+import style from "./Test.module.scss"; // 스타일 파일을 import합니다.
 
-const Test = (props: any) => {
-  const group = useRef();
-  const { nodes, materials, animations }: any = useGLTF("/models/heart2.glb");
-
-  const { actions } = useAnimations(animations, group);
-
-  useEffect(() => {
-    const action = actions.anim3;
-    console.log(action);
-    action?.play();
-  }, []);
-
+const Test = () => {
+  const [onoff, setOnOff] = useState<boolean>(false);
+  const checkInput = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLInputElement;
+    console.log(target.value);
+    setOnOff(!onoff);
+    console.log(onoff);
+  };
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group name="Scene">
-        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
-          <group
-            name="d4d038b4883b4502b3afc86c52263e17fbx"
-            rotation={[Math.PI / 2, 0, 0]}
-          >
-            <group name="Object_2">
-              <group name="RootNode">
-                <group name="pCube4" position={[0, 0, 0]}>
-                  <mesh
-                    name="0"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes["0"].geometry}
-                    material={materials.phong1}
-                    morphTargetDictionary={nodes["0"].morphTargetDictionary}
-                    morphTargetInfluences={nodes["0"].morphTargetInfluences}
-                    position={[12, -2, 7]}
-                  />
-                </group>
-              </group>
-            </group>
-          </group>
-        </group>
-      </group>
-    </group>
+    <>
+      <div className={style.toggleSwitch}>
+        <input type="checkbox" className={style.checkbox} id="toggleSwitch" />
+        <label className={style.label} htmlFor="toggleSwitch">
+          <span className={style.toggleInner} />
+          <span className={style.switch} />
+        </label>
+      </div>
+    </>
   );
 };
 
 export default Test;
-
-useGLTF.preload("/heart.glb");

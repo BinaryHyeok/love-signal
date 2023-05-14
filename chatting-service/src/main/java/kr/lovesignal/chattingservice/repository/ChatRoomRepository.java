@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -28,6 +29,9 @@ public class ChatRoomRepository {
 
         // 같은 HK 로 MEETING 룸에서 만든 모든 1:1 채팅방 조회.
         List<ResSelectChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+        
+        if(list == null)
+            return chatRoom;
 
         // HV 순회하면서 selector 와 selected 반대로 일치하는 채팅방 존재유무 체크.
         for(ResSelectChatRoom resSelectChatRoom : list) {

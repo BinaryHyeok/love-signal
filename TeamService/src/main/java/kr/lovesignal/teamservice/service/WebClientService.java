@@ -18,4 +18,6 @@ public interface WebClientService {
     public void exitChatRoomApi(List<String> memberUUIDs);
 
     public void sendMeetingMemberUUIDs(List<UUID> memberUUIDs);
+
+    public void sendMatchingTeamMemberUUIDs(List<UUID> memberUUIDs);
 }

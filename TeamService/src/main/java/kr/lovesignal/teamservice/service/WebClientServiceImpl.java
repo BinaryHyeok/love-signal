@@ -122,4 +122,24 @@ public class WebClientServiceImpl implements WebClientService{
                 .bodyToMono(String.class)
                 .subscribe();
     }
+
+    @Override
+    public void sendMatchingTeamMemberUUIDs(List<UUID> memberUUIDs) {
+        String uri = "http://localhost:4444/fcm/building";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/fcm/building";
+        }
+
+        webClient.post()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
+    }
 }

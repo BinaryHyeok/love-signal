@@ -16,9 +16,11 @@ import kr.lovesignal.teamservice.repository.MeetingTeamRepository;
 import kr.lovesignal.teamservice.repository.MemberRepository;
 import kr.lovesignal.teamservice.repository.TeamRepository;
 import kr.lovesignal.teamservice.util.CommonUtils;
+import kr.lovesignal.teamservice.util.RedisUtils;
 import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -40,6 +42,10 @@ public class TeamServiceImpl implements TeamService{
     private final MeetingRepository meetingRepository;
     private final MeetingTeamRepository meetingTeamRepository;
     private final WebClientService webClientService;
+    private final RedisUtils redisUtils;
+
+    @Value("${redis-expire.block-user}")
+    private int blockUserExpireTime;
 
     @Override
     @Transactional
@@ -104,6 +110,12 @@ public class TeamServiceImpl implements TeamService{
 
         if(!hasTeam(leaveMember)){
             throw new CustomException(ErrorCode.NOT_HAVE_TEAM);
+        }
+
+        // 최근 만들어진 팀이라면 닷지유저로 등록
+        boolean isRecentBuildTeam = redisUtils.hasRecentTeam(leaveMember.getTeam().getUUID().toString());
+        if(isRecentBuildTeam){
+            redisUtils.addBlockUser(strMemberUUID, blockUserExpireTime);
         }
 
         boolean isMeeting = false;
@@ -326,7 +338,6 @@ public class TeamServiceImpl implements TeamService{
         return responseUtils.buildSuccessResponse("미팅을 거절했습니다.");
     }
 
-
     public boolean hasTeam(MemberEntity member){
         return member.getTeam() != null ? true : false;
     }
@@ -336,6 +347,8 @@ public class TeamServiceImpl implements TeamService{
                 .memberId(member.getMemberId())
                 .team(team)
                 .teamLeader(isTeamLeader == true ? "T" : "F")
+                .receiveAlarm(member.getReceiveAlarm())
+                .matchingStatus(member.getMatchingStatus())
                 .kakaoId(member.getKakaoId())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
@@ -532,6 +545,14 @@ public class TeamServiceImpl implements TeamService{
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return member;
+    }
+
+    @Override
+    @Transactional
+    public void expireMeeting(List<String> memberUUIDs) {
+       String strMemberUUID = memberUUIDs.get(0);
+       MemberEntity leaveMember = findMemberByMemberUUID(strMemberUUID);
+       deleteMeetingTeam(leaveMember);
     }
 
     public TeamEntity findTeamByTeamUUID(String strTeamUUID){

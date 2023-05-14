@@ -6,6 +6,7 @@ import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.model.response.Team;
 import kr.lovesignal.teamservice.model.response.TeamResponse;
+import kr.lovesignal.teamservice.service.MatchingService;
 import kr.lovesignal.teamservice.service.TeamService;
 import kr.lovesignal.teamservice.service.WebClientService;
 import kr.lovesignal.teamservice.util.ResponseUtils;
@@ -14,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Path;
 import java.util.List;
 
 @RestController
@@ -25,6 +25,7 @@ public class TeamController {
 
     private final TeamService teamService;
     private final WebClientService webClientService;
+    private final MatchingService matchingService;
     private final ResponseUtils responseUtils;
 
     @PostMapping("/{memberUUID}")
@@ -156,9 +157,28 @@ public class TeamController {
                 .body(responseUtils.buildSuccessResponse(teamResult));
     }
 
-//    @PostMapping("/matching/{memberUUID}")
-//    public ResponseEntity<?> matchingTeam(@PathVariable String memberUUID){
-//
-//    }
+    @PostMapping("/matching/{memberUUID}")
+    public ResponseEntity<String> addTeamMatching(@PathVariable String memberUUID){
+        matchingService.addTeamMatching(memberUUID);
 
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("팀 매칭을 등록하였습니다.");
+    }
+
+    @DeleteMapping("/matching/{memberUUID}")
+    public ResponseEntity<String> cancelTeamMatching(@PathVariable String memberUUID){
+
+        matchingService.cancelTeamMatching(memberUUID);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("팀 매칭을 취소하였습니다.");
+    }
+
+    @PutMapping("/expire-meeting")
+    public void expireMeeting(@RequestBody List<String> memberUUIDs){
+
+
+    }
 }

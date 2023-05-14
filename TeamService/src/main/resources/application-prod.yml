@@ -45,3 +45,15 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
+redis-key:
+  block-user: block_user
+  matching-male-user: matching_male_user
+  matching-male-wating: matching_female_waiting
+  matching-female-user: matching_female_user
+  matching-female-wating: matching_fefemale_waiting
+  recent-teams: recent_teams
+
+redis-expire:
+  recent-team: 600
+  block-user: 600
+

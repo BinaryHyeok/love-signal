@@ -14,6 +14,7 @@ import ContentLayout from "./components/pages/Common/ContentLayout";
 import { AnimatePresence } from "framer-motion";
 import MatchTeam from "./components/pages/FindTeam/MatchTeam";
 import Test from "./components/pages/Test";
+import { useEffect } from "react";
 
 function App() {
   useEffect(() => {

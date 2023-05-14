@@ -1,5 +1,6 @@
 import style from "./Manual.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { motion } from "framer-motion";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -16,6 +17,8 @@ import ManualText5 from "./ManualText5";
 import ManualText6 from "./ManualText6";
 import ManualTitle from "./ManualTitle";
 import { useNavigate } from "react-router-dom";
+import Button_Type_A from "../atoms/Common/Button_Type_A";
+import { contentVariants } from "../atoms/Common/contentVariants";
 
 const Manual = () => {
   const navigate = useNavigate();
@@ -24,7 +27,12 @@ const Manual = () => {
   };
   return (
     <>
-      <div className={style.mainContainer}>
+      <motion.div
+        variants={contentVariants}
+        initial="hidden"
+        animate="visible"
+        className={style.mainContainer}
+      >
         <div className={style.cellphoneModal}>
           <Swiper
             pagination={{
@@ -73,14 +81,22 @@ const Manual = () => {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className={style.modalContainer} onClick={goToMain}>
+              <div className={style.modalContainer}>
                 <ManualTitle />
                 <ManualText6 />
+                <Button_Type_A
+                  onClick={goToMain}
+                  width="70%"
+                  height="40px"
+                  background="#FBCED3"
+                >
+                  러브시그널 시작하기
+                </Button_Type_A>
               </div>
             </SwiperSlide>
           </Swiper>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

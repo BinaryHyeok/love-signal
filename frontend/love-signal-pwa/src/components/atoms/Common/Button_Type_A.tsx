@@ -2,6 +2,7 @@ import style from "./styles/Button_Type_A.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 
 type propsType = {
+  margin?: string;
   className?: string;
   width?: string;
   height?: string;
@@ -13,6 +14,7 @@ type propsType = {
 };
 
 const Button_Type_A: React.FC<propsType> = ({
+  margin,
   className = "",
   width,
   height,
@@ -27,6 +29,7 @@ const Button_Type_A: React.FC<propsType> = ({
       <motion.button
         className={`${style.button} ${className}`}
         style={{
+          margin: `${margin}`,
           width: `${width}`,
           height: `${height}`,
           background: `${background}`,

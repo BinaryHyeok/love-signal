@@ -7,10 +7,14 @@ import kr.lovesignal.chattingservice.pubsub.RedisSubscriber;
 import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
@@ -40,6 +44,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final MemberJpaRepository memberJpaRepository;
     private final ParticipantJpaRepository participantJpaRepository;
     private final ProfileImageJpaRepository profileImageJpaRepository;
+
+    private final WebClient webClient;
+    private final DiscoveryClient discoveryClient;
+
+    @Value("${server.port}")
+    private int port;
+
 
 
     @PostConstruct
@@ -277,7 +288,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 7 18 * * *")
+    @Scheduled(cron = "0 23 20 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -304,7 +315,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 9 18 * * *")
+    @Scheduled(cron = "0 25 20 * * *")
     public void secretChatRoomExpiredT() {
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
         for(ChatRoom chatRoom : list) {
@@ -322,35 +333,63 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      * 동성혼성 채팅방 기간 만료
      */
-    @Scheduled(cron = "0 24 18 * * *")
-    public void chatRoomExpired() {
-        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
-        for(ChatRoom meetingRoom : chatRooms) {
-            int createdHour = meetingRoom.getCreatedDate().getHour();
-            int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
+//    @Scheduled(cron = "0 24 18 * * *")
+//    public void chatRoomExpired() {
+//        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
+//        for(ChatRoom meetingRoom : chatRooms) {
+//            int createdHour = meetingRoom.getCreatedDate().getHour();
+//            int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
+//
+////            if((createdHour < 16 && nightNumber == 2) || (createdHour >= 16 && nightNumber == 3)) { 일단 조건 분기 빼
+//                meetingRoom.setExpired("T");
+//                chatRoomJpaRepository.save(meetingRoom);
+//                List<Participant> participants = meetingRoom.getParticipants();
+//
+//                List<String> memberUUIDs = new ArrayList<>();
+//                for(Participant participant : participants) {
+//                    memberUUIDs.add(participant.getMember().getUUID().toString());
+//                }
+//
+//                // 이 자리에 진혁이 API 호출
+//                sendMeetingMemberUUIDs(memberUUIDs);
+//
+//                for(Participant participant : participants) {
+//                    participant.setExpired("T");
+//                    participantJpaRepository.save(participant);
+//
+//                    List<Participant> memberParticipants = participant.getMember().getParticipants();
+//                    for(Participant memeberParticipant : memberParticipants) {
+//                        ChatRoom chatRoom = memeberParticipant.getChatRoom();
+//                        if(chatRoom.getType().equals("TEAM")) {
+//                            chatRoom.setExpired("T");
+//                        }
+//                    }
+//                }
+////            }
+//        }
+//    }
 
-//            if((createdHour < 16 && nightNumber == 2) || (createdHour >= 16 && nightNumber == 3)) { 일단 조건 분기 빼
-                meetingRoom.setExpired("T"); 
-                chatRoomJpaRepository.save(meetingRoom);
-                List<Participant> participants = meetingRoom.getParticipants();
 
-                for(Participant participant : participants) {
-                    participant.setExpired("T");
-                    participant.getMember().getTeam().setExpired("T");
-                    participant.getMember().setTeam(null);
-                    participant.getMember().setTeamLeader("F");
-                    participantJpaRepository.save(participant);
+    /**
+     * 진혁이한테 보낼 API
+     */
+    public void sendMeetingMemberUUIDs(List<String> memberUUIDs) {
+        String uri = "http://localhost:9005/team/expire-meeting";
 
-                    List<Participant> memberParticipants = participant.getMember().getParticipants();
-                    for(Participant memeberParticipant : memberParticipants) {
-                        ChatRoom chatRoom = memeberParticipant.getChatRoom();
-                        if(chatRoom.getType().equals("TEAM")) {
-                            chatRoom.setExpired("T");
-                        }
-                    }
-                }
-//            }
+        List<ServiceInstance> instances = discoveryClient.getInstances("team-service");
+        if(instances == null || instances.isEmpty()){
+            System.out.println("에러남.");
         }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/team/expire-meeting";
+        }
+
+        webClient.put()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
     }
 
 

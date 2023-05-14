@@ -26,14 +26,30 @@ public class FCMServiceImpl implements FCMService{
 
 		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
 		FCMEntity existingEntity = fcmRepository.findByMemberUUID(memberUUID);
-
-		if (existingEntity == null) {
-			existingEntity = new FCMEntity();
-			existingEntity.setMemberUUID(memberUUID);
+		FCMEntity saveFcm;
+		if(existingEntity == null) {
+			saveFcm = FCMEntity.builder()
+				.token(tokenRequest.getToken())
+				.memberUUID(memberUUID)
+				.build();
 		}
-		existingEntity.setToken(tokenRequest.getToken());
+		else{
+			saveFcm = FCMEntity.builder()
+				.memberUUID(memberUUID)
+				.token(tokenRequest.getToken())
+				.fcmId(existingEntity.getFcmId())
+				.build();
+		}
 
-		fcmRepository.save(existingEntity);
+		fcmRepository.save(saveFcm);
+
+		// if (existingEntity == null) {
+		// 	existingEntity = new FCMEntity();
+		// 	existingEntity.setMemberUUID(memberUUID);
+		// }
+		// existingEntity.setToken(tokenRequest.getToken());
+		//
+		// fcmRepository.save(existingEntity);
 
 
 	}

@@ -46,3 +46,18 @@ export const selectOneMember = async (
     },
   });
 };
+
+// 일대일 채팅방 생성
+export const createOneToOneRoom = async (
+  selectorUUID: string,
+  selectedNickname: string
+) => {
+  return await axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API}/chatRoom/OneToOne`,
+    data: {
+      selectorUUID,
+      selectedNickname,
+    },
+  });
+};

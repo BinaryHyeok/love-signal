@@ -1,8 +1,6 @@
-import { getToken, getMessaging } from "firebase/messaging";
+const { getToken, Messaging } = require("firebase/messaging");
 
-export const fetchPWAToken = async () => {
-  const messaging = getMessaging();
-
+export const fetchPWAToken = async (messaging: typeof Messaging) => {
   return await getToken(messaging, {
     vapidKey: process.env.REACT_APP_VAPID_KEY,
   });

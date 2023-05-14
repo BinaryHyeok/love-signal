@@ -11,11 +11,9 @@ import RootLayout from "./components/pages/Common/RootLayout";
 import Chat from "./components/pages/Chat/Chat";
 import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
-import Ground from "./components/UI/Three/Ground";
 import { AnimatePresence } from "framer-motion";
 import MatchTeam from "./components/pages/FindTeam/MatchTeam";
-import { useEffect } from "react";
-// const { initializeApp } = require("firebase/app");
+import Test from "./components/pages/Test";
 
 function App() {
   useEffect(() => {
@@ -48,7 +46,7 @@ function App() {
         },
         {
           path: "/Test",
-          element: <Ground />,
+          element: <Test />,
         },
         {
           path: "/",

@@ -70,7 +70,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
         //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
         receiveMatchMember(TeamUUID, atk, kID)
           .then((res) => {
-            console.log(res);
             const newList = [...res.data.body.members];
             if (res.data.body.members.length !== 3) {
               if (res.data.body.members.length !== 3) {
@@ -96,7 +95,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
       }
       setIsLoading(true);
     }
-  }, [clickBtn]);
+  }, [clickBtn, haveOppositeTeam]);
 
   useEffect(() => {
     if (!start) {

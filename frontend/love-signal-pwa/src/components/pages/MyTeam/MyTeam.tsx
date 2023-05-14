@@ -49,6 +49,7 @@ const MyTeam = () => {
   const getUserTeamInfo = async () => {
     await getMyTeam(teamUUID, atk, kID)
       .then((res) => {
+        console.log(res);
         const newList = [...res.data.body.members];
         if (res.data.body.members.length !== 3) {
           //나의 팀 페이지로 왔는데 길이가 3이 아니라는것은 현재 팀 매칭이 되어있으면서 중간에 팀원이 나간것입니다.

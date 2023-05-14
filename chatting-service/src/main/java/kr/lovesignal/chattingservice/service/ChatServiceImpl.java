@@ -160,7 +160,7 @@ public class ChatServiceImpl implements ChatService{
                 .roomUUID(roomUUID)
                 .type("RESULT")
                 .nickname("러브시그널")
-                .content("")
+                .content("선택이 완료되었습니다.")
                 .selectOrShareInfo(selectOrShareInfo)
                 .build();
 
@@ -219,7 +219,7 @@ public class ChatServiceImpl implements ChatService{
                 ReqChatMessage reqChatMessage = ReqChatMessage.builder()
                         .type("SELECT") //
                         .nickname("러브시그널")
-                        .content("")
+                        .content("마음에 드는 이성을 선택해주세요.")
                         .build();
 
                 // 혼성 채팅방에 있는 모든 멤버를 순회하면서 각 멤버의 모든 채팅방 정보를 조회.

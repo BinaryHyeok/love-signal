@@ -167,6 +167,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findByUUID(uuid);
 
+        ReqChatMessage reqChatMessage = ReqChatMessage.builder()
+                .roomUUID(chatRoom.getUUID().toString())
+                .type("ENTER")
+                .nickname(member.getNickname())
+                .content(member.getNickname()+"님이 입장했습니다.")
+                .build();
+
+        chatService.saveChatMessage(reqChatMessage);
+
         Participant participant = Participant.builder()
                 .member(member) // 추가
                 .chatRoom(chatRoom) // 추가

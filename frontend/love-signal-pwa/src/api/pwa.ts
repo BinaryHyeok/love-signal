@@ -15,7 +15,7 @@ export const sendFCMToken = async (
   memberUUID: string,
   atk: string,
   kID: string,
-  token: string
+  token: string | null
 ) => {
   return await axios({
     method: "post",

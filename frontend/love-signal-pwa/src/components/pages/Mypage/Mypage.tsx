@@ -67,6 +67,14 @@ const Mypage = () => {
             });
         } else {
           console.log("푸시알림 허용 X");
+          fetchPWAToken(getMessaging(app))
+            .then((token) => {
+              console.log(token);
+              sendFCMToken(UUID, atk, kID, null);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         }
       })
       .catch((err) => {

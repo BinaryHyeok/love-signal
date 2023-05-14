@@ -6,12 +6,23 @@ import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 import A_Heartline from "../../atoms/Common/A_Heartline";
 
 type PropsType = {
+  timeout: any;
+  animation: boolean;
+  setAnimation: Dispatch<SetStateAction<boolean>>;
   memberList: member[];
   setVisible: Dispatch<SetStateAction<boolean>>;
 };
 
-const M_MyTeamList: React.FC<PropsType> = ({ memberList, setVisible }) => {
+const M_MyTeamList: React.FC<PropsType> = ({
+  timeout,
+  animation,
+  setAnimation,
+  memberList,
+  setVisible,
+}) => {
   const openModal = () => {
+    setAnimation(false);
+    clearTimeout(timeout);
     setVisible(true);
   };
   return (

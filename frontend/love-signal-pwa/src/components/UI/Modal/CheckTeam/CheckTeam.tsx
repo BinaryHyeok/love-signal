@@ -25,6 +25,9 @@ import { kid } from "../../../../atom/member";
 import { shareTeam } from "../../../../api/chat";
 
 type propsType = {
+  timeout: any;
+  animation: boolean;
+  setAnimation: Dispatch<SetStateAction<boolean>>;
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
   member: member[];
@@ -39,6 +42,9 @@ type propsType = {
 };
 
 const CheckTeam: React.FC<propsType> = ({
+  timeout,
+  animation,
+  setAnimation,
   setVisible,
   member,
   oppositeTeamUUID,
@@ -55,7 +61,7 @@ const CheckTeam: React.FC<propsType> = ({
   const [btnVisible, setBtnVisible] = useState<boolean>(false);
   const [applyActiveBtn, setApplyActiveBtn] = useState<boolean>(false);
 
-  const [close, setClose] = useState(false);
+  const [close, setClose] = useState<boolean>(false);
 
   const [isLeader] = useRecoilState<boolean>(imLeader);
   const [atk] = useRecoilState<string>(myatk);
@@ -71,7 +77,9 @@ const CheckTeam: React.FC<propsType> = ({
   }, []);
 
   const closeModal = () => {
-    setVisible(false);
+    clearTimeout(timeout);
+    setAnimation(true);
+    timeout = setTimeout(() => setVisible(false), 300);
   };
 
   const closeLeft = () => {
@@ -125,10 +133,15 @@ const CheckTeam: React.FC<propsType> = ({
   };
 
   return (
-    <div className={style.container}>
-      <div className={style.background} onClick={closeModal}></div>
+    <div className={`${style.container}`}>
+      <div
+        className={`${style.background} ${
+          animation ? `${style.disappear}` : ""
+        }`}
+        onClick={closeModal}
+      ></div>
       <motion.div
-        className={style.modal}
+        className={`${style.modal} ${animation ? `${style.disappear}` : ""}`}
         initial={{
           opacity: 0,
           scale: 0.6,

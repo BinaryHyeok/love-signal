@@ -343,7 +343,7 @@ public class TeamServiceImpl implements TeamService{
                 .team(team)
                 .teamLeader(isTeamLeader == true ? "T" : "F")
                 .receiveAlarm(member.getReceiveAlarm())
-                .matchingStatus(member.getMatchingStatus())
+                .matchingStatus("F")
                 .kakaoId(member.getKakaoId())
                 .nickname(member.getNickname())
                 .email(member.getEmail())

@@ -179,6 +179,6 @@ public class TeamController {
     @PutMapping("/expire-meeting")
     public void expireMeeting(@RequestBody List<String> memberUUIDs){
 
-
+        teamService.expireMeeting(memberUUIDs);
     }
 }

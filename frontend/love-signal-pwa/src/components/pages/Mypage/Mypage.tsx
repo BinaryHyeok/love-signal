@@ -18,6 +18,9 @@ import { changeMyImg } from "../../../api/file";
 import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
+import { fetchPWAToken, requestPushPermission } from "../../../api/pwa";
+import { initializeApp } from "firebase/app";
+import { getMessaging } from "firebase/messaging";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -32,6 +35,39 @@ const Mypage = () => {
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
+
+  // 푸시알림 관련 테스트 코드
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: process.env.REACT_APP_PUSH_VAPID,
+      authDomain: process.env.REACT_APP_PUSH_DOMAIN,
+      projectId: process.env.REACT_APP_PUSH_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_PUSH_PROCESS_BUCKET,
+      messagingSenderId: process.env.REACT_APP_PUSH_SENDER_ID,
+      appId: process.env.REACT_APP_PUSH_APP_ID,
+      measurementId: process.env.REACT_APP_PUSH_MEASUREMENT,
+    };
+    const app = initializeApp(firebaseConfig);
+
+    requestPushPermission()
+      .then((permission) => {
+        if (permission === "granted") {
+          console.log("푸시알림 권한이 허용되었습니다");
+          fetchPWAToken(getMessaging(app))
+            .then((token) => {
+              console.log(token);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        } else {
+          console.log("푸시알림 허용 X");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   useEffect(() => {
     setIdx(3);

@@ -3,7 +3,7 @@ import style from "./styles/M_ChatText_Select.module.scss";
 import A_ChatText_TypeB from "../../atoms/Chat/A_ChatText_TypeB";
 import { chat, selectOrShareInfo } from "../../../types/chat";
 import M_ChatSelectBox from "./M_ChatSelectBox";
-import { selectOneMember } from "../../../api/chat";
+import { createOneToOneRoom, selectOneMember } from "../../../api/chat";
 import { useRecoilState } from "recoil";
 import { myMemberUUID } from "../../../atom/member";
 
@@ -20,6 +20,7 @@ const M_ChatText_Select: React.FC<PropsType> = ({
   const [memberUUID, _] = useRecoilState<string>(myMemberUUID);
   const selectOneHandler = (nickname: string) => {
     selectOneMember(chat.roomUUID || "", chat.uuid || "", memberUUID, nickname);
+    createOneToOneRoom(memberUUID, nickname);
   };
 
   let content = (

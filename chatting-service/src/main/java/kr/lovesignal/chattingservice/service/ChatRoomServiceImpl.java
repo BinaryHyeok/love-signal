@@ -337,6 +337,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 for(Participant participant : participants) {
                     participant.setExpired("T");
                     participant.getMember().getTeam().setExpired("T");
+                    participant.getMember().setTeam(null);
+                    participant.getMember().setTeamLeader("F");
                     participantJpaRepository.save(participant);
 
                     List<Participant> memberParticipants = participant.getMember().getParticipants();

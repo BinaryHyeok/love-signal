@@ -33,7 +33,7 @@ export const selectOneMember = async (
   roomUUID: string,
   chatUUID: string,
   memberUUID: string,
-  oppositeNick: string
+  oppositeNickname: string
 ) => {
   return await axios({
     method: "put",
@@ -42,7 +42,7 @@ export const selectOneMember = async (
       roomUUID,
       chatUUID,
       memberUUID,
-      oppositeNick,
+      oppositeNickname,
     },
   });
 };

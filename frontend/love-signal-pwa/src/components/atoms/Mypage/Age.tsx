@@ -1,11 +1,13 @@
 import style from "./styles/Age.module.scss";
 
-type PropsType = { age: number };
+type PropsType = { age: number; width: string };
 
-const Age: React.FC<PropsType> = ({ age }) => {
+const Age: React.FC<PropsType> = ({ age, width }) => {
   return (
     <>
-      <div className={style.age}>{age}살</div>
+      <div className={style.age} style={{ width: `${width}` }}>
+        {age}살
+      </div>
     </>
   );
 };

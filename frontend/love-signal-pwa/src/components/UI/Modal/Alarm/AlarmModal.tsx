@@ -17,7 +17,7 @@ const AlarmModal: React.FC<PropsType> = ({ closeModal, children }) => {
         key="div"
         initial={{ y: "-20%", opacity: 0, scale: 1 }}
         animate={{ y: "0", opacity: 1, scale: 1 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className={`${style.modal} ${animation ? `${style.disappear}` : ""}`}
       >
         <ExitImg closeModal={closeModal} />

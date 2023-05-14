@@ -127,133 +127,131 @@ const CheckTeam: React.FC<propsType> = ({
   return (
     <div className={style.container}>
       <div className={style.background} onClick={closeModal}></div>
-      <AnimatePresence>
-        <motion.div
-          className={style.modal}
-          initial={{
-            opacity: 0,
-            scale: 0.6,
+      <motion.div
+        className={style.modal}
+        initial={{
+          opacity: 0,
+          scale: 0.6,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          transition: {
+            ease: "easeOut",
+            duration: 0.3,
+          },
+        }}
+        exit={{
+          opacity: 0,
+          scale: 0.6,
+          transition: {
+            ease: "easeIn",
+            duration: 0.7,
+          },
+        }}
+      >
+        <Exit closeModal={closeModal} />
+        <Swiper
+          pagination={{
+            type: "progressbar",
           }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            transition: {
-              ease: "easeOut",
-              duration: 0.3,
-            },
-          }}
-          exit={{
-            opacity: 0,
-            scale: 0.6,
-            transition: {
-              ease: "easeIn",
-              duration: 0.7,
-            },
-          }}
+          onSlideChange={closeManual}
+          loop={true}
+          modules={[Pagination, Navigation]}
+          className={style.swiper}
         >
-          <Exit closeModal={closeModal} />
-          <Swiper
-            pagination={{
-              type: "progressbar",
-            }}
-            onSlideChange={closeManual}
-            loop={true}
-            modules={[Pagination, Navigation]}
-            className={style.swiper}
-          >
-            <SwiperSlide className={style.swiperSlide}>
-              <UserInfo
-                profileImage={member[0].profileImage}
-                nickname={member[0].nickname}
-                age={member[0].age}
-                description={member[0].description}
-              />
-              {!close && <SwiperManual closeLeft={closeLeft} />}
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperSlide}>
-              <UserInfo
-                profileImage={member[1].profileImage}
-                nickname={member[1].nickname}
-                age={member[1].age}
-                description={member[1].description}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperSlide}>
-              <UserInfo
-                profileImage={member[2].profileImage}
-                nickname={member[2].nickname}
-                age={member[2].age}
-                description={member[2].description}
-              />
-            </SwiperSlide>
-          </Swiper>
-          {btnVisible ? (
-            <div className={style.bottomContainer}>
-              <div className={style.buttonContainer}>
-                <Button_Type_A
-                  width="104px"
-                  height="32px"
-                  background={memberLength === 3 ? "#CAD9FF" : "#CCCCCC"}
-                  className={style.button}
-                  onClick={shareTeamBtn}
-                >
-                  {!haveTeam && memberLength === 3 ? (
-                    <img
-                      src={`${process.env.REACT_APP_ASSETS_DIR}/share.png`}
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      src={`${process.env.REACT_APP_ASSETS_DIR}/shareblack.png`}
-                      alt=""
-                    />
-                  )}
-                </Button_Type_A>
-                <Button_Type_A
-                  width="104px"
-                  height="32px"
-                  background={applyActiveBtn ? "#FBCED3" : "#CCCCCC"}
-                  onClick={applyTeam}
-                >
-                  {applyActiveBtn ? (
-                    <img
-                      src={`${process.env.REACT_APP_ASSETS_DIR}/send_invite.png`}
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      src={`${process.env.REACT_APP_ASSETS_DIR}/send_blackinvite.png`}
-                      alt=""
-                    />
-                  )}
-                </Button_Type_A>
-              </div>
-              {children}
-            </div>
-          ) : (
-            <div className={style.bottomContainer}>
-              <div
-                className={style.buttonContainer}
-                style={{ justifyContent: "center" }}
+          <SwiperSlide className={style.swiperSlide}>
+            <UserInfo
+              profileImage={member[0].profileImage}
+              nickname={member[0].nickname}
+              age={member[0].age}
+              description={member[0].description}
+            />
+            {!close && <SwiperManual closeLeft={closeLeft} />}
+          </SwiperSlide>
+          <SwiperSlide className={style.swiperSlide}>
+            <UserInfo
+              profileImage={member[1].profileImage}
+              nickname={member[1].nickname}
+              age={member[1].age}
+              description={member[1].description}
+            />
+          </SwiperSlide>
+          <SwiperSlide className={style.swiperSlide}>
+            <UserInfo
+              profileImage={member[2].profileImage}
+              nickname={member[2].nickname}
+              age={member[2].age}
+              description={member[2].description}
+            />
+          </SwiperSlide>
+        </Swiper>
+        {btnVisible ? (
+          <div className={style.bottomContainer}>
+            <div className={style.buttonContainer}>
+              <Button_Type_A
+                width="104px"
+                height="32px"
+                background={memberLength === 3 ? "#CAD9FF" : "#CCCCCC"}
+                className={style.button}
+                onClick={shareTeamBtn}
               >
-                <Button_Type_A
-                  margin="auto 0"
-                  width="104px"
-                  height="32px"
-                  background="#FFFFDD"
-                  className={style.button}
-                  onClick={reportMember}
-                >
+                {!haveTeam && memberLength === 3 ? (
                   <img
-                    src={`${process.env.REACT_APP_ASSETS_DIR}/report.png`}
-                    alt="신고하기"
+                    src={`${process.env.REACT_APP_ASSETS_DIR}/share.png`}
+                    alt=""
                   />
-                </Button_Type_A>
-              </div>
+                ) : (
+                  <img
+                    src={`${process.env.REACT_APP_ASSETS_DIR}/shareblack.png`}
+                    alt=""
+                  />
+                )}
+              </Button_Type_A>
+              <Button_Type_A
+                width="104px"
+                height="32px"
+                background={applyActiveBtn ? "#FBCED3" : "#CCCCCC"}
+                onClick={applyTeam}
+              >
+                {applyActiveBtn ? (
+                  <img
+                    src={`${process.env.REACT_APP_ASSETS_DIR}/send_invite.png`}
+                    alt=""
+                  />
+                ) : (
+                  <img
+                    src={`${process.env.REACT_APP_ASSETS_DIR}/send_blackinvite.png`}
+                    alt=""
+                  />
+                )}
+              </Button_Type_A>
             </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
+            {children}
+          </div>
+        ) : (
+          <div className={style.bottomContainer}>
+            <div
+              className={style.buttonContainer}
+              style={{ justifyContent: "center" }}
+            >
+              <Button_Type_A
+                margin="auto 0"
+                width="104px"
+                height="32px"
+                background="#FFFFDD"
+                className={style.button}
+                onClick={reportMember}
+              >
+                <img
+                  src={`${process.env.REACT_APP_ASSETS_DIR}/report.png`}
+                  alt="신고하기"
+                />
+              </Button_Type_A>
+            </div>
+          </div>
+        )}
+      </motion.div>
     </div>
   );
 };

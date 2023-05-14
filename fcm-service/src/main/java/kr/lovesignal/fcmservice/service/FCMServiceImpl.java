@@ -26,30 +26,30 @@ public class FCMServiceImpl implements FCMService{
 
 		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
 		FCMEntity existingEntity = fcmRepository.findByMemberUUID(memberUUID);
-		FCMEntity saveFcm;
-		if(existingEntity == null) {
-			saveFcm = FCMEntity.builder()
-				.token(tokenRequest.getToken())
-				.memberUUID(memberUUID)
-				.build();
-		}
-		else{
-			saveFcm = FCMEntity.builder()
-				.memberUUID(memberUUID)
-				.token(tokenRequest.getToken())
-				.fcmId(existingEntity.getFcmId())
-				.build();
-		}
-
-		fcmRepository.save(saveFcm);
-
-		// if (existingEntity == null) {
-		// 	existingEntity = new FCMEntity();
-		// 	existingEntity.setMemberUUID(memberUUID);
+		// FCMEntity saveFcm;
+		// if(existingEntity == null) {
+		// 	saveFcm = FCMEntity.builder()
+		// 		.token(tokenRequest.getToken())
+		// 		.memberUUID(memberUUID)
+		// 		.build();
 		// }
-		// existingEntity.setToken(tokenRequest.getToken());
-		//
-		// fcmRepository.save(existingEntity);
+		// else{
+		// 	saveFcm = FCMEntity.builder()
+		// 		.memberUUID(memberUUID)
+		// 		.token(tokenRequest.getToken())
+		// 		.fcmId(existingEntity.getFcmId())
+		// 		.build();
+		// }
+
+		// fcmRepository.save(saveFcm);
+
+		if (existingEntity == null) {
+			existingEntity = new FCMEntity();
+			existingEntity.setMemberUUID(memberUUID);
+		}
+		existingEntity.setToken(tokenRequest.getToken());
+		
+		fcmRepository.save(existingEntity);
 
 
 	}

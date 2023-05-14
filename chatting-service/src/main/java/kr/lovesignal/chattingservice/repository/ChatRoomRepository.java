@@ -48,7 +48,9 @@ public class ChatRoomRepository {
 
     public void saveResSelectChatRoom(String meetingRoomUUID, ResSelectChatRoom resSelectChatRoom) {
         List<ResSelectChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+        if(list != null) {
         list.add(resSelectChatRoom);
+        }
         opsHashSelectRoomList.put(SELECT, meetingRoomUUID, list);
     }
 

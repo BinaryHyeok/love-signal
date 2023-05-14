@@ -57,8 +57,8 @@ public class FCMServiceImpl implements FCMService{
 		// fcmRepository.save(existingEntity);
 
 		FCMEntity fcmEntity = new FCMEntity();
-		fcmEntity.getMemberUUID(memberUUID);
-		fcmEntity.getToken(tokenRequest.getToken());
+		fcmEntity.setMemberUUID(memberUUID);
+		fcmEntity.setToken(tokenRequest.getToken());
 
 		fcmRepository.save(fcmEntity);
 

@@ -60,7 +60,7 @@ $profile: #fff;
     .swiperSlide img {
       width: 100%;
       height: 100%;
-      margin-top: 16px;
+      margin-top: 20px;
       display: block;
       z-index: 2;
       border-radius: 10px;
@@ -113,6 +113,49 @@ $profile: #fff;
       img {
         width: 24px;
       }
+    }
+  }
+}
+
+.disappear {
+  animation: fadeOut 1s;
+  -moz-animation: fadeOut 1s; /* Firefox */
+  -webkit-animation: fadeOut 1s; /* Safari and Chrome */
+  -o-animation: fadeOut 1s; /* Opera */
+  animation-fill-mode: forwards;
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @-moz-keyframes fadeOut {
+    /* Firefox */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes fadeOut {
+    /* Safari and Chrome */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @-o-keyframes fadeOut {
+    /* Opera */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
     }
   }
 }

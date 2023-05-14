@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import { useRecoilState } from "recoil";
 import { alarmModal } from "../../../atom/alarm";
+import { alarmModalAnimation } from "../../../atom/alarm";
 
 import Header from "../../templates/Header/Header";
 import Footer from "../../templates/Footer/Footer";
@@ -9,16 +10,24 @@ import AlarmModal from "../../UI/Modal/Alarm/AlarmModal";
 
 import style from "./styles/ContentLayout.module.scss";
 
+let timeout: NodeJS.Timer;
+
 const ContentLayout = () => {
   const [visible, setVisible] = useRecoilState<boolean>(alarmModal);
+  const [animation, setAnimation] =
+    useRecoilState<boolean>(alarmModalAnimation);
 
   const openAlert = () => {
-    setVisible(!visible);
+    setAnimation(false);
+    clearTimeout(timeout);
+    setVisible(true);
     console.log(visible);
   };
 
   const closeAlert = () => {
-    setTimeout(() => setVisible(false), 300);
+    clearTimeout(timeout);
+    setAnimation(true);
+    timeout = setTimeout(() => setVisible(false), 300);
     console.log(visible);
   };
 

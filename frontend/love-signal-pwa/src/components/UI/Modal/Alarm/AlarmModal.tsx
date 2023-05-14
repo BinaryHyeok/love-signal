@@ -1,6 +1,8 @@
 import style from "./styles/AlarmModal.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 import ExitImg from "../../../atoms/Common/ExitImg";
+import { useRecoilState } from "recoil";
+import { alarmModalAnimation } from "../../../../atom/alarm";
 
 type PropsType = {
   closeModal: () => void;
@@ -8,6 +10,7 @@ type PropsType = {
 };
 
 const AlarmModal: React.FC<PropsType> = ({ closeModal, children }) => {
+  const [animation] = useRecoilState<boolean>(alarmModalAnimation);
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -15,7 +18,7 @@ const AlarmModal: React.FC<PropsType> = ({ closeModal, children }) => {
         initial={{ y: "-20%", opacity: 0, scale: 1 }}
         animate={{ y: "0", opacity: 1, scale: 1 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className={style.modal}
+        className={`${style.modal} ${animation ? `${style.disappear}` : ""}`}
       >
         <ExitImg closeModal={closeModal} />
         <div>{children}</div>

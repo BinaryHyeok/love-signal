@@ -15,7 +15,7 @@ root.render(
   </>
 );
 
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.unregister();
 
 // Service Worker 등록
 // if ('serviceWorker' in navigator) {

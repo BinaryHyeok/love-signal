@@ -16,7 +16,7 @@ import kr.lovesignal.teamservice.repository.MeetingTeamRepository;
 import kr.lovesignal.teamservice.repository.MemberRepository;
 import kr.lovesignal.teamservice.repository.TeamRepository;
 import kr.lovesignal.teamservice.util.CommonUtils;
-import kr.lovesignal.teamservice.util.RedisUtils;
+//import kr.lovesignal.teamservice.util.RedisUtils;
 import kr.lovesignal.teamservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class TeamServiceImpl implements TeamService{
     private final MeetingRepository meetingRepository;
     private final MeetingTeamRepository meetingTeamRepository;
     private final WebClientService webClientService;
-    private final RedisUtils redisUtils;
+//    private final RedisUtils redisUtils;
 
     @Value("${redis-expire.block-user}")
     private int blockUserExpireTime;
@@ -113,10 +113,10 @@ public class TeamServiceImpl implements TeamService{
         }
 
         // 최근 만들어진 팀이라면 닷지유저로 등록
-        boolean isRecentBuildTeam = redisUtils.hasRecentTeam(leaveMember.getTeam().getUUID().toString());
-        if(isRecentBuildTeam){
-            redisUtils.addBlockUser(strMemberUUID, blockUserExpireTime);
-        }
+//        boolean isRecentBuildTeam = redisUtils.hasRecentTeam(leaveMember.getTeam().getUUID().toString());
+//        if(isRecentBuildTeam){
+//            redisUtils.addBlockUser(strMemberUUID, blockUserExpireTime);
+//        }
 
         boolean isMeeting = false;
         boolean isRemainTeam = leaveMember.getTeam().getMemberCount() - 1 > 0 ? true : false;

@@ -17,6 +17,9 @@ import A_Heartline from "../../atoms/Common/A_Heartline";
 import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 
 type propsType = {
+  timeout: any;
+  animation: boolean;
+  setAnimation: Dispatch<SetStateAction<boolean>>;
   haveOppositeTeam: boolean;
   memberList: member[];
   setMyVisible: Dispatch<SetStateAction<boolean>>;
@@ -32,6 +35,9 @@ type propsType = {
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
 const O_MyTeamBox: React.FC<propsType> = ({
+  timeout,
+  animation,
+  setAnimation,
   haveOppositeTeam,
   memberList,
   setMyVisible,
@@ -130,12 +136,20 @@ const O_MyTeamBox: React.FC<propsType> = ({
   };
 
   const openModal = () => {
+    setAnimation(false);
+    clearTimeout(timeout);
     setOppoVisible(true);
   };
 
   return (
     <div className={style.content}>
-      <M_MyTeamList memberList={memberList} setVisible={setMyVisible} />
+      <M_MyTeamList
+        timeout={timeout}
+        animation={animation}
+        setAnimation={setAnimation}
+        memberList={memberList}
+        setVisible={setMyVisible}
+      />
       <div className={style.exitBtn}>
         <Button_Type_A
           width="100px"

@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { motion } from "framer-motion";
+
 import style from "./styles/MyTeam.module.scss";
+import { contentVariants } from "../../atoms/Common/contentVariants";
+
 import T_MyTeam from "../../templates/MyTeam/T_MyTeam";
 import M_MyTeamDesc from "../../molecules/MyTeam/M_MyTeamDesc";
 import O_MyTeamBox from "../../organisms/MyTeam/O_MyTeamBox";
-import { kid, myMemberUUID, myatk } from "../../../atom/member";
-import { useRecoilState } from "recoil";
-import { member } from "../../../types/member";
-import { myTeamUUID } from "../../../atom/member";
-import { getMyTeam } from "../../../api/team";
 import Modal_portal from "../../UI/Modal/Modal_portal";
-import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
-import { applyTeam } from "../../../types/member";
 import TeamBuildFilter from "../../Filter/TeamBuildFilter";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
+import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
+
+import { kid, myMemberUUID, myatk } from "../../../atom/member";
+import { myTeamUUID } from "../../../atom/member";
+import { member } from "../../../types/member";
+import { applyTeam } from "../../../types/member";
+import { getMyTeam } from "../../../api/team";
 
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
+
+let timeout: NodeJS.Timer;
 
 const MyTeam = () => {
   //내가 상대팀이 있는지 파악해주는 state변수입니다.
@@ -31,6 +38,7 @@ const MyTeam = () => {
 
   //나의 팀 모달창 띄워줄 함수
   const [myVisible, setMyVisible] = useState<boolean>(false);
+  const [animation, setAnimation] = useState<boolean>(false);
 
   //상대 팀 모달창 띄워줄 함수.
   const [oppoVisible, setOppoVisible] = useState<boolean>(false);
@@ -79,65 +87,80 @@ const MyTeam = () => {
     <ATKFilter>
       <GetMyInfo>
         <TeamBuildFilter>
-          {myVisible && !oppoVisible && (
-            <Modal_portal>
-              <CheckTeam
-                setVisible={setMyVisible}
-                visible={myVisible}
-                member={memberList}
-                oppositeTeamUUID=""
-                myTeam={true}
-                setMsg={setMsg}
-                applyModal={applyModal}
-                setApplyModal={setApplyModal}
-              >
-                <></>
-              </CheckTeam>
-            </Modal_portal>
-          )}
-          {!myVisible && oppoVisible && (
-            <Modal_portal>
-              <CheckTeam
-                setVisible={setOppoVisible}
-                visible={oppoVisible}
-                member={
-                  haveOppositeTeam
-                    ? applyList[oppoTeamIdx].members
-                    : matchMember
-                }
-                oppositeTeamUUID={
-                  haveOppositeTeam
-                    ? applyList[oppoTeamIdx].teamUUID
-                    : matchTeamUUID
-                }
-                myTeam={true}
-                applyModal={applyModal}
-                setMsg={setMsg}
-                setApplyModal={setApplyModal}
-              >
-                <></>
-              </CheckTeam>
-            </Modal_portal>
-          )}
-          {!myVisible && !oppoVisible && (
-            <div className={style.container}>
-              <T_MyTeam>
-                <M_MyTeamDesc />
-                <O_MyTeamBox
-                  haveOppositeTeam={haveOppositeTeam}
-                  memberList={memberList}
-                  setMyVisible={setMyVisible}
-                  setOppoVisible={setOppoVisible}
-                  applyList={applyList}
-                  setApplyList={setApplyList}
-                  setOppoTeamIdx={setOppoTeamIdx}
-                  matchMember={matchMember}
-                  setMatchMemberList={setMatchMemberList}
-                  setMatchTeamUUID={setMatchTeamUUID}
-                />
-              </T_MyTeam>
-            </div>
-          )}
+          <motion.div
+            variants={contentVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {myVisible && !oppoVisible && (
+              <Modal_portal>
+                <CheckTeam
+                  timeout={timeout}
+                  animation={animation}
+                  setAnimation={setAnimation}
+                  setVisible={setMyVisible}
+                  visible={myVisible}
+                  member={memberList}
+                  oppositeTeamUUID=""
+                  myTeam={true}
+                  setMsg={setMsg}
+                  applyModal={applyModal}
+                  setApplyModal={setApplyModal}
+                >
+                  <></>
+                </CheckTeam>
+              </Modal_portal>
+            )}
+            {!myVisible && oppoVisible && (
+              <Modal_portal>
+                <CheckTeam
+                  timeout={timeout}
+                  animation={animation}
+                  setAnimation={setAnimation}
+                  setVisible={setOppoVisible}
+                  visible={oppoVisible}
+                  member={
+                    haveOppositeTeam
+                      ? applyList[oppoTeamIdx].members
+                      : matchMember
+                  }
+                  oppositeTeamUUID={
+                    haveOppositeTeam
+                      ? applyList[oppoTeamIdx].teamUUID
+                      : matchTeamUUID
+                  }
+                  myTeam={true}
+                  applyModal={applyModal}
+                  setMsg={setMsg}
+                  setApplyModal={setApplyModal}
+                >
+                  <></>
+                </CheckTeam>
+              </Modal_portal>
+            )}
+            {!myVisible && !oppoVisible && (
+              <div className={style.container}>
+                <T_MyTeam>
+                  <M_MyTeamDesc />
+                  <O_MyTeamBox
+                    timeout={timeout}
+                    animation={animation}
+                    setAnimation={setAnimation}
+                    haveOppositeTeam={haveOppositeTeam}
+                    memberList={memberList}
+                    setMyVisible={setMyVisible}
+                    setOppoVisible={setOppoVisible}
+                    applyList={applyList}
+                    setApplyList={setApplyList}
+                    setOppoTeamIdx={setOppoTeamIdx}
+                    matchMember={matchMember}
+                    setMatchMemberList={setMatchMemberList}
+                    setMatchTeamUUID={setMatchTeamUUID}
+                  />
+                </T_MyTeam>
+              </div>
+            )}
+          </motion.div>
         </TeamBuildFilter>
       </GetMyInfo>
     </ATKFilter>

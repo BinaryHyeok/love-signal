@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +51,37 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(updateMember);
 
         return responseUtil.buildSuccessResponse("수정 되었습니다.");
+    }
+
+    @Override
+    @Transactional
+    public void updateReceiveAlarm(String strMemberUUID, boolean status) {
+        UUID UUID = commonUtils.getValidUUID(strMemberUUID);
+
+        MemberEntity member = memberRepository.findByUUIDAndExpired(UUID, "F")
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        MemberEntity updateMember = MemberEntity.builder()
+                .memberId(member.getMemberId())
+                .nickname(member.getNickname())
+                .matchingStatus(member.getMatchingStatus())
+                .receiveAlarm(status ? "T" : "F")
+                .email(member.getEmail())
+                .kakaoId(member.getKakaoId())
+                .gender(member.getGender())
+                .birth(member.getBirth())
+                .description(member.getDescription())
+                .teamLeader(member.getTeamLeader())
+                .profileImages(member.getProfileImages())
+                .participants(member.getParticipants())
+                .UUID(member.getUUID())
+                .team(member.getTeam())
+                .createdDate(member.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .expired(member.getExpired())
+                .build();
+
+        memberRepository.save(updateMember);
     }
 
     // 계정탈퇴

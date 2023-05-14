@@ -20,10 +20,3 @@ export const changeMyImg = async (
     },
   });
 };
-
-export const getMyImg = async (memberUUID: string) => {
-  return await axios({
-    method: "get",
-    url: `${process.env.REACT_APP_API}/file/profile/${memberUUID}`,
-  });
-};

@@ -14,6 +14,7 @@ import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
 import Ground from "./components/UI/Three/Ground";
 import { AnimatePresence } from "framer-motion";
+import MatchTeam from "./components/pages/FindTeam/MatchTeam";
 
 function App() {
   const router = createBrowserRouter([
@@ -57,6 +58,10 @@ function App() {
             {
               path: "/SameGender/MyTeam",
               element: <MyTeam />,
+            },
+            {
+              path: "/SameGender/Match",
+              element: <MatchTeam />,
             },
             {
               path: "/Chat",

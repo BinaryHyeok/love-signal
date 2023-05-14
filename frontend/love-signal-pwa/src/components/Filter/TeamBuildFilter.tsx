@@ -46,11 +46,6 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
           navigate("/SameGender", { replace: true });
         });
     } else {
-      if (myTeamBuildState) {
-        navigate("/SameGender/Match", { replace: true });
-      } else {
-        navigate("/SameGender", { replace: true });
-      }
       setTeamUUID("");
     }
   };

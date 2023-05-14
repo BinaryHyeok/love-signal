@@ -1,31 +1,75 @@
-import { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import style from "./styles/AlertBtn.module.scss";
 import { useRecoilState } from "recoil";
 import { alertAllowState } from "../../../atom/member";
 
-const AlertBtn = () => {
-  const [isActive, setIsActive] = useState(false);
-  const [isAllow, setIsAllow] = useRecoilState<boolean>(alertAllowState);
-  const toggleSwitch = (e: BaseSyntheticEvent) => setIsActive(e.target.checked);
-  const alertAllow = () => {
-    if (!isActive) {
-      setIsAllow(true);
+import { firebaseMessaging } from "../../../atom/fcm";
+import { Messaging } from "@firebase/messaging";
+
+import {
+  fetchPWAToken,
+  requestPushPermission,
+  sendFCMToken,
+} from "../../../api/pwa";
+import { Props } from "@react-three/fiber";
+
+type PropsType = {
+  UUID: string;
+  atk: string;
+  kID: string;
+};
+
+const AlertBtn: React.FC<PropsType> = ({ UUID, atk, kID }) => {
+  const [messaging, _] = useRecoilState<Messaging>(firebaseMessaging);
+  const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
+  const toggleSwitch = (e: BaseSyntheticEvent) =>
+    setPushAlarmIsOn(e.target.checked);
+
+  useEffect(() => {
+    const permission = Notification.permission;
+    if (permission === "granted") {
+      setPushAlarmIsOn(true);
     } else {
-      setIsAllow(false);
+      setPushAlarmIsOn(false);
     }
+  }, [Notification.permission]);
+
+  const pushAlarmToggleHandler = () => {
+    if (!pushAlarmIsOn) {
+      fetchPWAToken(messaging)
+        .then((token) => {
+          sendFCMToken(UUID, atk, kID, token);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      fetchPWAToken(messaging)
+        .then((token) => {
+          console.log(token);
+          sendFCMToken(UUID, atk, kID, null);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+
+    setPushAlarmIsOn((prevState) => {
+      return !prevState;
+    });
   };
 
   return (
     <div className={style.container}>
-      <div>러브시그널 푸쉬알림받기 ({isAllow ? "허용" : "거부"})</div>
-      <div className={style.switch} data-active={isActive}>
+      <div>러브시그널 푸쉬알림받기 ({pushAlarmIsOn ? "허용" : "거부"})</div>
+      <div className={style.switch} data-active={pushAlarmIsOn}>
         <input
           id="input-switch"
           type="checkbox"
-          checked={isActive}
+          checked={pushAlarmIsOn}
           onChange={toggleSwitch}
-          onClick={alertAllow}
+          onClick={pushAlarmToggleHandler}
         />
         <motion.label className={style.handle} layout htmlFor="input-switch" />
       </div>

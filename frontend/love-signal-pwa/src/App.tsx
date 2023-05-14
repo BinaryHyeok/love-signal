@@ -14,8 +14,34 @@ import ContentLayout from "./components/pages/Common/ContentLayout";
 import { AnimatePresence } from "framer-motion";
 import MatchTeam from "./components/templates/FindTeam/MatchTeam";
 import Test from "./components/pages/Test";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+
+import { firebaseApp, firebaseMessaging } from "./atom/fcm";
+import { FirebaseApp, initializeApp } from "firebase/app";
+import { Messaging, getMessaging } from "firebase/messaging";
 
 function App() {
+  const [_, setFirebaseApp] = useRecoilState<FirebaseApp>(firebaseApp);
+  const [__, setFirebaseMessaging] =
+    useRecoilState<Messaging>(firebaseMessaging);
+
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: process.env.REACT_APP_PUSH_VAPID,
+      authDomain: process.env.REACT_APP_PUSH_DOMAIN,
+      projectId: process.env.REACT_APP_PUSH_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_PUSH_PROCESS_BUCKET,
+      messagingSenderId: process.env.REACT_APP_PUSH_SENDER_ID,
+      appId: process.env.REACT_APP_PUSH_APP_ID,
+      measurementId: process.env.REACT_APP_PUSH_MEASUREMENT,
+    };
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    setFirebaseApp(app);
+    setFirebaseMessaging(messaging);
+  }, []);
   const router = createBrowserRouter([
     {
       path: "/",

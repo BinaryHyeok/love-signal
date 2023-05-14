@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -13,12 +12,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging();
 const analytics = getAnalytics(app);
-
-const token = await getToken(messaging, {
-  vapidKey: process.env.REACT_APP_VAPID_KEY,
-});
 
 self.addEventListener("install", function (e) {
   console.log("fcm sw install..");

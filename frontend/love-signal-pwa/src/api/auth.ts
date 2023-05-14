@@ -96,3 +96,20 @@ export const expireATK = async (myrtk: string) => {
     },
   });
 };
+
+// 푸시알림 on/off
+export const setPushAlarmStatus = async (
+  uuid: string,
+  atk: string,
+  kID: string,
+  status: string
+) => {
+  return await axios({
+    method: "put",
+    url: `${process.env.REACT_APP_API}/member/${uuid}/receive-alarm?status=${status}`,
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
+    },
+  });
+};

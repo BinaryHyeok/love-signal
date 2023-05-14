@@ -232,8 +232,12 @@ const CheckTeam: React.FC<propsType> = ({
             </div>
           ) : (
             <div className={style.bottomContainer}>
-              <div className={style.buttonContainer}>
+              <div
+                className={style.buttonContainer}
+                style={{ justifyContent: "center" }}
+              >
                 <Button_Type_A
+                  margin="auto 0"
                   width="104px"
                   height="32px"
                   background="#FFFFDD"

@@ -47,6 +47,14 @@ public class Member extends BaseEntity{
     @ColumnDefault("'F'")
     private String teamLeader;
 
+    @Column(name = "matching_status", nullable = false, length = 1)
+    @ColumnDefault("'F'")
+    private String matchingStatus;
+
+    @Column(name = "receive_alarm", nullable = false, length = 1)
+    @ColumnDefault("'F'")
+    private String receiveAlarm;
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProfileImage> profileImages = new ArrayList<>();

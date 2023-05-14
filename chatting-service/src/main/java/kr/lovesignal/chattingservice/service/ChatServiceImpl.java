@@ -186,7 +186,7 @@ public class ChatServiceImpl implements ChatService{
             int nightNumber = Period.between(chatRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
 
             // 이성지목 메세지를 발송해야 하는 조건에서만 메세지 발송
-//            if(!(nightNumber == 0 && chatRoom.getCreatedDate().getHour() >= 16)) { //잠깐 조건 빼놓자.
+//            if(!(nightNumber == 0 && chatRoom.getCreatedDate().getHour() >= 16)) { //잠깐 조건 빼놓자. 계속 테스트를 위해.
                 // 해당 채팅룸에 입장한 사람 목록 불러오기.
                 List<Participant> participants = chatRoom.getParticipants();
 

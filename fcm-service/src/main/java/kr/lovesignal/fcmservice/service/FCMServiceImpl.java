@@ -23,8 +23,16 @@ public class FCMServiceImpl implements FCMService{
 
 	@Override
 	public void registerToken(TokenRequest tokenRequest) {
+
+		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
+		FCMEntity existingEntity = fcmRepository.findByMemberUUID(memberUUID);
+
+		if(existingEntity != null){
+			fcmRepository.delete(existingEntity);
+		}
+
 		FCMEntity fcmEntity = new FCMEntity();
-		fcmEntity.setMemberUUID(UUID.fromString(tokenRequest.getMemberUUID()));
+		fcmEntity.setMemberUUID(memberUUID);
 		fcmEntity.setToken(tokenRequest.getToken());
 		fcmRepository.save(fcmEntity);
 	}
@@ -50,4 +58,26 @@ public class FCMServiceImpl implements FCMService{
 			}
 		}
 	}
+
+	@Override
+	public void sendBuildingNotification(List<UUID> memberUUIDs) {
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByMemberUUIDIn(memberUUIDs);
+
+		for(FCMEntity fcmEntity : fcmEntities){
+			if(fcmEntity.getToken() != null){
+				Message message = Message.builder()
+					.putData("title", "팀 빌딩 완료")
+					.putData("content", "팀 빌딩이 완료되었고 동성 채팅방이 생성되었습니다.")
+					.setToken(fcmEntity.getToken())
+					.build();
+
+				try {
+					String response = FirebaseMessaging.getInstance().send(message);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 }

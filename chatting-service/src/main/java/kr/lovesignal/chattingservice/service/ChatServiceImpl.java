@@ -169,6 +169,7 @@ public class ChatServiceImpl implements ChatService{
                 .build();
 
         saveChatMessage(reqChatMessage);
+        messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), reqChatMessage);
 
     }
 

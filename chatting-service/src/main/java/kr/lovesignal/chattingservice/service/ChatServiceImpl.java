@@ -9,6 +9,7 @@ import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class ChatServiceImpl implements ChatService{
     private final TeamJpaRepository teamJpaRepository;
     private final ProfileImageJpaRepository profileImageJpaRepository;
     private final CommonUtils commonUtils;
+    private final SimpMessageSendingOperations messagingTemplate;
 
 
 
@@ -171,7 +173,7 @@ public class ChatServiceImpl implements ChatService{
     /**
      * 선택의 시간에 시스템 채팅방에 이성지목 메세지 저장.
      */
-    @Scheduled(cron = "0 0 22 * * *") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
+    @Scheduled(cron = "0 2 16 * * *") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
     public void saveSelectMessage() {
         //모든 채팅방. type 이 Meeting 인 것. expired 가 F 인 것. List 로 불러오기
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
@@ -181,7 +183,7 @@ public class ChatServiceImpl implements ChatService{
             int nightNumber = Period.between(chatRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
 
             // 이성지목 메세지를 발송해야 하는 조건에서만 메세지 발송
-            if(!(nightNumber == 0 && chatRoom.getCreatedDate().getHour() >= 16)) {
+//            if(!(nightNumber == 0 && chatRoom.getCreatedDate().getHour() >= 16)) { //잠깐 조건 빼놓자.
                 // 해당 채팅룸에 입장한 사람 목록 불러오기.
                 List<Participant> participants = chatRoom.getParticipants();
 
@@ -244,12 +246,13 @@ public class ChatServiceImpl implements ChatService{
 
                             // 실질적으로 Redis 에 메세지 객체 저장
                             saveChatMessage(reqChatMessage);
+                            messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), reqChatMessage);
                             break findSystemChatRoomFor;
                         }
                     }
                 }
 
-            }
+//            }
         }
     }
 

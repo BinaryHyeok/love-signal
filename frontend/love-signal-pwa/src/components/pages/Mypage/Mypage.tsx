@@ -25,6 +25,7 @@ import {
 } from "../../../api/pwa";
 import { initializeApp } from "firebase/app";
 import { getMessaging } from "firebase/messaging";
+import AlertBtn from "../../atoms/Common/AlertBtn";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -67,6 +68,14 @@ const Mypage = () => {
             });
         } else {
           console.log("푸시알림 허용 X");
+          fetchPWAToken(getMessaging(app))
+            .then((token) => {
+              console.log(token);
+              sendFCMToken(UUID, atk, kID, null);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         }
       })
       .catch((err) => {
@@ -103,6 +112,7 @@ const Mypage = () => {
           // exit="exit"
           className={style.myPageContainer}
         >
+          {/* <AlertBtn /> */}
           <div className={style.scrollContainer}>
             <M_Image_Type
               myImg={myImg}
@@ -117,14 +127,21 @@ const Mypage = () => {
               setNick={setMyNickName}
               setDesc={setMyDescription}
             />
-            <div className={style.logout}>
+            <AlertBtn />
+            <motion.div
+              whileTap={{
+                scale: 1.05,
+                transition: { type: "spring", stiffness: 200, damping: 10 },
+              }}
+              className={style.logout}
+            >
               <Link
                 to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout`}
                 className={style.link}
               >
                 로그아웃
               </Link>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </GetMyInfo>

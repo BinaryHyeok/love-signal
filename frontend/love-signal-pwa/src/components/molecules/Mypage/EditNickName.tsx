@@ -3,8 +3,10 @@ import Input_Type_A from "../../atoms/Common/Input_Type_A";
 import style from "./styles/NickName.module.scss";
 import Mypage_Check_Btn from "../../atoms/Mypage/MyPage_Check_Btn";
 import { duplicateCheck } from "../../../api/auth";
+import Age from "../../atoms/Mypage/Age";
 
 type propsType = {
+  age: number;
   mynickname: string;
   setNick: (param: string) => void;
   toggleMode: () => void;
@@ -12,6 +14,7 @@ type propsType = {
 };
 
 const EditNickName: React.FC<propsType> = ({
+  age,
   mynickname,
   setNick,
   toggleMode,
@@ -50,6 +53,7 @@ const EditNickName: React.FC<propsType> = ({
   return (
     <div className={style.containerEdit}>
       <div className={style.btnContainer}>
+        <Age width="53px" age={age} />
         <Input_Type_A
           type="text"
           value={currNick}

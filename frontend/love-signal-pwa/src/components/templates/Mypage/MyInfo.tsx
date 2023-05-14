@@ -54,9 +54,14 @@ const MyInfo: React.FC<propsType> = ({
     <>
       <div className={style.container}>
         {!isNameChanging ? (
-          <NickName mynickname={mynickname} toggleMode={toggleNameView} />
+          <NickName
+            age={age}
+            mynickname={mynickname}
+            toggleMode={toggleNameView}
+          />
         ) : (
           <EditNickName
+            age={age}
             mynickname={mynickname}
             setNick={setNick}
             toggleMode={toggleNameView}
@@ -74,7 +79,6 @@ const MyInfo: React.FC<propsType> = ({
             descSubmitHandler={updateDescHandler}
           />
         )}
-        <Age age={age} />
       </div>
     </>
   );

@@ -9,7 +9,6 @@ const MatchHeart = (props: any) => {
 
   useEffect(() => {
     const action = actions.anim3;
-    console.log(action);
     action?.play();
   }, []);
 

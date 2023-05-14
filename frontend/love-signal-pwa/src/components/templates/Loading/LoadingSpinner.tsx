@@ -7,7 +7,6 @@ const LoadingSpinner = () => {
       <LoadingHeartContainer />
       <div className={style.pulse}>
         <div className={style.beat1}></div>
-        {/* <div className={style.beat2}></div> */}
       </div>
     </>
   );

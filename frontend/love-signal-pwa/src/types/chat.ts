@@ -1,7 +1,6 @@
 export type chat = {
   roomType?: string;
   isMe?: boolean;
-  //
   redis_message_id?: number;
   roomUUID?: string;
   type?: string;

@@ -12,7 +12,7 @@ import Chat from "./components/pages/Chat/Chat";
 import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
 import { AnimatePresence } from "framer-motion";
-import MatchTeam from "./components/pages/FindTeam/MatchTeam";
+import MatchTeam from "./components/templates/FindTeam/MatchTeam";
 import Test from "./components/pages/Test";
 
 function App() {

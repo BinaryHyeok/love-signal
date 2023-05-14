@@ -3,7 +3,7 @@ import style from "./styles/MyTeam.module.scss";
 import T_MyTeam from "../../templates/MyTeam/T_MyTeam";
 import M_MyTeamDesc from "../../molecules/MyTeam/M_MyTeamDesc";
 import O_MyTeamBox from "../../organisms/MyTeam/O_MyTeamBox";
-import { kid, myMemberUUID, myatk } from "../../../atom/member";
+import { kid, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 import { member } from "../../../types/member";
 import { myTeamUUID } from "../../../atom/member";
@@ -35,7 +35,7 @@ const MyTeam = () => {
   //상대 팀 모달창 띄워줄 함수.
   const [oppoVisible, setOppoVisible] = useState<boolean>(false);
 
-  const [msg, setMsg] = useState<string>("");
+  const [, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
   const [atk] = useRecoilState<string>(myatk);

@@ -2,21 +2,39 @@ import React, { useState } from "react";
 import style from "./Test.module.scss"; // 스타일 파일을 import합니다.
 
 const Test = () => {
-  const [onoff, setOnOff] = useState<boolean>(false);
-  const checkInput = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLInputElement;
-    console.log(target.value);
-    setOnOff(!onoff);
-    console.log(onoff);
+  const [isOn, setIsOn] = useState(false);
+
+  const handleClick = () => {
+    setIsOn((prevIsOn) => !prevIsOn);
+    console.log(isOn);
   };
   return (
     <>
-      <div className={style.toggleSwitch}>
-        <input type="checkbox" className={style.checkbox} id="toggleSwitch" />
-        <label className={style.label} htmlFor="toggleSwitch">
-          <span className={style.toggleInner} />
-          <span className={style.switch} />
-        </label>
+      <div
+        style={{
+          backgroundColor: isOn ? "green" : "gray",
+          width: "50px",
+          height: "30px",
+          borderRadius: "15px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: isOn ? "flex-end" : "flex-start",
+          padding: "5px",
+          boxSizing: "border-box",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+        }}
+        onClick={handleClick}
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            width: "20px",
+            height: "20px",
+            borderRadius: "50%",
+            transition: "all 0.3s ease",
+          }}
+        />
       </div>
     </>
   );

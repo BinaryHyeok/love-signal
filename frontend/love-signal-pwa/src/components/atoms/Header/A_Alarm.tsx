@@ -14,7 +14,10 @@ const A_Alarm: React.FC<PropsType> = ({ onClick }) => {
         }}
         onClick={onClick}
       >
-        <img src="/assets/alarm.png" alt="도움말" />
+        <img
+          src={`${process.env.REACT_APP_ASSETS_DIR}/alarm.png`}
+          alt="도움말"
+        />
       </motion.div>
     </AnimatePresence>
   );

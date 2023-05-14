@@ -14,7 +14,7 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
 
   const [atk, setATK] = useRecoilState<string>(myatk);
   const [atkET, setAtkET] = useRecoilState<Date>(myatkET);
-  const [kID, setKakaoId] = useRecoilState<string>(kid);
+  const [, setKakaoId] = useRecoilState<string>(kid);
 
   useEffect(() => {
     expireCompare();
@@ -24,7 +24,6 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
     const date = new Date();
     const rtk = cookie.load("rtk");
     const myET = new Date(atkET);
-    console.log(rtk);
 
     if (rtk === undefined) {
       if (atk === "") {

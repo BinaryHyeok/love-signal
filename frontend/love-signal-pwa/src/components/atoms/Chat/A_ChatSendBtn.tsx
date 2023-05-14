@@ -9,7 +9,7 @@ const A_ChatSendBtn: React.FC<PropsType> = ({ isDisabled }) => {
     <button className={style.sendBtn}>
       <img
         className={isDisabled ? style.disabled : ""}
-        src="/assets/paper-airplane.png"
+        src={`${process.env.REACT_APP_ASSETS_DIR}/paper-airplane.png`}
       />
     </button>
   );

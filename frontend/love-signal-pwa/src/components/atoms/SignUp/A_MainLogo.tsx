@@ -6,7 +6,7 @@ const A_MainLogo = () => {
     <>
       <div className={style.logo}>
         <img
-          src="/assets/logo.png"
+          src={`${process.env.REACT_APP_ASSETS_DIR}/logo.png`}
           height="100vh"
           alt="로고"
           className={style.img}

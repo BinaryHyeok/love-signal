@@ -7,7 +7,7 @@ type PropsType = {
 const A_ChatHeaderExit: React.FC<PropsType> = ({ onClick }) => {
   return (
     <button className={style.btnExit} onClick={onClick}>
-      <img src="/assets/back_arrow.png" />
+      <img src={`${process.env.REACT_APP_ASSETS_DIR}/back_arrow.png`} />
     </button>
   );
 };

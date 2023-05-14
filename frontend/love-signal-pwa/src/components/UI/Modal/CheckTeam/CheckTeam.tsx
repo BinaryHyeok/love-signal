@@ -198,9 +198,15 @@ const CheckTeam: React.FC<propsType> = ({
                   onClick={shareTeamBtn}
                 >
                   {!haveTeam && memberLength === 3 ? (
-                    <img src="/assets/share.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/share.png`}
+                      alt=""
+                    />
                   ) : (
-                    <img src="/assets/shareblack.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/shareblack.png`}
+                      alt=""
+                    />
                   )}
                 </Button_Type_A>
                 <Button_Type_A
@@ -210,9 +216,15 @@ const CheckTeam: React.FC<propsType> = ({
                   onClick={applyTeam}
                 >
                   {applyActiveBtn ? (
-                    <img src="/assets/send_invite.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/send_invite.png`}
+                      alt=""
+                    />
                   ) : (
-                    <img src="/assets/send_blackinvite.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/send_blackinvite.png`}
+                      alt=""
+                    />
                   )}
                 </Button_Type_A>
               </div>
@@ -228,7 +240,10 @@ const CheckTeam: React.FC<propsType> = ({
                   className={style.button}
                   onClick={reportMember}
                 >
-                  <img src="/assets/report.png" alt="신고하기" />
+                  <img
+                    src={`${process.env.REACT_APP_ASSETS_DIR}/report.png`}
+                    alt="신고하기"
+                  />
                 </Button_Type_A>
               </div>
             </div>

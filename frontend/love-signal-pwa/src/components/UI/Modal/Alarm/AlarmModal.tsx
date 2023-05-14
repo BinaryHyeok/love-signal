@@ -1,8 +1,6 @@
 import style from "./styles/AlarmModal.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 import ExitImg from "../../../atoms/Common/ExitImg";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { alarmModal, modalState } from "../../../../atom/alarm";
 
 type PropsType = {
   closeModal: () => void;
@@ -10,10 +8,6 @@ type PropsType = {
 };
 
 const AlarmModal: React.FC<PropsType> = ({ closeModal, children }) => {
-  const [isVisible, setIsVisible] = useRecoilState<boolean>(alarmModal);
-  const [aninmation, setAnimation] = useRecoilState<boolean>(alarmModal);
-  const setIsOpen = useSetRecoilState(modalState);
-
   return (
     <AnimatePresence mode="wait">
       <motion.div

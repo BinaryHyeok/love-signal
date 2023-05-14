@@ -116,21 +116,30 @@ const M_FindTeamMenuList = () => {
           {!isPending && (
             <div className={style.menuList}>
               <Button_Type_A className={style.menu} onClick={fastMatch}>
-                <img src="/assets/LIGHTENING.png" />
-                빠른 매칭 <img src="/assets/LIGHTENING.png" />
+                <img
+                  src={`${process.env.REACT_APP_ASSETS_DIR}/LIGHTENING.png`}
+                />
+                빠른 매칭{" "}
+                <img
+                  src={`${process.env.REACT_APP_ASSETS_DIR}/LIGHTENING.png`}
+                />
               </Button_Type_A>
               <Button_Type_A className={style.menu} onClick={createRoom}>
-                <img src="/assets/SWEET_HOME.png" />
+                <img
+                  src={`${process.env.REACT_APP_ASSETS_DIR}/SWEET_HOME.png`}
+                />
                 룸 생성하기
-                <img src="/assets/SWEET_HOME.png" />
+                <img
+                  src={`${process.env.REACT_APP_ASSETS_DIR}/SWEET_HOME.png`}
+                />
               </Button_Type_A>
               <Button_Type_A
                 className={style.menu}
                 onClick={openRoomCodeModalHandler}
               >
-                <img src="/assets/KEY.png" />
+                <img src={`${process.env.REACT_APP_ASSETS_DIR}/KEY.png`} />
                 룸 검색하기
-                <img src="/assets/KEY.png" />
+                <img src={`${process.env.REACT_APP_ASSETS_DIR}/KEY.png`} />
               </Button_Type_A>
             </div>
           )}

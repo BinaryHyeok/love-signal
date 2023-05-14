@@ -21,7 +21,11 @@ const A_FemaleLabel: React.FC<propstType> = ({ gender, changeGender }) => {
           checked={gender === "F"}
           onChange={changeGender}
         />
-        <img src="/assets/female.png" id="F" className={style.genderImg} />
+        <img
+          src={`${process.env.REACT_APP_ASSETS_DIR}/female.png`}
+          id="F"
+          className={style.genderImg}
+        />
       </label>
     </div>
   );

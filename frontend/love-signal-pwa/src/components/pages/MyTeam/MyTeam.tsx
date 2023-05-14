@@ -15,7 +15,7 @@ import TeamBuildFilter from "../../Filter/TeamBuildFilter";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
 
-const MEMBER_LOADING_IMG = "/assets/member_loading.png";
+const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
 const MyTeam = () => {
   //내가 상대팀이 있는지 파악해주는 state변수입니다.

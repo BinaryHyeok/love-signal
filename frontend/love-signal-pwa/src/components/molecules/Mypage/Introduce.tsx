@@ -11,7 +11,6 @@ type propsType = {
 const Introduce: React.FC<propsType> = ({ description, toggleMode }) => {
   return (
     <div className={style.container}>
-      {/* <div>자기소개</div> */}
       <MyIntroduce description={description} />
       <div className={style.btn}>
         <Mypage_Edit_Btn imgClick={toggleMode} />

@@ -26,7 +26,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
   return (
     <div className={style.textContainer}>
       <M_ChatTopNotice
-        icon="/assets/notice_A.png"
+        icon={`${process.env.REACT_APP_ASSETS_DIR}/notice_A.png`}
         text="매일 저녁 10시에는 선택의 시간이 진행됩니다."
         width="90%"
         background="rgba(235, 235, 235, 0.8)"

@@ -17,11 +17,15 @@ const A_FemaleLabel: React.FC<propstType> = ({ gender, changeGender }) => {
           name="gender"
           value="F"
           id="female"
-          // checked={false}
-          onChange={changeGender}
           className={style.radio}
+          checked={gender === "F"}
+          onChange={changeGender}
         />
-        <img src="/assets/female.png" id="F" className={style.genderImg} />
+        <img
+          src={`${process.env.REACT_APP_ASSETS_DIR}/female.png`}
+          id="F"
+          className={style.genderImg}
+        />
       </label>
     </div>
   );

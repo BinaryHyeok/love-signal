@@ -18,6 +18,7 @@ const A_SignUp_Month: React.FC<propsType> = ({
     <span className={style.monthTag}>
       <label htmlFor="month"></label>
       <select
+        className={style.selectBox}
         id="month"
         name="month"
         onChange={handleMonthChange}

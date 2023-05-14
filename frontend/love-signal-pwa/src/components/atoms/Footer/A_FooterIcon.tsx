@@ -29,7 +29,7 @@ const FooterIcon: React.FC<propsType> = ({
       >
         <img
           id={idx}
-          src={`/assets/${address}_${color}.png`}
+          src={`${process.env.REACT_APP_ASSETS_DIR}/${address}_${color}.png`}
           alt="네비바 아이콘"
           onClick={isClickNav}
           className={style[`nav${size}`]}

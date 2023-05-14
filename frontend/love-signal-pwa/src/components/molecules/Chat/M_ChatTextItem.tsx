@@ -51,7 +51,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
     text = (
       <>
         <A_ChatSenderImg
-          senderImg={`${"/assets"}/profile_notice.png`}
+          senderImg={`${process.env.REACT_APP_ASSETS_DIR}/profile_notice.png`}
           isSystem={true}
         />
         <M_ChatText_Select
@@ -65,7 +65,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
     text = (
       <>
         <A_ChatSenderImg
-          senderImg={`${"/assets"}/profile_notice.png`}
+          senderImg={`${process.env.REACT_APP_ASSETS_DIR}/profile_notice.png`}
           isSystem={true}
         />
         <M_ChatText_Result

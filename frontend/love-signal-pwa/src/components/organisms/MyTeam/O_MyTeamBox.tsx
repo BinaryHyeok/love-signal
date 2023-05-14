@@ -29,7 +29,7 @@ type propsType = {
   setMatchTeamUUID: Dispatch<SetStateAction<string>>;
 };
 
-const MEMBER_LOADING_IMG = "/assets/member_loading.png";
+const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
 const O_MyTeamBox: React.FC<propsType> = ({
   haveOppositeTeam,
@@ -150,9 +150,9 @@ const O_MyTeamBox: React.FC<propsType> = ({
         <ListBoxWithImgTitle
           title={
             <>
-              <img src="/assets/mail.png" />
+              <img src={`${process.env.REACT_APP_ASSETS_DIR}/mail.png`} />
               <span>신청목록</span>
-              <img src="/assets/mail.png" />
+              <img src={`${process.env.REACT_APP_ASSETS_DIR}/mail.png`} />
             </>
           }
           type="blue"

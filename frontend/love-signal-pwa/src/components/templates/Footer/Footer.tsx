@@ -4,7 +4,7 @@ import { footerIdx } from "../../../atom/footer";
 import { footerIsOn } from "../../../atom/footer";
 import { useRecoilState } from "recoil";
 import style from "./styles/Footer.module.scss";
-import A_FooterIcon from "./A_FooterIcon";
+import A_FooterIcon from "../../atoms/Footer/A_FooterIcon";
 
 const Footer = () => {
   const navigate = useNavigate();

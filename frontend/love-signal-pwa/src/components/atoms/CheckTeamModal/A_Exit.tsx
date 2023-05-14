@@ -8,7 +8,7 @@ const A_Exit: React.FC<propsType> = ({ closeModal }) => {
   return (
     <>
       <img
-        src="/assets/exit.png"
+        src={`${process.env.REACT_APP_ASSETS_DIR}/exit.png`}
         className={style.exit}
         alt="나가기"
         onClick={closeModal}

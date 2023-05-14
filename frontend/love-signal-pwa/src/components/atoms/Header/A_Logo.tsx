@@ -19,7 +19,11 @@ const A_Logo = () => {
           transition: { type: "spring", stiffness: 200, damping: 10 },
         }}
       >
-        <img src="/assets/logo.png" onClick={goMain} alt="로고" />
+        <img
+          src={`${process.env.REACT_APP_ASSETS_DIR}/logo.png`}
+          onClick={goMain}
+          alt="로고"
+        />
       </motion.div>
     </AnimatePresence>
   );

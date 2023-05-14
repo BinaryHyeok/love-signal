@@ -1,7 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Main from "./components/pages/Main/Main";
 import SignUp from "./components/pages/SignUp/SignUp";
-import Login from "./components/Login/Login";
 import Manual from "./components/Manual/Manual";
 import ExploreTeam from "./components/pages/OtherGender/ExploreTeam";
 import FindTeam from "./components/pages/FindTeam/FindTeam";
@@ -14,6 +13,7 @@ import NotFound from "./components/pages/Common/NotFound";
 import ContentLayout from "./components/pages/Common/ContentLayout";
 import Ground from "./components/UI/Three/Ground";
 import { AnimatePresence } from "framer-motion";
+import MatchTeam from "./components/pages/FindTeam/MatchTeam";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,10 +25,6 @@ function App() {
         {
           path: "/Signup",
           element: <SignUp />,
-        },
-        {
-          path: "/Login",
-          element: <Login />,
         },
         {
           path: "/Manual",
@@ -57,6 +53,10 @@ function App() {
             {
               path: "/SameGender/MyTeam",
               element: <MyTeam />,
+            },
+            {
+              path: "/SameGender/Match",
+              element: <MatchTeam />,
             },
             {
               path: "/Chat",

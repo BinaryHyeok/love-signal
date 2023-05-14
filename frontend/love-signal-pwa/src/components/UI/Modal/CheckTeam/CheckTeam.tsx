@@ -16,9 +16,9 @@ import {
   myatk,
 } from "../../../../atom/member";
 
-import UserInfo from "./O_UserInfo";
-import SwiperManual from "./A_SwiperManual";
-import Exit from "./A_Exit";
+import UserInfo from "../../../organisms/CheckTeamModal/O_UserInfo";
+import SwiperManual from "../../../atoms/CheckTeamModal/A_SwiperManual";
+import Exit from "../../../atoms/CheckTeamModal/A_Exit";
 import { useRecoilState } from "recoil";
 import { motion, AnimatePresence } from "framer-motion";
 import { kid } from "../../../../atom/member";
@@ -119,6 +119,11 @@ const CheckTeam: React.FC<propsType> = ({
     }
   };
 
+  //신고하기 버튼입니다
+  const reportMember = () => {
+    console.log("신고할거야");
+  };
+
   return (
     <div className={style.container}>
       <div className={style.background} onClick={closeModal}></div>
@@ -193,9 +198,15 @@ const CheckTeam: React.FC<propsType> = ({
                   onClick={shareTeamBtn}
                 >
                   {!haveTeam && memberLength === 3 ? (
-                    <img src="/assets/share.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/share.png`}
+                      alt=""
+                    />
                   ) : (
-                    <img src="/assets/shareblack.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/shareblack.png`}
+                      alt=""
+                    />
                   )}
                 </Button_Type_A>
                 <Button_Type_A
@@ -205,16 +216,37 @@ const CheckTeam: React.FC<propsType> = ({
                   onClick={applyTeam}
                 >
                   {applyActiveBtn ? (
-                    <img src="/assets/send_invite.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/send_invite.png`}
+                      alt=""
+                    />
                   ) : (
-                    <img src="/assets/send_blackinvite.png" alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_ASSETS_DIR}/send_blackinvite.png`}
+                      alt=""
+                    />
                   )}
                 </Button_Type_A>
               </div>
               {children}
             </div>
           ) : (
-            <></>
+            <div className={style.bottomContainer}>
+              <div className={style.buttonContainer}>
+                <Button_Type_A
+                  width="104px"
+                  height="32px"
+                  background="#FFFFDD"
+                  className={style.button}
+                  onClick={reportMember}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_ASSETS_DIR}/report.png`}
+                    alt="신고하기"
+                  />
+                </Button_Type_A>
+              </div>
+            </div>
           )}
         </motion.div>
       </AnimatePresence>

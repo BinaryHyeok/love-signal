@@ -6,8 +6,8 @@ type PropsType = {
 };
 
 const ENUM_EMAGES: { [key: string]: string } = {
-  SECRET: "/assets/profile_anony.png",
-  SYSTEM: "/assets/profile_notice.png",
+  SECRET: `${process.env.REACT_APP_ASSETS_DIR}/profile_anony.png`,
+  SYSTEM: `${process.env.REACT_APP_ASSETS_DIR}/profile_notice.png`,
 };
 
 const A_ChatFaceImage: React.FC<PropsType> = ({ type }) => {

@@ -88,8 +88,10 @@ public class ChatRepository {
     public void expiredSelectMessage(List<ChatRoom> chatRooms) {
         for(ChatRoom chatRoom : chatRooms) {
             String roomUUID = chatRoom.getUUID().toString();
+            System.out.println("expired sel message roomUUID======================="+roomUUID);
 
             List<ResChatMessage> resChatMessages = opsHashMessageList.get(RoomMessageList, roomUUID);
+            if(resChatMessages == null) System.out.println("===============================null 입니다.");
             for(ResChatMessage resChatMessage : resChatMessages) {
                 if(resChatMessage.getType().equals("SELECT"))
                     resChatMessage.getSelectOrShareInfo().setSelected("T");

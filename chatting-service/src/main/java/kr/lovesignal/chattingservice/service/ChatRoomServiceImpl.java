@@ -232,6 +232,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             }
         }
         String meetingRoomUUID = meetingRoom.getUUID().toString();
+        System.out.println("235 chatRoom Service Impl ======================"+meetingRoomUUID);
 
         // 만들어진 시간이 16시 전인지 후인지. 혼성 채팅방이 현재 몇 번째 밤인지.
         int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
@@ -288,7 +289,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 2 21 * * *")
+    @Scheduled(cron = "0 37 21 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -315,7 +316,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 4 21 * * *")
+    @Scheduled(cron = "0 39 21 * * *")
     public void secretChatRoomExpiredT() {
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
         for(ChatRoom chatRoom : list) {

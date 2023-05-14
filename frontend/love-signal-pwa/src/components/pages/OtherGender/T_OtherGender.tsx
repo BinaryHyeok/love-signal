@@ -7,6 +7,7 @@ import ListBoxWithImgTitle from "../../atoms/Common/ListBoxWithImgTitle";
 import A_Heartline from "../../atoms/Common/A_Heartline";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
+import M_NoOtherTeam from "../../molecules/OtherGender/M_NoOtherTeam";
 
 type propsType = {
   getList: () => void;
@@ -55,7 +56,7 @@ const T_OtherGender: React.FC<propsType> = ({
           >
             <PictureBox viewDetail={viewDetail} idx={idx} team={item} />
           </ListBoxWithImgTitle>
-        ))}
+        )) && <M_NoOtherTeam />}
       </div>
     </div>
   );

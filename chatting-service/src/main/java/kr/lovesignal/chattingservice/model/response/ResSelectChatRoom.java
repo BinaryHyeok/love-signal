@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Builder
-public class ResSelectChatRoom {
+public class ResSelectChatRoom implements Serializable {
 
     private String UUID;
     private String type;

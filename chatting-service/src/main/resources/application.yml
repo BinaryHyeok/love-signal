@@ -6,6 +6,9 @@ spring:
       enabled: true
     restart:
       enabled: false
+#  cloud:
+#    config:
+#      enabled: false
   freemarker:
     cache: false
     template-loader-path: classpath:/templates

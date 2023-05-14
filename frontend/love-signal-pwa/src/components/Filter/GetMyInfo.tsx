@@ -35,6 +35,12 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
         setNickname(res.data.body.nickname);
         setGender(res.data.body.gender);
         // setTeamBuildState(res.data.body.뭐시기);
+        if (
+          res.data.body.teamUUID === null ||
+          res.data.body.teamUUID === undefined
+        ) {
+          setTeamBuildState(false);
+        }
       })
       .catch((err) => {
         console.log(err);

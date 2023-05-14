@@ -183,3 +183,35 @@ export const receiveMatchMember = async (
     },
   });
 };
+
+//매칭 신청
+export const matchApply = async (
+  memberUUID: string,
+  atk: string,
+  kID: string
+) => {
+  return await axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API}/matching/${memberUUID}`,
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
+    },
+  });
+};
+
+//매칭 취소
+export const matchCancel = async (
+  memberUUID: string,
+  atk: string,
+  kID: string
+) => {
+  return await axios({
+    method: "delete",
+    url: `${process.env.REACT_APP_API}/matching/${memberUUID}`,
+    headers: {
+      "X-Auth_Token": atk,
+      "X-Auth_ID": kID,
+    },
+  });
+};

@@ -6,8 +6,8 @@ import MatchHeart from "../../UI/Three/MatchHeart";
 import style from "./styles/MatchGround.module.scss";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import { useRecoilState } from "recoil";
-import { teamBuildState } from "../../../atom/member";
-import TeamBuildFilter from "../../Filter/TeamBuildFilter";
+import { kid, myMemberUUID, myatk, teamBuildState } from "../../../atom/member";
+import { matchCancel } from "../../../api/team";
 
 const color = 0xffffff;
 const intensity = 1;
@@ -24,14 +24,23 @@ camera.updateProjectionMatrix();
 
 const MatchTeam = () => {
   const [, setMyTeamBuildState] = useRecoilState<boolean>(teamBuildState);
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   const cancelMatch = () => {
-    setMyTeamBuildState(false);
-    //취소하면서 axios 요청을 보내야함. 내가 현재 팀 매칭을 취소했다는 걸 알려주어야함.
+    matchCancel(myUUID, atk, kID)
+      .then((res) => {
+        //나 매칭 취소됐다는걸 알려줄 axios
+        setMyTeamBuildState(false);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
-    // <TeamBuildFilter>
     <div className={style.heart}>
       <Canvas camera={camera}>
         <pointLight color={color} intensity={intensity} />
@@ -55,7 +64,6 @@ const MatchTeam = () => {
         </Button_Type_A>
       </div>
     </div>
-    // </TeamBuildFilter>
   );
 };
 

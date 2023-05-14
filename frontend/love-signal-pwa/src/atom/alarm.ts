@@ -5,12 +5,9 @@ export const alarmModal = atom<boolean>({
   default: false,
 });
 
-export const modalState = atom({
-  key: "modalState",
-  default: {
-    isOpen: false,
-    animate: false,
-  },
+export const alarmModalAnimation = atom<boolean>({
+  key: "alarmModalAnimation",
+  default: false,
 });
 
 export const timeState = atom({

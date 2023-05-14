@@ -18,7 +18,11 @@ import { changeMyImg } from "../../../api/file";
 import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
-import { fetchPWAToken, requestPushPermission } from "../../../api/pwa";
+import {
+  fetchPWAToken,
+  requestPushPermission,
+  sendFCMToken,
+} from "../../../api/pwa";
 import { initializeApp } from "firebase/app";
 import { getMessaging } from "firebase/messaging";
 import AlertBtn from "../../atoms/Common/AlertBtn";
@@ -57,12 +61,21 @@ const Mypage = () => {
           fetchPWAToken(getMessaging(app))
             .then((token) => {
               console.log(token);
+              sendFCMToken(UUID, atk, kID, token);
             })
             .catch((err) => {
               console.error(err);
             });
         } else {
           console.log("푸시알림 허용 X");
+          fetchPWAToken(getMessaging(app))
+            .then((token) => {
+              console.log(token);
+              sendFCMToken(UUID, atk, kID, null);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         }
       })
       .catch((err) => {

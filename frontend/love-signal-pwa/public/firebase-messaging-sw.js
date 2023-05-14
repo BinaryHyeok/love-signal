@@ -1,18 +1,24 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+importScripts(
+  "https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"
+);
+importScripts(
+  "https://www.gstatic.com/firebasejs/9.6.4/firebase-analytics-compat.js",
+  "https://www.gstatic.com/firebasejs/9.6.4/firebase-messaging-compat.js"
+);
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_PUSH_VAPID,
-  authDomain: process.env.REACT_APP_PUSH_DOMAIN,
-  projectId: process.env.REACT_APP_PUSH_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_PUSH_PROCESS_BUCKET,
-  messagingSenderId: process.env.REACT_APP_PUSH_SENDER_ID,
-  appId: process.env.REACT_APP_PUSH_APP_ID,
-  measurementId: process.env.REACT_APP_PUSH_MEASUREMENT,
+  apiKey: "AIzaSyCN9e2KjmzUMXa_A7GcS3D51xbSOHPHfWk",
+  authDomain: "love-signal-a91bc.firebaseapp.com",
+  projectId: "love-signal-a91bc",
+  storageBucket: "love-signal-a91bc.appspot.com",
+  messagingSenderId: "719224189451",
+  appId: "1:719224189451:web:22868b6e8ecab60effcd0e",
+  measurementId: "G-SC755QEGW3",
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const app = firebase.initializeApp(firebaseConfig);
+// const analytics = firebase.analytics(app);
+const messaging = firebase.messaging();
 
 self.addEventListener("install", function (e) {
   console.log("fcm sw install..");

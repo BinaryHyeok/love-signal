@@ -18,17 +18,18 @@ root.render(
 serviceWorkerRegistration.register();
 
 // Service Worker 등록
-// if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker.register('/service-worker.js')
-//     .then(registration => {
-//       console.log('Service Worker registered.');
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker
+//     .register("/service-worker.ts")
+//     .then((registration) => {
+//       console.log("Service Worker registered.");
 
 //       // PushManager 구독 정보 등록
-//       registration.pushManager.getSubscription().then(subscription => {
-//         pushSubscription = subscription;
-//       });
+//       // registration.pushManager.getSubscription().then((subscription) => {
+//       //   pushSubscription = subscription;
+//       // });
 //     })
-//     .catch(error => {
-//       console.error('Service Worker registration failed:', error);
+//     .catch((error) => {
+//       console.error("Service Worker registration failed:", error);
 //     });
 // }

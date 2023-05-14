@@ -19,6 +19,10 @@ server:
 
 spring:
 
+  cloud:
+    config:
+      enabled: false
+
   application:
     name: team-service      # Application name
 
@@ -31,10 +35,11 @@ spring:
 
   cache:
     type: redis
-    redis:
-      host: localhost
-      port: 6379
-      passoword: lovesignal
+
+  redis:
+    host: localhost
+    port: 6379
+    password: lovesignal
 
   jpa:
     hibernate:
@@ -65,7 +70,11 @@ logging:
 redis-key:
   block-user: block_user
   matching-male-user: matching_male_user
-  matching-male-wating: matching_female_waiting
+  matching-male-waiting: matching_female_waiting
   matching-female-user: matching_female_user
-  matching-female-wating: matching_fefemale_waiting
+  matching-female-waiting: matching_fefemale_waiting
   recent-teams: recent_teams
+
+redis-expire:
+  recent-team: 600
+  block-user: 600

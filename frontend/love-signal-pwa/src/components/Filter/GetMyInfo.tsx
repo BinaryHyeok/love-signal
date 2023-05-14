@@ -22,7 +22,8 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
   const [, setTeamLeader] = useRecoilState<boolean>(imLeader);
   const [, setNickname] = useRecoilState<string>(nickname);
   const [, setGender] = useRecoilState<string>(myGender);
-  const [, setTeamBuildState] = useRecoilState<boolean>(teamBuildState);
+  const [myTeamBuildState, setTeamBuildState] =
+    useRecoilState<boolean>(teamBuildState);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
@@ -35,7 +36,11 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
         setTeamLeader(res.data.body.teamLeader);
         setNickname(res.data.body.nickname);
         setGender(res.data.body.gender);
-        // setTeamBuildState(res.data.body.뭐시기);
+        if (myTeamBuildState && res.data.body.teamUUID !== null) {
+          setTeamBuildState(false);
+        } else {
+          setTeamBuildState(res.data.body.matchingStatus);
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -30,6 +30,8 @@ export type userInfo = {
   teamUUID: string;
   teamLeader: boolean;
   profileImage: string;
+  matchingStatus: boolean;
+  receiveAlarm: false;
   //팀빌딩 상태인지 체크.
   //푸쉬알림 수신 여부.
 };

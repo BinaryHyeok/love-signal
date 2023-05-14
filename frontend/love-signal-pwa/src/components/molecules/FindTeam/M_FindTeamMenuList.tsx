@@ -100,10 +100,10 @@ const M_FindTeamMenuList = () => {
         console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data.message);
       });
     //매칭을 시작한다는 axios를 보내주어야 합니다.
-    setIsPending(true);
+    setIsPending(false);
   };
 
   return (

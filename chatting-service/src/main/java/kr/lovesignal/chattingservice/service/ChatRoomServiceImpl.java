@@ -260,6 +260,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      */
     public void secretOneToOne(String selectorUUID, String selectedUUID, String meetingRoomUUID,
                                String type, Member selector, Member selected) {
+
+        ResMember selectorDto = ResMember.toDto(selector);
+        ResMember selectedDto = ResMember.toDto(selected);
+
         // 내가 지목한 상대가 나를 지목해서 이미 채팅방이 만들었는지 조회.
         ResSelectChatRoom checkSelectChatRoom =
                 chatRoomRepository.checkResSelectChatRoom(selectorUUID, selectedUUID, meetingRoomUUID);
@@ -277,8 +281,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     .createdDate(LocalDateTime.now().toString())
                     .updatedDate(LocalDateTime.now().toString())
                     .expired("F")
-                    .selector(selector)
-                    .selected(selected)
+                    .selector(selectorDto)
+                    .selected(selectedDto)
                     .build();
 
             // redis 에 저장.
@@ -289,7 +293,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 37 21 * * *")
+    @Scheduled(cron = "0 2 22 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -316,7 +320,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 39 21 * * *")
+    @Scheduled(cron = "0 4 22 * * *")
     public void secretChatRoomExpiredT() {
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
         for(ChatRoom chatRoom : list) {

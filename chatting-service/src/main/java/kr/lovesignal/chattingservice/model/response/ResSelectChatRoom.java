@@ -20,8 +20,8 @@ public class ResSelectChatRoom implements Serializable {
     private String updatedDate;
     private String expired;
 
-    private Member selector;
-    private Member selected;
+    private ResMember selector;
+    private ResMember selected;
     @Builder.Default
     private String love = "F";
 

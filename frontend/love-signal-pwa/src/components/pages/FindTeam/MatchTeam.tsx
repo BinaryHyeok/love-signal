@@ -31,31 +31,31 @@ const MatchTeam = () => {
   };
 
   return (
-    <TeamBuildFilter>
-      <div className={style.heart}>
-        <Canvas camera={camera}>
-          <pointLight color={color} intensity={intensity} />
-          <directionalLight color={color} intensity={intensity} />
-          <ambientLight color={color} intensity={intensity} />
-          <OrbitControls
-            autoRotate={true}
-            autoRotateSpeed={15}
-            enablePan={true}
-            enableZoom={false}
-            enableRotate={false}
-          />
-          <Suspense fallback={null}>
-            <MatchHeart />
-          </Suspense>
-        </Canvas>
-        <div className={style.match}>매칭중입니다.</div>
-        <div className={style.cancelBtn}>
-          <Button_Type_A width="180px" height="32px" onClick={cancelMatch}>
-            매칭취소
-          </Button_Type_A>
-        </div>
+    // <TeamBuildFilter>
+    <div className={style.heart}>
+      <Canvas camera={camera}>
+        <pointLight color={color} intensity={intensity} />
+        <directionalLight color={color} intensity={intensity} />
+        <ambientLight color={color} intensity={intensity} />
+        <OrbitControls
+          autoRotate={true}
+          autoRotateSpeed={15}
+          enablePan={true}
+          enableZoom={false}
+          enableRotate={false}
+        />
+        <Suspense fallback={null}>
+          <MatchHeart />
+        </Suspense>
+      </Canvas>
+      <div className={style.match}>매칭중입니다.</div>
+      <div className={style.cancelBtn}>
+        <Button_Type_A width="180px" height="32px" onClick={cancelMatch}>
+          매칭취소
+        </Button_Type_A>
       </div>
-    </TeamBuildFilter>
+    </div>
+    // </TeamBuildFilter>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
-import Image from "./A_Image";
-import Profile from "./M_Profile";
+import Image from "../../atoms/CheckTeamModal/A_Image";
+import Profile from "../../molecules/CheckTeamModal/M_Profile";
 
 type propsType = {
   profileImage: string;

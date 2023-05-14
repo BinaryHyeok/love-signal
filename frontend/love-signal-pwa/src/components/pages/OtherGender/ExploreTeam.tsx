@@ -42,8 +42,8 @@ const ExploreTeam = () => {
   const [isLeader] = useRecoilState<boolean>(imLeader);
 
   useEffect(() => {
-    getMyInfo();
     setIdx(0);
+    getMyInfo();
     getList();
   }, []);
 
@@ -69,9 +69,12 @@ const ExploreTeam = () => {
   const getList = async () => {
     const OGender: string = gender === "F" ? "M" : "F"; //반대로 보여줘야하니 삼항연산자 사용.
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
-      .then((res) => {
+      .then(async (res) => {
+        console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
+        console.log(res.data.body.teams);
+
         adduuidList(res.data.body.teams);
         const length = res.data.body.teams.length;
         setaddNum(length);

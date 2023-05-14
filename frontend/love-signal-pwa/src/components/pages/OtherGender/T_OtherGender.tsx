@@ -43,21 +43,27 @@ const T_OtherGender: React.FC<propsType> = ({
   return (
     <div className={style.otherContainer}>
       <A_OtherTeamDesc />
-      <div className={style.imgContainer} onScroll={handleScroll}>
-        {team.map((item, idx) => (
-          <ListBoxWithImgTitle
-            key={idx}
-            title={
-              <>
-                <A_Heartline type="red" count="3" />
-              </>
-            }
-            type="red"
-          >
-            <PictureBox viewDetail={viewDetail} idx={idx} team={item} />
-          </ListBoxWithImgTitle>
-        )) && <M_NoOtherTeam />}
-      </div>
+      {team.length !== 0 ? (
+        <div className={style.imgContainer} onScroll={handleScroll}>
+          {team.map((item, idx) => (
+            <ListBoxWithImgTitle
+              key={idx}
+              title={
+                <>
+                  <A_Heartline type="red" count="3" />
+                </>
+              }
+              type="red"
+            >
+              <PictureBox viewDetail={viewDetail} idx={idx} team={item} />
+            </ListBoxWithImgTitle>
+          ))}
+        </div>
+      ) : (
+        <>
+          <M_NoOtherTeam />
+        </>
+      )}
     </div>
   );
 };

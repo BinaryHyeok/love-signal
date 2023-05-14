@@ -8,6 +8,8 @@ import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import { useRecoilState } from "recoil";
 import { kid, myMemberUUID, myatk, teamBuildState } from "../../../atom/member";
 import { matchCancel } from "../../../api/team";
+import { motion } from "framer-motion";
+import { contentVariants } from "../../atoms/Common/contentVariants";
 
 const color = 0xffffff;
 const intensity = 1;
@@ -41,7 +43,12 @@ const MatchTeam = () => {
   };
 
   return (
-    <div className={style.heart}>
+    <motion.div
+      variants={contentVariants}
+      initial="hidden"
+      animate="visible"
+      className={style.heart}
+    >
       <Canvas camera={camera}>
         <pointLight color={color} intensity={intensity} />
         <directionalLight color={color} intensity={intensity} />
@@ -63,7 +70,7 @@ const MatchTeam = () => {
           매칭취소
         </Button_Type_A>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

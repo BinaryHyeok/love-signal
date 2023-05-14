@@ -192,7 +192,7 @@ export const matchApply = async (
 ) => {
   return await axios({
     method: "post",
-    url: `${process.env.REACT_APP_API}/matching/${memberUUID}`,
+    url: `${process.env.REACT_APP_API}/team/matching/${memberUUID}`,
     headers: {
       "X-Auth_Token": atk,
       "X-Auth_ID": kID,
@@ -208,7 +208,7 @@ export const matchCancel = async (
 ) => {
   return await axios({
     method: "delete",
-    url: `${process.env.REACT_APP_API}/matching/${memberUUID}`,
+    url: `${process.env.REACT_APP_API}/team/matching/${memberUUID}`,
     headers: {
       "X-Auth_Token": atk,
       "X-Auth_ID": kID,

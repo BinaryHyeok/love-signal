@@ -21,14 +21,12 @@ const ContentLayout = () => {
     setAnimation(false);
     clearTimeout(timeout);
     setVisible(true);
-    console.log(visible);
   };
 
   const closeAlert = () => {
     clearTimeout(timeout);
     setAnimation(true);
     timeout = setTimeout(() => setVisible(false), 300);
-    console.log(visible);
   };
 
   return (

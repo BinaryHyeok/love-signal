@@ -18,7 +18,6 @@ import { makeTeam } from "../../../api/team";
 
 import Ground from "../../UI/Three/Ground";
 import { validRoomId } from "../../../atom/member";
-import MatchTeam from "../../pages/FindTeam/MatchTeam";
 
 let timeout: NodeJS.Timer;
 

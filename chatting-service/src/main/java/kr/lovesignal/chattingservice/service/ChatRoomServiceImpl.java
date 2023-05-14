@@ -120,6 +120,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             List<Participant> participants = member.getParticipants();
             for(Participant participant : participants) {
                 ChatRoom chatRoom = participant.getChatRoom();
+                chatRoom.setExpired("T");
+                chatRoomJpaRepository.save(chatRoom);
 
                 if(chatRoom.getType().equals("TEAM") || chatRoom.getType().equals("MEETING")) {
                     participant.setExpired("T");

@@ -139,6 +139,8 @@ public class ChatServiceImpl implements ChatService{
 
         // 이성 객체 찾기.
         Member oppositeMember  = memberJpaRepository.findMemberByNickname(oppositeNickname);
+        System.out.println(oppositeNickname);
+        System.out.println(oppositeMember.getNickname());
 
         // 이성지목 메세지 정보 필드 생성 및 저장.
         List<String> nicknames = new ArrayList<>();
@@ -173,7 +175,7 @@ public class ChatServiceImpl implements ChatService{
     /**
      * 선택의 시간에 시스템 채팅방에 이성지목 메세지 저장.
      */
-    @Scheduled(cron = "0 8 16 * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
+    @Scheduled(cron = "0 35 16 * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
     public void saveSelectMessage() {
         //모든 채팅방. type 이 Meeting 인 것. expired 가 F 인 것. List 로 불러오기
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");

@@ -44,7 +44,7 @@ public class MemberController {
     }
 
     @GetMapping("/{memberUUID}")
-    public ResponseEntity<SuccessResponse> getMemberById(@PathVariable String memberUUID){
+    public ResponseEntity<SuccessResponse> getMemberByUUID(@PathVariable String memberUUID){
 
         MemberResponse memberResponse = memberService.getMemberByUUID(memberUUID);
         MemberResponse memberResponseResult = memberService.getProfileImageByMemberApi(memberResponse).block();

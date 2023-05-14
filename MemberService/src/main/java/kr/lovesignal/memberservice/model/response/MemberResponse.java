@@ -18,6 +18,8 @@ public class MemberResponse {
     private String teamUUID;
     private boolean teamLeader;
     private String profileImage;
+    private boolean receiveAlarm;
+    private boolean matchingStatus;
 
     public static MemberResponse toDto(MemberEntity member, int age){
         return MemberResponse.builder()
@@ -25,9 +27,11 @@ public class MemberResponse {
                 .nickname(member.getNickname())
                 .gender(member.getGender())
                 .age(age)
+                .receiveAlarm("T".equals(member.getReceiveAlarm()) ? true : false)
+                .matchingStatus("T".equals(member.getMatchingStatus()) ? true : false)
                 .description(member.getDescription())
                 .teamUUID(member.getTeam() != null ? member.getTeam().getUUID().toString() : null)
-                .teamLeader(member.getTeamLeader().equals("T") ? true : false)
+                .teamLeader("T".equals(member.getTeamLeader()) ? true : false)
                 .build();
     }
 }

@@ -43,7 +43,7 @@ const MyTeam = () => {
   //상대 팀 모달창 띄워줄 함수.
   const [oppoVisible, setOppoVisible] = useState<boolean>(false);
 
-  const [msg, setMsg] = useState<string>("");
+  const [, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
   const [atk] = useRecoilState<string>(myatk);

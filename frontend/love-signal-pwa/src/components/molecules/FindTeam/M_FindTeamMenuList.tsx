@@ -5,7 +5,7 @@ import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import Modal_portal from "../../UI/Modal/Modal_portal";
 import CommonModal from "../../UI/Modal/Common/CommonModal";
 import M_ModalFindTeamWithCode from "./M_ModalFindTeamWithCode";
-import { getMyTeam, joinTeam } from "../../../api/team";
+import { getMyTeam, joinTeam, matchApply } from "../../../api/team";
 import {
   kid,
   myMemberUUID,
@@ -18,7 +18,6 @@ import { makeTeam } from "../../../api/team";
 
 import Ground from "../../UI/Three/Ground";
 import { validRoomId } from "../../../atom/member";
-import MatchTeam from "../../pages/FindTeam/MatchTeam";
 
 let timeout: NodeJS.Timer;
 
@@ -35,8 +34,7 @@ const M_FindTeamMenuList = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const [isErr, setIsErr] = useRecoilState<boolean>(validRoomId);
-  const [myTeamBuildState, setMyTeamBuildState] =
-    useRecoilState<boolean>(teamBuildState);
+  const [, setMyTeamBuildState] = useRecoilState<boolean>(teamBuildState);
 
   //모달창 열어주는 함수입니다.
   const openRoomCodeModalHandler = () => {
@@ -95,75 +93,67 @@ const M_FindTeamMenuList = () => {
   //빠른 매칭
   const fastMatch = () => {
     setAnimation(false);
-    setMyTeamBuildState(true);
+    matchApply(myUUID, atk, kID)
+      .then(async (res) => {
+        //매칭 신청 시작했습니다~
+        setMyTeamBuildState(true);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     //매칭을 시작한다는 axios를 보내주어야 합니다.
     setIsPending(true);
   };
 
   return (
     <>
-      {myTeamBuildState ? (
-        <>
-          <MatchTeam />
-        </>
-      ) : (
-        <>
-          {isPending && (
-            <Modal_portal>
-              <Ground />
-            </Modal_portal>
-          )}
-          {!isPending && (
-            <div className={style.menuList}>
-              <Button_Type_A className={style.menu} onClick={fastMatch}>
-                <img
-                  src={`${process.env.REACT_APP_ASSETS_DIR}/LIGHTENING.png`}
-                />
-                빠른 매칭{" "}
-                <img
-                  src={`${process.env.REACT_APP_ASSETS_DIR}/LIGHTENING.png`}
-                />
-              </Button_Type_A>
-              <Button_Type_A className={style.menu} onClick={createRoom}>
-                <img
-                  src={`${process.env.REACT_APP_ASSETS_DIR}/SWEET_HOME.png`}
-                />
-                룸 생성하기
-                <img
-                  src={`${process.env.REACT_APP_ASSETS_DIR}/SWEET_HOME.png`}
-                />
-              </Button_Type_A>
-              <Button_Type_A
-                className={style.menu}
-                onClick={openRoomCodeModalHandler}
-              >
-                <img src={`${process.env.REACT_APP_ASSETS_DIR}/KEY.png`} />
-                룸 검색하기
-                <img src={`${process.env.REACT_APP_ASSETS_DIR}/KEY.png`} />
-              </Button_Type_A>
-            </div>
-          )}
-          {visible && (
-            <Modal_portal>
-              <CommonModal
-                timeout={timeout}
-                animation={animation}
-                setAnimation={setAnimation}
-                setVisible={setVisible}
-                visible={visible}
-                width="304px"
-                height="200px"
-              >
-                <M_ModalFindTeamWithCode
-                  isErr={isErr}
-                  enterTeam={enterTeam}
-                  setEnterTeamUUID={setEnterTeamUUID}
-                  errMsg={errMsg}
-                />
-              </CommonModal>
-            </Modal_portal>
-          )}
-        </>
+      {isPending && (
+        <Modal_portal>
+          <Ground />
+        </Modal_portal>
+      )}
+      {!isPending && (
+        <div className={style.menuList}>
+          <Button_Type_A className={style.menu} onClick={fastMatch}>
+            <img src={`${process.env.REACT_APP_ASSETS_DIR}/LIGHTENING.png`} />
+            빠른 매칭{" "}
+            <img src={`${process.env.REACT_APP_ASSETS_DIR}/LIGHTENING.png`} />
+          </Button_Type_A>
+          <Button_Type_A className={style.menu} onClick={createRoom}>
+            <img src={`${process.env.REACT_APP_ASSETS_DIR}/SWEET_HOME.png`} />
+            룸 생성하기
+            <img src={`${process.env.REACT_APP_ASSETS_DIR}/SWEET_HOME.png`} />
+          </Button_Type_A>
+          <Button_Type_A
+            className={style.menu}
+            onClick={openRoomCodeModalHandler}
+          >
+            <img src={`${process.env.REACT_APP_ASSETS_DIR}/KEY.png`} />
+            룸 검색하기
+            <img src={`${process.env.REACT_APP_ASSETS_DIR}/KEY.png`} />
+          </Button_Type_A>
+        </div>
+      )}
+      {visible && (
+        <Modal_portal>
+          <CommonModal
+            timeout={timeout}
+            animation={animation}
+            setAnimation={setAnimation}
+            setVisible={setVisible}
+            visible={visible}
+            width="304px"
+            height="200px"
+          >
+            <M_ModalFindTeamWithCode
+              isErr={isErr}
+              enterTeam={enterTeam}
+              setEnterTeamUUID={setEnterTeamUUID}
+              errMsg={errMsg}
+            />
+          </CommonModal>
+        </Modal_portal>
       )}
     </>
   );

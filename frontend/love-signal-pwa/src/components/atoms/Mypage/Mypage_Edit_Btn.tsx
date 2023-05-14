@@ -10,7 +10,7 @@ const Mypage_Edit_Btn: React.FC<propsType> = ({ imgClick }) => {
   return (
     <AnimatePresence>
       <motion.img
-        src="/assets/EditBtn.png"
+        src={`${process.env.REACT_APP_ASSETS_DIR}/EditBtn.png`}
         className={style.EditBtn}
         onClick={imgClick}
         whileTap={{

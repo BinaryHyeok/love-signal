@@ -3,7 +3,7 @@ import style from "./styles/A_LoadingTopHeart.module.scss";
 const A_LoadingTopHeart = () => {
   return (
     <div className={style.topheart}>
-      <img src="/assets/loadingheart.png" />
+      <img src={`${process.env.REACT_APP_ASSETS_DIR}/loadingheart.png`} />
     </div>
   );
 };

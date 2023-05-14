@@ -17,7 +17,11 @@ const ManualText6 = () => {
       <br />
       <br />
       <div className="text-red">두근 두근 팀 소개팅</div> <br />
-      <img src="/assets/logo.png" className={style.logo} /> <br />
+      <img
+        src={`${process.env.REACT_APP_ASSETS_DIR}/logo.png`}
+        className={style.logo}
+      />{" "}
+      <br />
       <span className={style.TextBold}>지금 </span>
       <span className="text-red">시작</span>
       <span className={style.TextBold}>합니다.</span>

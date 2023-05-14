@@ -10,7 +10,7 @@ const Mypage_Check_Btn: React.FC<propsType> = ({ imgClick }) => {
   return (
     <AnimatePresence>
       <motion.img
-        src="/assets/btn_check_violet.png"
+        src={`${process.env.REACT_APP_ASSETS_DIR}/btn_check_violet.png`}
         className={style.EditBtn}
         onClick={imgClick}
         whileTap={{

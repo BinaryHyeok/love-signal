@@ -72,7 +72,10 @@ const A_Clipboard: React.FC<PropsType> = ({
       }}
       className={style.container}
     >
-      <img src="/assets/Team_Key.png" onClick={handleCopyClick} />
+      <img
+        src={`${process.env.REACT_APP_ASSETS_DIR}/Team_Key.png`}
+        onClick={handleCopyClick}
+      />
     </motion.div>
   );
 };

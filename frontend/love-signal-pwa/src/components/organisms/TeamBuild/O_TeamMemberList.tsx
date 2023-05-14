@@ -6,7 +6,7 @@ import { getMyTeam } from "../../../api/team";
 import { kid, myTeamUUID, myatk } from "../../../atom/member";
 import { useRecoilState } from "recoil";
 
-const MEMBER_LOADING_IMG = "/assets/member_loading.png";
+const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
 type propsType = {
   setMemberLength: Dispatch<SetStateAction<number>>;

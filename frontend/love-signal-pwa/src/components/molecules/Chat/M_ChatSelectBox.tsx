@@ -32,7 +32,9 @@ const M_ChatSelectBox: React.FC<PropsType> = ({
           className={`${style.selectBtn} ${isSelected ? style.selected : ""}`}
           onClick={selectOne}
         >
-          <img src={`${"/assets"}/heart with arrow.png`} />
+          <img
+            src={`${process.env.REACT_APP_ASSETS_DIR}/heart with arrow.png`}
+          />
         </button>
       )}
     </li>

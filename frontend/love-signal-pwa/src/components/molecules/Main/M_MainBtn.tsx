@@ -15,7 +15,10 @@ const MainBtn = () => {
         to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/login`}
         className={style.link}
       >
-        <img src="/assets/kakao2.png" className={style.kakao} />
+        <img
+          src={`${process.env.REACT_APP_ASSETS_DIR}/kakao2.png`}
+          className={style.kakao}
+        />
       </Link>
     </motion.div>
   );

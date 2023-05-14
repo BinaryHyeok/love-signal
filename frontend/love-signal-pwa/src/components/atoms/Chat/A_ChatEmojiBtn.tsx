@@ -11,7 +11,7 @@ const A_ChatEmojiBtn: React.FC<PropsType> = ({ isDisabled, onToggle }) => {
     <button className={style.btnBox} onClick={onToggle}>
       <img
         className={isDisabled ? style.disabled : ""}
-        src="/assets/Emoji _love_.png"
+        src={`${process.env.REACT_APP_ASSETS_DIR}/Emoji _love_.png`}
       />
     </button>
   );

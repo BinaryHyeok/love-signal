@@ -29,7 +29,6 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
   useEffect(() => {
     inquireMember(memberUUID, atk, kID)
       .then((res) => {
-        console.log(res);
         setMyMemberUUID(res.data.body.memberUUID);
         setMyTeamUUID(res.data.body.teamUUID);
         setTeamLeader(res.data.body.teamLeader);

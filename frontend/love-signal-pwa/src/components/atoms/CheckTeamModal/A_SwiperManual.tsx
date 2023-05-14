@@ -28,7 +28,10 @@ const A_SwiperManual: React.FC<propsType> = ({ closeLeft }) => {
           <b>다른 팀원</b>들을 볼 수 있어요
         </div>
         <div className={style.swipeLeftIcon}>
-          <img src="/assets/swipe_left.png" alt="" />
+          <img
+            src={`${process.env.REACT_APP_ASSETS_DIR}/swipe_left.png`}
+            alt=""
+          />
         </div>
       </motion.div>
     </AnimatePresence>

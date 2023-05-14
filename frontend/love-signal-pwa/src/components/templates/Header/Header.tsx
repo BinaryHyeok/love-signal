@@ -1,6 +1,6 @@
 import style from "./styles/Header.module.scss";
-import A_Logo from "./A_Logo";
-import A_Alarm from "./A_Alarm";
+import A_Logo from "../../atoms/Header/A_Logo";
+import A_Alarm from "../../atoms/Header/A_Alarm";
 
 type PropsType = { onClick: () => void };
 

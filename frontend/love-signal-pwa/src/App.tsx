@@ -1,7 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Main from "./components/pages/Main/Main";
 import SignUp from "./components/pages/SignUp/SignUp";
-import Login from "./components/Login/Login";
 import Manual from "./components/Manual/Manual";
 import ExploreTeam from "./components/pages/OtherGender/ExploreTeam";
 import FindTeam from "./components/pages/FindTeam/FindTeam";
@@ -26,10 +25,6 @@ function App() {
         {
           path: "/Signup",
           element: <SignUp />,
-        },
-        {
-          path: "/Login",
-          element: <Login />,
         },
         {
           path: "/Manual",

@@ -40,9 +40,12 @@ const A_ApplyAcceptButton: React.FC<propsType> = ({
       onClick={acceptTeam}
     >
       {isLeader && haveOppositeTeam ? (
-        <img src="/assets/btn_check.png" onClick={acceptTeam} />
+        <img
+          src={`${process.env.REACT_APP_ASSETS_DIR}/btn_check.png`}
+          onClick={acceptTeam}
+        />
       ) : (
-        <img src="/assets/btn_blackcheck.png" />
+        <img src={`${process.env.REACT_APP_ASSETS_DIR}/btn_blackcheck.png`} />
       )}
     </Button_Type_A>
   );

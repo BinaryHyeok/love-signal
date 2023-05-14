@@ -16,7 +16,7 @@ const M_ChatText_Result: React.FC<PropsType> = ({ systemName, selectInfo }) => {
         <img src={selectInfo.profileUrls ? selectInfo.profileUrls[0] : ""} />
       </div>
       <div className={styles.arrow}>
-        <img src={"/assets/hand_with_love.png"} />
+        <img src={`${process.env.REACT_APP_ASSETS_DIR}/hand_with_love.png`} />
       </div>
       <div className={styles.imgBox}>
         <img src={selectInfo.profileUrls ? selectInfo.profileUrls[1] : ""} />

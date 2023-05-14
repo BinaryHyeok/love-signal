@@ -22,9 +22,6 @@ const M_Image_Type: React.FC<propsType> = ({
   setMyImage,
   setChangeImg,
 }) => {
-  // const publicUrl = process.env.PUBLIC_URL;
-  // const filesample = `${publicUrl}/assets/girl5.png`;
-  //여기서 fileImg 시작이 filesample이 아닌 myImg가 들어갈것.
   const [fileImg, setFileImg] = useState<string>(myImg);
   const [cropData, setCropData] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);

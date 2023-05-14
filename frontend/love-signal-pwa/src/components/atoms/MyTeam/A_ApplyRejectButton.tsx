@@ -38,9 +38,12 @@ const A_ApplyRejectButton: React.FC<propsType> = ({
       onClick={rejectTeam}
     >
       {isLeader ? (
-        <img src="/assets/btn_reject.png" onClick={rejectTeam} />
+        <img
+          src={`${process.env.REACT_APP_ASSETS_DIR}/btn_reject.png`}
+          onClick={rejectTeam}
+        />
       ) : (
-        <img src="/assets/btn_blackreject.png" />
+        <img src={`${process.env.REACT_APP_ASSETS_DIR}/btn_blackreject.png`} />
       )}
     </Button_Type_A>
   );

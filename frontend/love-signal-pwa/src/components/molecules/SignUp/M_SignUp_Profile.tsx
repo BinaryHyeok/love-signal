@@ -10,7 +10,9 @@ type PropsType = {
 };
 
 const M_SignUp_Profile: React.FC<PropsType> = ({ onClick, setMyImage }) => {
-  const [img] = useState<string>("/assets/simpleImg.png");
+  const [img] = useState<string>(
+    `${process.env.REACT_APP_ASSETS_DIR}/simpleImg.png`
+  );
   const [changeImg, setChangeImg] = useState<boolean>(false);
   return (
     <>

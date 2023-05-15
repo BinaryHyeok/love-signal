@@ -18,7 +18,6 @@ import kr.lovesignal.fcmservice.model.request.TokenRequest;
 import kr.lovesignal.fcmservice.repository.FCMRepository;
 
 
-@Transactional(isolation = Isolation.SERIALIZABLE)
 @Service
 public class FCMServiceImpl implements FCMService{
 
@@ -29,7 +28,6 @@ public class FCMServiceImpl implements FCMService{
 	}
 
 	@Override
-	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void registerToken(TokenRequest tokenRequest) {
 		System.out.println("*******************************");
 		System.out.println(tokenRequest.getMemberUUID());
@@ -39,19 +37,54 @@ public class FCMServiceImpl implements FCMService{
 		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
 		String token = tokenRequest.getToken();
 		String nickname = tokenRequest.getNickname();
-		Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
 
-		if(existingEntityOpt.isPresent()) {
-			existingEntityOpt.get().setToken(token);
-			fcmRepository.save(existingEntityOpt.get());
-//			FCMEntity fcmEntity = existingEntityOpt.get();
-//			fcmEntity.setToken(token);
-//			fcmRepository.save(fcmEntity);
-		}else {
-			FCMEntity fcmEntity = tokenRequest.toEntity(memberUUID);
-	        fcmRepository.save(fcmEntity);
+
+//		Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
+		FCMEntity findFcm = fcmRepository.findByMemberUUID(memberUUID);
+
+		if(findFcm == null){
+			createToken(memberUUID, token, nickname);
+			System.out.println("저장됨");
 		}
-		System.out.println("*******************************");
+		else{
+			updateToken(findFcm, token);
+			System.out.println("업데이트됨");
+		}
+
+//		if(existingEntityOpt.isPresent()) {
+//			existingEntityOpt.get().setToken(token);
+//			fcmRepository.save(existingEntityOpt.get());
+////			FCMEntity fcmEntity = existingEntityOpt.get();
+////			fcmEntity.setToken(token);
+////			fcmRepository.save(fcmEntity);
+//		}else {
+//			FCMEntity fcmEntity = tokenRequest.toEntity(memberUUID);
+//	        fcmRepository.save(fcmEntity);
+//		}
+//		System.out.println("*******************************");
+	}
+
+	@Transactional
+	public void createToken(UUID memberUUID, String token, String nickname){
+		FCMEntity saveFcm = FCMEntity.builder()
+				.memberUUID(memberUUID)
+				.token(token)
+				.nickname(nickname)
+				.build();
+
+		fcmRepository.save(saveFcm);
+
+	}
+
+	@Transactional
+	public void updateToken(FCMEntity fcmEntity, String token){
+		FCMEntity saveFcm = FCMEntity.builder()
+				.memberUUID(fcmEntity.getMemberUUID())
+				.token(token)
+				.nickname(fcmEntity.getNickname())
+				.build();
+
+		fcmRepository.save(saveFcm);
 	}
 
 	@Override

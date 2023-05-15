@@ -12,5 +12,9 @@ public interface FCMRepository extends JpaRepository<FCMEntity, Long> {
 
 	List<FCMEntity> findAllByMemberUUIDIn(List<UUID> memberUUIDs);
 
-	Optional<FCMEntity> findByMemberUUID(UUID memberUUID);
+//	Optional<FCMEntity> findByMemberUUID(UUID memberUUID);
+
+	FCMEntity findByMemberUUID(UUID memberUUID);
 }
+
+

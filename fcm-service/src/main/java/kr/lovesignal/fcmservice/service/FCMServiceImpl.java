@@ -29,32 +29,20 @@ public class FCMServiceImpl implements FCMService{
 	@Override
 	public void registerToken(TokenRequest tokenRequest) {
 
-		// UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
-		// FCMEntity existingEntity = fcmRepository.findByMemberUUID(memberUUID);
-
-		// System.out.println(tokenRequest.getMemberUUID());
-		// System.out.println(tokenRequest.getToken());
-
-		// // 현재 사용자의 엔티티를 찾았다면
-		// if(existingEntity != null){
-		// 	existingEntity.setToken(tokenRequest.getToken());
-		// }
-		// else{
-		// 	existingEntity = new FCMEntity();
-		// 	existingEntity.setMemberUUID(memberUUID);
-        // 	existingEntity.setToken(tokenRequest.getToken());
-		// }
-
-		// fcmRepository.save(existingEntity);
-
 		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
+		String token = tokenRequest.getToken();
 		Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
 
-		FCMEntity fcmEntity = existingEntityOpt.orElse(new FCMEntity());
-		fcmEntity.setMemberUUID(memberUUID);
-		fcmEntity.setToken(tokenRequest.getToken());
-
-		fcmRepository.save(fcmEntity);
+		if(existingEntityOpt.isPresent()) {
+			FCMEntity fcmEntity = existingEntityOpt.get();
+			fcmEntity.setToken(token);
+			fcmRepository.save(fcmEntity);
+		}else {
+			FCMEntity fcmEntity = new FCMEntity();
+	        fcmEntity.setMemberUUID(memberUUID);
+	        fcmEntity.setToken(token);
+	        fcmRepository.save(fcmEntity);
+		}
 	}
 
 	@Override

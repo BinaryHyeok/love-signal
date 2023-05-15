@@ -26,7 +26,6 @@ const NUMBER = 5; //한번에 받아올 리스트의 수
 let timeout: NodeJS.Timer;
 
 const ExploreTeam = () => {
-  console.log("asdf");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
@@ -70,6 +69,7 @@ const ExploreTeam = () => {
       console.log(kID);
       getMyTeam(TUUID, atk, kID)
         .then((res) => {
+          console.log(res);
           setHaveTeam(res.data.body.haveMeetingTeam);
           setMemberLength(res.data.body.members.length);
         })
@@ -85,7 +85,8 @@ const ExploreTeam = () => {
     console.log(atk);
     console.log(kID);
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
-      .then(async (res) => {
+      .then((res) => {
+        console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
         adduuidList(res.data.body.teams);

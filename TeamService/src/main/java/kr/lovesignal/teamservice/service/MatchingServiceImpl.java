@@ -82,6 +82,7 @@ public class MatchingServiceImpl implements MatchingService {
     @Transactional
     public void makeMatchingTeam(String gender){
 
+        List<String> strMemberUUIDs = new ArrayList<>();
         List<UUID> memberUUIDs = new ArrayList<>();
 
         // 3명이 될 때 까지 진행
@@ -93,6 +94,7 @@ public class MatchingServiceImpl implements MatchingService {
             if(isWaiting){
                 // 알람으로 보낼 멤버들
                 memberUUIDs.add(commonUtils.getValidUUID(memberUUID));
+                strMemberUUIDs.add(memberUUID);
                 // 매칭중인 유저정보 삭제
                 redisUtils.removeMatchingUser(memberUUID, gender);
             }
@@ -121,6 +123,7 @@ public class MatchingServiceImpl implements MatchingService {
 
         // 알람 보내고
         webClientService.sendMatchingTeamMemberUUIDs(memberUUIDs);
+        webClientService.makeChatRoomApi(strMemberUUIDs);
     }
 
     @Transactional

@@ -58,7 +58,7 @@ function App() {
           console.error(err);
         });
     }
-  }, [Notification.requestPermission]);
+  }, [Notification.permission]);
 
   const router = createBrowserRouter([
     {

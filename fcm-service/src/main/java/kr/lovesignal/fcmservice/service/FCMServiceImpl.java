@@ -28,7 +28,7 @@ public class FCMServiceImpl implements FCMService{
 	}
 
 	@Override
-	public void registerToken(TokenRequest tokenRequest) {
+	public synchronized void registerToken(TokenRequest tokenRequest) {
 		System.out.println("*******************************");
 		System.out.println(tokenRequest.getMemberUUID());
 		System.out.println(tokenRequest.getToken());

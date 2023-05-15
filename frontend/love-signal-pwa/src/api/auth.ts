@@ -36,7 +36,6 @@ export const inquireMember = async (
       "X-Auth_Token": atk,
       "X-Auth_ID": kID,
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
     },
   });
 };

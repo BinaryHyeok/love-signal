@@ -28,27 +28,29 @@ public class FCMServiceImpl implements FCMService{
 
 	@Override
 	public void registerToken(TokenRequest tokenRequest) {
-
-		// UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
-		// String token = tokenRequest.getToken();
-		// Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
-
-		// if(existingEntityOpt.isPresent()) {
-		// 	FCMEntity fcmEntity = existingEntityOpt.get();
-		// 	fcmEntity.setToken(token);
-		// 	fcmRepository.save(fcmEntity);
-		// }else {
-		// 	FCMEntity fcmEntity = new FCMEntity();
-	    //     fcmEntity.setMemberUUID(memberUUID);
-	    //     fcmEntity.setToken(token);
-	    //     fcmRepository.save(fcmEntity);
-		// }
 		System.out.println("*******************************");
 		System.out.println("*******************************");
 		System.out.println("*******************************");
 		System.out.println(tokenRequest.getMemberUUID());
 		System.out.println(tokenRequest.getToken());
 		System.out.println(tokenRequest.getNickname());
+
+		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
+		String token = tokenRequest.getToken();
+		String nickname = tokenRequest.getNickname();
+		Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
+
+		if(existingEntityOpt.isPresent()) {
+			FCMEntity fcmEntity = existingEntityOpt.get();
+			fcmEntity.setToken(token);
+			fcmRepository.save(fcmEntity);
+		}else {
+			FCMEntity fcmEntity = new FCMEntity();
+	        fcmEntity.setMemberUUID(memberUUID);
+	        fcmEntity.setToken(token);
+			fcmEntity.setNickname(nickname);
+	        fcmRepository.save(fcmEntity);
+		}
 		System.out.println("*******************************");
 		System.out.println("*******************************");
 		System.out.println("*******************************");

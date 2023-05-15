@@ -9,6 +9,7 @@ server:
 
     http2:
     enabled: true
+    context-path: /api
 
   error:
     include-exception: false
@@ -58,6 +59,10 @@ spring:
     url: jdbc:mysql://localhost:3306/love?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
     username: root
     password: ssafy
+
+  cloud:
+    config:
+      enabled: false
 
 swagger:
   enable: true      # Use Swagger

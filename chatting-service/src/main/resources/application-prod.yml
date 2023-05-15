@@ -3,6 +3,9 @@ server:
   ssl:
     enabled: false
 
+  servlet:
+    context-path: /api
+
 spring:
   application:
     name: chatting-service

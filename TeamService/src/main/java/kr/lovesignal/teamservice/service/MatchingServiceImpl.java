@@ -74,6 +74,8 @@ public class MatchingServiceImpl implements MatchingService {
             throw new CustomException(ErrorCode.NOT_IN_MEETING_WAITING);
         }
 
+        updateMatchingTeamMember(member, null, false, false);
+
         redisUtils.removeMatchingUser(strMemberUUID, member.getGender());
     }
 

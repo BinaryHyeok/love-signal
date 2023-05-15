@@ -32,14 +32,16 @@ public class RedisUtils {
     @Value("${redis-key.recent-teams}")
     private String recentTeam;
 
-    public void addBlockUser(String hashKey, int expireTime){
-        String expireKey = blockUser + ":" + hashKey;
-        redisTemplate.opsForHash().put(blockUser, hashKey,true);
-        redisTemplate.expire(expireKey, expireTime, TimeUnit.SECONDS);
+    public void addBlockUser(String key, int expireTime){
+        redisTemplate.opsForValue().set(blockUser + "_" + key, key, expireTime, TimeUnit.SECONDS);
     }
 
-    public boolean hasBlockUser(String hashKey){
-        return redisTemplate.opsForHash().hasKey(blockUser, hashKey);
+    public boolean hasBlockUser(String key){
+        return redisTemplate.hasKey(blockUser + "_" + key);
+    }
+
+    public void removeBlockUser(String key){
+        redisTemplate.delete(blockUser + "_" + key);
     }
 
     public void addMatchingUser(String value, String gender){

@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class ResChatRoom {
+public class ResChatRoom implements Serializable{
 
     private String UUID;
     private String type;

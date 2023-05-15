@@ -6,6 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "team")
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @DynamicInsert
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Team extends BaseEntity{
+public class Team extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

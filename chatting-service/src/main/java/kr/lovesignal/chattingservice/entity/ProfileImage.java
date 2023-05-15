@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name ="profile_image")
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @SuperBuilder
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProfileImage extends BaseEntity {
+public class ProfileImage extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

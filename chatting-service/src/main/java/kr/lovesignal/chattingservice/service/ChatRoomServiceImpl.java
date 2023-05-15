@@ -95,7 +95,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // Participant 객체에서 ChatRoom 을 뽑아오고 ResChatRoom 으로 변환.
             ChatRoom chatRoom = participant.getChatRoom();
-            if(!chatRoom.getType().equals("SECRET") || !chatRoom.getType().equals("SIGNAL")) {
+            if(!(chatRoom.getType().equals("SECRET") || chatRoom.getType().equals("SIGNAL"))) {
                 ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
 
                 // 룸에 참여하고 있는 모든 Participant 순회
@@ -123,8 +123,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
         if(resChatRooms != null) {
             for(ResChatRoom resChatRoom : resChatRooms) {
-                if(resChatRoom.getExpired().equals("F"))
-                    chatRoomList.add(resChatRoom);
+                if(resChatRoom.getExpired().equals("F")){
+                    String selectorUUID = resChatRoom.getSelector().getMemberUUID();
+                    String selectedUUID = resChatRoom.getSelected().getMemberUUID();
+                    if(selectorUUID.equals(userUUID) || selectedUUID.equals(userUUID)) {
+                        chatRoomList.add(resChatRoom);
+                    }
+                }
             }
         }
 
@@ -351,7 +356,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 27 22 * * *")
+    @Scheduled(cron = "0 51 22 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -397,7 +402,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * Redis 안의 ResChatRoom 객체 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 29 22 * * *")
+    @Scheduled(cron = "0 54 22 * * *")
     public void secretChatRoomExpiredT() {
         chatRoomRepository.expiredSecretChatRoom();
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");

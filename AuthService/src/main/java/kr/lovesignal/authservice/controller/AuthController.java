@@ -54,7 +54,7 @@ public class AuthController {
             redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, devRedirectUri);
         }
         else{
-            redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, prodLogoutRedirectUri);
+            redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, prodRedirectUri);
         }
         response.sendRedirect(redirect_uri);
 
@@ -66,7 +66,7 @@ public class AuthController {
         System.out.println("======================");
         System.out.println(request.getServerName());
         if("localhost".equals(request.getServerName())){
-            redirect_uri = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s", clientId, devRedirectUri);
+            redirect_uri = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s", clientId, devLogoutRedirectUri);
         }
         else{
             redirect_uri = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s", clientId, prodLogoutRedirectUri);

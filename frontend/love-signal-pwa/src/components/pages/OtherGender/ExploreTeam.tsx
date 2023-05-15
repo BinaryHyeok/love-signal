@@ -66,6 +66,8 @@ const ExploreTeam = () => {
   const getMyInfo = async () => {
     if (isLeader) {
       //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
+      console.log(atk);
+      console.log(kID);
       getMyTeam(TUUID, atk, kID)
         .then((res) => {
           setHaveTeam(res.data.body.haveMeetingTeam);
@@ -80,6 +82,8 @@ const ExploreTeam = () => {
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
     const OGender: string = gender === "F" ? "M" : "F"; //반대로 보여줘야하니 삼항연산자 사용.
+    console.log(atk);
+    console.log(kID);
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
       .then(async (res) => {
         setInfinityScroll(false);

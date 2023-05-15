@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "participant")
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @SuperBuilder
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Participant extends BaseEntity{
+public class Participant extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

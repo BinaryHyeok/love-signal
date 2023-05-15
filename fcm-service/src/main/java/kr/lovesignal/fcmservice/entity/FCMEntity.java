@@ -31,7 +31,7 @@ public class FCMEntity {
 	@Column(name = "fcm_id")
 	private Long fcmId;
 
-	@Column(name = "member_uuid", nullable = false, unique = true)
+	@Column(name = "member_uuid")
 	private UUID memberUUID;
 
 	@Column(name = "token")

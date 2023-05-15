@@ -6,10 +6,21 @@ import M_SignUp_Birth from "../../molecules/SignUp/M_SignUp_Birth";
 import M_SignUp_Nickname from "../../molecules/SignUp/M_SignUp_Nickname";
 import A_MainLogo from "../../atoms/SignUp/A_MainLogo";
 import M_SignUp_Introduce from "../../molecules/SignUp/M_SignUp_Introduce";
-import { duplicateCheck, login, signUp } from "../../../api/auth";
+import {
+  duplicateCheck,
+  inquireMember,
+  login,
+  signUp,
+} from "../../../api/auth";
 import M_SignUp_Gender from "../../molecules/SignUp/M_SignUp_Gender";
 import { useRecoilState } from "recoil";
-import { kid, myMemberUUID, myatk, myatkET } from "../../../atom/member";
+import {
+  kid,
+  myGender,
+  myMemberUUID,
+  myatk,
+  myatkET,
+} from "../../../atom/member";
 import { changeMyImg } from "../../../api/file";
 import cookie from "react-cookies";
 import { motion } from "framer-motion";
@@ -38,10 +49,11 @@ const SignUp = () => {
   const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
   const [msg, setMsg] = useState<string>("");
   const [checkMsg, setCheckMsg] = useState<string>("");
-  const [myCode, setMyCode] = useState("");
+
+  const [, setMyGender] = useRecoilState<string>(myGender);
+  const [, setMUUID] = useRecoilState<string>(myMemberUUID);
 
   useEffect(() => {
-    setMyCode("");
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("code");
 
@@ -53,7 +65,7 @@ const SignUp = () => {
 
     if (queryParam) {
       login(queryParam, env)
-        .then((res) => {
+        .then(async (res) => {
           console.log(res);
           saveMyInfo(
             res.data.body.accessToken,
@@ -64,10 +76,16 @@ const SignUp = () => {
             res.data.body.memberUUID
           );
           if (res.data.body.memberUUID !== null) {
+            await inquireMember(
+              res.data.body.memberUUID,
+              res.data.body.accessToken,
+              res.data.body.kakaoId
+            ).then((res) => {
+              saveGenderUUID(res.data.body.gender, res.data.body.memberUUID);
+            });
             console.log(res.data.body.memberUUID);
-            // setMemberUUID(res.data.body.memberUUID);
-            navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
-            // window.location.reload();
+            navigate("/OtherGender", { replace: true });
+            window.location.reload();
           }
         })
         .catch((err) => {
@@ -77,6 +95,11 @@ const SignUp = () => {
       navigate("/", { replace: true });
     }
   }, []);
+
+  const saveGenderUUID = (gender: string, memberUUID: string) => {
+    setMyGender(gender);
+    setMUUID(memberUUID);
+  };
 
   const saveMyInfo = (
     atk: string,

@@ -35,7 +35,7 @@ const M_SignUp_Introduce: React.FC<PropsType> = ({
     <div className={style.userInfo}>
       <A_SignUp_Desc5 />
       <div className={style.nickName}>
-        <div>
+        <div className={style.introduce}>
           <Text_Type_A
             className="signUpIntroduce"
             type="textarea"

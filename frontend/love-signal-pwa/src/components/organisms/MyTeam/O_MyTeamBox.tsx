@@ -57,61 +57,56 @@ const O_MyTeamBox: React.FC<propsType> = ({
   setMatchMemberList,
   setMatchTeamUUID,
 }) => {
-  const [TeamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [TeamUUID] = useRecoilState<string>(myTeamUUID);
   const [clickBtn, setClickBtn] = useState<boolean>(false);
   const [start, setStart] = useState<boolean>(true);
   const [applyTeamExist, setApplyTeamExist] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [myUUID] = useRecoilState<string>(myMemberUUID);
-  const [, setIsLeader] = useRecoilState<boolean>(imLeader);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(haveOppositeTeam);
-    if (start) {
-      if (haveOppositeTeam) {
-        receivemeetingList(TeamUUID, atk, kID)
-          .then((res) => {
-            console.log(res);
-            setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
-            addApplyList(res.data.body.teams);
-            setStart(false);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
-        receiveMatchMember(TeamUUID, atk, kID)
-          .then((res) => {
-            console.log(res);
-            const newList = [...res.data.body.members];
+    if (haveOppositeTeam) {
+      receivemeetingList(TeamUUID, atk, kID)
+        .then((res) => {
+          console.log(res);
+          setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
+          addApplyList(res.data.body.teams);
+          setStart(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
+      receiveMatchMember(TeamUUID, atk, kID)
+        .then((res) => {
+          console.log(res);
+          const newList = [...res.data.body.members];
+          if (res.data.body.members.length !== 3) {
             if (res.data.body.members.length !== 3) {
-              if (res.data.body.members.length !== 3) {
-                //나의 팀 페이지로 왔는데 길이가 3이 아니라는것은 현재 팀 매칭이 되어있으면서 중간에 팀원이 나간것입니다.
-                while (newList.length < 3) {
-                  newList.push({
-                    memberUUID: "",
-                    nickname: "나간 사람",
-                    age: 0,
-                    description: "팀을 나간 인원입니다.",
-                    profileImage: MEMBER_LOADING_IMG,
-                  });
-                }
+              //나의 팀 페이지로 왔는데 길이가 3이 아니라는것은 현재 팀 매칭이 되어있으면서 중간에 팀원이 나간것입니다.
+              while (newList.length < 3) {
+                newList.push({
+                  memberUUID: "",
+                  nickname: "나간 사람",
+                  age: 0,
+                  description: "팀을 나간 인원입니다.",
+                  profileImage: MEMBER_LOADING_IMG,
+                });
               }
             }
-            setMatchMemberList([...newList]);
-            setMatchTeamUUID(res.data.body.teamUUID);
-            setStart(false);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-      setIsLoading(true);
+          }
+          setMatchMemberList([...newList]);
+          setMatchTeamUUID(res.data.body.teamUUID);
+          setStart(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+    setIsLoading(true);
   }, [clickBtn, haveOppositeTeam]);
 
   useEffect(() => {
@@ -133,7 +128,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
 
   //팀 나가기 했을 때 모달창 여는 함수
   const exitTeam = () => {
-    console.log("팀 나가기 모달");
     setAnimation(false);
     clearTimeout(timeout);
     setExitVisible(true);
@@ -188,6 +182,9 @@ const O_MyTeamBox: React.FC<propsType> = ({
             <>
               {applyTeamExist ? (
                 <O_ApplyTeamList
+                  animation={animation}
+                  setAnimation={setAnimation}
+                  timeout={timeout}
                   applyTeamList={applyList}
                   haveOppositeTeam={haveOppositeTeam}
                   setOppoVisible={setOppoVisible}

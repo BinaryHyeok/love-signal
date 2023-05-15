@@ -42,7 +42,6 @@ const T_OtherGender: React.FC<propsType> = ({
 
   return (
     <div className={style.otherContainer}>
-      <A_OtherTeamDesc />
       {team.length !== 0 ? (
         <div className={style.imgContainer} onScroll={handleScroll}>
           {team.map((item, idx) => (

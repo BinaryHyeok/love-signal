@@ -57,9 +57,7 @@ const SignUp = () => {
           );
           if (res.data.body.memberUUID !== null) {
             console.log("여기 타나");
-            setMemberUUID(res.data.body.memberUUID);
-            navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
-            window.location.reload();
+            navigate("/OtherGender"); //여기서 로딩스피너를 동작시켜야하나?..
           }
         })
         .catch((err) => {

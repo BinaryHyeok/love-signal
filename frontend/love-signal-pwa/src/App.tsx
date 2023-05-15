@@ -34,29 +34,31 @@ function App() {
   const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
-    requestPushPermission(UUID)
-      .then((res) => {
-        console.log(res);
-        if (!(res === "granted")) {
-          console.log("푸시알림을 허용해야 알림을 받을 수 있습니다.");
-        } else {
-          getFCMToken()
-            .then((token) => {
-              setToken(token);
-              sendFCMToken(UUID, myNick, atk, kID, token);
-            })
-            .catch((err) => {
-              console.error("토큰을 발급하는 중 오류 발생 : ", err);
-              console.log(
-                "지금 로컬에서 하면 토큰 발급 안된대요~ 서버에서 하셔야합니다.."
-              );
-            });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [UUID]);
+    if (UUID && myNick && atk && kID) {
+      requestPushPermission(UUID)
+        .then((res) => {
+          console.log(res);
+          if (!(res === "granted")) {
+            console.log("푸시알림을 허용해야 알림을 받을 수 있습니다.");
+          } else {
+            getFCMToken()
+              .then((token) => {
+                setToken(token);
+                sendFCMToken(UUID, myNick, atk, kID, token);
+              })
+              .catch((err) => {
+                console.error("토큰을 발급하는 중 오류 발생 : ", err);
+                console.log(
+                  "지금 로컬에서 하면 토큰 발급 안된대요~ 서버에서 하셔야합니다.."
+                );
+              });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [Notification.requestPermission]);
 
   const router = createBrowserRouter([
     {

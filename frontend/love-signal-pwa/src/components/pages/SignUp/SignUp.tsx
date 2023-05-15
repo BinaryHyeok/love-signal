@@ -56,8 +56,8 @@ const SignUp = () => {
             res.data.body.kakaoId
           );
           if (res.data.body.memberUUID !== null) {
-            navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
-            setMemberUUID(res.data.body.memberUUID);
+            console.log("여기 타나");
+            navigate("/OtherGender"); //여기서 로딩스피너를 동작시켜야하나?..
           }
         })
         .catch((err) => {

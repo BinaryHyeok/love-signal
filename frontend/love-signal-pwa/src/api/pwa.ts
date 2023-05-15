@@ -1,14 +1,16 @@
 import axios from "axios";
-const { getToken, Messaging } = require("firebase/messaging");
+import { getToken, Messaging } from "@firebase/messaging";
 
-export const fetchPWAToken = async (messaging: typeof Messaging) => {
-  return await getToken(messaging, {
-    vapidKey: process.env.REACT_APP_VAPID_KEY,
-  });
+export const fetchPWAToken = async (messaging: Messaging) => {
+  return await getToken(messaging);
 };
 
 export const requestPushPermission = async () => {
-  return await Notification.requestPermission();
+  if (!("Notification" in window)) {
+    console.log("이 브라우저는 알림을 지원하지 않습니다.");
+  } else {
+    return await Notification.requestPermission();
+  }
 };
 
 export const sendFCMToken = async (

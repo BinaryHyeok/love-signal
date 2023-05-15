@@ -54,11 +54,11 @@ const SignUp = () => {
             res.data.body.refreshToken,
             res.data.body.accessTokenExpireTime,
             res.data.body.refreshTokenExpireTime,
-            res.data.body.kakaoId,
-            res.data.body.memberUUID
+            res.data.body.kakaoId
           );
           if (res.data.body.memberUUID !== null) {
-            navigate("/OtherGender"); //여기서 로딩스피너를 동작시켜야하나?..
+            setMemberUUID(res.data.body.memberUUID);
+            navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
             window.location.reload();
           }
         })
@@ -66,7 +66,7 @@ const SignUp = () => {
           console.log(err);
         });
     } else {
-      navigate("/OtherGender");
+      navigate("/", { replace: true });
     }
   }, []);
 
@@ -75,8 +75,7 @@ const SignUp = () => {
     rtk: string,
     aTET: number,
     rTET: number,
-    kakaoId: string,
-    memberUUID: string
+    kakaoId: string
   ) => {
     setAtk(atk);
     setCookie(rtk, rTET);
@@ -84,7 +83,6 @@ const SignUp = () => {
     nowDate.setSeconds(nowDate.getSeconds() + aTET);
     setAtkET(nowDate);
     setKakaoId(kakaoId);
-    setMemberUUID(memberUUID);
   };
 
   //쿠키를 저장해줄 함수입니다. (회원가입이 완료 되고 나면 rtk를 쿠키에 저장할것. 만료기간 설정.)

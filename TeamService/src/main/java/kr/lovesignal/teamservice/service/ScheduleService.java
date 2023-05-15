@@ -23,7 +23,7 @@ public class ScheduleService {
     private final WebClientService webClientService;
 
 
-    @Scheduled(cron = "00 02 23 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "00 07 23 * * *", zone = "Asia/Seoul")
     @Transactional(readOnly = true)
     public void sendMeetingMemberUUIDs(){
         List<UUID> memberUUIDs = new ArrayList<>();

@@ -7,6 +7,7 @@ import kr.lovesignal.teamservice.entity.TeamEntity;
 import kr.lovesignal.teamservice.exception.CustomException;
 import kr.lovesignal.teamservice.exception.ErrorCode;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
+import kr.lovesignal.teamservice.model.response.Member;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.model.response.Team;
 import kr.lovesignal.teamservice.model.response.TeamResponse;
@@ -180,6 +181,12 @@ public class TeamServiceImpl implements TeamService{
         }
         Collections.shuffle(notUsedTeams);
 
+        System.out.println("디버깅1 시작");
+        for(TeamEntity team : notUsedTeams){
+            System.out.println(team.getTeamId());
+        }
+        System.out.println("디버깅1 끝");
+
         boolean isRemain = true;
         int sendSize = size;
         if(notUsedTeams.size() <= size){
@@ -199,6 +206,18 @@ public class TeamServiceImpl implements TeamService{
                 .hasRemainingTeam(isRemain)
                 .teams(teams)
                 .build();
+
+        System.out.println("디버깅2 시작");
+        List<Team> teamList = teamResponse.getTeams();
+        for(Team team : teamList){
+            System.out.println("디버깅3 팀 시작");
+            System.out.println(team.getTeamUUID());
+            for(Member member : team.getMembers()){
+                System.out.println(member.getNickname());
+            }
+            System.out.println("디버깅3 팀 끝");
+        }
+        System.out.println("디버깅2 끝");
 
         return teamResponse;
     }

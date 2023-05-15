@@ -59,28 +59,28 @@ spring:
           filters:
             - name: Authentication
 
-#      default-filters:
-#        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials Content-Type
-#
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials Content-Type
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
 #            allowedOrigins:
 #              - http://localhost:3000
 #              - https://www.love-signal.kr
 #            allow-credentials: true
-#            allowedHeaders:
+            allowedHeaders:
 #              - Access-Control-Allow-Credentials
 #              - Access-Control-Allow-Origin
-#              - X-Auth_Token
-#              - X-Auth_ID
-#              - Content-Type
-#            allowedMethods:
-#              - PUT
-#              - GET
-#              - POST
-#              - DELETE
-#              - OPTIONS
+              - X-Auth_Token
+              - X-Auth_ID
+              - Content-Type
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
 
   security:
     oauth2:

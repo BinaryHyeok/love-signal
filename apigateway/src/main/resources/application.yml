@@ -65,7 +65,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-#            allowedOrigins:
+            allowedOrigins:
 #              - http://localhost:3000
               - https://www.love-signal.kr
 #            allow-credentials: true

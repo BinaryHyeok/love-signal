@@ -16,6 +16,7 @@ const M_ChatSelectBox: React.FC<PropsType> = ({
   isSelected,
   isSelect,
 }) => {
+  console.log(nickname, isSelected);
   const selectOne = () => {
     if (!isSelected && selectHandler) {
       selectHandler(nickname);

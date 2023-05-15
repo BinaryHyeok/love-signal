@@ -24,7 +24,7 @@ const AlertBtn: React.FC<PropsType> = ({ UUID, myNick, atk, kID }) => {
     // } else {
     //   setPushAlarmIsOn(false);
     // }
-  }, [Notification.permission]);
+  }, []);
 
   const toggleHandler = () => {
     console.log(pushAlarmIsOn);

@@ -22,7 +22,7 @@ const M_ChatText_Select: React.FC<PropsType> = ({
     selectOneMember(chat.roomUUID || "", chat.uuid || "", memberUUID, nickname);
     createOneToOneRoom(memberUUID, nickname);
   };
-
+  console.log(selectInfo);
   let content = (
     <ul className={style.selectList}>
       {selectInfo.nicknames?.map((item, idx) => (
@@ -31,7 +31,7 @@ const M_ChatText_Select: React.FC<PropsType> = ({
           nickname={item}
           profile={selectInfo.profileUrls ? selectInfo.profileUrls[idx] : ""}
           selectHandler={selectOneHandler}
-          isSelected={selectInfo.isSelected === "T"}
+          isSelected={selectInfo.selected === "T"}
           isSelect={true}
         />
       ))}

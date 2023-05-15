@@ -8,11 +8,12 @@ import { sendFCMToken } from "../../../api/pwa";
 
 type PropsType = {
   UUID: string;
+  myNick: string;
   atk: string;
   kID: string;
 };
 
-const AlertBtn: React.FC<PropsType> = ({ UUID, atk, kID }) => {
+const AlertBtn: React.FC<PropsType> = ({ UUID, myNick, atk, kID }) => {
   const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
   const [myToken, _] = useRecoilState<string>(fcmToken);
 
@@ -29,10 +30,10 @@ const AlertBtn: React.FC<PropsType> = ({ UUID, atk, kID }) => {
     console.log(pushAlarmIsOn);
     if (pushAlarmIsOn) {
       console.log("null 보냄");
-      sendFCMToken(UUID, atk, kID, null);
+      sendFCMToken(UUID, myNick, atk, kID, null);
     } else {
       console.log("토큰 보냄 : ", myToken);
-      sendFCMToken(UUID, atk, kID, myToken);
+      sendFCMToken(UUID, myNick, atk, kID, myToken);
     }
     setPushAlarmIsOn((prev) => !prev);
   };

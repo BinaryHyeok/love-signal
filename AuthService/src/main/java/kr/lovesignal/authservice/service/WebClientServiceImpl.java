@@ -18,6 +18,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -35,30 +36,35 @@ public class WebClientServiceImpl implements WebClientService{
     @Value("${spring.security.oauth2.client.kakao.client-id}")
     private String clientId;
 
-    @Value("${spring.security.oauth2.client.kakao.redirect-uri}")
-    private String redirectUri;
+    @Value("${spring.security.oauth2.client.kakao.prod-redirect-uri}")
+    private String prodRedirectUri;
+
+    @Value("${spring.security.oauth2.client.kakao.dev-redirect-uri}")
+    private String devRedirectUri;
 
     @Value("${spring.security.oauth2.client.kakao.account-uri}")
     private String accountUri;
-
-    @Value("${spring.security.oauth2.client.kakao.logout-uri}")
-    private String logoutUri;
-
-    @Value("${spring.security.oauth2.client.kakao.logout-redirect-uri}")
-    private String logoutRedirectUri;
 
     @Value("${server.port}")
     private int port;
 
     @Override
-    public Mono<KauthTokenResponse> getKakaoTokenApi(String authorizationCode) {
-
+    public Mono<KauthTokenResponse> getKakaoTokenApi(HttpServletRequest request, String authorizationCode) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("grant_type", "authorization_code");
-        data.add("redirect_uri", redirectUri);
+        System.out.println(request.getServerName());
+        System.out.println("================");
+        if("localhost".equals(request.getServerName())){
+            data.add("redirect_uri", devRedirectUri);
+
+        }
+        else{
+            data.add("redirect_uri", prodRedirectUri);
+
+        }
         data.add("client_id", clientId);
         data.add("code", authorizationCode);
 

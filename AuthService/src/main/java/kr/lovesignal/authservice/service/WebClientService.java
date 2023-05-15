@@ -5,9 +5,11 @@ import kr.lovesignal.authservice.model.response.KauthAccountResponse;
 import kr.lovesignal.authservice.model.response.KauthTokenResponse;
 import reactor.core.publisher.Mono;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface WebClientService {
 
-    Mono<KauthTokenResponse> getKakaoTokenApi(String authorizationCode);
+    Mono<KauthTokenResponse> getKakaoTokenApi(HttpServletRequest request, String authorizationCode);
 
     Mono<KauthAccountResponse> getKakaoAccountApi(String accessToken);
 

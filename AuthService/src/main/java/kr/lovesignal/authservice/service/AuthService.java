@@ -6,11 +6,13 @@ import kr.lovesignal.authservice.model.response.KauthTokenResponse;
 import kr.lovesignal.authservice.model.response.SignInResponse;
 import kr.lovesignal.authservice.model.response.SuccessResponse;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface AuthService {
 
     String registerMember(SignUpRequest signUpRequest, String accessToken);
 
-    SuccessResponse<SignInResponse> signIn(String authorizationCode);
+    SuccessResponse<SignInResponse> signIn(HttpServletRequest request, String authorizationCode);
 
     SuccessResponse<String> checkNicknameDuplicate(String nickname);
 

@@ -76,9 +76,9 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     @ApiOperation(value = "로그인")
-    public ResponseEntity<SuccessResponse> signIn(@RequestParam String authorizationCode){
+    public ResponseEntity<SuccessResponse> signIn(@RequestParam String authorizationCode, HttpServletRequest request){
 
-        SuccessResponse successResponse = authService.signIn(authorizationCode);
+        SuccessResponse successResponse = authService.signIn(request, authorizationCode);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

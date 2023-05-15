@@ -8,6 +8,8 @@ import kr.lovesignal.authservice.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
@@ -42,10 +44,10 @@ public class AuthServiceImpl implements AuthService{
      * @return 토큰정보들과 유저의 UUID, kakaoID
      */
     @Override
-    public SuccessResponse<SignInResponse> signIn(String authorizationCode) {
+    public SuccessResponse<SignInResponse> signIn(HttpServletRequest request, String authorizationCode) {
 
         KauthTokenResponse kauthTokenResponse =
-                webClientService.getKakaoTokenApi(authorizationCode).block();
+                webClientService.getKakaoTokenApi(request, authorizationCode).block();
 
         KauthAccountResponse kauthAccountResponse =
                 webClientService.getKakaoAccountApi(kauthTokenResponse.getAccess_token()).block();

@@ -10,7 +10,7 @@ public interface MemberService {
 
     SuccessResponse<String> updateMember(UpdateMemberRequest updateMemberRequest);
 
-    void updateReceiveAlarm(String memberUUID, boolean status);
+    void updateReceiveAlarm(String memberUUID, String status);
 
     SuccessResponse<String> deleteMember(String memberUUID);
 

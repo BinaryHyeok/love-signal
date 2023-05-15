@@ -34,12 +34,12 @@ public class MemberController {
     }
 
     @PutMapping("/{memberUUID}/receive-alarm")
-    public ResponseEntity<String> updateReceiveAlarm(@PathVariable String memberUUID, @RequestParam boolean status){
+    public ResponseEntity<String> updateReceiveAlarm(@PathVariable String memberUUID, @RequestParam String status){
 
         memberService.updateReceiveAlarm(memberUUID, status);
 
         String body = "푸시알람 허용되었습니다.";
-        if(!status){
+        if("false".equals(status)){
             body = "푸시알람 거부되었습니다.";
         }
 

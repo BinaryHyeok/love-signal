@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void updateReceiveAlarm(String strMemberUUID, boolean status) {
+    public void updateReceiveAlarm(String strMemberUUID, String status) {
         UUID UUID = commonUtils.getValidUUID(strMemberUUID);
 
         MemberEntity member = memberRepository.findByUUIDAndExpired(UUID, "F")
@@ -65,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
                 .memberId(member.getMemberId())
                 .nickname(member.getNickname())
                 .matchingStatus(member.getMatchingStatus())
-                .receiveAlarm(status ? "T" : "F")
+                .receiveAlarm("true".equals(status) ? "T" : "F")
                 .email(member.getEmail())
                 .kakaoId(member.getKakaoId())
                 .gender(member.getGender())

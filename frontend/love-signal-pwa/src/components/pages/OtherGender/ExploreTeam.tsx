@@ -7,7 +7,13 @@ import { team } from "../../../types/member";
 import { getMyTeam, getOtherGenderTeam } from "../../../api/team";
 import MsgModal from "../../UI/Modal/Msg/MsgModal";
 import T_OtherGender from "./T_OtherGender";
-import { imLeader, myGender, myTeamUUID, myatk } from "../../../atom/member";
+import {
+  imLeader,
+  myGender,
+  myTeamUUID,
+  myatk,
+  urlCode,
+} from "../../../atom/member";
 import { kid } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
 import { motion } from "framer-motion";
@@ -20,6 +26,7 @@ const NUMBER = 5; //한번에 받아올 리스트의 수
 let timeout: NodeJS.Timer;
 
 const ExploreTeam = () => {
+  console.log("asdf");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
@@ -43,6 +50,7 @@ const ExploreTeam = () => {
   const [kID] = useRecoilState<string>(kid);
   const [gender] = useRecoilState<string>(myGender);
   const [isLeader] = useRecoilState<boolean>(imLeader);
+  const [myCode] = useRecoilState<string>(urlCode);
 
   useEffect(() => {
     console.log("난 navigate를 타고왔을까?");

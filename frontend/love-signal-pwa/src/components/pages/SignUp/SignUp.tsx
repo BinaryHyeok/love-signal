@@ -38,11 +38,12 @@ const SignUp = () => {
   const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
   const [msg, setMsg] = useState<string>("");
   const [checkMsg, setCheckMsg] = useState<string>("");
+  const [myCode, setMyCode] = useState("");
 
   useEffect(() => {
+    setMyCode("");
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("code");
-    console.log(queryParam);
 
     if (queryParam) {
       login(queryParam)
@@ -56,13 +57,15 @@ const SignUp = () => {
             res.data.body.kakaoId
           );
           if (res.data.body.memberUUID !== null) {
-            console.log("여기 타나");
             navigate("/OtherGender"); //여기서 로딩스피너를 동작시켜야하나?..
+            window.location.reload();
           }
         })
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      navigate("/OtherGender");
     }
   }, []);
 

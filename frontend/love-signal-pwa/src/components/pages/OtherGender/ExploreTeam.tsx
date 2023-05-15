@@ -14,6 +14,8 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
+import A_OtherTeamDesc_Fix from "../../atoms/OtherGender/A_OtherTeamDesc_Fix";
+import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -146,6 +148,7 @@ const ExploreTeam = () => {
                 </CheckTeam>
               </Modal_portal>
               <div>
+                <A_OtherTeamDesc_Fix />
                 <T_OtherGender
                   getList={getList}
                   infinityScroll={infinityScroll}
@@ -158,12 +161,8 @@ const ExploreTeam = () => {
             </>
           ) : (
             <>
-              <motion.div
-                variants={contentVariants}
-                initial="hidden"
-                animate="visible"
-                // exit="exit"
-              >
+              <div>
+                <A_OtherTeamDesc />
                 <T_OtherGender
                   getList={getList}
                   infinityScroll={infinityScroll}
@@ -172,7 +171,7 @@ const ExploreTeam = () => {
                   viewDetail={viewDetail}
                   team={team}
                 />
-              </motion.div>
+              </div>
             </>
           )}
         </GetMyInfo>

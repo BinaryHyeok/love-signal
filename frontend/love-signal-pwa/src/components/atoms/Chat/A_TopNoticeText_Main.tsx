@@ -7,16 +7,14 @@ type PropsType = {
   resTime?: string;
 };
 
-const A_TopNoticeText: React.FC<PropsType> = ({ icon, text, resTime }) => {
+const A_TopNoticeText_Main: React.FC<PropsType> = ({ icon, text, resTime }) => {
   return (
-    <div className={style.container}>
+    <>
       <img src={icon} />
-      <div className={style.textBox}>
-        <span className={style.text}>{text}</span>
-      </div>
+      <span className={style.text}>{text}</span>
       <span className={style.resTime}>{resTime}</span>
-    </div>
+    </>
   );
 };
 
-export default A_TopNoticeText;
+export default A_TopNoticeText_Main;

@@ -275,6 +275,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         ResMember selectorDto = ResMember.toDto(selector);
         ResMember selectedDto = ResMember.toDto(selected);
+        String roomName = "";
 
         // 내가 지목한 상대가 나를 지목해서 이미 채팅방이 만들었는지 조회.
         ResSelectChatRoom checkSelectChatRoom =
@@ -286,10 +287,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
         // null 이면 나만 지목한 것임. 신규 채팅방 생성.
         else {
+            String roomUUID = UUID.randomUUID().toString();
+
             ResSelectChatRoom resSelectChatRoom = ResSelectChatRoom.builder()
-                    .UUID(UUID.randomUUID().toString())
+                    .UUID(roomUUID)
                     .type(type)
-                    .roomName("")
+                    .roomName("익명채팅방")
                     .createdDate(LocalDateTime.now().toString())
                     .updatedDate(LocalDateTime.now().toString())
                     .expired("F")
@@ -297,8 +300,23 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     .selected(selectedDto)
                     .build();
 
+            ChatRoom chatRoom = resSelectChatRoom.toEntity();
+
             // redis 에 저장.
             chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);
+
+            Participant selectorParticipant = Participant.builder()
+                            .member(selector)
+                            .chatRoom(chatRoom)
+                            .build();
+
+            Participant selectedParticipant = Participant.builder()
+                    .member(selected)
+                    .chatRoom(chatRoom)
+                    .build();
+
+
+            chatRoomRepository.saveParticipant(selectorParticipant, selectedParticipant);
         }
     }
 
@@ -325,6 +343,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     chatRoomJpaRepository.save(chatRoom);
                 }
             }
+        }
+
+        List<Participant> getParticipantList = chatRoomRepository.getParticipantList();
+        for(Participant participant : getParticipantList) {
+            participantJpaRepository.save(participant);
         }
     }
 

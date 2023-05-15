@@ -1,4 +1,7 @@
 package kr.lovesignal.chattingservice.repository;
+import kr.lovesignal.chattingservice.entity.ChatRoom;
+import kr.lovesignal.chattingservice.entity.Member;
+import kr.lovesignal.chattingservice.entity.Participant;
 import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +18,15 @@ import java.util.List;
 public class ChatRoomRepository {
 
     private final String SELECT = "Select";
+    private final String PARTICIPANT = "Participant";
     private final RedisTemplate<String, Object> redisTemplate;
     private HashOperations<String, String, List<ResSelectChatRoom>> opsHashSelectRoomList;
+    private HashOperations<String, String, List<Participant>> opsHashParticipantList;
 
     @PostConstruct
     public void init() {
         opsHashSelectRoomList = redisTemplate.opsForHash();
+        opsHashParticipantList = redisTemplate.opsForHash();
     }
 
     public ResSelectChatRoom checkResSelectChatRoom(String selectorUUID, String selectedUUID, String meetingRoomUUID) {
@@ -46,6 +52,16 @@ public class ChatRoomRepository {
         return chatRoom;
     }
 
+    public void saveParticipant(Participant selector, Participant selected) {
+        List<Participant> list  = opsHashParticipantList.get(PARTICIPANT, "1");
+        if(list == null) {
+            list = new ArrayList<>();
+        }
+        list.add(selector);
+        list.add(selected);
+        opsHashParticipantList.put(PARTICIPANT, "1", list);
+    }
+
     public void saveResSelectChatRoom(String meetingRoomUUID, ResSelectChatRoom resSelectChatRoom) {
         List<ResSelectChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
         if(list == null) {
@@ -68,4 +84,10 @@ public class ChatRoomRepository {
     public List<List<ResSelectChatRoom>> getHkeyValues() {
         return opsHashSelectRoomList.values(SELECT);
     }
+
+    public List<Participant> getParticipantList() {
+        return opsHashParticipantList.get(PARTICIPANT, "1");
+    }
+
+
 }

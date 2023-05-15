@@ -15,6 +15,7 @@ import kr.lovesignal.fcmservice.model.request.TokenRequest;
 import kr.lovesignal.fcmservice.repository.FCMRepository;
 
 
+@Transactional
 @Service
 public class FCMServiceImpl implements FCMService{
 
@@ -24,7 +25,6 @@ public class FCMServiceImpl implements FCMService{
 		this.fcmRepository = fcmRepository;
 	}
 
-	@Transactional
 	@Override
 	public void registerToken(TokenRequest tokenRequest) {
 

@@ -7,6 +7,9 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import kr.lovesignal.fcmservice.entity.FCMEntity;
+import org.springframework.data.jpa.repository.Lock;
+
+import javax.persistence.LockModeType;
 
 public interface FCMRepository extends JpaRepository<FCMEntity, Long> {
 
@@ -14,6 +17,7 @@ public interface FCMRepository extends JpaRepository<FCMEntity, Long> {
 
 //	Optional<FCMEntity> findByMemberUUID(UUID memberUUID);
 
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	FCMEntity findByMemberUUID(UUID memberUUID);
 }
 

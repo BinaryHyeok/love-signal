@@ -136,7 +136,7 @@ public class WebClientServiceImpl implements WebClientService{
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 9999){
-            uri = instances.get(0).getUri().toString() + "/chatRoom/System/" + strMemberUUID;
+            uri = instances.get(0).getUri().toString() + "/api/chatRoom/System/" + strMemberUUID;
         }
 
         webClient.post()
@@ -155,7 +155,7 @@ public class WebClientServiceImpl implements WebClientService{
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 9999){
-            uri = instances.get(0).getUri().toString() + "/member/UUID/by/" + email;
+            uri = instances.get(0).getUri().toString() + "/api/member/UUID/by/" + email;
         }
 
         return webClient.get()
@@ -173,7 +173,7 @@ public class WebClientServiceImpl implements WebClientService{
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 9999){
-            uri = instances.get(0).getUri().toString() + "/member/register";
+            uri = instances.get(0).getUri().toString() + "/api/member/register";
         }
 
         return webClient.post()
@@ -192,7 +192,7 @@ public class WebClientServiceImpl implements WebClientService{
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 9999){
-            uri = instances.get(0).getUri().toString() + "/member/check/nickname/" + nickname;
+            uri = instances.get(0).getUri().toString() + "/api/member/check/nickname/" + nickname;
         }
 
         return webClient.get()

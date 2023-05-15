@@ -60,7 +60,7 @@ const SignUp = () => {
           if (res.data.body.memberUUID !== null) {
             console.log("navigate 동작 시키기.");
             navigate("/OtherGender"); //여기서 로딩스피너를 동작시켜야하나?..
-            window.location.reload();
+            // window.location.reload();
           }
         })
         .catch((err) => {

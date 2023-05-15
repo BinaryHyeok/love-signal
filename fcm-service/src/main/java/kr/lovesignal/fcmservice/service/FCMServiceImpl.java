@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
@@ -11,6 +13,7 @@ import com.google.firebase.messaging.Message;
 import kr.lovesignal.fcmservice.entity.FCMEntity;
 import kr.lovesignal.fcmservice.model.request.TokenRequest;
 import kr.lovesignal.fcmservice.repository.FCMRepository;
+
 
 @Service
 public class FCMServiceImpl implements FCMService{
@@ -21,6 +24,7 @@ public class FCMServiceImpl implements FCMService{
 		this.fcmRepository = fcmRepository;
 	}
 
+	@Transactional
 	@Override
 	public void registerToken(TokenRequest tokenRequest) {
 

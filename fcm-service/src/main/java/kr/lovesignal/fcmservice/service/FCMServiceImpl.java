@@ -33,6 +33,7 @@ public class FCMServiceImpl implements FCMService{
 
 		if(existingEntity != null){
 			fcmRepository.delete(existingEntity);
+			fcmRepository.flush();
 		}
 		
 		// FCMEntity saveFcm;

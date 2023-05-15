@@ -14,11 +14,15 @@ import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
 import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 
-import { kid, myMemberUUID, myatk } from "../../../atom/member";
+import { imLeader, kid, myMemberUUID, myatk } from "../../../atom/member";
 import { myTeamUUID } from "../../../atom/member";
 import { member } from "../../../types/member";
 import { applyTeam } from "../../../types/member";
-import { getMyTeam } from "../../../api/team";
+import { getMyTeam, withdrawTeam } from "../../../api/team";
+import ModalBox from "../../UI/Modal/Common/ModalBox";
+import A_TextHighlight_Blink from "../../atoms/Common/A_TextHighlight_Blink";
+import Button_Type_A from "../../atoms/Common/Button_Type_A";
+import { useNavigate } from "react-router-dom";
 
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
@@ -32,7 +36,7 @@ const MyTeam = () => {
   const [matchMember, setMatchMemberList] = useState<member[]>([]);
   const [matchTeamUUID, setMatchTeamUUID] = useState<string>("");
   const [applyList, setApplyList] = useState<applyTeam[]>([]);
-  const [teamUUID] = useRecoilState<string>(myTeamUUID);
+  const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
 
   const [oppoTeamIdx, setOppoTeamIdx] = useState<number>(0);
 
@@ -43,16 +47,26 @@ const MyTeam = () => {
   //상대 팀 모달창 띄워줄 함수.
   const [oppoVisible, setOppoVisible] = useState<boolean>(false);
 
+  //팀 나가기 모달창
+  const [exitVisible, setExitVisible] = useState<boolean>(false);
+
+  const [myUUID] = useRecoilState<string>(myMemberUUID);
+  const [, setIsLeader] = useRecoilState<boolean>(imLeader);
+
   const [, setMsg] = useState<string>("");
   const [applyModal, setApplyModal] = useState<boolean>(false);
 
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
+  const navigate = useNavigate();
+
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
   useEffect(() => {
     getUserTeamInfo();
   }, []);
+
+  useEffect(() => {}, [exitVisible]);
 
   const getUserTeamInfo = async () => {
     await getMyTeam(teamUUID, atk, kID)
@@ -83,6 +97,27 @@ const MyTeam = () => {
       });
   };
 
+  //팀 나가기 함수입니다.
+  const exitTeam = () => {
+    //팀 나가기에 대한 axios가 들어갈 요청입니다.
+    withdrawTeam(myUUID, atk, kID)
+      .then((res) => {
+        setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
+        setIsLeader(false);
+        navigate("/SameGender", { replace: true });
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const closeModal = () => {
+    clearTimeout(timeout);
+    setAnimation(true);
+    timeout = setTimeout(() => setExitVisible(false), 500);
+  };
+
   return (
     <ATKFilter>
       <GetMyInfo>
@@ -92,6 +127,72 @@ const MyTeam = () => {
             initial="hidden"
             animate="visible"
           >
+            {exitVisible && !haveOppositeTeam && (
+              <div className={style.bgContainer}>
+                <div
+                  className={`${style.background} ${
+                    animation ? `${style.disappear}` : ""
+                  }`}
+                  onClick={closeModal}
+                ></div>
+                <ModalBox
+                  animation={animation}
+                  visible={exitVisible}
+                  width="90%"
+                  height="200px"
+                  closeModal={closeModal}
+                >
+                  <div className={style.exitDesc}>
+                    <A_TextHighlight_Blink color="blue" fontSize="1rem">
+                      지금 팀에서 나가시면 <br /> 다른 팀에 합류하셔야합니다.{" "}
+                    </A_TextHighlight_Blink>
+                    <br />
+                    <span className={style.bold}>정말 나가시겠습니까?</span>
+                    <br />
+                    <Button_Type_A
+                      width="90%"
+                      background="#BCC5F0"
+                      onClick={exitTeam}
+                    >
+                      팀 나가기
+                    </Button_Type_A>
+                  </div>
+                </ModalBox>
+              </div>
+            )}
+            {exitVisible && haveOppositeTeam && (
+              <div className={style.bgContainer}>
+                <div
+                  className={`${style.background} ${
+                    animation ? `${style.disappear}` : ""
+                  }`}
+                  onClick={closeModal}
+                ></div>
+                <ModalBox
+                  animation={animation}
+                  visible={exitVisible}
+                  width="90%"
+                  height="200px"
+                  closeModal={closeModal}
+                >
+                  <div className={style.exitDesc}>
+                    <A_TextHighlight_Blink color="blue" fontSize="1rem">
+                      지금 팀에서 나가시면 <br /> 현재 있는 방이 터지게 됩니다.{" "}
+                    </A_TextHighlight_Blink>
+                    <br />
+                    <span className={style.bold}>정말 나가시겠습니까?</span>
+                    <br />
+                    <Button_Type_A
+                      width="90%"
+                      background="#BCC5F0"
+                      onClick={exitTeam}
+                    >
+                      팀 나가기
+                    </Button_Type_A>
+                  </div>
+                </ModalBox>
+              </div>
+            )}
             {myVisible && !oppoVisible && (
               <Modal_portal>
                 <CheckTeam
@@ -143,6 +244,7 @@ const MyTeam = () => {
                 <T_MyTeam>
                   <M_MyTeamDesc />
                   <O_MyTeamBox
+                    setExitVisible={setExitVisible}
                     timeout={timeout}
                     animation={animation}
                     setAnimation={setAnimation}

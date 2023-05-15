@@ -126,6 +126,57 @@ $profile: #fff;
   @keyframes fadeOut {
     from {
       opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0.6;
+    }
+  }
+  @-moz-keyframes fadeOut {
+    /* Firefox */
+    from {
+      opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0.6;
+    }
+  }
+  @-webkit-keyframes fadeOut {
+    /* Safari and Chrome */
+    from {
+      opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0.6;
+    }
+  }
+  @-o-keyframes fadeOut {
+    /* Opera */
+    from {
+      opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0.6;
+    }
+  }
+}
+
+.disappeared {
+  animation: fadeOut 1s;
+  -moz-animation: fadeOut 1s; /* Firefox */
+  -webkit-animation: fadeOut 1s; /* Safari and Chrome */
+  -o-animation: fadeOut 1s; /* Opera */
+  animation-fill-mode: forwards;
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
     }
     to {
       opacity: 0;

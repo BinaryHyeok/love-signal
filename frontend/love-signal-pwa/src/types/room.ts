@@ -14,4 +14,7 @@ export type room = {
   expired?: string;
   memberList?: member[];
   readLastChatMessage?: chat;
+  love?: string;
+  selected?: member;
+  selector?: member;
 };

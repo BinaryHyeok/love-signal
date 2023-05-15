@@ -28,6 +28,8 @@ import GetMyInfo from "../../Filter/GetMyInfo";
 let socket: any;
 let ws: any;
 
+const RANDOM_ANIMAL = ["판다", "고양이", "강아지", "미어캣", "몽구스", ""];
+
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setIdx] = useRecoilState<number>(footerIdx);
@@ -45,10 +47,11 @@ const Chat = () => {
     initStompClient();
 
     getChatRoomList(UUID, atk, kID).then((res) => {
-      const data: room[] = res.data;
-      console.log(data);
-      setRoomList(() => [...data]);
-      data.forEach((room) => {
+      const formattedRoomList: room[] = roomTitleFormatter(res.data);
+      console.log(formattedRoomList);
+
+      setRoomList(() => [...formattedRoomList]);
+      formattedRoomList.forEach((room) => {
         // 각 방의 채팅 목록 fetch
         fetchRoomChat(room.uuid);
       });
@@ -156,6 +159,22 @@ const Chat = () => {
         };
       });
     });
+  };
+
+  const roomTitleFormatter = (rooms: room[]) => {
+    const formatted: room[] = rooms.map((room) => {
+      if (room.type !== "SECRET") return room;
+      room.roomName =
+        room.selector?.nickname === myNick
+          ? `${room.selected?.nickname}님과의 익명채팅방`
+          : `익명의 ${
+              RANDOM_ANIMAL[Math.floor(Math.random() * RANDOM_ANIMAL.length)]
+            }님과의 채팅방`;
+
+      return room;
+    });
+
+    return formatted;
   };
 
   const unitHeightSetHandler = () => {

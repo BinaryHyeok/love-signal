@@ -10,6 +10,12 @@ const Main = () => {
   useEffect(() => {
     const local = window.location.hostname;
     console.log(local);
+    console.log("내 호스트이름을 알려줘");
+    if (window.location.hostname === "127.0.0.1") {
+      console.log("나는 로컬");
+    } else {
+      console.log("나는 몰라");
+    }
   }, []);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);

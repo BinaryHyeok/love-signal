@@ -57,7 +57,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
   setMatchMemberList,
   setMatchTeamUUID,
 }) => {
-  const navigate = useNavigate();
   const [TeamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [clickBtn, setClickBtn] = useState<boolean>(false);
   const [start, setStart] = useState<boolean>(true);
@@ -70,10 +69,12 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log(haveOppositeTeam);
     if (start) {
       if (haveOppositeTeam) {
         receivemeetingList(TeamUUID, atk, kID)
           .then((res) => {
+            console.log(res);
             setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
             addApplyList(res.data.body.teams);
             setStart(false);
@@ -85,6 +86,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
         //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
         receiveMatchMember(TeamUUID, atk, kID)
           .then((res) => {
+            console.log(res);
             const newList = [...res.data.body.members];
             if (res.data.body.members.length !== 3) {
               if (res.data.body.members.length !== 3) {

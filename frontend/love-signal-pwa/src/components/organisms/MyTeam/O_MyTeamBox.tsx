@@ -1,22 +1,29 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import style from "./styles/O_MyTeamBox.module.scss";
-import M_MyTeamList from "../../molecules/MyTeam/M_MyTeamList";
+import { useRecoilState } from "recoil";
+
 import { member } from "../../../types/member";
+import style from "./styles/O_MyTeamBox.module.scss";
+
+import M_MyTeamList from "../../molecules/MyTeam/M_MyTeamList";
 import ListBoxWithImgTitle from "../../atoms/Common/ListBoxWithImgTitle";
 import O_ApplyTeamList from "./O_ApplyTeamList";
-import { receiveMatchMember, receivemeetingList } from "../../../api/team";
-import { kid, myTeamUUID, myatk } from "../../../atom/member";
-import { myMemberUUID } from "../../../atom/member";
-import { useRecoilState } from "recoil";
-import { applyTeam } from "../../../types/member";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
-import { withdrawTeam } from "../../../api/team";
-import { imLeader } from "../../../atom/member";
 import A_Heartline from "../../atoms/Common/A_Heartline";
+import A_TextHighlight_Blink from "../../atoms/Common/A_TextHighlight_Blink";
+import Modal_portal from "../../UI/Modal/Modal_portal";
 import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 
+import { receiveMatchMember, receivemeetingList } from "../../../api/team";
+
+import { kid, myTeamUUID, myatk } from "../../../atom/member";
+import { myMemberUUID } from "../../../atom/member";
+import { applyTeam } from "../../../types/member";
+import { withdrawTeam } from "../../../api/team";
+import { imLeader } from "../../../atom/member";
+
 type propsType = {
+  setExitVisible: Dispatch<SetStateAction<boolean>>;
   timeout: any;
   animation: boolean;
   setAnimation: Dispatch<SetStateAction<boolean>>;
@@ -35,6 +42,7 @@ type propsType = {
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
 const O_MyTeamBox: React.FC<propsType> = ({
+  setExitVisible,
   timeout,
   animation,
   setAnimation,
@@ -59,6 +67,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [, setIsLeader] = useRecoilState<boolean>(imLeader);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
+  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (start) {
@@ -120,19 +129,12 @@ const O_MyTeamBox: React.FC<propsType> = ({
     });
   };
 
-  //팀 나가기 함수입니다.
+  //팀 나가기 했을 때 모달창 여는 함수
   const exitTeam = () => {
-    //팀 나가기에 대한 axios가 들어갈 요청입니다.
-    withdrawTeam(myUUID, atk, kID)
-      .then((res) => {
-        setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
-        setIsLeader(false);
-        navigate("/SameGender", { replace: true });
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log("팀 나가기 모달");
+    setAnimation(false);
+    clearTimeout(timeout);
+    setExitVisible(true);
   };
 
   const openModal = () => {
@@ -152,12 +154,22 @@ const O_MyTeamBox: React.FC<propsType> = ({
       />
       <div className={style.exitBtn}>
         <Button_Type_A
-          width="100px"
+          width="90%"
           height="32px"
-          background="#CCCCCC"
+          background="#BCC5F0"
+          margin="0px 0px 16px 0px"
           onClick={exitTeam}
           children="팀 나가기"
         />
+        {haveOppositeTeam ? (
+          <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+            * 주의 : 팀 나가기를 누르면 팀이 터집니다
+          </A_TextHighlight_Blink>
+        ) : (
+          <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+            * 주의 : 매칭된 이후 팀 나가기를 누르면 팀에서 나가집니다
+          </A_TextHighlight_Blink>
+        )}
       </div>
       {haveOppositeTeam ? (
         <ListBoxWithImgTitle
@@ -182,11 +194,13 @@ const O_MyTeamBox: React.FC<propsType> = ({
                   setClickBtn={setClickBtn}
                 />
               ) : (
-                <>팀이 존재하지 않습니다..</>
+                <div className={style.listbox}>
+                  신청한 팀이 존재하지 않습니다
+                </div>
               )}
             </>
           ) : (
-            <>로딩중이다데스..</>
+            <div>불러오는 중..</div>
           )}
         </ListBoxWithImgTitle>
       ) : (

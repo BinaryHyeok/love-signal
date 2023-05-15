@@ -36,42 +36,15 @@ public class FCMServiceImpl implements FCMService{
 
 		// 현재 사용자의 엔티티를 찾았다면
 		if(existingEntity != null){
-			fcmRepository.delete(existingEntity);
-			fcmRepository.flush();
+			fcmRepository.setToken(tokenRequest.setToken());
 		}
-		
-		// FCMEntity saveFcm;
-		// if(existingEntity == null) {
-		// 	saveFcm = FCMEntity.builder()
-		// 		.token(tokenRequest.getToken())
-		// 		.memberUUID(memberUUID)
-		// 		.build();
-		// }
-		// else{
-		// 	saveFcm = FCMEntity.builder()
-		// 		.memberUUID(memberUUID)
-		// 		.token(tokenRequest.getToken())
-		// 		.fcmId(existingEntity.getFcmId())
-		// 		.build();
-		// }
+		else{
+			existingEntity = new FCMEntity();
+			existingEntity.setMemberUUID(memberUUID);
+        	existingEntity.setToken(tokenRequest.getToken());
+		}
 
-		// fcmRepository.save(saveFcm);
-
-		// if (existingEntity == null) {
-		// 	existingEntity = new FCMEntity();
-		// 	existingEntity.setMemberUUID(memberUUID);
-		// }
-		// existingEntity.setToken(tokenRequest.getToken());
-		
-		// fcmRepository.save(existingEntity);
-
-		FCMEntity fcmEntity = new FCMEntity();
-		fcmEntity.setMemberUUID(memberUUID);
-		fcmEntity.setToken(tokenRequest.getToken());
-
-		fcmRepository.save(fcmEntity);
-
-
+		fcmRepository.save(existingEntity);
 	}
 
 	@Override

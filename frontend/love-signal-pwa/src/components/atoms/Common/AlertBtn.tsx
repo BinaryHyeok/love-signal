@@ -1,18 +1,10 @@
-import { BaseSyntheticEvent, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import style from "./styles/AlertBtn.module.scss";
-import { useRecoilState } from "recoil";
-
-import { firebaseMessaging } from "../../../atom/fcm";
-import { Messaging } from "@firebase/messaging";
-
-import {
-  fetchPWAToken,
-  requestPushPermission,
-  sendFCMToken,
-} from "../../../api/pwa";
-import { Props } from "@react-three/fiber";
 import { setPushAlarmStatus } from "../../../api/auth";
+import { useRecoilState } from "recoil";
+import { fcmToken } from "../../../atom/fcm";
+import { sendFCMToken } from "../../../api/pwa";
 
 type PropsType = {
   UUID: string;
@@ -21,50 +13,28 @@ type PropsType = {
 };
 
 const AlertBtn: React.FC<PropsType> = ({ UUID, atk, kID }) => {
-  const [messaging, setMessaging] =
-    useRecoilState<Messaging>(firebaseMessaging);
   const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
-  const toggleSwitch = (e: BaseSyntheticEvent) =>
-    setPushAlarmIsOn(e.target.checked);
+  const [myToken, _] = useRecoilState<string>(fcmToken);
 
   useEffect(() => {
-    const permission = Notification.permission;
-    if (permission === "granted") {
-      setPushAlarmIsOn(true);
-      setPushAlarmStatus(UUID, atk, kID, "true");
-    } else {
-      setPushAlarmIsOn(false);
-      setPushAlarmStatus(UUID, atk, kID, "true");
-    }
+    // const permission = Notification.permission;
+    // if (permission === "granted") {
+    //   setPushAlarmIsOn(true);
+    // } else {
+    //   setPushAlarmIsOn(false);
+    // }
   }, [Notification.permission]);
 
-  const pushAlarmToggleHandler = () => {
-    const messagingCopied = { ...messaging };
-    if (!pushAlarmIsOn) {
-      fetchPWAToken(messagingCopied)
-        .then((token) => {
-          sendFCMToken(UUID, atk, kID, token);
-          setPushAlarmStatus(UUID, atk, kID, "true");
-          setMessaging(messagingCopied);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+  const toggleHandler = () => {
+    console.log(pushAlarmIsOn);
+    if (pushAlarmIsOn) {
+      console.log("null 보냄");
+      sendFCMToken(UUID, atk, kID, null);
     } else {
-      fetchPWAToken(messagingCopied)
-        .then(() => {
-          sendFCMToken(UUID, atk, kID, null);
-          setPushAlarmStatus(UUID, atk, kID, "false");
-          setMessaging(messagingCopied);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      console.log("토큰 보냄 : ", myToken);
+      sendFCMToken(UUID, atk, kID, myToken);
     }
-
-    setPushAlarmIsOn((prevState) => {
-      return !prevState;
-    });
+    setPushAlarmIsOn((prev) => !prev);
   };
 
   return (
@@ -77,8 +47,7 @@ const AlertBtn: React.FC<PropsType> = ({ UUID, atk, kID }) => {
           id="input-switch"
           type="checkbox"
           checked={pushAlarmIsOn}
-          onChange={toggleSwitch}
-          onClick={pushAlarmToggleHandler}
+          onChange={toggleHandler}
         />
         <motion.label className={style.handle} layout htmlFor="input-switch" />
       </div>

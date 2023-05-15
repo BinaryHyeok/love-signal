@@ -1,11 +1,8 @@
 import axios from "axios";
-import { getToken, Messaging } from "@firebase/messaging";
 
-export const fetchPWAToken = async (messaging: Messaging) => {
-  return await getToken(messaging);
-};
+export const requestPushPermission = async (uuid: string) => {
+  if (!(uuid && uuid.length > 0)) return;
 
-export const requestPushPermission = async () => {
   if (!("Notification" in window)) {
     console.log("이 브라우저는 알림을 지원하지 않습니다.");
   } else {

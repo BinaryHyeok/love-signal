@@ -80,6 +80,7 @@ public class FCMServiceImpl implements FCMService{
 	@Transactional
 	public void updateToken(FCMEntity fcmEntity, String token){
 		FCMEntity saveFcm = FCMEntity.builder()
+				.fcmId(fcmEntity.getFcmId())
 				.memberUUID(fcmEntity.getMemberUUID())
 				.token(token)
 				.nickname(fcmEntity.getNickname())

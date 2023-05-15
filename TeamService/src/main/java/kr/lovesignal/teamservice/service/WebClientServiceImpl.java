@@ -27,14 +27,14 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public void makeChatRoomApi(List<String> memberUUIDs){
-        String uri = "http://localhost:8080/chatRoom/SameOrAllGender";
+        String uri = "http://localhost:8080/api/chatRoom/SameOrAllGender";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("chatting-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/chatRoom/SameOrAllGender";
+            uri = instances.get(0).getUri().toString() + "/api/chatRoom/SameOrAllGender";
         }
 
         webClient.post()
@@ -47,14 +47,14 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public Mono<TeamResponse> getProfileImagesByTeamsApi(TeamResponse teamResponse){
-        String uri = "http://localhost:9010/file/profiles/teams";
+        String uri = "http://localhost:9010/api/file/profiles/teams";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("file-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/file/profiles/teams";
+            uri = instances.get(0).getUri().toString() + "/api/file/profiles/teams";
         }
 
         return webClient.post()
@@ -66,14 +66,14 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public Mono<Team> getProfileImagesByTeamApi(Team team){
-        String uri = "http://localhost:9010/file/profiles/team";
+        String uri = "http://localhost:9010/api/file/profiles/team";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("file-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/file/profiles/team";
+            uri = instances.get(0).getUri().toString() + "/api/file/profiles/team";
         }
 
         return webClient.post()
@@ -85,14 +85,14 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public void exitChatRoomApi(List<String> memberUUIDs) {
-        String uri = "http://localhost:8080/chatRoom/exit";
+        String uri = "http://localhost:8080/api/chatRoom/exit";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("chatting-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/chatRoom/exit";
+            uri = instances.get(0).getUri().toString() + "/api/chatRoom/exit";
         }
 
         webClient.put()
@@ -105,14 +105,14 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public void sendMeetingMemberUUIDs(List<UUID> memberUUIDs) {
-        String uri = "http://localhost:4444/fcm/notification";
+        String uri = "http://localhost:4444/api/fcm/notification";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/fcm/notification";
+            uri = instances.get(0).getUri().toString() + "/api/fcm/notification";
         }
 
         webClient.post()
@@ -125,14 +125,14 @@ public class WebClientServiceImpl implements WebClientService{
 
     @Override
     public void sendMatchingTeamMemberUUIDs(List<UUID> memberUUIDs) {
-        String uri = "http://localhost:4444/fcm/building";
+        String uri = "http://localhost:4444/api/fcm/building";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/fcm/building";
+            uri = instances.get(0).getUri().toString() + "/api/fcm/building";
         }
 
         webClient.post()

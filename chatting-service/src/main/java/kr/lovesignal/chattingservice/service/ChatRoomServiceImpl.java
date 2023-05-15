@@ -62,6 +62,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     public String getProfileImageStoredName(Member member) {
         ProfileImage profileImage = profileImageJpaRepository.findByMemberAndExpired(member, "F");
+        if(profileImage == null)
+            System.out.println("=================프로필 이미지가 null 인 member 닉네임 ============"+member.getNickname());
         return profileImage.getStoredName();
     }
 
@@ -94,6 +96,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 // 멤버를 뽑아서 반환 멤버 생성
                 Member member1 = participant1.getMember();
                 ResMember resMember = ResMember.toDto(member1);
+                System.out.println("====================멤버가 널일까?=============="+member1.getNickname());
                 resMember.setProfileImage(getProfileImageStoredName(member1));
                 // 멤버 나이 계산 및 주입
                 LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);

@@ -461,7 +461,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     public void enterChatRoom(String roomUUID) {
         ChannelTopic topic = topics.get(roomUUID);
-        System.out.println(roomUUID+"여기서 오류나요 =============================================");
         if (topic == null)
             topic = new ChannelTopic(roomUUID);
         redisMessageListener.addMessageListener(redisSubscriber, topic);

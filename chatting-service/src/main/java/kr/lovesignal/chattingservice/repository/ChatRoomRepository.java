@@ -92,5 +92,6 @@ public class ChatRoomRepository {
         for(ResChatRoom resChatRoom : list) {
             resChatRoom.setExpired("T");
         }
+        opsHashSelectRoomList.put(SELECT, "1", list);
     }
 }

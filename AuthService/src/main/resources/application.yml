@@ -9,6 +9,7 @@ server:
 
     http2:
     enabled: true
+    context-path: /auth
 
   error:
     include-exception: false

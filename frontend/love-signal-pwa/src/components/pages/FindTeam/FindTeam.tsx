@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { footerIdx } from "../../../atom/footer";
 import style from "./styles/FindTeam.module.scss";
+import { footerIdx } from "../../../atom/footer";
 import T_FindTeam from "../../templates/FindTeam/T_FindTeam";
 import M_FindTeamDesc from "../../molecules/FindTeam/M_FindTeamDesc";
 import O_FindTeamMenu from "../../organisms/FindTeam/O_FindTeamMenu";

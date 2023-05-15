@@ -57,13 +57,11 @@ const O_MyTeamBox: React.FC<propsType> = ({
   setMatchMemberList,
   setMatchTeamUUID,
 }) => {
-  const [TeamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [TeamUUID] = useRecoilState<string>(myTeamUUID);
   const [clickBtn, setClickBtn] = useState<boolean>(false);
   const [start, setStart] = useState<boolean>(true);
   const [applyTeamExist, setApplyTeamExist] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [myUUID] = useRecoilState<string>(myMemberUUID);
-  const [, setIsLeader] = useRecoilState<boolean>(imLeader);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
   const [visible, setVisible] = useState<boolean>(false);
@@ -133,7 +131,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
 
   //팀 나가기 했을 때 모달창 여는 함수
   const exitTeam = () => {
-    console.log("팀 나가기 모달");
     setAnimation(false);
     clearTimeout(timeout);
     setExitVisible(true);

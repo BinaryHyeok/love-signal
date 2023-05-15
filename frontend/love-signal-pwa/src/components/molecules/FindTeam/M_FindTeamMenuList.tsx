@@ -29,6 +29,7 @@ const M_FindTeamMenuList = () => {
   const [enterTeamUUID, setEnterTeamUUID] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
   const [animation, setAnimation] = useState<boolean>(false);
+  const [fastModal, setFastModal] = useState<boolean>(false);
 
   const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
@@ -135,6 +136,7 @@ const M_FindTeamMenuList = () => {
           </Button_Type_A>
         </div>
       )}
+
       {visible && (
         <Modal_portal>
           <CommonModal

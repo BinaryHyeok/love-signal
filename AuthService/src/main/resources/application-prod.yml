@@ -2,6 +2,8 @@ server:
   port: 9999
   ssl:
     enabled: false
+  servlet:
+    context-path: /auth
 
 spring:
   application:

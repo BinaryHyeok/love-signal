@@ -55,7 +55,7 @@ const ExploreTeam = () => {
     setIdx(0);
     getMyInfo();
     getList();
-  }, []);
+  }, [atk, kID]);
 
   useEffect(() => {
     setMsg("");
@@ -78,6 +78,9 @@ const ExploreTeam = () => {
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
     const OGender: string = gender === "F" ? "M" : "F"; //반대로 보여줘야하니 삼항연산자 사용.
+    if (!atk || !kID) {
+      return;
+    }
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
       .then((res) => {
         console.log(res);

@@ -31,7 +31,6 @@ public class SecurityConfig {
                 .antMatchers("/error/*").permitAll()
                 .antMatchers("/*/auth", "/*/auth/**").permitAll();
 
-
         return http.build();
     }
 }

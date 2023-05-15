@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -31,21 +32,45 @@ public class AuthController {
     @Value("${spring.security.oauth2.client.kakao.client-id}")
     private String clientId;
 
-    @Value("${spring.security.oauth2.client.kakao.redirect-uri}")
-    private String redirectUri;
+    @Value("${spring.security.oauth2.client.kakao.prod-redirect-uri}")
+    private String prodRedirectUri;
 
-    @Value("${spring.security.oauth2.client.kakao.logout-redirect-uri}")
-    private String logoutRedirectUri;
+    @Value("${spring.security.oauth2.client.kakao.prod-logout-redirect-uri}")
+    private String prodLogoutRedirectUri;
+
+    @Value("${spring.security.oauth2.client.kakao.dev-redirect-uri}")
+    private String devRedirectUri;
+
+    @Value("${spring.security.oauth2.client.kakao.dev-logout-redirect-uri}")
+    private String devLogoutRedirectUri;
+
 
     @GetMapping("/kakao/login")
-    public void kakaoOauthLogin(HttpServletResponse response) throws IOException {
-        String redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, redirectUri);
+    public void kakaoOauthLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String redirect_uri;
+        System.out.println("======================");
+        System.out.println(request.getServerName());
+        if("localhost".equals(request.getServerName())){
+            redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, devRedirectUri);
+        }
+        else{
+            redirect_uri = String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s", clientId, prodLogoutRedirectUri);
+        }
         response.sendRedirect(redirect_uri);
+
     }
 
     @GetMapping("/kakao/logout")
-    public void kakaoOauthLogout(HttpServletResponse response) throws IOException {
-        String redirect_uri = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s", clientId, logoutRedirectUri);
+    public void kakaoOauthLogout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String redirect_uri;
+        System.out.println("======================");
+        System.out.println(request.getServerName());
+        if("localhost".equals(request.getServerName())){
+            redirect_uri = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s", clientId, devRedirectUri);
+        }
+        else{
+            redirect_uri = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s", clientId, prodLogoutRedirectUri);
+        }
         response.sendRedirect(redirect_uri);
     }
 

@@ -16,10 +16,10 @@ spring:
           token-uri: https://kauth.kakao.com/oauth/token
           account-uri: https://kapi.kakao.com/v2/user/me?property_keys=["for_partner.uuid", "kakao_account.email"]
           logout-uri: https://kapi.kakao.com/v1/user/logout
-#          redirect-uri: https://www.love-signal.kr/signup
-          redirect-uri: https://localhost:3000/signup
-#          logout-redirect-uri: https://www.love-signal.kr
-          logout-redirect-uri: https://localhost:3000
+          prod-redirect-uri: https://www.love-signal.kr/signup
+          prod-logout-redirect-uri: https://www.love-signal.kr
+          dev-redirect-uri: https://localhost:3000/signup
+          dev-logout-redirect-uri: https://localhost:3000
           client-id: 0bae6bcf8c40843c797b0bb3025272d5
   #  config:
   #    import: "optional:configserver:http://13.125.99.25:8888/"

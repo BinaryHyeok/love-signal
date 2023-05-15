@@ -14,34 +14,35 @@ import ContentLayout from "./components/pages/Common/ContentLayout";
 import { AnimatePresence } from "framer-motion";
 import MatchTeam from "./components/templates/FindTeam/MatchTeam";
 import Test from "./components/pages/Test";
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 
-import { firebaseApp, firebaseMessaging } from "./atom/fcm";
-import { FirebaseApp, initializeApp } from "firebase/app";
-import { Messaging, getMessaging } from "firebase/messaging";
+import "./firebase";
+import { getFCMToken } from "./firebase";
+import { useRecoilState } from "recoil";
+import { kid, myMemberUUID } from "./atom/member";
+import { sendFCMToken } from "./api/pwa";
+import { myatk } from "./atom/member";
+import { fcmToken } from "./atom/fcm";
 
 function App() {
-  const [_, setFirebaseApp] = useRecoilState<FirebaseApp>(firebaseApp);
-  const [__, setFirebaseMessaging] =
-    useRecoilState<Messaging>(firebaseMessaging);
+  const [token, setToken] = useRecoilState<string>(fcmToken);
+  const [UUID, _] = useRecoilState<string>(myMemberUUID);
+  const [atk, __] = useRecoilState<string>(myatk);
+  const [kID, ___] = useRecoilState<string>(kid);
 
   useEffect(() => {
-    const firebaseConfig = {
-      apiKey: process.env.REACT_APP_PUSH_VAPID,
-      authDomain: process.env.REACT_APP_PUSH_DOMAIN,
-      projectId: process.env.REACT_APP_PUSH_PROJECT_ID,
-      storageBucket: process.env.REACT_APP_PUSH_PROCESS_BUCKET,
-      messagingSenderId: process.env.REACT_APP_PUSH_SENDER_ID,
-      appId: process.env.REACT_APP_PUSH_APP_ID,
-      measurementId: process.env.REACT_APP_PUSH_MEASUREMENT,
-    };
-    const app = initializeApp(firebaseConfig);
-    const messaging = getMessaging(app);
+    if (UUID && UUID.length > 0) {
+      getFCMToken()
+        .then((token) => {
+          setToken(token);
+          sendFCMToken(UUID, atk, kID, token);
+        })
+        .catch((err) => {
+          console.error("토큰을 발급하는 중 오류 발생 : ", err);
+        });
+    }
+  }, [UUID]);
 
-    setFirebaseApp(app);
-    setFirebaseMessaging(messaging);
-  }, []);
   const router = createBrowserRouter([
     {
       path: "/",

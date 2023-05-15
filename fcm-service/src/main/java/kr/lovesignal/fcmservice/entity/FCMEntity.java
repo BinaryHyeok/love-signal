@@ -4,13 +4,7 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -20,6 +14,7 @@ import org.hibernate.annotations.DynamicInsert;
 @DynamicInsert
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class FCMEntity {
 
 	@Id
@@ -27,8 +22,8 @@ public class FCMEntity {
 	@Column(name = "fcm_id", columnDefinition = "INT UNSIGNED")
 	private Long fcmId;
 
-	@Column(name = "member_uuid", nullable = false, unique = true)
-	private UUID memberUUID;
+	@Column(name = "UUID", columnDefinition = "BINARY(16)")
+	private UUID UUID;
 
 	@Column(name = "token")
 	private String token;
@@ -46,6 +41,6 @@ public class FCMEntity {
 //	@Column(name = "nickname")
 //	private String nickname;
 
-	@Version
-	private Long version;
+//	@Version
+//	private Long version;
 }

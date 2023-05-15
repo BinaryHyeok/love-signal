@@ -29,11 +29,8 @@ public class FCMServiceImpl implements FCMService{
 
 	@Override
 	@Transactional
-	public synchronized void registerToken(TokenRequest tokenRequest) {
-		System.out.println("*******************************");
-		System.out.println(tokenRequest.getMemberUUID());
-		System.out.println(tokenRequest.getToken());
-		System.out.println(tokenRequest.getNickname());
+	public void registerToken(TokenRequest tokenRequest) {
+
 
 		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
 		String token = tokenRequest.getToken();
@@ -41,7 +38,16 @@ public class FCMServiceImpl implements FCMService{
 
 
 //		Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
-		FCMEntity findFcm = fcmRepository.findByMemberUUID(memberUUID);
+		FCMEntity findFcm = fcmRepository.findByUUID(memberUUID);
+
+		System.out.println("*******************************");
+		System.out.println(tokenRequest.getMemberUUID());
+		System.out.println(tokenRequest.getToken());
+		System.out.println(tokenRequest.getNickname());
+		System.out.println("==============================");
+		System.out.println(findFcm);
+		System.out.println("==============================");
+		System.out.println("*******************************");
 
 		if(findFcm == null){
 			createToken(memberUUID, token, nickname);
@@ -68,7 +74,7 @@ public class FCMServiceImpl implements FCMService{
 	@Transactional
 	public void createToken(UUID memberUUID, String token, String nickname){
 		FCMEntity saveFcm = FCMEntity.builder()
-				.memberUUID(memberUUID)
+				.UUID(memberUUID)
 				.token(token)
 				.nickname(nickname)
 				.build();
@@ -81,7 +87,7 @@ public class FCMServiceImpl implements FCMService{
 	public void updateToken(FCMEntity fcmEntity, String token){
 		FCMEntity saveFcm = FCMEntity.builder()
 				.fcmId(fcmEntity.getFcmId())
-				.memberUUID(fcmEntity.getMemberUUID())
+				.UUID(fcmEntity.getUUID())
 				.token(token)
 				.nickname(fcmEntity.getNickname())
 				.build();

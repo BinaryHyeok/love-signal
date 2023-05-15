@@ -20,15 +20,6 @@ import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
 import AlertBtn from "../../atoms/Common/AlertBtn";
 
-import { firebaseMessaging } from "../../../atom/fcm";
-import { Messaging } from "@firebase/messaging";
-
-import {
-  fetchPWAToken,
-  requestPushPermission,
-  sendFCMToken,
-} from "../../../api/pwa";
-
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [myAge, setMyAge] = useState<number>(0);
@@ -42,9 +33,6 @@ const Mypage = () => {
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
-
-  const [messaging, _] = useRecoilState<Messaging>(firebaseMessaging);
-  const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
 
   useEffect(() => {
     setIdx(3);

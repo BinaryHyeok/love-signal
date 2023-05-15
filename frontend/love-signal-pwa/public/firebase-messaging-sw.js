@@ -16,6 +16,7 @@ const firebaseConfig = {
   measurementId: "G-SC755QEGW3",
 };
 
+/* Background Listener */
 const app = firebase.initializeApp(firebaseConfig);
 // const analytics = firebase.analytics(app);
 const messaging = firebase.messaging();

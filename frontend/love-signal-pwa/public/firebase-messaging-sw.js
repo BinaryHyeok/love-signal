@@ -33,19 +33,19 @@ self.addEventListener("activate", function (e) {
 self.addEventListener("push", function (e) {
   console.log("push: ", e.data.json());
   if (!e.data.json()) return;
+  try {
+    const pushData = e.data.json();
+    const { title, content } = pushData.data;
 
-  const resultData = e.data.json().data;
-  const notificationTitle = resultData.title;
-  const notificationOptions = {
-    // body: resultData.body,
-    body: resultData.content,
-    icon: resultData.image,
-    tag: resultData.tag,
-    ...resultData,
-  };
-  console.log("push: ", { resultData, notificationTitle, notificationOptions });
+    const notificationOptions = {
+      body: content,
+      icon: "/assets/heart with arrow.png",
+    };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+    e.waitUntil(self.registration.showNotification(title, notificationOptions));
+  } catch (error) {
+    console.error("푸시 알림 처리 오류:", error);
+  }
 });
 
 self.addEventListener("notificationclick", function (event) {

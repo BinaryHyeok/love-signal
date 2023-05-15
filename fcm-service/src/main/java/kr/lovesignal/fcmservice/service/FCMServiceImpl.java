@@ -48,7 +48,7 @@ public class FCMServiceImpl implements FCMService{
 		// fcmRepository.save(existingEntity);
 
 		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
-		Optional<FCMEntity> existingEntityOpt = fcmRepository.findById(memberUUID);
+		Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
 
 		FCMEntity fcmEntity = existingEntityOpt.orElse(new FCMEntity());
 		fcmEntity.setMemberUUID(memberUUID);

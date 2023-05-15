@@ -26,11 +26,21 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class FCMEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "fcm_id")
-	private Long fcmId;
+	// @Id
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	// @Column(name = "fcm_id")
+	// private Long fcmId;
 
+	// @Column(name = "member_uuid")
+	// private UUID memberUUID;
+
+	// @Column(name = "token")
+	// private String token;
+
+	// @Column(name = "nickname")
+	// private String nickname;
+
+	@Id
 	@Column(name = "member_uuid")
 	private UUID memberUUID;
 

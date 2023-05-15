@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./styles/M_FindTeamMenuList.module.scss";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";

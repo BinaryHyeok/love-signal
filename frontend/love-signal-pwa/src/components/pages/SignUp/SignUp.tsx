@@ -60,10 +60,12 @@ const SignUp = () => {
             res.data.body.refreshToken,
             res.data.body.accessTokenExpireTime,
             res.data.body.refreshTokenExpireTime,
-            res.data.body.kakaoId
+            res.data.body.kakaoId,
+            res.data.body.memberUUID
           );
           if (res.data.body.memberUUID !== null) {
-            setMemberUUID(res.data.body.memberUUID);
+            console.log(res.data.body.memberUUID);
+            // setMemberUUID(res.data.body.memberUUID);
             navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
             window.location.reload();
           }
@@ -81,7 +83,8 @@ const SignUp = () => {
     rtk: string,
     aTET: number,
     rTET: number,
-    kakaoId: string
+    kakaoId: string,
+    myUUID: string
   ) => {
     setAtk(atk);
     setCookie(rtk, rTET);
@@ -89,6 +92,7 @@ const SignUp = () => {
     nowDate.setSeconds(nowDate.getSeconds() + aTET);
     setAtkET(nowDate);
     setKakaoId(kakaoId);
+    setMemberUUID(myUUID);
   };
 
   //쿠키를 저장해줄 함수입니다. (회원가입이 완료 되고 나면 rtk를 쿠키에 저장할것. 만료기간 설정.)
@@ -99,7 +103,7 @@ const SignUp = () => {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
       expires, //만료기간 설정
       secure: true, //보안 설정
-      // httpOnly: true, //보안 설정
+      httpOnly: true, //보안 설정
     });
   };
 

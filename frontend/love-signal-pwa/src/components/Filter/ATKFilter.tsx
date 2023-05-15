@@ -78,7 +78,7 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
       expires, //만료기간 설정
       secure: true, //보안 설정
-      //   httpOnly: true, //보안 설정
+      httpOnly: true, //보안 설정
     });
   };
   return <>{children}</>;

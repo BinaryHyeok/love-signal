@@ -12,6 +12,7 @@ public class TokenRequest {
 
 	private String memberUUID;
 	private String token;
+	private String nickname;
 
 	public FCMEntity toEntity(UUID UUID){
 		return FCMEntity.builder()

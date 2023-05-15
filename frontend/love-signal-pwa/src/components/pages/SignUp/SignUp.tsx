@@ -9,7 +9,13 @@ import M_SignUp_Introduce from "../../molecules/SignUp/M_SignUp_Introduce";
 import { duplicateCheck, login, signUp } from "../../../api/auth";
 import M_SignUp_Gender from "../../molecules/SignUp/M_SignUp_Gender";
 import { useRecoilState } from "recoil";
-import { kid, myMemberUUID, myatk, myatkET } from "../../../atom/member";
+import {
+  kid,
+  myMemberUUID,
+  myatk,
+  myatkET,
+  urlCode,
+} from "../../../atom/member";
 import { changeMyImg } from "../../../api/file";
 import cookie from "react-cookies";
 import { motion } from "framer-motion";
@@ -38,6 +44,7 @@ const SignUp = () => {
   const [, setMemberUUID] = useRecoilState<string>(myMemberUUID);
   const [msg, setMsg] = useState<string>("");
   const [checkMsg, setCheckMsg] = useState<string>("");
+  const [, setMyCode] = useRecoilState<string>(urlCode);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -45,6 +52,7 @@ const SignUp = () => {
     console.log(queryParam);
 
     if (queryParam) {
+      setMyCode(queryParam);
       login(queryParam)
         .then((res) => {
           console.log(res);
@@ -57,6 +65,7 @@ const SignUp = () => {
           );
           if (res.data.body.memberUUID !== null) {
             console.log("여기 타나");
+            setMyCode("");
             navigate("/OtherGender"); //여기서 로딩스피너를 동작시켜야하나?..
           }
         })

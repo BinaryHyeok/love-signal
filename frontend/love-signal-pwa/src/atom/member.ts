@@ -72,3 +72,9 @@ export const teamBuildState = atom<boolean>({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const urlCode = atom<string>({
+  key: "code",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});

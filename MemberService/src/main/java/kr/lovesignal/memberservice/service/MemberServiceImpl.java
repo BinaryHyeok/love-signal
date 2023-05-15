@@ -119,14 +119,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Mono<MemberResponse> getProfileImageByMemberApi(MemberResponse memberResponse){
-        String uri = "http://localhost:9010/file/profile";
+        String uri = "http://localhost:9010/api/file/profile";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("file-service");
         if(instances == null || instances.isEmpty()){
             throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/file/profile";
+            uri = instances.get(0).getUri().toString() + "/api/file/profile";
         }
 
         return webClient.post()

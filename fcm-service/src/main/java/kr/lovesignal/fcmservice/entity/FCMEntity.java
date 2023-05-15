@@ -36,4 +36,7 @@ public class FCMEntity {
 
 	@Column(name = "token")
 	private String token;
+
+	@Column(name = "nickname")
+	private String nickname;
 }

@@ -11,6 +11,7 @@ const Main = () => {
   const [animation, setAnimation] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log("로컬스토리지 삭제");
     localStorage.removeItem("localStorage");
   }, []);
 

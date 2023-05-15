@@ -13,7 +13,7 @@ import javax.persistence.LockModeType;
 
 public interface FCMRepository extends JpaRepository<FCMEntity, Long> {
 
-	List<FCMEntity> findAllByMemberUUIDIn(List<UUID> memberUUIDs);
+	List<FCMEntity> findAllByUUIDIn(List<UUID> memberUUIDs);
 
 //	Optional<FCMEntity> findByMemberUUID(UUID memberUUID);
 

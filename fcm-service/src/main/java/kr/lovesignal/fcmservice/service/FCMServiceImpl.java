@@ -98,7 +98,7 @@ public class FCMServiceImpl implements FCMService{
 	@Override
 	public void sendNotification(List<UUID> memberUUIDs) {
 
-		List<FCMEntity> fcmEntities = fcmRepository.findAllByMemberUUIDIn(memberUUIDs);
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDs);
 
 		for(FCMEntity fcmEntity : fcmEntities){
 			if(fcmEntity.getToken() != null){
@@ -119,7 +119,7 @@ public class FCMServiceImpl implements FCMService{
 
 	@Override
 	public void sendBuildingNotification(List<UUID> memberUUIDs) {
-		List<FCMEntity> fcmEntities = fcmRepository.findAllByMemberUUIDIn(memberUUIDs);
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDs);
 
 		for(FCMEntity fcmEntity : fcmEntities){
 			if(fcmEntity.getToken() != null){

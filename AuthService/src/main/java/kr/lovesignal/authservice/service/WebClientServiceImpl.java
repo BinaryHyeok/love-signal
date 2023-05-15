@@ -49,21 +49,17 @@ public class WebClientServiceImpl implements WebClientService{
     private int port;
 
     @Override
-    public Mono<KauthTokenResponse> getKakaoTokenApi(HttpServletRequest request, String authorizationCode) {
+    public Mono<KauthTokenResponse> getKakaoTokenApi(String authorizationCode, String env) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("grant_type", "authorization_code");
-        System.out.println(request.getServerName());
-        System.out.println("================");
-        if("localhost".equals(request.getServerName())){
+        if("localhost".equals(env)){
             data.add("redirect_uri", devRedirectUri);
-
         }
         else{
             data.add("redirect_uri", prodRedirectUri);
-
         }
         data.add("client_id", clientId);
         data.add("code", authorizationCode);

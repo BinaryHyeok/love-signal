@@ -12,7 +12,7 @@ public interface AuthService {
 
     String registerMember(SignUpRequest signUpRequest, String accessToken);
 
-    SuccessResponse<SignInResponse> signIn(HttpServletRequest request, String authorizationCode);
+    SuccessResponse<SignInResponse> signIn(String authorizationCode, String env);
 
     SuccessResponse<String> checkNicknameDuplicate(String nickname);
 

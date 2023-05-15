@@ -44,10 +44,10 @@ public class AuthServiceImpl implements AuthService{
      * @return 토큰정보들과 유저의 UUID, kakaoID
      */
     @Override
-    public SuccessResponse<SignInResponse> signIn(HttpServletRequest request, String authorizationCode) {
+    public SuccessResponse<SignInResponse> signIn(String authorizationCode, String env) {
 
         KauthTokenResponse kauthTokenResponse =
-                webClientService.getKakaoTokenApi(request, authorizationCode).block();
+                webClientService.getKakaoTokenApi(authorizationCode, env).block();
 
         KauthAccountResponse kauthAccountResponse =
                 webClientService.getKakaoAccountApi(kauthTokenResponse.getAccess_token()).block();

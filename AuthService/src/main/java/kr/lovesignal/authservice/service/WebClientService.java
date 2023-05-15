@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface WebClientService {
 
-    Mono<KauthTokenResponse> getKakaoTokenApi(HttpServletRequest request, String authorizationCode);
+    Mono<KauthTokenResponse> getKakaoTokenApi(String authorizationCode, String env);
 
     Mono<KauthAccountResponse> getKakaoAccountApi(String accessToken);
 

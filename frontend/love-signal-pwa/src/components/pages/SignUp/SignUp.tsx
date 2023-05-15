@@ -55,11 +55,11 @@ const SignUp = () => {
             res.data.body.refreshTokenExpireTime,
             res.data.body.kakaoId
           );
-          console.log(res.data.body.memberUUID !== null);
-          console.log(res.data.body.memberUUID);
           if (res.data.body.memberUUID !== null) {
             console.log("여기 타나");
-            navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
+            setTimeout(() => {
+              navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
+            }, 500);
             setMemberUUID(res.data.body.memberUUID);
           }
         })

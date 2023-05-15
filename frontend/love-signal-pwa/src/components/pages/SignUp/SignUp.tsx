@@ -67,7 +67,7 @@ const SignUp = () => {
             console.log(res.data.body.memberUUID);
             // setMemberUUID(res.data.body.memberUUID);
             navigate("/OtherGender", { replace: true }); //여기서 로딩스피너를 동작시켜야하나?..
-            window.location.reload();
+            // window.location.reload();
           }
         })
         .catch((err) => {

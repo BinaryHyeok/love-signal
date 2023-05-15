@@ -156,7 +156,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             List<Participant> participants = member.getParticipants();
             for(Participant participant : participants) {
                 ChatRoom chatRoom = participant.getChatRoom();
-                chatRoom.setExpired("T");
+
+                if(!(chatRoom.getType().equals("MEETING") || chatRoom.getType().equals("SYSTEM"))){
+                    chatRoom.setExpired("T");
+                }
+
+                if(strMemberUUIDs.size() >=2 && !chatRoom.getType().equals("SYSTEM") ) {
+                    chatRoom.setExpired("T");
+                }
+
                 chatRoomJpaRepository.save(chatRoom);
 
                 if(chatRoom.getType().equals("TEAM") || chatRoom.getType().equals("MEETING")) {
@@ -356,7 +364,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 6 23 * * *")
+    @Scheduled(cron = "0 36 23 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -402,7 +410,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * Redis 안의 ResChatRoom 객체 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 8 23 * * *")
+    @Scheduled(cron = "0 38 23 * * *")
     public void secretChatRoomExpiredT() {
         chatRoomRepository.expiredSecretChatRoom();
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");

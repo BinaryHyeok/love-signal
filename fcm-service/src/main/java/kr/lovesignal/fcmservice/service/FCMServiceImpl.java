@@ -29,8 +29,6 @@ public class FCMServiceImpl implements FCMService{
 	@Override
 	public void registerToken(TokenRequest tokenRequest) {
 		System.out.println("*******************************");
-		System.out.println("*******************************");
-		System.out.println("*******************************");
 		System.out.println(tokenRequest.getMemberUUID());
 		System.out.println(tokenRequest.getToken());
 		System.out.println(tokenRequest.getNickname());
@@ -45,14 +43,9 @@ public class FCMServiceImpl implements FCMService{
 			fcmEntity.setToken(token);
 			fcmRepository.save(fcmEntity);
 		}else {
-			FCMEntity fcmEntity = new FCMEntity();
-	        fcmEntity.setMemberUUID(memberUUID);
-	        fcmEntity.setToken(token);
-			fcmEntity.setNickname(nickname);
+			FCMEntity fcmEntity = tokenRequest.toEntity(memberUUID);
 	        fcmRepository.save(fcmEntity);
 		}
-		System.out.println("*******************************");
-		System.out.println("*******************************");
 		System.out.println("*******************************");
 	}
 

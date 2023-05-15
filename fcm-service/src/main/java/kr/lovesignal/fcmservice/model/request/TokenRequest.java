@@ -18,7 +18,7 @@ public class TokenRequest {
 		return FCMEntity.builder()
 			.memberUUID(UUID)
 			.token(token)
+			.nickname(nickname)
 			.build();
 	}
-
 }

@@ -34,9 +34,6 @@ const Mypage = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
-  const [messaging, _] = useRecoilState<Messaging>(firebaseMessaging);
-  const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
-
   const [name, setName] = useState<string>("");
 
   useEffect(() => {

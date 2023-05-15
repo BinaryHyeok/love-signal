@@ -101,6 +101,7 @@ public class MatchingServiceImpl implements MatchingService {
         }
         // 팀 만들고
         TeamEntity team = TeamEntity.builder()
+                .memberCount(3)
                 .gender(gender)
                 .build();
 

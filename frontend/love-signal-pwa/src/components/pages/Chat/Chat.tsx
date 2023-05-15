@@ -143,7 +143,6 @@ const Chat = () => {
   };
 
   const fetchRoomChat = (roomUUID: string) => {
-    console.log("룸 uuid " + roomUUID + "로 채팅 목록 조회");
     if (!roomUUID) return;
 
     getChatList(roomUUID, atk, kID).then((res) => {

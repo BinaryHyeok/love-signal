@@ -23,11 +23,10 @@ import { kid, myMemberUUID } from "./atom/member";
 import { requestPushPermission, sendFCMToken } from "./api/pwa";
 import { myatk } from "./atom/member";
 import { fcmToken } from "./atom/fcm";
-import { request } from "http";
 import { nickname } from "./atom/member";
 
 function App() {
-  const [token, setToken] = useRecoilState<string>(fcmToken);
+  const [_, setToken] = useRecoilState<string>(fcmToken);
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [myNick] = useRecoilState<string>(nickname);
   const [atk] = useRecoilState<string>(myatk);
@@ -58,7 +57,7 @@ function App() {
           console.error(err);
         });
     }
-  }, [Notification.permission]);
+  }, []);
 
   const router = createBrowserRouter([
     {

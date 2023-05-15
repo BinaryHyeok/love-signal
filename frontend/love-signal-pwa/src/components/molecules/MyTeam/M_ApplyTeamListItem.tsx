@@ -5,6 +5,9 @@ import M_ApplyAcceptButtonList from "../FindTeam/M_ApplyAcceptButtonList";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 type PropsType = {
+  animation: boolean;
+  setAnimation: Dispatch<SetStateAction<boolean>>;
+  timeout: any;
   team: applyTeam;
   haveOppositeTeam: boolean;
   idx: number;
@@ -15,6 +18,9 @@ type PropsType = {
 };
 
 const M_ApplyTeamListItem: React.FC<PropsType> = ({
+  animation,
+  setAnimation,
+  timeout,
   team,
   haveOppositeTeam,
   idx,
@@ -30,6 +36,9 @@ const M_ApplyTeamListItem: React.FC<PropsType> = ({
   return (
     <li className={style.applyTeamBox}>
       <M_ApplyTeamMemberList
+        animation={animation}
+        setAnimation={setAnimation}
+        timeout={timeout}
         team={team.members}
         idx={idx}
         setOppoTeamIdx={setOppoTeamIdx}

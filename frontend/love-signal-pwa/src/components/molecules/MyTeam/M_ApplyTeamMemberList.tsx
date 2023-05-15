@@ -4,6 +4,9 @@ import { member } from "../../../types/member";
 import A_ApplyTeamMember from "../../atoms/MyTeam/A_ApplyTeamMember";
 
 type PropsType = {
+  timeout: any;
+  animation: boolean;
+  setAnimation: Dispatch<SetStateAction<boolean>>;
   team: member[];
   setOppoVisible: Dispatch<SetStateAction<boolean>>;
   idx: number;
@@ -11,12 +14,17 @@ type PropsType = {
 };
 
 const M_ApplyTeamMemberList: React.FC<PropsType> = ({
+  timeout,
+  animation,
+  setAnimation,
   team,
   setOppoVisible,
   idx,
   setOppoTeamIdx,
 }) => {
   const openModal = () => {
+    clearTimeout(timeout);
+    setAnimation(false);
     setOppoTeamIdx(idx);
     setOppoVisible(true);
   };

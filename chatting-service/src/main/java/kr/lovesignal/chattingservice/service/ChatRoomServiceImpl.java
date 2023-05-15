@@ -121,9 +121,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
 
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
-        for(ResChatRoom resChatRoom : resChatRooms) {
-            if(resChatRoom.getExpired().equals("F"))
-                chatRoomList.add(resChatRoom);
+        if(resChatRooms != null) {
+            for(ResChatRoom resChatRoom : resChatRooms) {
+                if(resChatRoom.getExpired().equals("F"))
+                    chatRoomList.add(resChatRoom);
+            }
         }
 
         return chatRoomList;

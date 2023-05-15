@@ -27,40 +27,40 @@ spring:
         - id: member-service
           uri: lb://member-service
           predicates:
-            - Path=api/member/**
+            - Path=/api/member/**
           filters:
             - name : Authentication
 
         - id: team-service
           uri: lb://team-service
           predicates:
-            - Path=api/team/**
+            - Path=/api/team/**
           filters:
             - name: Authentication
 
         - id: chatting-service
           uri: lb://chatting-service
           predicates:
-            - Path=api/chat/** , api/chatRoom/**, api/ws-stomp/**, api/pub/**, api/sub/**, api/webjars/**
+            - Path=/api/chat/** , api/chatRoom/**, api/ws-stomp/**, api/pub/**, api/sub/**, api/webjars/**
 #          filters:
 #            - name: Authentication
 
         - id: file-service
           uri: lb://file-service
           predicates:
-            - Path=api/file/**
+            - Path=/api/file/**
           filters:
             - name: Authentication
 
         - id: fcm-service
           uri: lb://fcm-service
           predicates:
-            - Path=api/fcm/**
+            - Path=/api/fcm/**
           filters:
             - name: Authentication
 
       default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials Content-Type
 
       globalcors:
         cors-configurations:

@@ -123,7 +123,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         List<List<ResChatRoom>> hKeyValues = chatRoomRepository.getHkeyValues();
         for(List<ResChatRoom> resChatRooms : hKeyValues) {
             for(ResChatRoom resChatRoom : resChatRooms) {
-                chatRoomList.add(resChatRoom);
+                if(resChatRoom.getExpired().equals("F"))
+                    chatRoomList.add(resChatRoom);
             }
         }
 

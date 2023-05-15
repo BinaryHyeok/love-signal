@@ -1,10 +1,6 @@
 package kr.lovesignal.chattingservice.repository;
-import kr.lovesignal.chattingservice.entity.ChatRoom;
-import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
-import kr.lovesignal.chattingservice.model.response.ResChatMessage;
 import kr.lovesignal.chattingservice.model.response.ResChatRoom;
-import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -45,6 +45,7 @@ const ExploreTeam = () => {
   const [isLeader] = useRecoilState<boolean>(imLeader);
 
   useEffect(() => {
+    console.log("난 navigate를 타고왔을까?");
     setIdx(0);
     getMyInfo();
     getList();

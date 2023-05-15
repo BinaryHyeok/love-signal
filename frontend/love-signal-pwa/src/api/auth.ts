@@ -48,11 +48,11 @@ export const duplicateCheck = async (nickname: string) => {
 };
 
 //카카오 로그인시 반환할때 하는 부분.
-export const login = async (query: string) => {
+export const login = async (query: string, env: string) => {
   return await axios({
     method: "post",
     url: `${process.env.REACT_APP_API_AUTH}/auth/sign-in`,
-    params: { authorizationCode: query },
+    params: { authorizationCode: query, env: env },
   });
 };
 

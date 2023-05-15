@@ -44,6 +44,14 @@ public class RedisUtils {
         redisTemplate.delete(blockUser + "_" + key);
     }
 
+    public void addRecentTeam(String key, int expireTime){
+        redisTemplate.opsForValue().set(recentTeam + "_" + key, key, expireTime, TimeUnit.SECONDS);
+    }
+
+    public boolean hasRecentTeam(String key){
+        return redisTemplate.hasKey(recentTeam + "_" + key);
+    }
+
     public void addMatchingUser(String value, String gender){
         String key = "M".equals(gender) ? matchingMaleUser : matchingFemaleUser;
         redisTemplate.opsForSet().add(key, value);
@@ -74,13 +82,4 @@ public class RedisUtils {
         return (String)redisTemplate.opsForList().leftPop(key);
     }
 
-    public void addRecentTeam(String hashKey, int expireTime){
-        String expireKey = recentTeam + ":" + hashKey;
-        redisTemplate.opsForHash().put(recentTeam, hashKey,true);
-        redisTemplate.expire(expireKey, expireTime, TimeUnit.SECONDS);
-    }
-
-    public boolean hasRecentTeam(String hashKey){
-        return redisTemplate.opsForHash().hasKey(recentTeam, hashKey);
-    }
 }

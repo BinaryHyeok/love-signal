@@ -101,6 +101,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("push", (event) => {
   // 푸시 메시지의 내용 추출
   const payload = event.data ? event.data.text() : "no payload";
+  console.log("pwa service-worker push msg : ", payload);
 
   // 푸시 알림 표시
   event.waitUntil(

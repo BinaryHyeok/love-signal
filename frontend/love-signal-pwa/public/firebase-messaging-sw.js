@@ -1,3 +1,5 @@
+import { sendFCMToken } from "../src/api/pwa";
+
 importScripts(
   "https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"
 );
@@ -20,6 +22,21 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 // const analytics = firebase.analytics(app);
 const messaging = firebase.messaging();
+
+// 토큰 가져오기
+// const getToken = async () => {
+//   try {
+//     const token = await messaging.getToken();
+//     // 토큰을 서버로 전달하고 처리하는 로직 수행
+//     console.log("FCM 토큰:", token);
+//   } catch (error) {
+//     console.error("FCM 토큰 가져오기 실패:", error);
+//   }
+// };
+
+// // 토큰 가져오기 호출
+// getToken();
+// sendFCMToken
 
 self.addEventListener("install", function (e) {
   console.log("fcm sw install..");

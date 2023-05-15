@@ -24,12 +24,14 @@ import { requestPushPermission, sendFCMToken } from "./api/pwa";
 import { myatk } from "./atom/member";
 import { fcmToken } from "./atom/fcm";
 import { request } from "http";
+import { nickname } from "./atom/member";
 
 function App() {
   const [token, setToken] = useRecoilState<string>(fcmToken);
-  const [UUID, _] = useRecoilState<string>(myMemberUUID);
-  const [atk, __] = useRecoilState<string>(myatk);
-  const [kID, ___] = useRecoilState<string>(kid);
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [myNick] = useRecoilState<string>(nickname);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
     requestPushPermission(UUID)
@@ -41,7 +43,7 @@ function App() {
           getFCMToken()
             .then((token) => {
               setToken(token);
-              sendFCMToken(UUID, atk, kID, token);
+              sendFCMToken(UUID, myNick, atk, kID, token);
             })
             .catch((err) => {
               console.error("토큰을 발급하는 중 오류 발생 : ", err);

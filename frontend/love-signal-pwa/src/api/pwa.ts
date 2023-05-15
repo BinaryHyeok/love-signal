@@ -12,6 +12,7 @@ export const requestPushPermission = async (uuid: string) => {
 
 export const sendFCMToken = async (
   memberUUID: string,
+  nickname: string,
   atk: string,
   kID: string,
   token: string | null
@@ -25,6 +26,7 @@ export const sendFCMToken = async (
     },
     data: {
       memberUUID,
+      nickname,
       token,
     },
   });

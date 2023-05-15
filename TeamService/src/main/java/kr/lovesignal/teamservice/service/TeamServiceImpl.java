@@ -7,7 +7,6 @@ import kr.lovesignal.teamservice.entity.TeamEntity;
 import kr.lovesignal.teamservice.exception.CustomException;
 import kr.lovesignal.teamservice.exception.ErrorCode;
 import kr.lovesignal.teamservice.model.request.GetOppositeGenderTeamsRequest;
-import kr.lovesignal.teamservice.model.response.Member;
 import kr.lovesignal.teamservice.model.response.SuccessResponse;
 import kr.lovesignal.teamservice.model.response.Team;
 import kr.lovesignal.teamservice.model.response.TeamResponse;
@@ -438,8 +437,6 @@ public class TeamServiceImpl implements TeamService{
 
         return memberUUIDs;
     }
-
-
 
     public List<String> deleteMemberFromTeam(MemberEntity leaveMember){
         List<String> memberUUIDs = new ArrayList<>();

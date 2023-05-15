@@ -2,13 +2,18 @@ import style from "./styles/Main.module.scss";
 import A_MainImg from "../../atoms/Main/A_MainImg";
 import A_MainModal from "../../UI/Modal/Main/A_MainModal";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 let timeout: NodeJS.Timer;
 
 const Main = () => {
+  useEffect(() => {
+    const local = window.location.hostname;
+    console.log(local);
+  }, []);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
+
   const openLogin = () => {
     setAnimation(false);
     clearTimeout(timeout);

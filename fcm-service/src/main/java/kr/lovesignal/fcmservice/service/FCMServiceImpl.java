@@ -36,7 +36,7 @@ public class FCMServiceImpl implements FCMService{
 
 		// 현재 사용자의 엔티티를 찾았다면
 		if(existingEntity != null){
-			fcmRepository.setToken(tokenRequest.setToken());
+			existingEntity.setToken(tokenRequest.getToken());
 		}
 		else{
 			existingEntity = new FCMEntity();

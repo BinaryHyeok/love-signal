@@ -415,14 +415,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 진혁이한테 보낼 API
      */
     public void sendMeetingMemberUUIDs(List<String> memberUUIDs) {
-        String uri = "http://localhost:9005/team/expire-meeting";
+        String uri = "http://localhost:9005/api/team/expire-meeting";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("team-service");
         if(instances == null || instances.isEmpty()){
             System.out.println("에러남.");
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/team/expire-meeting";
+            uri = instances.get(0).getUri().toString() + "/api/team/expire-meeting";
         }
 
         webClient.put()

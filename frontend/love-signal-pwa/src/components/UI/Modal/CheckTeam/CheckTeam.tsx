@@ -79,7 +79,7 @@ const CheckTeam: React.FC<propsType> = ({
   const closeModal = () => {
     clearTimeout(timeout);
     setAnimation(true);
-    timeout = setTimeout(() => setVisible(false), 300);
+    timeout = setTimeout(() => setVisible(false), 500);
   };
 
   const closeLeft = () => {
@@ -136,7 +136,7 @@ const CheckTeam: React.FC<propsType> = ({
     <div className={`${style.container}`}>
       <div
         className={`${style.background} ${
-          animation ? `${style.disappear}` : ""
+          animation ? `${style.disappeared}` : ""
         }`}
         onClick={closeModal}
       ></div>
@@ -152,14 +152,6 @@ const CheckTeam: React.FC<propsType> = ({
           transition: {
             ease: "easeOut",
             duration: 0.3,
-          },
-        }}
-        exit={{
-          opacity: 0,
-          scale: 0.6,
-          transition: {
-            ease: "easeIn",
-            duration: 0.7,
           },
         }}
       >

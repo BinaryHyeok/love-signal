@@ -36,7 +36,6 @@ export const inquireMember = async (
       "X-Auth_Token": atk,
       "X-Auth_ID": kID,
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
     },
   });
 };
@@ -56,11 +55,6 @@ export const login = async (query: string) => {
     params: { authorizationCode: query },
   });
 };
-// memberUUID //회원가입 안된사람이면 null 값
-// kakaoUUID //카카오 UUID //recoil 저장
-// accessToken //AccessToken //recoil 저장
-// accessTokenExpireTime // AcessToken 만료시간 //recoil 저장
-// refreshToken //리프레시 토큰 //쿠키 저장
 
 //회원가입 버튼 클릭(Signup  request (nickname, gender, birth, description)
 export const signUp = async (

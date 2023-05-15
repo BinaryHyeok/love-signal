@@ -28,6 +28,10 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
   const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
+    console.log(memberUUID);
+    console.log(atk);
+    console.log(kID);
+
     inquireMember(memberUUID, atk, kID)
       .then((res) => {
         console.log(res);
@@ -36,6 +40,7 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
         setTeamLeader(res.data.body.teamLeader);
         setNickname(res.data.body.nickname);
         setGender(res.data.body.gender);
+
         if (myTeamBuildState && res.data.body.teamUUID !== null) {
           setTeamBuildState(false);
         } else {

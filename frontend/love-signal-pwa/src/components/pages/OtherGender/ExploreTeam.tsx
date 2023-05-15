@@ -7,7 +7,13 @@ import { team } from "../../../types/member";
 import { getMyTeam, getOtherGenderTeam } from "../../../api/team";
 import MsgModal from "../../UI/Modal/Msg/MsgModal";
 import T_OtherGender from "./T_OtherGender";
-import { imLeader, myGender, myTeamUUID, myatk } from "../../../atom/member";
+import {
+  imLeader,
+  myGender,
+  myTeamUUID,
+  myatk,
+  urlCode,
+} from "../../../atom/member";
 import { kid } from "../../../atom/member";
 import Ground from "../../UI/Three/Ground";
 import { motion } from "framer-motion";
@@ -43,8 +49,10 @@ const ExploreTeam = () => {
   const [kID] = useRecoilState<string>(kid);
   const [gender] = useRecoilState<string>(myGender);
   const [isLeader] = useRecoilState<boolean>(imLeader);
+  const [myCode] = useRecoilState<string>(urlCode);
 
   useEffect(() => {
+    console.log("난 navigate를 타고왔을까?");
     setIdx(0);
     getMyInfo();
     getList();
@@ -57,8 +65,11 @@ const ExploreTeam = () => {
   const getMyInfo = async () => {
     if (isLeader) {
       //내가 팀리더면 팀원 3명인지 체크도 해줘야함.
+      console.log(atk);
+      console.log(kID);
       getMyTeam(TUUID, atk, kID)
         .then((res) => {
+          console.log(res);
           setHaveTeam(res.data.body.haveMeetingTeam);
           setMemberLength(res.data.body.members.length);
         })
@@ -71,13 +82,13 @@ const ExploreTeam = () => {
   //리스트를 받아올 axios 함수입니다.
   const getList = async () => {
     const OGender: string = gender === "F" ? "M" : "F"; //반대로 보여줘야하니 삼항연산자 사용.
+    console.log(atk);
+    console.log(kID);
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
-      .then(async (res) => {
+      .then((res) => {
         console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
-        console.log(res.data.body.teams);
-
         adduuidList(res.data.body.teams);
         const length = res.data.body.teams.length;
         setaddNum(length);

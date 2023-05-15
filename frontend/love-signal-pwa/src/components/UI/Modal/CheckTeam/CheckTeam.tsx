@@ -85,7 +85,7 @@ const CheckTeam: React.FC<propsType> = ({
   const closeModal = () => {
     clearTimeout(timeout);
     setAnimation(true);
-    timeout = setTimeout(() => setVisible(false), 500);
+    timeout = setTimeout(() => setVisible(false), 400);
   };
 
   const closeLeft = () => {

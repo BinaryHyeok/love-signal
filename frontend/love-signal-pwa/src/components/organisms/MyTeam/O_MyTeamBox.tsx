@@ -182,6 +182,9 @@ const O_MyTeamBox: React.FC<propsType> = ({
             <>
               {applyTeamExist ? (
                 <O_ApplyTeamList
+                  animation={animation}
+                  setAnimation={setAnimation}
+                  timeout={timeout}
                   applyTeamList={applyList}
                   haveOppositeTeam={haveOppositeTeam}
                   setOppoVisible={setOppoVisible}

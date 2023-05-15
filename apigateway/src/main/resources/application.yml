@@ -71,7 +71,7 @@ spring:
 #            allow-credentials: true
             allowedHeaders:
 #              - Access-Control-Allow-Credentials
-#              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Origin
               - X-Auth_Token
               - X-Auth_ID
               - Content-Type

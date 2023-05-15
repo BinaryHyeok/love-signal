@@ -36,7 +36,7 @@ function App() {
       .then((res) => {
         console.log(res);
         if (!(res === "granted")) {
-          alert("푸시알림을 허용해야 알림을 받을 수 있습니다.");
+          console.log("푸시알림을 허용해야 알림을 받을 수 있습니다.");
         } else {
           getFCMToken()
             .then((token) => {

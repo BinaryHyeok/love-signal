@@ -18,14 +18,16 @@ import { changeMyImg } from "../../../api/file";
 import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
+import AlertBtn from "../../atoms/Common/AlertBtn";
+
+import { firebaseMessaging } from "../../../atom/fcm";
+import { Messaging } from "@firebase/messaging";
+
 import {
   fetchPWAToken,
   requestPushPermission,
   sendFCMToken,
 } from "../../../api/pwa";
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
-import AlertBtn from "../../atoms/Common/AlertBtn";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -41,47 +43,8 @@ const Mypage = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
-  // 푸시알림 관련 테스트 코드
-  useEffect(() => {
-    const firebaseConfig = {
-      apiKey: process.env.REACT_APP_PUSH_VAPID,
-      authDomain: process.env.REACT_APP_PUSH_DOMAIN,
-      projectId: process.env.REACT_APP_PUSH_PROJECT_ID,
-      storageBucket: process.env.REACT_APP_PUSH_PROCESS_BUCKET,
-      messagingSenderId: process.env.REACT_APP_PUSH_SENDER_ID,
-      appId: process.env.REACT_APP_PUSH_APP_ID,
-      measurementId: process.env.REACT_APP_PUSH_MEASUREMENT,
-    };
-    const app = initializeApp(firebaseConfig);
-
-    requestPushPermission()
-      .then((permission) => {
-        if (permission === "granted") {
-          console.log("푸시알림 권한이 허용되었습니다");
-          fetchPWAToken(getMessaging(app))
-            .then((token) => {
-              console.log(token);
-              sendFCMToken(UUID, atk, kID, token);
-            })
-            .catch((err) => {
-              console.error(err);
-            });
-        } else {
-          console.log("푸시알림 허용 X");
-          fetchPWAToken(getMessaging(app))
-            .then((token) => {
-              console.log(token);
-              sendFCMToken(UUID, atk, kID, null);
-            })
-            .catch((err) => {
-              console.error(err);
-            });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+  const [messaging, _] = useRecoilState<Messaging>(firebaseMessaging);
+  const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
 
   useEffect(() => {
     setIdx(3);
@@ -127,7 +90,7 @@ const Mypage = () => {
               setNick={setMyNickName}
               setDesc={setMyDescription}
             />
-            <AlertBtn />
+            <AlertBtn UUID={UUID} atk={atk} kID={kID} />
             <motion.div
               whileTap={{
                 scale: 1.05,

@@ -72,9 +72,3 @@ export const teamBuildState = atom<boolean>({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
-
-export const alertAllowState = atom<boolean>({
-  key: "alertAllowState",
-  default: false,
-  effects_UNSTABLE: [persistAtom],
-});

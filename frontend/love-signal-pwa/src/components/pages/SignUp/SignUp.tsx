@@ -63,6 +63,8 @@ const SignUp = () => {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      navigate("/OtherGender");
     }
   }, []);
 

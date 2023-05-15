@@ -34,6 +34,11 @@ const Mypage = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
+  const [messaging, _] = useRecoilState<Messaging>(firebaseMessaging);
+  const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
+
+  const [name, setName] = useState<string>("");
+
   useEffect(() => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
@@ -43,6 +48,9 @@ const Mypage = () => {
       setMyNickName(MyInfo.data.body.nickname);
       setMyDescription(MyInfo.data.body.description);
     });
+    if (window.location.hostname === "localhost") {
+      setName("/local");
+    }
   }, [UUID, atk, kID]);
 
   useEffect(() => {
@@ -87,7 +95,7 @@ const Mypage = () => {
               className={style.logout}
             >
               <Link
-                to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout`}
+                to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout${name}`}
                 className={style.link}
               >
                 로그아웃

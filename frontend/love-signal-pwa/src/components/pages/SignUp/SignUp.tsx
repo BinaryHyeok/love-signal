@@ -45,8 +45,14 @@ const SignUp = () => {
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("code");
 
+    let env: string = "";
+
+    if (window.location.hostname === "localhost") {
+      env = "localhost";
+    }
+
     if (queryParam) {
-      login(queryParam)
+      login(queryParam, env)
         .then((res) => {
           console.log(res);
           saveMyInfo(

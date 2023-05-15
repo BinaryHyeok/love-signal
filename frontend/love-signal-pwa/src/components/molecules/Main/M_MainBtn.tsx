@@ -1,8 +1,15 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import style from "./styles/M_MainBtn.module.scss";
 import { motion } from "framer-motion";
 
 const MainBtn = () => {
+  const [name, setName] = useState<string>("");
+  useEffect(() => {
+    if (window.location.hostname === "localhost") {
+      setName("/local");
+    }
+  }, []);
   return (
     <motion.div
       whileTap={{
@@ -12,7 +19,7 @@ const MainBtn = () => {
       className={style.buttonBox}
     >
       <Link
-        to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/login`}
+        to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/login${name}`}
         className={style.link}
       >
         <img

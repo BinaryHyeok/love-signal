@@ -42,6 +42,11 @@ public class MatchingServiceImpl implements MatchingService {
         }
 
         MemberEntity member = teamService.findMemberByMemberUUID(strMemberUUID);
+
+        if(member.getTeam() != null){
+            throw new CustomException(ErrorCode.ALREADY_JOIN_TEAM);
+        }
+
         String gender = member.getGender();
 
         // 대기열에 참가

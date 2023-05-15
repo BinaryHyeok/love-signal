@@ -17,7 +17,6 @@ public interface FCMRepository extends JpaRepository<FCMEntity, Long> {
 
 //	Optional<FCMEntity> findByMemberUUID(UUID memberUUID);
 
-	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	FCMEntity findByMemberUUID(UUID memberUUID);
 }
 

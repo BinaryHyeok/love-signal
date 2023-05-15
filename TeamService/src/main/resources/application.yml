@@ -20,10 +20,6 @@ server:
 
 spring:
 
-  cloud:
-    config:
-      enabled: false
-
   application:
     name: team-service      # Application name
 

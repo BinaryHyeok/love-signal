@@ -31,7 +31,7 @@ public class ChatRoomRepository {
         ResChatRoom chatRoom = null;
 
         // 같은 HK 로 MEETING 룸에서 만든 모든 1:1 채팅방 조회.
-        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, "1");
 
         if(list == null)
             return chatRoom;
@@ -60,26 +60,26 @@ public class ChatRoomRepository {
     }
 
     public void saveResSelectChatRoom(String meetingRoomUUID, ResChatRoom resSelectChatRoom) {
-        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, "1");
         if(list == null) {
             list = new ArrayList<>();
         }
         list.add(resSelectChatRoom);
-        opsHashSelectRoomList.put(SELECT, meetingRoomUUID, list);
+        opsHashSelectRoomList.put(SELECT, "1", list);
     }
 
     public void updateResSelectChatRoom(String meetingRoomUUID, String resSelectChatRoomUUID) {
-        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, "1");
         for(ResChatRoom findRoom : list) {
             if(findRoom.getUUID().equals(resSelectChatRoomUUID)) {
                 findRoom.setLove("T");
             }
         }
-        opsHashSelectRoomList.put(SELECT, meetingRoomUUID, list);
+        opsHashSelectRoomList.put(SELECT, "1", list);
     }
 
-    public List<List<ResChatRoom>> getHkeyValues() {
-        return opsHashSelectRoomList.values(SELECT);
+    public List<ResChatRoom> getSelectRoomList() {
+        return opsHashSelectRoomList.get(SELECT,"1");
     }
 
     public List<Participant> getParticipantList() {
@@ -87,4 +87,10 @@ public class ChatRoomRepository {
     }
 
 
+    public void expiredSecretChatRoom() {
+        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, "1");
+        for(ResChatRoom resChatRoom : list) {
+            resChatRoom.setExpired("T");
+        }
+    }
 }

@@ -120,12 +120,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             }
         }
 
-        List<List<ResChatRoom>> hKeyValues = chatRoomRepository.getHkeyValues();
-        for(List<ResChatRoom> resChatRooms : hKeyValues) {
-            for(ResChatRoom resChatRoom : resChatRooms) {
-                if(resChatRoom.getExpired().equals("F"))
-                    chatRoomList.add(resChatRoom);
-            }
+        List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
+        for(ResChatRoom resChatRoom : resChatRooms) {
+            if(resChatRoom.getExpired().equals("F"))
+                chatRoomList.add(resChatRoom);
         }
 
         return chatRoomList;
@@ -335,42 +333,53 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
     }
 
+    public List<ResChatRoom> getOneToOneResChatRoom(List<List<ResChatRoom>> hKeyValues) {
+        List<ResChatRoom> list = new ArrayList<>();
+
+        for (List<ResChatRoom> resSelectChatRoomList : hKeyValues) {
+            for (ResChatRoom resChatRoom : resSelectChatRoomList) {
+                list.add(resChatRoom);
+            }
+        }
+
+
+        return null;
+    }
+
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 40 21 * * *")
+    @Scheduled(cron = "0 22 22 * * *")
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
             2. 이중 for 문으로 List<HV> List<ChatRoom> 각 채팅방 순회
          */
-        List<List<ResChatRoom>> hKeyValues = chatRoomRepository.getHkeyValues();
-        for (List<ResChatRoom> resSelectChatRoomList : hKeyValues) {
-            for (ResChatRoom resSelectChatRoom : resSelectChatRoomList) {
+        List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
+        for (ResChatRoom resChatRoom : resChatRooms) {
 
-                ChatRoom chatRoom = resSelectChatRoom.toEntity();
+            ChatRoom chatRoom = resChatRoom.toEntity();
 
-                // 익명 선택의 시간이면 양방향 여부 상관없이 채팅방 엔티티 저장
-                if (resSelectChatRoom.getType().equals("SECRET")) {
-                    chatRoomJpaRepository.save(chatRoom);
-                }
-                // 마지막 선택의 시간이면 양방향 인것만 채팅방 엔티티 저장
-                else if (resSelectChatRoom.getType().equals("SIGNAL") && resSelectChatRoom.getLove().equals("T")) {
-                    chatRoomJpaRepository.save(chatRoom);
-                }
-
-                ResMember selector = resSelectChatRoom.getSelector();
-                ResMember selected = resSelectChatRoom.getSelected();
-
-                Member selectorMember = memberJpaRepository.findMemberByNickname(selector.getNickname());
-                Member selectedMember = memberJpaRepository.findMemberByNickname(selected.getNickname());
-
-                Participant selectorParticipant = getParticipant(selectorMember, chatRoom);
-                Participant selectedParticipant = getParticipant(selectedMember, chatRoom);
-
-                participantJpaRepository.save(selectorParticipant);
-                participantJpaRepository.save(selectedParticipant);
+            // 익명 선택의 시간이면 양방향 여부 상관없이 채팅방 엔티티 저장
+            if (resChatRoom.getType().equals("SECRET")) {
+                chatRoomJpaRepository.save(chatRoom);
             }
+            // 마지막 선택의 시간이면 양방향 인것만 채팅방 엔티티 저장
+            else if (resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T")) {
+                chatRoomJpaRepository.save(chatRoom);
+            }
+
+            ResMember selector = resChatRoom.getSelector();
+            ResMember selected = resChatRoom.getSelected();
+
+            Member selectorMember = memberJpaRepository.findMemberByNickname(selector.getNickname());
+            Member selectedMember = memberJpaRepository.findMemberByNickname(selected.getNickname());
+
+            Participant selectorParticipant = getParticipant(selectorMember, chatRoom);
+            Participant selectedParticipant = getParticipant(selectedMember, chatRoom);
+
+            participantJpaRepository.save(selectorParticipant);
+            participantJpaRepository.save(selectedParticipant);
         }
     }
 
@@ -383,10 +392,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     /**
      * 매일밤 11시 30분 1:1 채팅방 기간만료 처리.
+     * Redis 안의 ResChatRoom 객체 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 45 21 * * *")
+    @Scheduled(cron = "0 24 22 * * *")
     public void secretChatRoomExpiredT() {
+        chatRoomRepository.expiredSecretChatRoom();
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
         for(ChatRoom chatRoom : list) {
             chatRoom.setExpired("T");

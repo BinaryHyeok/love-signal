@@ -16,7 +16,7 @@ import kr.lovesignal.fcmservice.model.request.TokenRequest;
 import kr.lovesignal.fcmservice.repository.FCMRepository;
 
 
-@Transactional
+@Transactional(isolation = Isolation.SERIALIZABLE)
 @Service
 public class FCMServiceImpl implements FCMService{
 

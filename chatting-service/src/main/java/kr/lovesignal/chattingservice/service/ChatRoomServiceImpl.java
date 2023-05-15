@@ -95,27 +95,36 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // Participant 객체에서 ChatRoom 을 뽑아오고 ResChatRoom 으로 변환.
             ChatRoom chatRoom = participant.getChatRoom();
-            ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
+            if(!chatRoom.getType().equals("SECRET") || !chatRoom.getType().equals("SIGNAL")) {
+                ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
 
-            // 룸에 참여하고 있는 모든 Participant 순회
-            List<Participant> roomParticipants = participantJpaRepository.findByChatRoom(chatRoom);
-            for(Participant participant1 : roomParticipants) {
-                // 멤버를 뽑아서 반환 멤버 생성
-                Member member1 = participant1.getMember();
-                ResMember resMember = ResMember.toDto(member1);
-                System.out.println("====================멤버가 널일까?=============="+member1.getNickname());
-                resMember.setProfileImage(getProfileImageStoredName(member1));
-                // 멤버 나이 계산 및 주입
-                LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
-                int age = Period.between(birthDate, LocalDate.now()).getYears();
-                resMember.setAge(age);
-                memberList.add(resMember);
+                // 룸에 참여하고 있는 모든 Participant 순회
+                List<Participant> roomParticipants = participantJpaRepository.findByChatRoom(chatRoom);
+                for(Participant participant1 : roomParticipants) {
+                    // 멤버를 뽑아서 반환 멤버 생성
+                    Member member1 = participant1.getMember();
+                    ResMember resMember = ResMember.toDto(member1);
+                    System.out.println("====================멤버가 널일까?=============="+member1.getNickname());
+                    resMember.setProfileImage(getProfileImageStoredName(member1));
+                    // 멤버 나이 계산 및 주입
+                    LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
+                    int age = Period.between(birthDate, LocalDate.now()).getYears();
+                    resMember.setAge(age);
+                    memberList.add(resMember);
+                }
+
+                // 알맹이 리스트를 ResChatRoom 객체에 주입
+                resChatRoom.setMemberList(memberList);
+                if(participant.getExpired().equals("F"))
+                    chatRoomList.add(resChatRoom);
             }
+        }
 
-            // 알맹이 리스트를 ResChatRoom 객체에 주입
-            resChatRoom.setMemberList(memberList);
-            if(participant.getExpired().equals("F"))
+        List<List<ResChatRoom>> hKeyValues = chatRoomRepository.getHkeyValues();
+        for(List<ResChatRoom> resChatRooms : hKeyValues) {
+            for(ResChatRoom resChatRoom : resChatRooms) {
                 chatRoomList.add(resChatRoom);
+            }
         }
 
         return chatRoomList;
@@ -306,8 +315,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     .selector(selectorDto)
                     .selected(selectedDto)
                     .build();
-
-            ChatRoom chatRoom = resSelectChatRoom.toEntity();
 
             // redis 에 저장.
             chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);

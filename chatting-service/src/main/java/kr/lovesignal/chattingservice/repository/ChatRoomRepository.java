@@ -3,6 +3,7 @@ import kr.lovesignal.chattingservice.entity.ChatRoom;
 import kr.lovesignal.chattingservice.entity.Member;
 import kr.lovesignal.chattingservice.entity.Participant;
 import kr.lovesignal.chattingservice.model.response.ResChatMessage;
+import kr.lovesignal.chattingservice.model.response.ResChatRoom;
 import kr.lovesignal.chattingservice.model.response.ResSelectChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
@@ -20,7 +21,7 @@ public class ChatRoomRepository {
     private final String SELECT = "Select";
     private final String PARTICIPANT = "Participant";
     private final RedisTemplate<String, Object> redisTemplate;
-    private HashOperations<String, String, List<ResSelectChatRoom>> opsHashSelectRoomList;
+    private HashOperations<String, String, List<ResChatRoom>> opsHashSelectRoomList;
     private HashOperations<String, String, List<Participant>> opsHashParticipantList;
 
     @PostConstruct
@@ -29,18 +30,18 @@ public class ChatRoomRepository {
         opsHashParticipantList = redisTemplate.opsForHash();
     }
 
-    public ResSelectChatRoom checkResSelectChatRoom(String selectorUUID, String selectedUUID, String meetingRoomUUID) {
+    public ResChatRoom checkResSelectChatRoom(String selectorUUID, String selectedUUID, String meetingRoomUUID) {
         // 리턴 껍데기 생성
-        ResSelectChatRoom chatRoom = null;
+        ResChatRoom chatRoom = null;
 
         // 같은 HK 로 MEETING 룸에서 만든 모든 1:1 채팅방 조회.
-        List<ResSelectChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
 
         if(list == null)
             return chatRoom;
 
         // HV 순회하면서 selector 와 selected 반대로 일치하는 채팅방 존재유무 체크.
-        for(ResSelectChatRoom resSelectChatRoom : list) {
+        for(ResChatRoom resSelectChatRoom : list) {
             String preSelectorUUID = resSelectChatRoom.getSelected().getMemberUUID().toString();
             String preSelectedUUID = resSelectChatRoom.getSelector().getMemberUUID().toString();
 
@@ -62,8 +63,8 @@ public class ChatRoomRepository {
         opsHashParticipantList.put(PARTICIPANT, "1", list);
     }
 
-    public void saveResSelectChatRoom(String meetingRoomUUID, ResSelectChatRoom resSelectChatRoom) {
-        List<ResSelectChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+    public void saveResSelectChatRoom(String meetingRoomUUID, ResChatRoom resSelectChatRoom) {
+        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
         if(list == null) {
             list = new ArrayList<>();
         }
@@ -72,8 +73,8 @@ public class ChatRoomRepository {
     }
 
     public void updateResSelectChatRoom(String meetingRoomUUID, String resSelectChatRoomUUID) {
-        List<ResSelectChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
-        for(ResSelectChatRoom findRoom : list) {
+        List<ResChatRoom> list = opsHashSelectRoomList.get(SELECT, meetingRoomUUID);
+        for(ResChatRoom findRoom : list) {
             if(findRoom.getUUID().equals(resSelectChatRoomUUID)) {
                 findRoom.setLove("T");
             }
@@ -81,7 +82,7 @@ public class ChatRoomRepository {
         opsHashSelectRoomList.put(SELECT, meetingRoomUUID, list);
     }
 
-    public List<List<ResSelectChatRoom>> getHkeyValues() {
+    public List<List<ResChatRoom>> getHkeyValues() {
         return opsHashSelectRoomList.values(SELECT);
     }
 

@@ -19,20 +19,31 @@ public class ResChatRoom {
     private String UUID;
     private String type;
     private String roomName;
-    private String lastChat;
-    private int notReadChat;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private String createdDate;
+    private String updatedDate;
     private String expired;
     private List<ResMember> memberList;
+
+    private ResMember selector;
+    private ResMember selected;
+    @Builder.Default
+    private String love = "F";
+
+
+    public ChatRoom toEntity() {
+        return ChatRoom.builder()
+                .type(this.type)
+                .roomName(this.roomName)
+                .build();
+    }
 
     public static ResChatRoom toDto(ChatRoom chatRoom) {
         return ResChatRoom.builder()
                 .UUID(chatRoom.getUUID().toString())
                 .type(chatRoom.getType())
                 .roomName(chatRoom.getRoomName())
-                .createdDate(chatRoom.getCreatedDate())
-                .updatedDate(chatRoom.getUpdatedDate())
+                .createdDate(chatRoom.getCreatedDate().toString())
+                .updatedDate(chatRoom.getUpdatedDate().toString())
                 .expired(chatRoom.getExpired())
                 .build();
     }

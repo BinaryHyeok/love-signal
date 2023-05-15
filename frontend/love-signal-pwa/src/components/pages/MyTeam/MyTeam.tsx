@@ -30,7 +30,7 @@ let timeout: NodeJS.Timer;
 
 const MyTeam = () => {
   //내가 상대팀이 있는지 파악해주는 state변수입니다.
-  const [haveOppositeTeam, setHaveOppositeTeam] = useState<boolean>(false);
+  const [haveOppositeTeam, setHaveOppositeTeam] = useState<boolean>(true);
 
   const [memberList, setMemberList] = useState<member[]>([]);
   const [matchMember, setMatchMemberList] = useState<member[]>([]);
@@ -87,9 +87,9 @@ const MyTeam = () => {
         }
         setMemberList([...newList]);
         //내가 상대팀을 가지고 있는지를 파악.
-        if (!res.data.body.haveMeetingTeam) {
-          //상대팀이 없을시 true로 변경.
-          setHaveOppositeTeam(true);
+        if (res.data.body.haveMeetingTeam) {
+          //상대팀이 있을시 false로 변경.
+          setHaveOppositeTeam(false);
         }
       })
       .catch((err) => {

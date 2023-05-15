@@ -26,6 +26,7 @@ const NUMBER = 5; //한번에 받아올 리스트의 수
 let timeout: NodeJS.Timer;
 
 const ExploreTeam = () => {
+  console.log("asdf");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
@@ -56,7 +57,7 @@ const ExploreTeam = () => {
     setIdx(0);
     getMyInfo();
     getList();
-  }, [myCode]);
+  }, []);
 
   useEffect(() => {
     setMsg("");

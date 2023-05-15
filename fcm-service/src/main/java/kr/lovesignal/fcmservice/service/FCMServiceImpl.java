@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Isolation;
 
@@ -28,6 +29,7 @@ public class FCMServiceImpl implements FCMService{
 	}
 
 	@Override
+	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void registerToken(TokenRequest tokenRequest) {
 		System.out.println("*******************************");
 		System.out.println(tokenRequest.getMemberUUID());
@@ -40,9 +42,11 @@ public class FCMServiceImpl implements FCMService{
 		Optional<FCMEntity> existingEntityOpt = fcmRepository.findByMemberUUID(memberUUID);
 
 		if(existingEntityOpt.isPresent()) {
-			FCMEntity fcmEntity = existingEntityOpt.get();
-			fcmEntity.setToken(token);
-			fcmRepository.save(fcmEntity);
+			existingEntityOpt.get().setToken(token);
+			fcmRepository.save(existingEntityOpt.get());
+//			FCMEntity fcmEntity = existingEntityOpt.get();
+//			fcmEntity.setToken(token);
+//			fcmRepository.save(fcmEntity);
 		}else {
 			FCMEntity fcmEntity = tokenRequest.toEntity(memberUUID);
 	        fcmRepository.save(fcmEntity);

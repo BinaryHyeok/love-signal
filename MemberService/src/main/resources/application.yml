@@ -9,6 +9,7 @@ server:
 
     http2:
     enabled: true
+    context-path: /api
 
   error:
     include-exception: false

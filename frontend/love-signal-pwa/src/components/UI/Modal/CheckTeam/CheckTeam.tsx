@@ -25,7 +25,7 @@ import { kid } from "../../../../atom/member";
 import { shareTeam } from "../../../../api/chat";
 
 type propsType = {
-  timeout?: any;
+  timeout: any;
   animation: boolean;
   setAnimation: Dispatch<SetStateAction<boolean>>;
   setVisible: Dispatch<SetStateAction<boolean>>;

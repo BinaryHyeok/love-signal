@@ -23,7 +23,7 @@ import GetMyInfo from "../../Filter/GetMyInfo";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
-// let timeout: NodeJS.Timer;
+let timeout: NodeJS.Timer;
 
 const ExploreTeam = () => {
   console.log("asdf");
@@ -120,7 +120,7 @@ const ExploreTeam = () => {
     //여기서 내가 팀이 있는지 없는지 체크를 해서 팀이 있으면 상세보기로 없으면 팀을 구성하라는 모달을 띄워주어야합니다.
     setTeamNumber(idx);
     setAnimation(false);
-    // clearTimeout(timeout);
+    clearTimeout(timeout);
     setVisible(true);
   };
 
@@ -133,7 +133,7 @@ const ExploreTeam = () => {
             <>
               <Modal_portal>
                 <CheckTeam
-                  // timeout={timeout}
+                  timeout={timeout}
                   animation={animation}
                   setAnimation={setAnimation}
                   setVisible={setVisible}

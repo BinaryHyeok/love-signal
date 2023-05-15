@@ -83,7 +83,7 @@ const Mypage = () => {
               setNick={setMyNickName}
               setDesc={setMyDescription}
             />
-            <AlertBtn UUID={UUID} atk={atk} kID={kID} />
+            <AlertBtn UUID={UUID} myNick={myNickName} atk={atk} kID={kID} />
             <motion.div
               whileTap={{
                 scale: 1.05,

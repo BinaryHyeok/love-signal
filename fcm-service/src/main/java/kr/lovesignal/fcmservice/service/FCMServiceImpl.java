@@ -2,6 +2,7 @@ package kr.lovesignal.fcmservice.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,23 +29,32 @@ public class FCMServiceImpl implements FCMService{
 	@Override
 	public void registerToken(TokenRequest tokenRequest) {
 
+		// UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
+		// FCMEntity existingEntity = fcmRepository.findByMemberUUID(memberUUID);
+
+		// System.out.println(tokenRequest.getMemberUUID());
+		// System.out.println(tokenRequest.getToken());
+
+		// // 현재 사용자의 엔티티를 찾았다면
+		// if(existingEntity != null){
+		// 	existingEntity.setToken(tokenRequest.getToken());
+		// }
+		// else{
+		// 	existingEntity = new FCMEntity();
+		// 	existingEntity.setMemberUUID(memberUUID);
+        // 	existingEntity.setToken(tokenRequest.getToken());
+		// }
+
+		// fcmRepository.save(existingEntity);
+
 		UUID memberUUID = UUID.fromString(tokenRequest.getMemberUUID());
-		FCMEntity existingEntity = fcmRepository.findByMemberUUID(memberUUID);
+		Optional<FCMEntity> existingEntityOpt = fcmRepository.findById(memberUUID);
 
-		System.out.println(tokenRequest.getMemberUUID());
-		System.out.println(tokenRequest.getToken());
+		FCMEntity fcmEntity = existingEntityOpt.orElse(new FCMEntity());
+		fcmEntity.setMemberUUID(memberUUID);
+		fcmEntity.setToken(tokenRequest.getToken());
 
-		// 현재 사용자의 엔티티를 찾았다면
-		if(existingEntity != null){
-			existingEntity.setToken(tokenRequest.getToken());
-		}
-		else{
-			existingEntity = new FCMEntity();
-			existingEntity.setMemberUUID(memberUUID);
-        	existingEntity.setToken(tokenRequest.getToken());
-		}
-
-		fcmRepository.save(existingEntity);
+		fcmRepository.save(fcmEntity);
 	}
 
 	@Override

@@ -14,11 +14,11 @@ public class TokenRequest {
 	private String token;
 	private String nickname;
 
-	public FCMEntity toEntity(UUID UUID){
-		return FCMEntity.builder()
-			.memberUUID(UUID)
-			.token(token)
-			.nickname(nickname)
-			.build();
-	}
+//	public FCMEntity toEntity(UUID UUID){
+//		return FCMEntity.builder()
+//			.memberUUID(UUID)
+//			.token(token)
+//			.nickname(nickname)
+//			.build();
+//	}
 }

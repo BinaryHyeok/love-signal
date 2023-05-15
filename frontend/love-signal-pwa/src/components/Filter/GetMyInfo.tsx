@@ -28,10 +28,6 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
   const [kID] = useRecoilState<string>(kid);
 
   useEffect(() => {
-    console.log(memberUUID);
-    console.log(atk);
-    console.log(kID);
-
     inquireMember(memberUUID, atk, kID)
       .then((res) => {
         console.log(res);

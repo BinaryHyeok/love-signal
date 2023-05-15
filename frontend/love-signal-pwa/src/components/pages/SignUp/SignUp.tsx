@@ -153,6 +153,7 @@ const SignUp = () => {
         changeMyImg(res.data.body, myImage, atk, kakaoId)
           .then(() => {
             navigate("/Manual");
+            window.location.reload();
           })
           .catch((err) => {
             console.log(err);

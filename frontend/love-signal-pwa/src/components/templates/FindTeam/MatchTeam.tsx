@@ -20,7 +20,7 @@ const camera = new PerspectiveCamera(
   1,
   10000
 );
-camera.zoom = 0.2;
+camera.zoom = 0.15;
 camera.position.set(0, 0, 20);
 camera.updateProjectionMatrix();
 

@@ -94,7 +94,7 @@ const M_FindTeamMenuList = () => {
   const fastMatch = () => {
     setAnimation(false);
     matchApply(myUUID, atk, kID)
-      .then(async (res) => {
+      .then((res) => {
         //매칭 신청 시작했습니다~
         setMyTeamBuildState(true);
         console.log(res);

@@ -36,6 +36,7 @@ const GetMyInfo: React.FC<propsType> = ({ children }) => {
         setTeamLeader(res.data.body.teamLeader);
         setNickname(res.data.body.nickname);
         setGender(res.data.body.gender);
+
         if (myTeamBuildState && res.data.body.teamUUID !== null) {
           setTeamBuildState(false);
         } else {

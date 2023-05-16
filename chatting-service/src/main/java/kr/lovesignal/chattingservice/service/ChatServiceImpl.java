@@ -39,7 +39,8 @@ public class ChatServiceImpl implements ChatService{
 
     public String getProfileImageStoredName(Member member) {
         ProfileImage profileImage = profileImageJpaRepository.findByMemberAndExpired(member, "F");
-        if(profileImage == null) return "";
+        if(profileImage == null)
+            return "";
         return profileImage.getStoredName();
     }
 

@@ -3,12 +3,18 @@ import style from "./styles/M_ChatText_Share.module.scss";
 import A_ChatText_TypeB from "../../atoms/Chat/A_ChatText_TypeB";
 import { selectOrShareInfo } from "../../../types/chat";
 import M_ChatSelectBox from "./M_ChatSelectBox";
+import A_ChatText_TypeA from "../../atoms/Chat/A_ChatText_TypeA";
 
 type PropsType = {
   sender: string;
   selectInfo: selectOrShareInfo;
+  isMe: boolean;
 };
-const M_ChatText_Share: React.FC<PropsType> = ({ sender, selectInfo }) => {
+const M_ChatText_Share: React.FC<PropsType> = ({
+  sender,
+  selectInfo,
+  isMe,
+}) => {
   const openTeamDetail = () => {
     alert("팀 정보 보여주는 모달을 띄워요~");
   };
@@ -30,7 +36,9 @@ const M_ChatText_Share: React.FC<PropsType> = ({ sender, selectInfo }) => {
     </>
   );
 
-  return (
+  return isMe ? (
+    <A_ChatText_TypeA background="#fff" content={content} />
+  ) : (
     <A_ChatText_TypeB
       nickname={sender}
       content={content}

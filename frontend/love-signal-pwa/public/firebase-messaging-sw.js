@@ -1,3 +1,5 @@
+import { sendFCMToken } from "../src/api/pwa";
+
 importScripts(
   "https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"
 );
@@ -21,6 +23,21 @@ const app = firebase.initializeApp(firebaseConfig);
 // const analytics = firebase.analytics(app);
 const messaging = firebase.messaging();
 
+// 토큰 가져오기
+// const getToken = async () => {
+//   try {
+//     const token = await messaging.getToken();
+//     // 토큰을 서버로 전달하고 처리하는 로직 수행
+//     console.log("FCM 토큰:", token);
+//   } catch (error) {
+//     console.error("FCM 토큰 가져오기 실패:", error);
+//   }
+// };
+
+// // 토큰 가져오기 호출
+// getToken();
+// sendFCMToken
+
 self.addEventListener("install", function (e) {
   console.log("fcm sw install..");
   self.skipWaiting();
@@ -31,7 +48,7 @@ self.addEventListener("activate", function (e) {
 });
 
 self.addEventListener("push", function (e) {
-  console.log("push: ", e.data.json());
+  console.log("fcm, push: ", e.data.json());
   if (!e.data.json()) return;
   try {
     const pushData = e.data.json();
@@ -40,6 +57,7 @@ self.addEventListener("push", function (e) {
     const notificationOptions = {
       body: content,
       icon: "/assets/heart with arrow.png",
+      vibrate: [200, 100, 200, 100],
     };
 
     e.waitUntil(self.registration.showNotification(title, notificationOptions));

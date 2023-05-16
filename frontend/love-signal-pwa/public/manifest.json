@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "러브시그널",
+  "name": "러브시그널",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/assets/mail.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

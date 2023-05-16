@@ -35,7 +35,7 @@ registerRoute(
     // Return true to signal that we want to use the handler.
     return true;
   },
-  createHandlerBoundToURL(process.env.PUBLIC_URL + "/index.html")
+  createHandlerBoundToURL(process.env.PUBLIC_URL + "/")
 );
 
 // An example runtime caching route for requests that aren't handled by the
@@ -55,6 +55,24 @@ registerRoute(
   })
 );
 
+const cacheName = "v1";
+
+self.addEventListener("install", function (event) {
+  event.waitUntil(
+    caches.open(cacheName).then(function (cache) {
+      return cache.addAll([]);
+    })
+  );
+});
+
+self.addEventListener("fetch", function (event) {
+  event.respondWith(
+    caches.match(event.request).then(function (response) {
+      return response || fetch(event.request);
+    })
+  );
+});
+
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener("message", (event) => {
@@ -63,9 +81,22 @@ self.addEventListener("message", (event) => {
   }
 });
 
-// Any other custom service worker logic can go here.
 // Service Worker가 설치되고 활성화될 때 호출되는 이벤트 리스너 등록
 self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys
+          .filter((key) => {
+            return key === "v1";
+          })
+          .map((key) => {
+            return caches.delete(key);
+          })
+      );
+    })
+  );
+
   // 푸시 알림 관련 기능 활성화
   self.registration.pushManager
     .getSubscription()
@@ -97,15 +128,32 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
 });
 
-// 푸시알림 이벤트 리스너 등록
-self.addEventListener("push", (event) => {
-  // 푸시 메시지의 내용 추출
-  const payload = event.data ? event.data.text() : "no payload";
+self.addEventListener("install", function (e) {
+  console.log("client sw install..");
+  self.skipWaiting();
+});
 
-  // 푸시 알림 표시
-  event.waitUntil(
-    self.registration.showNotification("푸시 알림", {
-      body: payload,
-    })
-  );
+self.addEventListener("activate", function (e) {
+  console.log("client sw activate..");
+});
+
+// 푸시알림 이벤트 리스너 등록
+self.addEventListener("push", (e) => {
+  console.log("client, push: ", e.data?.json());
+  if (!e.data?.json()) return;
+
+  try {
+    const pushData = e.data.json();
+    const { title, content } = pushData.data;
+    const notificationOptions = {
+      body: content,
+      icon: "/assets/heart with arrow.png",
+      vibrate: [200, 100, 200, 100],
+      actions: [],
+    };
+    // 푸시 알림 표시
+    e.waitUntil(self.registration.showNotification(title, notificationOptions));
+  } catch (err) {
+    console.error(err);
+  }
 });

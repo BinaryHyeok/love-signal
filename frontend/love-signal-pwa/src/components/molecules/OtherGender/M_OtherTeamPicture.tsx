@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { team } from "../../../types/member";
 import A_GenderImg from "../../atoms/OtherGender/A_GenderImg";
 import style from "./styles/M_OtherTeamPicture.module.scss";
@@ -9,6 +10,9 @@ type propsType = {
 };
 
 const PictureBox: React.FC<propsType> = ({ viewDetail, idx, team }) => {
+  useEffect(() => {
+    console.log(idx);
+  });
   return (
     <>
       <div

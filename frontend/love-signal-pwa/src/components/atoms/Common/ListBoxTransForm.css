@@ -1,0 +1,39 @@
+:is(.box0, .box1, .box2, .box3 .box4) {
+  font-size: 2rem;
+  margin: 1rem;
+  animation: bubble 1s ease;
+  animation-fill-mode: forwards;
+}
+
+.box0 {
+  /* animation-delay: 0.5s; */
+}
+
+.box1 {
+  animation-delay: 0.5s;
+}
+
+.box2 {
+  animation-delay: 1s;
+}
+
+.box3 {
+  animation-delay: 1.5s;
+}
+
+.box3 {
+  animation-delay: 2s;
+}
+
+.box3 {
+  animation-delay: 2.5s;
+}
+
+@keyframes bubble {
+  from {
+    transform: translateY(120%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

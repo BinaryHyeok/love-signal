@@ -34,8 +34,8 @@ public class ScheduleServiceImpl {
             // B 또는 C 메소드가 실행된 시점에서 5분 뒤에 ChatRoomService의 D 메소드 실행
             executorService.schedule(() -> {
                 chatRoomService.secretChatRoomExpiredT();
-            }, 1, TimeUnit.MINUTES);
-        }, 1, TimeUnit.MINUTES);
+            }, 3, TimeUnit.MINUTES);
+        }, 3, TimeUnit.MINUTES);
     }
 
 }

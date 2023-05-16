@@ -54,10 +54,13 @@ const Mypage = () => {
 
   useEffect(() => {
     if (start) {
+      alert(myCropImage);
       changeMyImg(UUID, myCropImage, atk, kID)
-        .then((res) => {})
+        .then((res) => {
+          alert("나는 성공했어" + res);
+        })
         .catch((err) => {
-          alert(err.response.data.message);
+          alert("나는 이미지야." + err.response.data);
         });
     } else {
       setStart(true);

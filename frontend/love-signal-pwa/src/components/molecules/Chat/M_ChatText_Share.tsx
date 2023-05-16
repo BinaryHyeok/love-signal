@@ -11,7 +11,6 @@ type PropsType = {
   selectInfo: selectOrShareInfo;
   isMe: boolean;
   setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
-  setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
   chat: chat;
   viewDetail: () => void;
 };
@@ -20,11 +19,13 @@ const M_ChatText_Share: React.FC<PropsType> = ({
   selectInfo,
   isMe,
   setOppositeTeamMember,
-  setOppositeTeamUUID,
   chat,
   viewDetail,
 }) => {
   const openTeamDetail = () => {
+    if (chat.selectOrShareInfo?.memberList) {
+      setOppositeTeamMember(chat.selectOrShareInfo.memberList);
+    }
     viewDetail();
     console.log(chat.selectOrShareInfo);
   };

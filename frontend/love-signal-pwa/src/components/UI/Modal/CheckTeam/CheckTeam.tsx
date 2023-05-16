@@ -80,6 +80,7 @@ const CheckTeam: React.FC<propsType> = ({
     } else {
       setShareBtn(false);
     }
+    console.log(member);
   }, []);
 
   const closeModal = () => {

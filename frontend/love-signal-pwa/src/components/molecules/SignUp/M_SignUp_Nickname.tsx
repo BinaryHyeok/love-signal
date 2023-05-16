@@ -30,7 +30,7 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
 }) => {
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    if (getByteLength(target.value) <= 8) {
+    if (target.value.length <= 8) {
       setNickname(target.value);
       setCheckNickname(false); //바뀌면 바로 false로 바꿔줘.
       setMsg("");
@@ -38,14 +38,6 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
     }
   };
 
-  //글자수 바이트 계산하는 함수입니다.
-  const getByteLength = (word: string) => {
-    let len = 0;
-    if (word === "") return len;
-    for (let i = 0; i < word.length; i++)
-      len += word.charCodeAt(i) > 128 ? 2 : 1;
-    return len;
-  };
   return (
     <div className={style.userInfo}>
       <A_SignUp_Desc2 />
@@ -57,7 +49,7 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
             id="nickName"
             value={nickname}
             onChange={handleChangeNickname}
-            placeholder="16Byte이내로 작성해주세요."
+            placeholder="8글자 제한입니다."
           />
         </div>
         <div>

@@ -29,18 +29,9 @@ const EditNickName: React.FC<propsType> = ({
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    if (getByteLength(target.value) <= 16) {
+    if (target.value.length <= 8) {
       setCurrNick(target.value);
     }
-  };
-
-  //글자수 바이트 계산하는 함수입니다.
-  const getByteLength = (word: string) => {
-    let len = 0;
-    if (word === "") return len;
-    for (let i = 0; i < word.length; i++)
-      len += word.charCodeAt(i) > 128 ? 2 : 1;
-    return len;
   };
 
   const updateNickHandler = () => {

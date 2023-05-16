@@ -154,7 +154,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             chatList={chatList}
             members={members}
             setOppositeTeamMember={setOppositeTeamMember}
-            setOppositeTeamUUID={setOppositeTeamUUID}
+            // setOppositeTeamUUID={setOppositeTeamUUID}
             viewDetail={viewDetail}
           />
         </>
@@ -177,7 +177,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             chatList={chatList}
             members={members}
             setOppositeTeamMember={setOppositeTeamMember}
-            setOppositeTeamUUID={setOppositeTeamUUID}
+            // setOppositeTeamUUID={setOppositeTeamUUID}
             viewDetail={viewDetail}
           />
         </>

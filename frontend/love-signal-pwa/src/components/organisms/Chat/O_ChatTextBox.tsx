@@ -14,7 +14,6 @@ type PropsType = {
   members: member[] | null;
   onRoomExit: (type: number) => void;
   setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
-  setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
   viewDetail: () => void;
 };
 
@@ -26,7 +25,6 @@ const O_ChatTextBox: React.FC<PropsType> = ({
   members,
   onRoomExit,
   setOppositeTeamMember,
-  setOppositeTeamUUID,
   viewDetail,
 }) => {
   return (
@@ -46,7 +44,6 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         chatList={chatList}
         members={members}
         setOppositeTeamMember={setOppositeTeamMember}
-        setOppositeTeamUUID={setOppositeTeamUUID}
         viewDetail={viewDetail}
       />
       <M_ChatInputBox

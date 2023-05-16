@@ -12,7 +12,7 @@ type PropsType = {
   chatList: chat[];
   members: member[] | null;
   setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
-  setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
+  // setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
   viewDetail: () => void;
 };
 
@@ -22,7 +22,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
   chatList,
   members,
   setOppositeTeamMember,
-  setOppositeTeamUUID,
+  // setOppositeTeamUUID,
   viewDetail,
 }) => {
   console.log(roomType);
@@ -43,7 +43,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
           }
           chat={item}
           setOppositeTeamMember={setOppositeTeamMember}
-          setOppositeTeamUUID={setOppositeTeamUUID}
+          // setOppositeTeamUUID={setOppositeTeamUUID}
           viewDetail={viewDetail}
         />
       ))}

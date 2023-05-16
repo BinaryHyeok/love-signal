@@ -25,7 +25,7 @@ type PropsType = {
   profileImage?: string | null;
   chat: chat;
   setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
-  setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
+  // setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
   viewDetail: () => void;
 };
 
@@ -36,7 +36,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   profileImage,
   chat,
   setOppositeTeamMember,
-  setOppositeTeamUUID,
+  // setOppositeTeamUUID,
   viewDetail,
 }) => {
   let text = null;
@@ -89,7 +89,6 @@ const M_ChatTextItem: React.FC<PropsType> = ({
         selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
         isMe={isMe}
         setOppositeTeamMember={setOppositeTeamMember}
-        setOppositeTeamUUID={setOppositeTeamUUID}
         chat={chat}
         viewDetail={viewDetail}
       />
@@ -101,7 +100,6 @@ const M_ChatTextItem: React.FC<PropsType> = ({
           selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
           isMe={isMe || false}
           setOppositeTeamMember={setOppositeTeamMember}
-          setOppositeTeamUUID={setOppositeTeamUUID}
           chat={chat}
           viewDetail={viewDetail}
         />

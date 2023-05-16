@@ -2,7 +2,7 @@ import React, { useState, useRef, Dispatch, SetStateAction } from "react";
 import EditBtnImg from "../../atoms/Common/EditBtnImg";
 import EditBtnInput from "../../atoms/Common/EditBtnInput";
 const FILE_SIZE_MAX_LIMIT = 10 * 1024 * 1024; // 10MB
-const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif";
+const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif,heif";
 
 type propsType = {
   timeout: any;

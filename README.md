@@ -59,11 +59,11 @@
 ## 개발환경
 
 <div style="display: flex; align-items: center;">
-  <div style="display: flex; align-items: center;">
-  <h2 style="font-size: 24px; margin: 0;">FrontEnd&nbsp;</h2>
-  <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="30" height="30" /><img src="https://techstack-generator.vercel.app/sass-icon.svg" alt="icon" width="30" height="30" />
-    <img src="https://techstack-generator.vercel.app/eslint-icon.svg" alt="icon" width="30" height="30" /><img src="https://techstack-generator.vercel.app/prettier-icon.svg" alt="icon" width="30" height="30" />
-  </div>
+  <span style="font-size: 32px;"><strong>FrontEnd&nbsp;</strong></span>
+  <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
+  <img src="https://techstack-generator.vercel.app/sass-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
+  <img src="https://techstack-generator.vercel.app/eslint-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
+  <img src="https://techstack-generator.vercel.app/prettier-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
 </div>
 
 - Node.js 16.4.0
@@ -74,11 +74,10 @@
 - Sock.js
 - 버전과 함께 이어서 작성 요망
 
+
 <div style="display: flex; align-items: center;">
-  <div style="display: flex; align-items: center;">
-  <h2 style="font-size: 24px; margin: 0;">BackEnd&nbsp;</h2>
-    <img src="https://techstack-generator.vercel.app/restapi-icon.svg" alt="icon" width="45" height="45" />
-  </div>
+  <span style="font-size: 32px;"><strong>BackEnd&nbsp;</strong></span>
+  <img src="https://techstack-generator.vercel.app/restapi-icon.svg" alt="icon" width="45" height="45" />
 </div>
 
 - Java 17
@@ -89,22 +88,20 @@
 - JPA
 - 버전과 함께 이어서 작성 요망
 
+
 <div style="display: flex; align-items: center;">
-  <div style="display: flex; align-items: center;">
-  <h2 style="font-size: 24px; margin: 0;">Database&nbsp;</h2>
+  <span style="font-size: 32px;"><strong>Database&nbsp;</strong></span>
   <img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="45" height="45" />
-  </div>
 </div>
 
 - MySQL 8.0.33
 - Redis 7.0.11
 - PostgreSQL
 
+
 <div style="display: flex; align-items: center;">
-  <div style="display: flex; align-items: center;">
-  <h2 style="font-size: 24px; margin: 0;">Infra&nbsp;</h2>
+  <span style="font-size: 32px;"><strong>Infra&nbsp;</strong></span>
   <img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="30" height="30" /><img src="https://techstack-generator.vercel.app/nginx-icon.svg" alt="icon" width="30" height="30" /><img src="https://techstack-generator.vercel.app/docker-icon.svg" alt="icon" width="30" height="30" />
-  </div>
 </div>
 
 - AWS EC2 (Ubuntu 20.04 LTS)
@@ -116,11 +113,10 @@
 - Docker Compose 2.17.3
 - SonarQube
 
+
 <div style="display: flex; align-items: center;">
-  <div style="display: flex; align-items: center;">
-  <h2 style="font-size: 24px; margin: 0;">Colaboration&nbsp;</h2>
+  <span style="font-size: 32px;"><strong>Colaboration &nbsp;</strong></span>
  <img src="https://techstack-generator.vercel.app/github-icon.svg" alt="icon" width="30" height="30" />
-  </div>
 </div>
 
 - Gitlab

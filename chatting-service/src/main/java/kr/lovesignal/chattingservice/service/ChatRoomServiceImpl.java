@@ -388,30 +388,30 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
         for (ResChatRoom resChatRoom : resChatRooms) {
 
-
-
             ChatRoom chatRoom = resChatRoom.toEntity();
+
+            ResMember selector = resChatRoom.getSelector();
+            ResMember selected = resChatRoom.getSelected();
+
+            Member selectorMember = memberJpaRepository.findMemberByNickname(selector.getNickname());
+            Member selectedMember = memberJpaRepository.findMemberByNickname(selected.getNickname());
+
+            Participant selectorParticipant = buildParticipant(selectorMember, chatRoom);
+            Participant selectedParticipant = buildParticipant(selectedMember, chatRoom);
+
             if(chatRoom.getExpired().equals("F")) {
                 // 익명 선택의 시간이면 양방향 여부 상관없이 채팅방 엔티티 저장
                 if (resChatRoom.getType().equals("SECRET")) {
                     chatRoomJpaRepository.save(chatRoom);
+                    participantJpaRepository.save(selectorParticipant);
+                    participantJpaRepository.save(selectedParticipant);
                 }
                 // 마지막 선택의 시간이면 양방향 인것만 채팅방 엔티티 저장
                 else if (resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T")) {
                     chatRoomJpaRepository.save(chatRoom);
+                    participantJpaRepository.save(selectorParticipant);
+                    participantJpaRepository.save(selectedParticipant);
                 }
-
-                ResMember selector = resChatRoom.getSelector();
-                ResMember selected = resChatRoom.getSelected();
-
-                Member selectorMember = memberJpaRepository.findMemberByNickname(selector.getNickname());
-                Member selectedMember = memberJpaRepository.findMemberByNickname(selected.getNickname());
-
-                Participant selectorParticipant = buildParticipant(selectorMember, chatRoom);
-                Participant selectedParticipant = buildParticipant(selectedMember, chatRoom);
-
-                participantJpaRepository.save(selectorParticipant);
-                participantJpaRepository.save(selectedParticipant);
              }
         }
 

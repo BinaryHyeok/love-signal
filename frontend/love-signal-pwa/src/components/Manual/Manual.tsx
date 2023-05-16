@@ -19,6 +19,7 @@ import ManualTitle from "./ManualTitle";
 import { useNavigate } from "react-router-dom";
 import Button_Type_A from "../atoms/Common/Button_Type_A";
 import { contentVariants } from "../atoms/Common/contentVariants";
+import GetMyInfo from "../Filter/GetMyInfo";
 
 const Manual = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Manual = () => {
     navigate("/OtherGender");
   };
   return (
-    <>
+    <GetMyInfo>
       <motion.div
         variants={contentVariants}
         initial="hidden"
@@ -97,7 +98,7 @@ const Manual = () => {
           </Swiper>
         </div>
       </motion.div>
-    </>
+    </GetMyInfo>
   );
 };
 

@@ -60,7 +60,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
 
-    public Participant getParticipant(Member member, ChatRoom chatRoom) {
+    public Participant buildParticipant(Member member, ChatRoom chatRoom) {
         return Participant.builder()
                 .member(member)
                 .chatRoom(chatRoom)
@@ -104,7 +104,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     // 멤버를 뽑아서 반환 멤버 생성
                     Member member1 = participant1.getMember();
                     ResMember resMember = ResMember.toDto(member1);
-                    System.out.println("====================멤버가 널일까?=============="+member1.getNickname());
                     resMember.setProfileImage(getProfileImageStoredName(member1));
                     // 멤버 나이 계산 및 주입
                     LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
@@ -120,6 +119,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             }
         }
 
+//        이 코드 문제있음. Redis 에서 직접 가져오는 거라 DB에서 만료처리 된 녀석들도 가져옴.
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
         if(resChatRooms != null) {
             for(ResChatRoom resChatRoom : resChatRooms) {
@@ -255,37 +255,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return chatRoom;
     }
 
-    @Override
-    public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) { // 발표용
-        // selector , selected 각각 Member 객체 찾아오기.
 
-        UUID uuid = commonUtils.getValidUUID(selectorUUID);
-        Member selector = memberJpaRepository.findByUUID(uuid);
-        Member selected = memberJpaRepository.findMemberByNickname(selectedNickname);
-        UUID uuid2 = selected.getUUID();
-        String selectedUUID = uuid2.toString();
-
-        // 현재 참여 중인 혼성 채팅방 찾기.
-        List<Participant> participants = selector.getParticipants();
-        ChatRoom meetingRoom = null;
-        for(Participant participant : participants) {
-            if(participant.getChatRoom().getType().equals("MEETING")) {
-                meetingRoom = participant.getChatRoom();
-            }
-        }
-
-        String meetingRoomUUID = meetingRoom.getUUID().toString();
-
-        // 혼성 채팅방이 만들어진 시간과 현재 시간의 차이.
-        Duration duration = Duration.between(meetingRoom.getCreatedDate(), LocalDateTime.now());
-        int seconds = (int)duration.toSeconds();
-
-        // seconds 가 120 이상이면 SIGNAL 아니면 SECRET
-        String roomType = seconds>=120?"SIGNAL":"SECRET";
-        secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
-    }
-
-//    @Override
+    //    @Override
 //    public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) {
 //        // selector , selected 각각 Member 객체 찾아오기.
 //
@@ -323,6 +294,37 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 ////            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
 ////        }
 //    }
+
+
+    @Override
+    public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) { // 발표용
+        // selector , selected 각각 Member 객체 찾아오기.
+
+        UUID uuid = commonUtils.getValidUUID(selectorUUID);
+        Member selector = memberJpaRepository.findByUUID(uuid);
+        Member selected = memberJpaRepository.findMemberByNickname(selectedNickname);
+        UUID uuid2 = selected.getUUID();
+        String selectedUUID = uuid2.toString();
+
+        // 현재 참여 중인 혼성 채팅방 찾기.
+        List<Participant> participants = selector.getParticipants();
+        ChatRoom meetingRoom = null;
+        for(Participant participant : participants) {
+            if(participant.getChatRoom().getType().equals("MEETING")) {
+                meetingRoom = participant.getChatRoom();
+            }
+        }
+
+        String meetingRoomUUID = meetingRoom.getUUID().toString();
+
+        // 혼성 채팅방이 만들어진 시간과 현재 시간의 차이.
+        int selectCount = meetingRoom.getSelectCount();
+
+        // seconds 가 120 이상이면 SIGNAL 아니면 SECRET
+        String roomType = selectCount==2?"SIGNAL":"SECRET";
+        secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
+    }
+
 
     /**
      * createOneToOneChatRoom() 메서드에 사용되는 메서드
@@ -379,15 +381,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-//    @Scheduled(cron = "0/30 * * * * *")
+    @Scheduled(cron = "0 1/2 * * * *")
     @Override
     public void redisToMysql() {
-        /*
-            1. Redis에서 List<HV> 조회.
-            2. 이중 for 문으로 List<HV> List<ChatRoom> 각 채팅방 순회
-         */
+
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
         for (ResChatRoom resChatRoom : resChatRooms) {
+
+
 
             ChatRoom chatRoom = resChatRoom.toEntity();
             if(chatRoom.getExpired().equals("F")) {
@@ -406,8 +407,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 Member selectorMember = memberJpaRepository.findMemberByNickname(selector.getNickname());
                 Member selectedMember = memberJpaRepository.findMemberByNickname(selected.getNickname());
 
-                Participant selectorParticipant = getParticipant(selectorMember, chatRoom);
-                Participant selectedParticipant = getParticipant(selectedMember, chatRoom);
+                Participant selectorParticipant = buildParticipant(selectorMember, chatRoom);
+                Participant selectedParticipant = buildParticipant(selectedMember, chatRoom);
 
                 participantJpaRepository.save(selectorParticipant);
                 participantJpaRepository.save(selectedParticipant);

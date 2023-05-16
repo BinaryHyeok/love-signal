@@ -148,8 +148,6 @@ public class ChatServiceImpl implements ChatService{
 
         // 이성 객체 찾기.
         Member oppositeMember  = memberJpaRepository.findMemberByNickname(oppositeNickname);
-        System.out.println("클라에서 온 닉네임===================="+oppositeNickname);
-        System.out.println("멤버객체에서 갖고 온 닉네임=============="+oppositeMember.getNickname());
 
         // 이성지목 메세지 정보 필드 생성 및 저장.
         List<String> nicknames = new ArrayList<>();
@@ -182,90 +180,90 @@ public class ChatServiceImpl implements ChatService{
 
     }
 
-    /**
-     * 선택의 시간에 시스템 채팅방에 이성지목 메세지 저장.
-     */
-    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 발표용
-    public void saveSelectMessage() {
-        //모든 채팅방. type 이 Meeting 인 것. expired 가 F 인 것. List 로 불러오기
-        List<ChatRoom> meetingChatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
-        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeInAndExpired(Arrays.asList("SECRET", "SIGNAL"), "F");
-        Boolean check = true;
-        if(chatRooms.size() >= 1) check = false;
-
-        for(ChatRoom chatRoom : meetingChatRooms) {
-
-            Duration duration = Duration.between(chatRoom.getCreatedDate(), LocalDateTime.now());
-            int seconds = (int)duration.toSeconds();
-
-            // 이성지목 메세지를 발송해야 하는 조건에서만 메세지 발송
-            if(seconds >= 60 && check) {
-                // 해당 채팅룸에 입장한 사람 목록 불러오기.
-                List<Participant> participants = chatRoom.getParticipants();
-
-                // 성별 별로 리스트 생성
-                List<Member> members = new ArrayList<>();
-                List<String> maleNicknames = new ArrayList<>();
-                List<String> maleProfileUrls = new ArrayList<>();
-                List<String> femaleNicknames = new ArrayList<>();
-                List<String> femaleProfileUrls = new ArrayList<>();
-
-                /*
-                    멤버 리스트에 멤버 저장.
-                    성별 별로 리스트에 내용물 저장.
-                 */
-                for(Participant participant : participants) {
-                    Member member = participant.getMember();
-                    members.add(member);
-
-                    if(member.getGender().equals("M")) {
-                        maleNicknames.add(member.getNickname());
-                        maleProfileUrls.add(getProfileImageStoredName(member));
-
-                    }
-                    else {
-                        femaleNicknames.add(member.getNickname());
-                        femaleProfileUrls.add(getProfileImageStoredName(member));
-                    }
-                }
-
-                // 이성지목 메세지 객체 생성
-                ReqChatMessage reqChatMessage = ReqChatMessage.builder()
-                        .type("SELECT") //
-                        .nickname("러브시그널")
-                        .content("마음에 드는 이성을 선택해주세요.")
-                        .build();
-
-                // 혼성 채팅방에 있는 모든 멤버를 순회하면서 각 멤버의 모든 채팅방 정보를 조회.
-                for(Member member : members) {
-                    List<Participant> memberParticipants = member.getParticipants();
-
-                    // Member 가 참여하고 있는 모든 채팅방을 순회하면서 SYSTEM 채팅방 조회
-                    findSystemChatRoomFor:
-                    for(Participant participant : memberParticipants) {
-                        ChatRoom findSystemChatRoom = participant.getChatRoom();
-                        if(findSystemChatRoom.getType().equals("SYSTEM")){
-                            // ReqChatMessage 에 roomUUID 주입.
-                            reqChatMessage.setRoomUUID(findSystemChatRoom.getUUID().toString());
-
-                            // 닉네임과 사진이 있는 SelectOrShareInfo 객체 생성후 Req 메세지에 주입.
-                            if(member.getGender().equals("M")) {
-                                setSelctInfo(femaleNicknames, femaleProfileUrls, reqChatMessage);
-                            }
-                            else {
-                                setSelctInfo(maleNicknames, maleProfileUrls, reqChatMessage);
-                            }
-
-                            // 실질적으로 Redis 에 메세지 객체 저장
-                            saveChatMessage(reqChatMessage);
-                            messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), reqChatMessage);
-                            break findSystemChatRoomFor;
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    /**
+//     * 선택의 시간에 시스템 채팅방에 이성지목 메세지 저장.
+//     */
+//    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 발표용
+//    public void saveSelectMessage() {
+//        //모든 채팅방. type 이 Meeting 인 것. expired 가 F 인 것. List 로 불러오기
+//        List<ChatRoom> meetingChatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
+//        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeInAndExpired(Arrays.asList("SECRET", "SIGNAL"), "F");
+//        Boolean check = true;
+//        if(chatRooms.size() >= 1) check = false;
+//
+//        for(ChatRoom chatRoom : meetingChatRooms) {
+//
+//            Duration duration = Duration.between(chatRoom.getCreatedDate(), LocalDateTime.now());
+//            int seconds = (int)duration.toSeconds();
+//
+//            // 이성지목 메세지를 발송해야 하는 조건에서만 메세지 발송
+//            if(seconds >= 60 && check) {
+//                // 해당 채팅룸에 입장한 사람 목록 불러오기.
+//                List<Participant> participants = chatRoom.getParticipants();
+//
+//                // 성별 별로 리스트 생성
+//                List<Member> members = new ArrayList<>();
+//                List<String> maleNicknames = new ArrayList<>();
+//                List<String> maleProfileUrls = new ArrayList<>();
+//                List<String> femaleNicknames = new ArrayList<>();
+//                List<String> femaleProfileUrls = new ArrayList<>();
+//
+//                /*
+//                    멤버 리스트에 멤버 저장.
+//                    성별 별로 리스트에 내용물 저장.
+//                 */
+//                for(Participant participant : participants) {
+//                    Member member = participant.getMember();
+//                    members.add(member);
+//
+//                    if(member.getGender().equals("M")) {
+//                        maleNicknames.add(member.getNickname());
+//                        maleProfileUrls.add(getProfileImageStoredName(member));
+//
+//                    }
+//                    else {
+//                        femaleNicknames.add(member.getNickname());
+//                        femaleProfileUrls.add(getProfileImageStoredName(member));
+//                    }
+//                }
+//
+//                // 이성지목 메세지 객체 생성
+//                ReqChatMessage reqChatMessage = ReqChatMessage.builder()
+//                        .type("SELECT") //
+//                        .nickname("러브시그널")
+//                        .content("마음에 드는 이성을 선택해주세요.")
+//                        .build();
+//
+//                // 혼성 채팅방에 있는 모든 멤버를 순회하면서 각 멤버의 모든 채팅방 정보를 조회.
+//                for(Member member : members) {
+//                    List<Participant> memberParticipants = member.getParticipants();
+//
+//                    // Member 가 참여하고 있는 모든 채팅방을 순회하면서 SYSTEM 채팅방 조회
+//                    findSystemChatRoomFor:
+//                    for(Participant participant : memberParticipants) {
+//                        ChatRoom findSystemChatRoom = participant.getChatRoom();
+//                        if(findSystemChatRoom.getType().equals("SYSTEM")){
+//                            // ReqChatMessage 에 roomUUID 주입.
+//                            reqChatMessage.setRoomUUID(findSystemChatRoom.getUUID().toString());
+//
+//                            // 닉네임과 사진이 있는 SelectOrShareInfo 객체 생성후 Req 메세지에 주입.
+//                            if(member.getGender().equals("M")) {
+//                                setSelctInfo(femaleNicknames, femaleProfileUrls, reqChatMessage);
+//                            }
+//                            else {
+//                                setSelctInfo(maleNicknames, maleProfileUrls, reqChatMessage);
+//                            }
+//
+//                            // 실질적으로 Redis 에 메세지 객체 저장
+//                            saveChatMessage(reqChatMessage);
+//                            messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), reqChatMessage);
+//                            break findSystemChatRoomFor;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 //    @Scheduled(cron = "0 35 23 * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
 //    public void saveSelectMessage() {
@@ -346,6 +344,89 @@ public class ChatServiceImpl implements ChatService{
 //        }
 //    }
 
+
+    /**
+     * 선택의 시간에 시스템 채팅방에 이성지목 메세지 저장.
+     */
+    @Scheduled(cron = "0 0/2 * * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 발표용
+    public void saveSelectMessage() {
+        //모든 채팅방. type 이 Meeting 인 것. expired 가 F 인 것. List 로 불러오기
+        List<ChatRoom> meetingChatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
+
+        for(ChatRoom chatRoom : meetingChatRooms) {
+
+            // 이성지목 메세지를 발송해야 하는 조건에서만 메세지 발송
+            if(chatRoom.getSelectCount()<3) {
+                chatRoom.setSelectCount(chatRoom.getSelectCount()+1);
+                chatRoomJpaRepository.save(chatRoom);
+                // 해당 채팅룸에 입장한 사람 목록 불러오기.
+                List<Participant> participants = chatRoom.getParticipants();
+
+                // 성별 별로 리스트 생성
+                List<Member> members = new ArrayList<>();
+                List<String> maleNicknames = new ArrayList<>();
+                List<String> maleProfileUrls = new ArrayList<>();
+                List<String> femaleNicknames = new ArrayList<>();
+                List<String> femaleProfileUrls = new ArrayList<>();
+
+                /*
+                    멤버 리스트에 멤버 저장.
+                    성별 별로 리스트에 내용물 저장.
+                 */
+                for(Participant participant : participants) {
+                    Member member = participant.getMember();
+                    members.add(member);
+
+                    if(member.getGender().equals("M")) {
+                        maleNicknames.add(member.getNickname());
+                        maleProfileUrls.add(getProfileImageStoredName(member));
+
+                    }
+                    else {
+                        femaleNicknames.add(member.getNickname());
+                        femaleProfileUrls.add(getProfileImageStoredName(member));
+                    }
+                }
+
+                // 이성지목 메세지 객체 생성
+                ReqChatMessage reqChatMessage = ReqChatMessage.builder()
+                        .type("SELECT") //
+                        .nickname("러브시그널")
+                        .content("마음에 드는 이성을 선택해주세요.")
+                        .build();
+
+                // 혼성 채팅방에 있는 모든 멤버를 순회하면서 각 멤버의 모든 채팅방 정보를 조회.
+                for(Member member : members) {
+                    List<Participant> memberParticipants = member.getParticipants();
+
+                    // Member 가 참여하고 있는 모든 채팅방을 순회하면서 SYSTEM 채팅방 조회
+                    findSystemChatRoomFor:
+                    for(Participant participant : memberParticipants) {
+                        ChatRoom findSystemChatRoom = participant.getChatRoom();
+                        if(findSystemChatRoom.getType().equals("SYSTEM")){
+                            // ReqChatMessage 에 roomUUID 주입.
+                            reqChatMessage.setRoomUUID(findSystemChatRoom.getUUID().toString());
+
+                            // 닉네임과 사진이 있는 SelectOrShareInfo 객체 생성후 Req 메세지에 주입.
+                            if(member.getGender().equals("M")) {
+                                setSelctInfo(femaleNicknames, femaleProfileUrls, reqChatMessage);
+                            }
+                            else {
+                                setSelctInfo(maleNicknames, maleProfileUrls, reqChatMessage);
+                            }
+
+                            // 실질적으로 Redis 에 메세지 객체 저장
+                            saveChatMessage(reqChatMessage);
+                            messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), reqChatMessage);
+                            break findSystemChatRoomFor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     /**
      * 이성지목 메세지 저장 saveSelectMessage() 에 사용되는 메서드
      * ReqChatMessage 에 SelectOrShareInfo 객체를 생성하여 주입.
@@ -361,7 +442,7 @@ public class ChatServiceImpl implements ChatService{
     /**
      * 선택의 시간이 끝나면 이성지목 메세지 기간만료
      */
-//    @Scheduled(cron = "0/30 * * * * *") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
+    @Scheduled(cron = "0 1/2 * * * *") // 초 분 시 일 월 요일 - 매일밤 10시에 실행
     @Override
     public void expiredSelectMessage() {
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("SYSTEM", "F");

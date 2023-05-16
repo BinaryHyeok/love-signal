@@ -10,6 +10,7 @@ import AlarmModal from "../../UI/Modal/Alarm/AlarmModal";
 
 import style from "./styles/ContentLayout.module.scss";
 import { useState } from "react";
+import Manual_Quest from "../../Manual/Manual_Quest";
 
 let timeout: NodeJS.Timer;
 
@@ -59,7 +60,9 @@ const ContentLayout = () => {
           <Modal_portal>
             <div className={style.container}>
               <div className={style.background} onClick={closeManual}></div>
-              <AlarmModal closeModal={closeManual}>알림창</AlarmModal>
+              <AlarmModal closeModal={closeManual}>
+                <Manual_Quest />
+              </AlarmModal>
             </div>
           </Modal_portal>
         )}

@@ -106,6 +106,7 @@ public class FCMServiceImpl implements FCMService{
 				Message message = Message.builder()
 					.putData("title", "선택의 시간")
 					.putData("content", "지금부터 10시 30분까지 마음에 드는 이성을 선택할 수 있습니다.")
+					.putData("type", "select")
 					.setToken(fcmEntity.getToken())
 					.build();
 
@@ -127,6 +128,7 @@ public class FCMServiceImpl implements FCMService{
 				Message message = Message.builder()
 					.putData("title", "팀 빌딩 완료")
 					.putData("content", "팀 빌딩이 완료되었고 동성 채팅방이 생성되었습니다.")
+					.putData("type", "build")
 					.setToken(fcmEntity.getToken())
 					.build();
 
@@ -156,6 +158,7 @@ public class FCMServiceImpl implements FCMService{
 				Message message = Message.builder()
 					.putData("title", "시그널!")
 					.putData("content", "상대팀과 매칭되었습니다. 시그널을 보내세요!")
+					.putData("type", "meeting")
 					.setToken(fcmEntity.getToken())
 					.build();
 

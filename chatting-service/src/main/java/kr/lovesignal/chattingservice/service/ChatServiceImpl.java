@@ -4,6 +4,7 @@ import kr.lovesignal.chattingservice.entity.*;
 import kr.lovesignal.chattingservice.model.request.ReqChatMessage;
 import kr.lovesignal.chattingservice.model.request.SelectOrShareInfo;
 import kr.lovesignal.chattingservice.model.response.ResChatMessage;
+import kr.lovesignal.chattingservice.model.response.ResMember;
 import kr.lovesignal.chattingservice.pubsub.RedisPublisher;
 import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
@@ -76,18 +77,22 @@ public class ChatServiceImpl implements ChatService{
         // SelectOrShareInfo 객체 생성
         List<String> nicknames = new ArrayList<>();
         List<String> profileUrls = new ArrayList<>();
+        List<ResMember> members = new ArrayList<>();
 
         for(Member oppositeMember : oppositeMembers) {
             nicknames.add(oppositeMember.getNickname());
 //            프로필 이미지 추가한 부분.
             String profileImageUrl = getProfileImageStoredName(oppositeMember);
             profileUrls.add(profileImageUrl);
+            ResMember resMember = ResMember.toDto(oppositeMember);
+            members.add(resMember);
         }
 
         // SelectOrShareInfo 객체 생성
         SelectOrShareInfo selectOrShareInfo = SelectOrShareInfo.builder()
                 .nicknames(nicknames) // 여기에 이성 멤버들 이름
                 .profileUrls(profileUrls) // 여기에 이성 멤버들 사진
+                .memberList(members)
                 .build();
 
         // 룸 uuid

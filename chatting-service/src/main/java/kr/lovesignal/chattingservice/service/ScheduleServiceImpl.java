@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ScheduleServiceImpl {
+public class ScheduleServiceImpl implements ScheduleService{
 
     private final ChatService chatService;
     private final ChatRoomService chatRoomService;

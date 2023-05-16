@@ -29,14 +29,13 @@ const AlertBtn: React.FC<PropsType> = ({
   setMyAlarm,
 }) => {
   console.log(myAlarm);
-  const [myToken, _] = useRecoilState<string>(fcmToken);
 
   useEffect(() => {
     const permission = getPushPermissionState();
-    if (permission === "granted") {
-      setMyAlarm(true);
-    } else {
+    if (permission !== "granted") {
       setMyAlarm(false);
+      sendFCMToken(UUID, myNick, atk, kID, null);
+      setPushAlarmStatus(UUID, atk, kID, "false");
     }
   }, []);
 

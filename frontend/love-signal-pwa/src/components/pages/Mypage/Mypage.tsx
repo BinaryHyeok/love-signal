@@ -19,8 +19,6 @@ import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
 import AlertBtn from "../../atoms/Common/AlertBtn";
-import { getFCMToken } from "../../../firebase";
-import { sendFCMToken } from "../../../api/pwa";
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -43,12 +41,11 @@ const Mypage = () => {
     setIdx(3);
     //수정할 내 정보들을 가져와서 보여주기.
     inquireMember(UUID, atk, kID).then((MyInfo) => {
-      console.log(MyInfo.data.body);
       setMyAge(MyInfo.data.body.age);
       setMyImg(MyInfo.data.body.profileImage);
       setMyNickName(MyInfo.data.body.nickname);
       setMyDescription(MyInfo.data.body.description);
-      SetMyAlarm(MyInfo.data.body.recieveAlarm === "true" ? true : false);
+      SetMyAlarm(MyInfo.data.body.receiveAlarm);
     });
     if (window.location.hostname === "localhost") {
       setName("/local");
@@ -62,8 +59,6 @@ const Mypage = () => {
       setStart(true);
     }
   }, [myCropImage]);
-
-  const updateMyAlarm = () => {};
 
   return (
     <ATKFilter>

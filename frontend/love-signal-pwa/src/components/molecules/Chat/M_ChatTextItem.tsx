@@ -7,7 +7,7 @@ import A_ChatSenderImg from "../../atoms/Chat/A_ChatSenderImg";
 import A_ChatText_Notice from "../../atoms/Chat/A_ChatText_Notice";
 import M_ChatText_Select from "./M_ChatText_Select";
 import M_ChatText_Result from "./M_ChatText_Result";
-import { chat } from "../../../types/chat";
+import { chat, roomChatList } from "../../../types/chat";
 import M_ChatText_Share from "./M_ChatText_Share";
 import { member } from "../../../types/member";
 
@@ -24,6 +24,7 @@ type PropsType = {
   isMe?: boolean;
   profileImage?: string | null;
   chat: chat;
+  setChatList: React.Dispatch<React.SetStateAction<roomChatList>>;
   setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
   // setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
   viewDetail: () => void;
@@ -35,6 +36,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   isMe,
   profileImage,
   chat,
+  setChatList,
   setOppositeTeamMember,
   // setOppositeTeamUUID,
   viewDetail,
@@ -63,6 +65,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
         />
         <M_ChatText_Select
           chat={chat}
+          setChatList={setChatList}
           systemName={chat.nickname ? chat.nickname : ""}
           selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
         />

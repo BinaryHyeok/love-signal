@@ -50,12 +50,13 @@ self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
   try {
     const pushData = e.data.json();
-    const { title, content } = pushData.data;
+    const { title, content, type } = pushData.data;
 
     const notificationOptions = {
       body: content,
-      icon: "/assets/heart with arrow.png",
+      icon: "/assets/heart-with-arrow.png",
       vibrate: [200, 100, 200, 100],
+      actions: [],
     };
 
     e.waitUntil(self.registration.showNotification(title, notificationOptions));
@@ -66,7 +67,16 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (event) {
   console.log("notification click");
-  const url = "/";
+  const notification = event.notification;
+  const pushData = notification.data; // 푸시 알림의 데이터
+  alert(pushData);
+  const { type } = pushData;
+  let url = "/";
+  if (type === "build") {
+    url = "/Samegender";
+  } else if (type === "meeting") {
+    url = "/Samegender";
+  }
   event.notification.close();
   event.waitUntil(clients.openWindow(url));
 });

@@ -42,6 +42,7 @@ const ContentLayout = () => {
     clearTimeout(timeout);
     setAnimation(true);
     timeout = setTimeout(() => setVisible(false), 300);
+    timeout = setTimeout(() => setManualVisible(false), 300);
   };
 
   return (

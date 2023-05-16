@@ -38,7 +38,6 @@ const M_Image_Crop: React.FC<PropsType> = ({
           formData.append("file", blob);
           setMyImage(formData);
           setChangeImg(true);
-          alert("이미지 저장 잘 됐나?");
         }
       }, `image/jpg`);
       setAnimation(true);

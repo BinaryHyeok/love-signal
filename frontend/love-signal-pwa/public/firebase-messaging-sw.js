@@ -1,5 +1,3 @@
-import { sendFCMToken } from "../src/api/pwa";
-
 importScripts(
   "https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"
 );

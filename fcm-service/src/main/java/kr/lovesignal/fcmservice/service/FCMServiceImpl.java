@@ -1,5 +1,6 @@
 package kr.lovesignal.fcmservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
@@ -140,8 +141,15 @@ public class FCMServiceImpl implements FCMService{
 
 
 	@Override
-	public void sendMeetingNotification(List<UUID> memberUUIDs) {
-		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDs);
+	public void sendMeetingNotification(List<String> memberUUIDs) {
+
+		List<UUID> memberUUIDList = new ArrayList<>();
+		for(String uuidString : memberUUIDs){
+			UUID uuid = UUID.fromString(uuidString);
+			memberUUIDList.add(uuid);
+		}
+
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDList);
 
 		for(FCMEntity fcmEntity : fcmEntities){
 			if(fcmEntity.getToken() != null){

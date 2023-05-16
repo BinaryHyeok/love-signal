@@ -17,5 +17,5 @@ public interface FCMService {
 	void sendBuildingNotification(List<UUID> memberUUIDs);
 
 	// 미팅이 생성될 때 알람 보내기
-	void sendMeetingNotification(List<UUID> memberUUIDs);
+	void sendMeetingNotification(List<String> memberUUIDs);
 }

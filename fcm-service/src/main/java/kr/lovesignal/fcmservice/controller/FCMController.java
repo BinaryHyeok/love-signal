@@ -44,7 +44,7 @@ public class FCMController {
 	}
 
 	@PostMapping("/meeting")
-	public ResponseEntity<String> sendBuildingNotification(@RequestBody List<UUID> memberUUIDs) {
+	public ResponseEntity<String> sendMeetingNotification(@RequestBody List<String> memberUUIDs) {
 		fcmService.sendMeetingNotification(memberUUIDs);
 
 		return new ResponseEntity<>("Meeting Notification", HttpStatus.OK);

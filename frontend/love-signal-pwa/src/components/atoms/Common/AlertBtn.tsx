@@ -55,6 +55,7 @@ const AlertBtn: React.FC<PropsType> = ({
               .then((token) => {
                 console.log("토큰 보냄 : ", token);
                 sendFCMToken(UUID, myNick, atk, kID, token);
+                setMyAlarm(true);
                 setPushAlarmStatus(UUID, atk, kID, "true");
               })
               .catch((err) => {

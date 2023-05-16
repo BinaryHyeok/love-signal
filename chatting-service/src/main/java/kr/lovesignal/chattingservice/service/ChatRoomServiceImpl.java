@@ -429,7 +429,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * Redis 안의 ResChatRoom 객체 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-//    @Scheduled(cron = "0/30 * * * * *")
+    @Scheduled(cron = "0 2/2 14 * * *")
     @Override
     public void secretChatRoomExpiredT() {
         chatRoomRepository.expiredSecretChatRoom();
@@ -448,9 +448,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     }
 
-    /**
-     * 동성혼성 채팅방 기간 만료
-     */
+//    /**
+//     * 동성혼성 채팅방 기간 만료
+//     */
 //    @Scheduled(cron = "0 24 18 * * *")
 //    public void chatRoomExpired() {
 //        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
@@ -486,6 +486,57 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 ////            }
 //        }
 //    }
+
+
+    /**
+     * 동성혼성 채팅방 기간 만료
+     */
+    @Scheduled(cron = "0/1 * * * * *")
+    public void chatRoomExpired() {
+        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
+        for(ChatRoom meetingRoom : chatRooms) {
+
+            if(meetingRoom.getSelectCount()>=3) {
+                // 미팅룸 만료 처리.
+                meetingRoom.setExpired("T");
+                chatRoomJpaRepository.save(meetingRoom);
+                List<Participant> roomParticipants = meetingRoom.getParticipants();
+
+                List<String> memberUUIDs = new ArrayList<>();
+                for(Participant participant : roomParticipants) {
+                    memberUUIDs.add(participant.getMember().getUUID().toString());
+                }
+
+                // 이 자리에 진혁이 API 호출
+                sendMeetingMemberUUIDs(memberUUIDs);
+
+                // 각 유저마다 미팅룸 만료 처리.
+                for(Participant participant : roomParticipants) {
+                    participant.setExpired("T");
+                    participantJpaRepository.save(participant);
+                }
+
+                for(String memberUUID : memberUUIDs) {
+                    UUID UUID = commonUtils.getValidUUID(memberUUID);
+                    Member member = memberJpaRepository.findByUUID(UUID);
+
+                    Team team = member.getTeam();
+                    ChatRoom teamChatroom = chatRoomJpaRepository.findByTeam(team);
+                    teamChatroom.setExpired("T");
+                    chatRoomJpaRepository.save(teamChatroom);
+
+                    List<Participant> participants = member.getParticipants();
+                    for(Participant participant : participants) {
+                        ChatRoom chatRoom = participant.getChatRoom();
+                        if(chatRoom.getType().equals("TEAM")) {
+                            participant.setExpired("T");
+                            participantJpaRepository.save(participant);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
     /**

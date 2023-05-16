@@ -14,11 +14,11 @@ public class ScheduleServiceImpl {
     private final ChatService chatService;
     private final ChatRoomService chatRoomService;
 
-    @Scheduled(cron = "0/30 * * * * *")
-    public void schedule() {
-        chatRoomService.secretChatRoomExpiredT();
-        chatService.expiredSelectMessage();
-        chatRoomService.redisToMysql();;
-    }
+//    @Scheduled(cron = "0/30 * * * * *")
+//    public void schedule() {
+//        chatRoomService.secretChatRoomExpiredT();
+//        chatService.expiredSelectMessage();
+//        chatRoomService.redisToMysql();;
+//    }
 
 }

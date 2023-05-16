@@ -62,12 +62,15 @@
 
 ## 개발환경
 
+<div style="display: flex; align-items: flex-start;"></div>
+
+
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>FrontEnd&nbsp;</strong></span>
-  <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
+  <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
+  <img src="https://techstack-generator.vercel.app/ts-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
+  <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="30" height="30" style="display: inline;"" />
   <img src="https://techstack-generator.vercel.app/sass-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
-  <img src="https://techstack-generator.vercel.app/eslint-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
-  <img src="https://techstack-generator.vercel.app/prettier-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
 </div>
 
 - Node.js 16.4.0

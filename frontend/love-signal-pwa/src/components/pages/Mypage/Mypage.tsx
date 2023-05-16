@@ -60,7 +60,7 @@ const Mypage = () => {
           alert("나는 성공했어" + res);
         })
         .catch((err) => {
-          alert("나는 이미지야." + err);
+          alert("나는 이미지야." + err.response.data);
         });
     } else {
       setStart(true);

@@ -43,18 +43,22 @@
 
 ### Spring Cloud를 활용한 MSA 구축
 
-- 1
-- 2
+- Spring Cloud Config 서버 활용
+  - 여러 마이크로서비스에서 사용되는 설정파일을 중앙 집중적 관리
+  - 설정파일의 데이터 변경을 동적으로 갱신
+  - 설정 파일의 암호화
+- 각각의 마이크로서비스가 독립적으로 실행된다는 특성을 활용한 장애 격리
+- 각각의 마이크로서비스에 대하여 독립적인 CI/CD를 구축
 
 ### SonarQube를 활용한 정적 코드분석
 
-- 1
-- 1
+- 정적 코드 분석을 통한 코드 품질 개선
+- 유지보수 및 확장에 용이한 코드베이스 유지
 
 ### Firebase Cloud Messaging을 이용한 푸시 알림
 
-- 2
-- 1
+- 대상을 세분화하여 토큰을 활용한 푸시 알림 대상 지정
+- PWA 환경에서의 오프라인 푸시 알림 제공
 
 ## 개발환경
 
@@ -74,7 +78,6 @@
 - Sock.js
 - 버전과 함께 이어서 작성 요망
 
-
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>BackEnd&nbsp;</strong></span>
   <img src="https://techstack-generator.vercel.app/restapi-icon.svg" alt="icon" width="45" height="45" />
@@ -88,7 +91,6 @@
 - JPA
 - 버전과 함께 이어서 작성 요망
 
-
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>Database&nbsp;</strong></span>
   <img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="45" height="45" />
@@ -97,7 +99,6 @@
 - MySQL 8.0.33
 - Redis 7.0.11
 - PostgreSQL
-
 
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>Infra&nbsp;</strong></span>
@@ -112,7 +113,6 @@
 - Docker 23.0.6
 - Docker Compose 2.17.3
 - SonarQube
-
 
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>Colaboration &nbsp;</strong></span>

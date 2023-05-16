@@ -48,7 +48,7 @@ self.addEventListener("activate", function (e) {
 });
 
 self.addEventListener("push", function (e) {
-  console.log("push: ", e.data.json());
+  console.log("fcm, push: ", e.data.json());
   if (!e.data.json()) return;
   try {
     const pushData = e.data.json();
@@ -57,6 +57,7 @@ self.addEventListener("push", function (e) {
     const notificationOptions = {
       body: content,
       icon: "/assets/heart with arrow.png",
+      vibrate: [200, 100, 200, 100],
     };
 
     e.waitUntil(self.registration.showNotification(title, notificationOptions));

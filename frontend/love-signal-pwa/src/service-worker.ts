@@ -63,7 +63,6 @@ self.addEventListener("message", (event) => {
   }
 });
 
-// Any other custom service worker logic can go here.
 // Service Worker가 설치되고 활성화될 때 호출되는 이벤트 리스너 등록
 self.addEventListener("activate", (event) => {
   // 푸시 알림 관련 기능 활성화
@@ -97,16 +96,32 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
 });
 
-// 푸시알림 이벤트 리스너 등록
-self.addEventListener("push", (event) => {
-  // 푸시 메시지의 내용 추출
-  const payload = event.data ? event.data.text() : "no payload";
-  console.log("pwa service-worker push msg : ", payload);
+self.addEventListener("install", function (e) {
+  console.log("client sw install..");
+  self.skipWaiting();
+});
 
-  // 푸시 알림 표시
-  event.waitUntil(
-    self.registration.showNotification("푸시 알림", {
-      body: payload,
-    })
-  );
+self.addEventListener("activate", function (e) {
+  console.log("client sw activate..");
+});
+
+// 푸시알림 이벤트 리스너 등록
+self.addEventListener("push", (e) => {
+  console.log("client, push: ", e.data?.json());
+  if (!e.data?.json()) return;
+
+  try {
+    const pushData = e.data.json();
+    const { title, content } = pushData.data;
+    const notificationOptions = {
+      body: content,
+      icon: "/assets/heart with arrow.png",
+      vibrate: [200, 100, 200, 100],
+      actions: [],
+    };
+    // 푸시 알림 표시
+    e.waitUntil(self.registration.showNotification(title, notificationOptions));
+  } catch (err) {
+    console.error(err);
+  }
 });

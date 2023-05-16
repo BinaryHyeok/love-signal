@@ -28,6 +28,25 @@ if ("serviceWorker" in navigator) {
         console.error("Service Worker 등록 실패:", error);
       });
   });
+
+  console.log("service-worker.js is ready... ", navigator.serviceWorker.ready);
+  navigator.serviceWorker.ready.then((registration) => {
+    registration.pushManager.getSubscription().then((subscription) => {
+      if (subscription) {
+        console.log("my service-worker subscription : ", subscription);
+      } else {
+        registration.pushManager
+          .subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: process.env.REACT_APP_PUSH_VAPID,
+          })
+          .then((subscription) => {
+            console.log("구독 첫 등록 in service-worker.js");
+            console.log("my service-worker subscription : ", subscription);
+          });
+      }
+    });
+  });
 }
 
 // Service Worker 등록

@@ -12,14 +12,14 @@ public class UpdateMemberRequest {
     private String memberUUID;
     private String nickname;
     private String description;
-    private boolean receiveAlarm;
+//    private boolean receiveAlarm;
 
     public MemberEntity toEntity(MemberEntity member){
         return MemberEntity.builder()
                 .memberId(member.getMemberId())
                 .nickname(nickname)
                 .matchingStatus(member.getMatchingStatus())
-                .receiveAlarm(receiveAlarm ? "T" : "F")
+                .receiveAlarm(member.getReceiveAlarm())
                 .email(member.getEmail())
                 .kakaoId(member.getKakaoId())
                 .gender(member.getGender())

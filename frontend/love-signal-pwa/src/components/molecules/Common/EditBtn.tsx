@@ -36,8 +36,6 @@ const EditBtn: React.FC<propsType> = ({
     const fileExtensionValid = ({ name }: { name: string }): boolean => {
       // 파일 확장자
       const extension = removeFileName(name);
-      console.log(extension);
-
       setExtension(extension);
       if (
         extension === "heif" ||

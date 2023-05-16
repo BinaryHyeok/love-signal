@@ -119,21 +119,21 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             }
         }
 
-        List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
-        if(resChatRooms != null) {
-            for(ResChatRoom resChatRoom : resChatRooms) {
-                if(resChatRoom.getExpired().equals("F")){
-                    String selectorUUID = resChatRoom.getSelector().getMemberUUID();
-                    String selectedUUID = resChatRoom.getSelected().getMemberUUID();
-                    if(selectorUUID.equals(userUUID) || selectedUUID.equals(userUUID)) {
-                        if(resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T"))
-                            chatRoomList.add(resChatRoom);
-                        else
-                            chatRoomList.add(resChatRoom);
-                    }
-                }
-            }
-        }
+//        List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
+//        if(resChatRooms != null) {
+//            for(ResChatRoom resChatRoom : resChatRooms) {
+//                if(resChatRoom.getExpired().equals("F")){
+//                    String selectorUUID = resChatRoom.getSelector().getMemberUUID();
+//                    String selectedUUID = resChatRoom.getSelected().getMemberUUID();
+//                    if(selectorUUID.equals(userUUID) || selectedUUID.equals(userUUID)) {
+//                        if(resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T"))
+//                            chatRoomList.add(resChatRoom);
+//                        else
+//                            chatRoomList.add(resChatRoom);
+//                    }
+//                }
+//            }
+//        }
 
         return chatRoomList;
     }
@@ -410,9 +410,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     chatRoomJpaRepository.save(chatRoom);
                     participantJpaRepository.save(selectorParticipant);
                     participantJpaRepository.save(selectedParticipant);
-                    System.out.println("roomName======================"+resChatRoom.getRoomName());
-                    System.out.println("roomType======================"+resChatRoom.getType());
-                    System.out.println("roomLove======================"+resChatRoom.getLove());
                 }
 
              }

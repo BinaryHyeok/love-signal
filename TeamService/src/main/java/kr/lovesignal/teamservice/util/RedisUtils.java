@@ -69,10 +69,8 @@ public class RedisUtils {
 
     public int getMatchingUserSize(String gender){
         String key = "M".equals(gender) ? matchingMaleUser : matchingFemaleUser;
-        if(redisTemplate.opsForSet().size(key) == null){
-            return 0;
-        }
-        return redisTemplate.opsForSet().size(key).intValue();
+        Long size = redisTemplate.opsForSet().size(key);
+        return size == null ? 0 : size.intValue();
     }
 
     public void pushMatchingWaiting(String value, String gender){

@@ -22,6 +22,8 @@ public class ResChatRoom implements Serializable{
     private String createdDate;
     private String updatedDate;
     private String expired;
+    @Builder.Default
+    private int selectCount = 0;
     private List<ResMember> memberList;
 
     private ResMember selector;
@@ -34,6 +36,7 @@ public class ResChatRoom implements Serializable{
         return ChatRoom.builder()
                 .type(this.type)
                 .roomName(this.roomName)
+                .selectCount(this.selectCount)
                 .build();
     }
 
@@ -42,6 +45,7 @@ public class ResChatRoom implements Serializable{
                 .UUID(chatRoom.getUUID().toString())
                 .type(chatRoom.getType())
                 .roomName(chatRoom.getRoomName())
+                .selectCount(chatRoom.getSelectCount())
                 .createdDate(chatRoom.getCreatedDate().toString())
                 .updatedDate(chatRoom.getUpdatedDate().toString())
                 .expired(chatRoom.getExpired())

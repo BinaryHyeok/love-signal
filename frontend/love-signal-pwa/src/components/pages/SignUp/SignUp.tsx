@@ -174,10 +174,10 @@ const SignUp = () => {
   //회원가입 버튼 클릭했을때
   const registMember = () => {
     signUp(nickname, gender, birth, description, atk)
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
         setMemberUUID(res.data.body);
-        changeMyImg(res.data.body, myImage, atk, kakaoId)
+        await changeMyImg(res.data.body, myImage, atk, kakaoId)
           .then(() => {
             navigate("/Manual");
             window.location.reload();

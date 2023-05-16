@@ -62,6 +62,7 @@ const CheckTeam: React.FC<propsType> = ({
   const [applyActiveBtn, setApplyActiveBtn] = useState<boolean>(false);
 
   const [close, setClose] = useState<boolean>(false);
+  const [shareBtn, setShareBtn] = useState<boolean>(false);
 
   const [isLeader] = useRecoilState<boolean>(imLeader);
   const [atk] = useRecoilState<string>(myatk);
@@ -73,6 +74,11 @@ const CheckTeam: React.FC<propsType> = ({
       setApplyActiveBtn(true);
     } else {
       setApplyActiveBtn(false);
+    }
+    if (myTUUID) {
+      setShareBtn(true);
+    } else {
+      setShareBtn(false);
     }
   }, []);
 
@@ -197,11 +203,11 @@ const CheckTeam: React.FC<propsType> = ({
               <Button_Type_A
                 width="104px"
                 height="32px"
-                background={memberLength === 3 ? "#CAD9FF" : "#CCCCCC"}
+                background={shareBtn ? "#CAD9FF" : "#CCCCCC"}
                 className={style.button}
                 onClick={shareTeamBtn}
               >
-                {!haveTeam && memberLength === 3 ? (
+                {shareBtn ? (
                   <img
                     src={`${process.env.REACT_APP_ASSETS_DIR}/share.png`}
                     alt=""

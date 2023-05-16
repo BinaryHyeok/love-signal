@@ -64,7 +64,7 @@ const MyTeam = () => {
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
   useEffect(() => {
     getUserTeamInfo();
-  }, []);
+  }, [atk]);
 
   useEffect(() => {}, [exitVisible]);
 

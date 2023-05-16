@@ -21,10 +21,10 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 16vmin;
-  height: 9vmin;
-  padding: 0 2.4vmin;
-  border-radius: 30vmin;
+  width: 48px;
+  height: 27px;
+  padding: 0 4px;
+  border-radius: 24px;
   background-color: rgb(210, 210, 210);
   transition: background-color 0.25s;
   box-shadow: -2px -2px 5px rgba(255, 255, 255, 0.5),
@@ -34,10 +34,10 @@
 
 .handle {
   display: block;
-  width: 6.5vmin;
-  height: 6.5vmin;
+  width: 20px;
+  height: 20px;
   background-color: rgba(255, 255, 255, 1);
-  border-radius: 100%;
+  border-radius: 10px;
   cursor: pointer;
 }
 

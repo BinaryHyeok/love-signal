@@ -37,6 +37,7 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
       setCheckMsg("");
     }
   };
+
   return (
     <div className={style.userInfo}>
       <A_SignUp_Desc2 />
@@ -48,7 +49,7 @@ const M_SignUp_Nickname: React.FC<PropsType> = ({
             id="nickName"
             value={nickname}
             onChange={handleChangeNickname}
-            placeholder="닉네임은여덟글자"
+            placeholder="8글자 제한입니다."
           />
         </div>
         <div>

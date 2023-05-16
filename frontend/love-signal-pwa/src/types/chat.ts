@@ -1,3 +1,5 @@
+import { member } from "./member";
+
 export type chat = {
   roomType?: string;
   isMe?: boolean;
@@ -23,4 +25,5 @@ export type selectOrShareInfo = {
   nicknames?: string[];
   profileUrls?: string[];
   selected?: string;
+  memberList?: member[];
 };

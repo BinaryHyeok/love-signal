@@ -15,6 +15,7 @@ import {
 import M_SignUp_Gender from "../../molecules/SignUp/M_SignUp_Gender";
 import { useRecoilState } from "recoil";
 import {
+  imLeader,
   kid,
   myGender,
   myMemberUUID,
@@ -52,6 +53,7 @@ const SignUp = () => {
 
   const [, setMyGender] = useRecoilState<string>(myGender);
   const [, setMUUID] = useRecoilState<string>(myMemberUUID);
+  const [, setLeader] = useRecoilState<boolean>(imLeader);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -81,7 +83,11 @@ const SignUp = () => {
               res.data.body.accessToken,
               res.data.body.kakaoId
             ).then((res) => {
-              saveGenderUUID(res.data.body.gender, res.data.body.memberUUID);
+              saveGenderUUID(
+                res.data.body.gender,
+                res.data.body.memberUUID,
+                res.data.body.teamLeader
+              );
             });
             console.log(res.data.body.memberUUID);
             navigate("/OtherGender", { replace: true });
@@ -96,9 +102,14 @@ const SignUp = () => {
     }
   }, []);
 
-  const saveGenderUUID = (gender: string, memberUUID: string) => {
+  const saveGenderUUID = (
+    gender: string,
+    memberUUID: string,
+    teamLeader: boolean
+  ) => {
     setMyGender(gender);
     setMUUID(memberUUID);
+    setLeader(teamLeader);
   };
 
   const saveMyInfo = (
@@ -174,10 +185,10 @@ const SignUp = () => {
   //회원가입 버튼 클릭했을때
   const registMember = () => {
     signUp(nickname, gender, birth, description, atk)
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
         setMemberUUID(res.data.body);
-        changeMyImg(res.data.body, myImage, atk, kakaoId)
+        await changeMyImg(res.data.body, myImage, atk, kakaoId)
           .then(() => {
             navigate("/Manual");
             window.location.reload();

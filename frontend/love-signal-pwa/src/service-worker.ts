@@ -35,7 +35,7 @@ registerRoute(
     // Return true to signal that we want to use the handler.
     return true;
   },
-  createHandlerBoundToURL(process.env.PUBLIC_URL + "/")
+  createHandlerBoundToURL(process.env.PUBLIC_URL + "/index.html")
 );
 
 // An example runtime caching route for requests that aren't handled by the
@@ -109,7 +109,7 @@ self.addEventListener("activate", (event) => {
           .subscribe({
             userVisibleOnly: true,
             // =========== 서버 키 확인 필요.
-            applicationServerKey: process.env.REACT_APP_PUSH_VAPID,
+            applicationServerKey: process.env.REACT_APP_PUSH_APP_KEY,
           })
           .then((subscription) => {
             console.log(" ======== Service-worker 구독 정보 : ", subscription);

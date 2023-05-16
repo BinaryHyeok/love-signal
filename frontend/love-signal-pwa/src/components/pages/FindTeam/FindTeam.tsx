@@ -10,14 +10,17 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
-import { teamBuildState } from "../../../atom/member";
+import { myatk, teamBuildState } from "../../../atom/member";
 import MatchTeam from "../../templates/FindTeam/MatchTeam";
 
 const FindTeam = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
+  const [atk] = useRecoilState<string>(myatk);
+
   useEffect(() => {
     setIdx(1);
-  }, []);
+  }, [atk]);
+
   const [myTeamBuildState] = useRecoilState<boolean>(teamBuildState);
 
   return (

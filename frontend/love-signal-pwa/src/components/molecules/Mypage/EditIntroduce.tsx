@@ -25,7 +25,9 @@ const EditIntroduce: React.FC<propsType> = ({
 
   const changeMyIntroduce = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    setCurrDesc(target.value);
+    if (target.value.length <= 20) {
+      setCurrDesc(target.value);
+    }
   };
 
   const updateDescHandler = () => {

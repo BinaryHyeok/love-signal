@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/M_ChatTextItem.module.scss";
 import A_ChatText_TypeA from "../../atoms/Chat/A_ChatText_TypeA";
 import A_ChatText_TypeB from "../../atoms/Chat/A_ChatText_TypeB";
@@ -9,6 +9,7 @@ import M_ChatText_Select from "./M_ChatText_Select";
 import M_ChatText_Result from "./M_ChatText_Result";
 import { chat } from "../../../types/chat";
 import M_ChatText_Share from "./M_ChatText_Share";
+import { member } from "../../../types/member";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -23,6 +24,9 @@ type PropsType = {
   isMe?: boolean;
   profileImage?: string | null;
   chat: chat;
+  setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
+  // setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
+  viewDetail: () => void;
 };
 
 const M_ChatTextItem: React.FC<PropsType> = ({
@@ -31,6 +35,9 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   isMe,
   profileImage,
   chat,
+  setOppositeTeamMember,
+  // setOppositeTeamUUID,
+  viewDetail,
 }) => {
   let text = null;
   if (chatType === "TEXT") {
@@ -81,6 +88,9 @@ const M_ChatTextItem: React.FC<PropsType> = ({
         sender={chat.nickname ? chat.nickname : ""}
         selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
         isMe={isMe}
+        setOppositeTeamMember={setOppositeTeamMember}
+        chat={chat}
+        viewDetail={viewDetail}
       />
     ) : (
       <>
@@ -89,6 +99,9 @@ const M_ChatTextItem: React.FC<PropsType> = ({
           sender={chat.nickname ? chat.nickname : ""}
           selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
           isMe={isMe || false}
+          setOppositeTeamMember={setOppositeTeamMember}
+          chat={chat}
+          viewDetail={viewDetail}
         />
       </>
     );

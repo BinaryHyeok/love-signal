@@ -1,22 +1,33 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/M_ChatText_Share.module.scss";
 import A_ChatText_TypeB from "../../atoms/Chat/A_ChatText_TypeB";
-import { selectOrShareInfo } from "../../../types/chat";
+import { chat, selectOrShareInfo } from "../../../types/chat";
 import M_ChatSelectBox from "./M_ChatSelectBox";
 import A_ChatText_TypeA from "../../atoms/Chat/A_ChatText_TypeA";
+import { member } from "../../../types/member";
 
 type PropsType = {
   sender: string;
   selectInfo: selectOrShareInfo;
   isMe: boolean;
+  setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
+  chat: chat;
+  viewDetail: () => void;
 };
 const M_ChatText_Share: React.FC<PropsType> = ({
   sender,
   selectInfo,
   isMe,
+  setOppositeTeamMember,
+  chat,
+  viewDetail,
 }) => {
   const openTeamDetail = () => {
-    alert("팀 정보 보여주는 모달을 띄워요~");
+    if (chat.selectOrShareInfo?.memberList) {
+      setOppositeTeamMember(chat.selectOrShareInfo.memberList);
+    }
+    viewDetail();
+    console.log(chat.selectOrShareInfo);
   };
 
   let content = (

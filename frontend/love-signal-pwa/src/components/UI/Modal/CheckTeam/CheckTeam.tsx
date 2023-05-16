@@ -31,14 +31,14 @@ type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
   member: member[];
-  oppositeTeamUUID: string;
-  myTeam: boolean; //내팀일 경우엔 밑에 버튼을 띄우면 안될것 같아 사용.
+  oppositeTeamUUID?: string;
+  myTeam?: boolean; //내팀일 경우엔 밑에 버튼을 띄우면 안될것 같아 사용.
   setMsg: Dispatch<SetStateAction<string>>;
-  applyModal: boolean;
+  applyModal?: boolean;
   setApplyModal: Dispatch<SetStateAction<boolean>>;
   haveTeam?: boolean;
   memberLength?: number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const CheckTeam: React.FC<propsType> = ({
@@ -62,6 +62,7 @@ const CheckTeam: React.FC<propsType> = ({
   const [applyActiveBtn, setApplyActiveBtn] = useState<boolean>(false);
 
   const [close, setClose] = useState<boolean>(false);
+  const [shareBtn, setShareBtn] = useState<boolean>(false);
 
   const [isLeader] = useRecoilState<boolean>(imLeader);
   const [atk] = useRecoilState<string>(myatk);
@@ -74,6 +75,12 @@ const CheckTeam: React.FC<propsType> = ({
     } else {
       setApplyActiveBtn(false);
     }
+    if (myTUUID) {
+      setShareBtn(true);
+    } else {
+      setShareBtn(false);
+    }
+    console.log(member);
   }, []);
 
   const closeModal = () => {
@@ -92,18 +99,20 @@ const CheckTeam: React.FC<propsType> = ({
 
   //공유하기 버튼
   const shareTeamBtn = () => {
-    shareTeam(myUUID, oppositeTeamUUID)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (oppositeTeamUUID) {
+      shareTeam(myUUID, oppositeTeamUUID)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   //신청하기 버튼
   const applyTeam = () => {
-    if (memberLength === 3 && !haveTeam && isLeader) {
+    if (memberLength === 3 && !haveTeam && isLeader && oppositeTeamUUID) {
       applyMeeting(myTUUID, oppositeTeamUUID, atk, kID)
         .then((res) => {
           setMsg(res.data.body);
@@ -197,11 +206,11 @@ const CheckTeam: React.FC<propsType> = ({
               <Button_Type_A
                 width="104px"
                 height="32px"
-                background={memberLength === 3 ? "#CAD9FF" : "#CCCCCC"}
+                background={shareBtn ? "#CAD9FF" : "#CCCCCC"}
                 className={style.button}
                 onClick={shareTeamBtn}
               >
-                {!haveTeam && memberLength === 3 ? (
+                {shareBtn ? (
                   <img
                     src={`${process.env.REACT_APP_ASSETS_DIR}/share.png`}
                     alt=""

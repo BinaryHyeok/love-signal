@@ -29,7 +29,9 @@ const EditNickName: React.FC<propsType> = ({
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    setCurrNick(target.value);
+    if (target.value.length <= 8) {
+      setCurrNick(target.value);
+    }
   };
 
   const updateNickHandler = () => {

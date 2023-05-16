@@ -51,6 +51,7 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
   const reissueToken = (rtk: string) => {
     expireATK(rtk)
       .then((res) => {
+        console.log(res);
         setATK(res.data.body.accessToken);
         let nowDate: Date = new Date();
         nowDate.setSeconds(

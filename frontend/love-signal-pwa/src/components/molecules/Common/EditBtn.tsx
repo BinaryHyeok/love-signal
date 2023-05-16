@@ -2,7 +2,7 @@ import React, { useState, useRef, Dispatch, SetStateAction } from "react";
 import EditBtnImg from "../../atoms/Common/EditBtnImg";
 import EditBtnInput from "../../atoms/Common/EditBtnInput";
 const FILE_SIZE_MAX_LIMIT = 10 * 1024 * 1024; // 10MB
-const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif";
+const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif,heif, heic";
 
 type propsType = {
   timeout: any;
@@ -37,6 +37,14 @@ const EditBtn: React.FC<propsType> = ({
       // 파일 확장자
       const extension = removeFileName(name);
       setExtension(extension);
+      if (
+        extension === "heif" ||
+        extension === "heic" ||
+        extension === "HEIF" ||
+        extension === "HEIC"
+      ) {
+        return false;
+      }
       /**
        * 허용가능한 확장자가 있는지 확인하는 부분은 indexOf를 사용해도 괜찮고,
        * 새롭게 나온 includes를 사용해도 괜찮고, 그밖의 다른 방법을 사용해도 좋다.

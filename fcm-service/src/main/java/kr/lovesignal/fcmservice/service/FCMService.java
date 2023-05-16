@@ -13,6 +13,9 @@ public interface FCMService {
 	// 선택의 시간 알람 보내기
 	void sendNotification(List<UUID> memberUUIDs);
 
-	// 팀 생성될 때
+	// 팀 생성될 때 알람 보내기
 	void sendBuildingNotification(List<UUID> memberUUIDs);
+
+	// 미팅이 생성될 때 알람 보내기
+	void sendMeetingNotification(List<UUID> memberUUIDs);
 }

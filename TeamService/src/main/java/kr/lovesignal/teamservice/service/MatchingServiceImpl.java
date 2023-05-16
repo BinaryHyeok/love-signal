@@ -33,6 +33,7 @@ public class MatchingServiceImpl implements MatchingService {
     private int recentTeamExpireTime;
 
     @Override
+    @Transactional
     public void addTeamMatching(String strMemberUUID) {
 
         // 대기열에 참가할 수 없는 유저
@@ -65,6 +66,7 @@ public class MatchingServiceImpl implements MatchingService {
     }
 
     @Override
+    @Transactional
     public void cancelTeamMatching(String strMemberUUID) {
 
         MemberEntity member = teamService.findMemberByMemberUUID(strMemberUUID);
@@ -84,7 +86,6 @@ public class MatchingServiceImpl implements MatchingService {
         redisUtils.removeMatchingUser(strMemberUUID, member.getGender());
     }
 
-    @Transactional
     public void makeMatchingTeam(String gender){
 
         List<String> strMemberUUIDs = new ArrayList<>();
@@ -132,7 +133,6 @@ public class MatchingServiceImpl implements MatchingService {
         webClientService.makeChatRoomApi(strMemberUUIDs);
     }
 
-    @Transactional
     public void updateMatchingTeamMember(MemberEntity member, TeamEntity team, boolean isMatching, boolean isLeader){
         MemberEntity saveMember = MemberEntity.builder()
                 .memberId(member.getMemberId())

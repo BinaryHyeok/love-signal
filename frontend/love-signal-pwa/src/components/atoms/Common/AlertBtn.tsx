@@ -4,7 +4,11 @@ import style from "./styles/AlertBtn.module.scss";
 import { setPushAlarmStatus } from "../../../api/auth";
 import { useRecoilState } from "recoil";
 import { fcmToken } from "../../../atom/fcm";
-import { requestPushPermission, sendFCMToken } from "../../../api/pwa";
+import {
+  getPushPermissionState,
+  requestPushPermission,
+  sendFCMToken,
+} from "../../../api/pwa";
 import { getFCMToken } from "../../../firebase";
 
 type PropsType = {
@@ -27,7 +31,7 @@ const AlertBtn: React.FC<PropsType> = ({
   const [myToken, _] = useRecoilState<string>(fcmToken);
 
   useEffect(() => {
-    const permission = Notification.permission;
+    const permission = getPushPermissionState();
     if (permission === "granted") {
       setMyAlarm(true);
     } else {

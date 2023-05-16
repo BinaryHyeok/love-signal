@@ -63,6 +63,8 @@ const Mypage = () => {
     }
   }, [myCropImage]);
 
+  const updateMyAlarm = () => {};
+
   return (
     <ATKFilter>
       <GetMyInfo>

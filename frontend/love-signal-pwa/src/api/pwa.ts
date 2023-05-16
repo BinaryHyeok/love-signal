@@ -1,10 +1,18 @@
 import axios from "axios";
 
+export const getPushPermissionState = () => {
+  if (!("Notification" in window)) {
+    console.log("이 브라우저는 알림을 지원하지 않습니다.");
+  } else {
+    return Notification.permission;
+  }
+};
+
 export const requestPushPermission = async (uuid: string) => {
   if (!(uuid && uuid.length > 0)) return;
 
   if (!("Notification" in window)) {
-    console.log("이 브라우저는 알림을 지원하지 않습니다.");
+    alert("이 브라우저는 알림을 지원하지 않습니다.");
   } else {
     return await Notification.requestPermission();
   }

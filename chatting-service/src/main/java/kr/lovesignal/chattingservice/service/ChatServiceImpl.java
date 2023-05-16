@@ -85,6 +85,7 @@ public class ChatServiceImpl implements ChatService{
             String profileImageUrl = getProfileImageStoredName(oppositeMember);
             profileUrls.add(profileImageUrl);
             ResMember resMember = ResMember.toDto(oppositeMember);
+            resMember.setProfileImage(profileImageUrl);
             members.add(resMember);
         }
 

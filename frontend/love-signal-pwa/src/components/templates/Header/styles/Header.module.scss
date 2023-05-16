@@ -10,6 +10,20 @@
     width: 100%;
     padding: 16px;
 
+    .iconContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .question {
+        border: 2px solid #8f8f8f;
+        border-radius: 20px;
+        padding: 3px 6px 3px 6px;
+        margin-right: 12px;
+        font-weight: 700;
+        color: #8f8f8f;
+        font-size: 13px;
+      }
+    }
     .logo {
       height: 32px;
 

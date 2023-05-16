@@ -1,21 +1,21 @@
-package kr.lovesignal.chattingservice.service;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-@Service
-@Transactional
-@RequiredArgsConstructor
-public class ScheduleServiceImpl implements ScheduleService{
-
-    private final ChatService chatService;
-    private final ChatRoomService chatRoomService;
-    private final ScheduledExecutorService executorService;
+//package kr.lovesignal.chattingservice.service;
+//
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.scheduling.annotation.Scheduled;
+//import org.springframework.stereotype.Service;
+//
+//import javax.transaction.Transactional;
+//import java.util.concurrent.ScheduledExecutorService;
+//import java.util.concurrent.TimeUnit;
+//
+//@Service
+//@Transactional
+//@RequiredArgsConstructor
+//public class ScheduleServiceImpl implements ScheduleService{
+//
+//    private final ChatService chatService;
+//    private final ChatRoomService chatRoomService;
+//    private final ScheduledExecutorService executorService;
 
 //    @Scheduled(cron = "0/30 * * * * *")
 //    public void schedule() {
@@ -39,4 +39,4 @@ public class ScheduleServiceImpl implements ScheduleService{
 //        }, 6, TimeUnit.MINUTES);
 //    }
 
-}
+//}

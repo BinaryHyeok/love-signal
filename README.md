@@ -128,7 +128,7 @@
 
 ## 아키텍처
 
-![Image](https://ifh.cc/g/zChpLM.jpg)
+[![Architecture](https://i.postimg.cc/Y9Q529Sf/loves-drawio-8.png)](https://postimg.cc/47NLBXVm)
 
 ## 팀원
 

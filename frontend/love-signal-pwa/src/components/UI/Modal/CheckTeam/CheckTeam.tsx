@@ -98,7 +98,7 @@ const CheckTeam: React.FC<propsType> = ({
 
   //공유하기 버튼
   const shareTeamBtn = () => {
-    shareTeam(myUUID, myTUUID)
+    shareTeam(myUUID, oppositeTeamUUID)
       .then((res) => {
         console.log(res);
       })

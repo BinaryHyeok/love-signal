@@ -19,4 +19,6 @@ public interface ChatService {
     void saveResultMessage(String roomUUID, String memberUUID, String oppositeNickname);
 
     void expiredSelectMessage();
+
+    void saveSelectMessage();
 }

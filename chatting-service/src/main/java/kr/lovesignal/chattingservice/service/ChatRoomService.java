@@ -27,4 +27,6 @@ public interface ChatRoomService {
     void secretChatRoomExpiredT();
 
     void redisToMysql();
+
+    void chatRoomExpired();
 }

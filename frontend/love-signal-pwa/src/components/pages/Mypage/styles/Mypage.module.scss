@@ -102,3 +102,12 @@ $background: rgba(0, 0, 0, 0.4);
     }
   }
 }
+.desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .desc1 {
+    margin-bottom: 4px;
+  }
+}

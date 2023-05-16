@@ -24,19 +24,19 @@ public class ScheduleServiceImpl implements ScheduleService{
 //        chatRoomService.redisToMysql();;
 //    }
 
-    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 발표용
-    public void saveSelectMessage() {
-        chatService.saveSelectMessage();
-
-        executorService.schedule(() -> {
-            chatService.expiredSelectMessage();
-            chatRoomService.redisToMysql();
-        }, 3, TimeUnit.MINUTES);
-
-        executorService.schedule(() -> {
-            chatRoomService.secretChatRoomExpiredT();
-            chatRoomService.chatRoomExpired();
-        }, 6, TimeUnit.MINUTES);
-    }
+//    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 발표용
+//    public void saveSelectMessage() {
+//        chatService.saveSelectMessage();
+//
+//        executorService.schedule(() -> {
+//            chatService.expiredSelectMessage();
+//            chatRoomService.redisToMysql();
+//        }, 3, TimeUnit.MINUTES);
+//
+//        executorService.schedule(() -> {
+//            chatRoomService.secretChatRoomExpiredT();
+//            chatRoomService.chatRoomExpired();
+//        }, 6, TimeUnit.MINUTES);
+//    }
 
 }

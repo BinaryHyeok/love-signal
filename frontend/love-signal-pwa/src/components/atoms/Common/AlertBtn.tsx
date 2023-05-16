@@ -12,27 +12,35 @@ type PropsType = {
   myNick: string;
   atk: string;
   kID: string;
+  myAlarm: boolean;
+  setMyAlarm: (param: boolean) => void;
 };
 
-const AlertBtn: React.FC<PropsType> = ({ UUID, myNick, atk, kID }) => {
-  const [pushAlarmIsOn, setPushAlarmIsOn] = useState(false);
+const AlertBtn: React.FC<PropsType> = ({
+  UUID,
+  myNick,
+  atk,
+  kID,
+  myAlarm,
+  setMyAlarm,
+}) => {
   const [myToken, _] = useRecoilState<string>(fcmToken);
 
   useEffect(() => {
     const permission = Notification.permission;
     if (permission === "granted") {
-      setPushAlarmIsOn(true);
+      setMyAlarm(true);
     } else {
-      setPushAlarmIsOn(false);
+      setMyAlarm(false);
     }
   }, []);
 
   const toggleHandler = () => {
-    console.log(pushAlarmIsOn);
-    if (pushAlarmIsOn) {
+    console.log(myAlarm);
+    if (myAlarm) {
       console.log("null 보냄");
       sendFCMToken(UUID, myNick, atk, kID, null);
-      setPushAlarmIsOn(false);
+      setMyAlarm(false);
     } else {
       requestPushPermission(UUID)
         .then((permission) => {
@@ -46,10 +54,10 @@ const AlertBtn: React.FC<PropsType> = ({ UUID, myNick, atk, kID }) => {
                 alert("토큰발급에러 : " + err);
               });
           } else if (permission === "denied") {
-            setPushAlarmIsOn(false);
+            setMyAlarm(false);
             alert("브라우저/앱 설정에서 알림을 허용해야합니다.");
           } else {
-            setPushAlarmIsOn(true);
+            setMyAlarm(true);
           }
         })
         .catch((err) => {
@@ -61,13 +69,13 @@ const AlertBtn: React.FC<PropsType> = ({ UUID, myNick, atk, kID }) => {
   return (
     <div className={style.container}>
       <div className={style.text}>
-        러브시그널 푸쉬알림받기 ({pushAlarmIsOn ? "허용" : "거부"})
+        러브시그널 푸쉬알림받기 ({myAlarm ? "허용" : "거부"})
       </div>
-      <div className={style.switch} data-active={pushAlarmIsOn}>
+      <div className={style.switch} data-active={myAlarm}>
         <input
           id="input-switch"
           type="checkbox"
-          checked={pushAlarmIsOn}
+          checked={myAlarm}
           onChange={toggleHandler}
         />
         <motion.label className={style.handle} layout htmlFor="input-switch" />

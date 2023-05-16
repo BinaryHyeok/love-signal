@@ -27,6 +27,14 @@ if ("serviceWorker" in navigator) {
       .catch((error) => {
         console.error("Service Worker 등록 실패:", error);
       });
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((registration) => {
+        console.log("FCM Service Worker 등록 완료:", registration);
+      })
+      .catch((error) => {
+        console.error("FCM Service Worker 등록 실패:", error);
+      });
   });
 
   console.log("service-worker.js is ready... ", navigator.serviceWorker.ready);

@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./styles/A_ChatSenderImg.module.scss";
+import { motion } from "framer-motion";
 
 type PropsType = {
   senderImg?: string;
@@ -8,9 +9,15 @@ type PropsType = {
 
 const A_ChatSenderImg: React.FC<PropsType> = ({ senderImg, isSystem }) => {
   return (
-    <div className={`${style.imgBox} ${isSystem ? style.systemMsg : ""}`}>
+    <motion.div
+      whileTap={{
+        scale: 1.15,
+        transition: { type: "spring", stiffness: 200, damping: 10 },
+      }}
+      className={`${style.imgBox} ${isSystem ? style.systemMsg : ""}`}
+    >
       <img src={senderImg} />
-    </div>
+    </motion.div>
   );
 };
 

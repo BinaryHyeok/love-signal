@@ -9,7 +9,7 @@ const ManualText4 = () => {
       <br />
       <span className="text-red">1시간</span>동안
       <span className="text-red">익명</span>으로
-      <span className="text-red">1:1 대화</span>를 진행 할 수 있습니다.
+      <span className="text-red">1:1 대화</span>를 할 수 있습니다.
     </div>
   );
 };

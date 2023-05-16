@@ -8,7 +8,7 @@ const ManualText5 = () => {
       <br />
       <span className={style.TextBold}>3일차 선택의 시간에 매칭된 커플</span>
       에게는 <br />
-      <span className="text-red">1:1 대화</span>할 수 있는{" "}
+      <span className="text-red">1:1 대화</span>를 할 수 있는{" "}
       <span className="text-red">영구 채팅방</span>이 열립니다.
     </div>
   );

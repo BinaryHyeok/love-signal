@@ -2,7 +2,7 @@ import React, { useState, useRef, Dispatch, SetStateAction } from "react";
 import EditBtnImg from "../../atoms/Common/EditBtnImg";
 import EditBtnInput from "../../atoms/Common/EditBtnInput";
 const FILE_SIZE_MAX_LIMIT = 10 * 1024 * 1024; // 10MB
-const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif,heif, heic";
+const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif,heif,heic";
 
 type propsType = {
   timeout: any;
@@ -36,6 +36,8 @@ const EditBtn: React.FC<propsType> = ({
     const fileExtensionValid = ({ name }: { name: string }): boolean => {
       // 파일 확장자
       const extension = removeFileName(name);
+      console.log(extension);
+
       setExtension(extension);
       if (
         extension === "heif" ||

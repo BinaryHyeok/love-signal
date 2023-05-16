@@ -11,6 +11,7 @@ type PropsType = {
 
 const AlarmModal: React.FC<PropsType> = ({ closeModal, children }) => {
   const [animation] = useRecoilState<boolean>(alarmModalAnimation);
+
   return (
     <AnimatePresence mode="wait">
       <motion.div

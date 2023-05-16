@@ -39,7 +39,7 @@ const M_Image_Crop: React.FC<PropsType> = ({
           setMyImage(formData);
           setChangeImg(true);
         }
-      }, `image/${extension}`);
+      }, `image/jpg`);
       setAnimation(true);
       timeout = setTimeout(() => {
         setVisible(false);

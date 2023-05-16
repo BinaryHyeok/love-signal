@@ -4,7 +4,8 @@ import style from "./styles/AlertBtn.module.scss";
 import { setPushAlarmStatus } from "../../../api/auth";
 import { useRecoilState } from "recoil";
 import { fcmToken } from "../../../atom/fcm";
-import { sendFCMToken } from "../../../api/pwa";
+import { requestPushPermission, sendFCMToken } from "../../../api/pwa";
+import { getFCMToken } from "../../../firebase";
 
 type PropsType = {
   UUID: string;
@@ -18,12 +19,12 @@ const AlertBtn: React.FC<PropsType> = ({ UUID, myNick, atk, kID }) => {
   const [myToken, _] = useRecoilState<string>(fcmToken);
 
   useEffect(() => {
-    // const permission = Notification.permission;
-    // if (permission === "granted") {
-    //   setPushAlarmIsOn(true);
-    // } else {
-    //   setPushAlarmIsOn(false);
-    // }
+    const permission = Notification.permission;
+    if (permission === "granted") {
+      setPushAlarmIsOn(true);
+    } else {
+      setPushAlarmIsOn(false);
+    }
   }, []);
 
   const toggleHandler = () => {
@@ -31,11 +32,30 @@ const AlertBtn: React.FC<PropsType> = ({ UUID, myNick, atk, kID }) => {
     if (pushAlarmIsOn) {
       console.log("null 보냄");
       sendFCMToken(UUID, myNick, atk, kID, null);
+      setPushAlarmIsOn(false);
     } else {
-      console.log("토큰 보냄 : ", myToken);
-      sendFCMToken(UUID, myNick, atk, kID, myToken);
+      requestPushPermission(UUID)
+        .then((permission) => {
+          if (permission === "granted") {
+            getFCMToken()
+              .then((token) => {
+                console.log("토큰 보냄 : ", token);
+                sendFCMToken(UUID, myNick, atk, kID, token);
+              })
+              .catch((err) => {
+                alert("토큰발급에러 : " + err);
+              });
+          } else if (permission === "denied") {
+            setPushAlarmIsOn(false);
+            alert("브라우저/앱 설정에서 알림을 허용해야합니다.");
+          } else {
+            setPushAlarmIsOn(true);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
-    setPushAlarmIsOn((prev) => !prev);
   };
 
   return (

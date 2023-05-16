@@ -36,8 +36,6 @@ const EditBtn: React.FC<propsType> = ({
     const fileExtensionValid = ({ name }: { name: string }): boolean => {
       // 파일 확장자
       const extension = removeFileName(name);
-      console.log(extension);
-
       setExtension(extension);
       if (
         extension === "heif" ||
@@ -74,7 +72,6 @@ const EditBtn: React.FC<propsType> = ({
       // 파일 이름에서 .이 존재하지 않는 경우이다.
       // 이경우 파일 확장자가 존재하지 않는경우(?)를 의미한다.
       if (lastIndex < 0) {
-        alert("여기 문젠가?");
         return "";
       }
 

@@ -147,7 +147,7 @@ self.addEventListener("push", (e) => {
     const { title, content } = pushData.data;
     const notificationOptions = {
       body: content,
-      icon: "/assets/heart with arrow.png",
+      icon: "/assets/heart-with-arrow.png",
       vibrate: [200, 100, 200, 100],
       actions: [],
     };

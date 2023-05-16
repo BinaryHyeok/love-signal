@@ -34,7 +34,7 @@ const M_ChatSelectBox: React.FC<PropsType> = ({
           onClick={selectOne}
         >
           <img
-            src={`${process.env.REACT_APP_ASSETS_DIR}/heart with arrow.png`}
+            src={`${process.env.REACT_APP_ASSETS_DIR}/heart-with-arrow.png`}
           />
         </button>
       )}

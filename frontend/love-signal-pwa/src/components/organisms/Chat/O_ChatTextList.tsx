@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/O_ChatTextList.module.scss";
 import M_ChatTextItem from "../../molecules/Chat/M_ChatTextItem";
-import { chat } from "../../../types/chat";
+import { chat, roomChatList } from "../../../types/chat";
 import { useRecoilState } from "recoil";
 import { nickname } from "../../../atom/member";
 import { member } from "../../../types/member";
@@ -10,6 +10,7 @@ type PropsType = {
   ulRef: React.RefObject<HTMLUListElement>;
   roomType?: string;
   chatList: chat[];
+  setChatList: React.Dispatch<React.SetStateAction<roomChatList>>;
   members: member[] | null;
   setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
   // setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
@@ -20,6 +21,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
   ulRef,
   roomType,
   chatList,
+  setChatList,
   members,
   setOppositeTeamMember,
   // setOppositeTeamUUID,
@@ -42,6 +44,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
             members.filter((m) => m.nickname === item.nickname)[0]?.profileImage
           }
           chat={item}
+          setChatList={setChatList}
           setOppositeTeamMember={setOppositeTeamMember}
           // setOppositeTeamUUID={setOppositeTeamUUID}
           viewDetail={viewDetail}

@@ -237,6 +237,7 @@ const Chat = () => {
                   ? chatList[selectedRoom.uuid]
                   : []
               }
+              setChatList={setChatList}
               onTextSend={publishChatMsg}
               members={selectedRoom.memberList || null}
             />

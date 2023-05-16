@@ -78,3 +78,9 @@ export const urlCode = atom<string>({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+export const leftSwiper = atom<boolean>({
+  key: "leftSwiper",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});

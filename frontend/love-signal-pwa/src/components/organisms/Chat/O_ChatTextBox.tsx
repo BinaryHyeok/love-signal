@@ -3,7 +3,7 @@ import style from "./styles/O_ChatTextBox.module.scss";
 import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";
 import M_ChatInputBox from "../../molecules/Chat/M_ChatInputBox";
-import { chat } from "../../../types/chat";
+import { chat, roomChatList } from "../../../types/chat";
 import { member } from "../../../types/member";
 
 type PropsType = {
@@ -11,6 +11,7 @@ type PropsType = {
   roomType?: string;
   ulRef: React.RefObject<HTMLUListElement>;
   chatList: chat[];
+  setChatList: React.Dispatch<React.SetStateAction<roomChatList>>;
   members: member[] | null;
   onRoomExit: (type: number) => void;
   setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
@@ -22,6 +23,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
   roomType,
   ulRef,
   chatList,
+  setChatList,
   members,
   onRoomExit,
   setOppositeTeamMember,
@@ -42,6 +44,7 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         ulRef={ulRef}
         roomType={roomType}
         chatList={chatList}
+        setChatList={setChatList}
         members={members}
         setOppositeTeamMember={setOppositeTeamMember}
         viewDetail={viewDetail}

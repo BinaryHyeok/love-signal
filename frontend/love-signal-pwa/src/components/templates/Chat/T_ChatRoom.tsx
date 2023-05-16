@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import style from "./styles/T_ChatRoom.module.scss";
 import M_ChatRoomHeader from "../../molecules/Chat/M_ChatRoomHeader";
 import O_ChatTextBox from "../../organisms/Chat/O_ChatTextBox";
-import { chat } from "../../../types/chat";
+import { chat, roomChatList } from "../../../types/chat";
 
 import { useRecoilState } from "recoil";
 import { nickname } from "../../../atom/member";
@@ -25,6 +25,7 @@ type PropsType = {
   roomExitHandler: (type?: number) => void;
   roomType?: string;
   chatList: chat[];
+  setChatList: React.Dispatch<React.SetStateAction<roomChatList>>;
   onTextSend: (text: chat) => void;
   members: member[] | null;
 };
@@ -38,6 +39,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
   roomExitHandler,
   roomType,
   chatList,
+  setChatList,
   onTextSend,
   members,
 }) => {
@@ -152,6 +154,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             roomType={roomType}
             ulRef={ulRef}
             chatList={chatList}
+            setChatList={setChatList}
             members={members}
             setOppositeTeamMember={setOppositeTeamMember}
             // setOppositeTeamUUID={setOppositeTeamUUID}
@@ -175,6 +178,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             roomType={roomType}
             ulRef={ulRef}
             chatList={chatList}
+            setChatList={setChatList}
             members={members}
             setOppositeTeamMember={setOppositeTeamMember}
             // setOppositeTeamUUID={setOppositeTeamUUID}

@@ -183,7 +183,7 @@ public class ChatServiceImpl implements ChatService{
     /**
      * 선택의 시간에 시스템 채팅방에 이성지목 메세지 저장.
      */
-    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 발표용
+//    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul") // 초 분 시 일 월 요일 - 발표용
     public void saveSelectMessage() {
         //모든 채팅방. type 이 Meeting 인 것. expired 가 F 인 것. List 로 불러오기
         List<ChatRoom> meetingChatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");

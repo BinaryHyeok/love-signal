@@ -11,6 +11,7 @@ import { member } from "../../../../types/member";
 import { applyMeeting } from "../../../../api/team";
 import {
   imLeader,
+  leftSwiper,
   myMemberUUID,
   myTeamUUID,
   myatk,
@@ -68,6 +69,8 @@ const CheckTeam: React.FC<propsType> = ({
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
+  const [leftIsVisible, setLeftIsVisible] = useRecoilState<boolean>(leftSwiper);
+
   useEffect(() => {
     setBtnVisible(!myTeam);
     if (memberLength === 3 && !haveTeam && isLeader) {
@@ -90,11 +93,13 @@ const CheckTeam: React.FC<propsType> = ({
   };
 
   const closeLeft = () => {
-    setClose(!close);
+    setClose(true);
+    setLeftIsVisible(true);
   };
 
   const closeManual = () => {
     setClose(true);
+    setLeftIsVisible(true);
   };
 
   //공유하기 버튼
@@ -181,7 +186,7 @@ const CheckTeam: React.FC<propsType> = ({
               age={member[0].age}
               description={member[0].description}
             />
-            {!close && <SwiperManual closeLeft={closeLeft} />}
+            {!close && !leftIsVisible && <SwiperManual closeLeft={closeLeft} />}
           </SwiperSlide>
           <SwiperSlide className={style.swiperSlide}>
             <UserInfo

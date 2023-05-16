@@ -40,7 +40,6 @@ const AlertBtn: React.FC<PropsType> = ({
   }, []);
 
   const toggleHandler = () => {
-    console.log(myAlarm);
     if (myAlarm) {
       console.log("null 보냄");
       sendFCMToken(UUID, myNick, atk, kID, null);

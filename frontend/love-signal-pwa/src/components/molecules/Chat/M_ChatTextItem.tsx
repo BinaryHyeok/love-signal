@@ -76,13 +76,19 @@ const M_ChatTextItem: React.FC<PropsType> = ({
       </>
     );
   } else if (chatType === "SHARE") {
-    console.log(chat);
-    text = (
+    text = isMe ? (
+      <M_ChatText_Share
+        sender={chat.nickname ? chat.nickname : ""}
+        selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
+        isMe={isMe}
+      />
+    ) : (
       <>
         <A_ChatSenderImg senderImg={profileImage || ""} />
         <M_ChatText_Share
           sender={chat.nickname ? chat.nickname : ""}
           selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
+          isMe={isMe || false}
         />
       </>
     );

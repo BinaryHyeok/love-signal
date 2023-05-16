@@ -3,7 +3,7 @@ import style from "./styles/A_ChatText_TypeA.module.scss";
 
 type PropsType = {
   background: string;
-  content?: string;
+  content?: string | JSX.Element;
   isContainer?: boolean;
 };
 

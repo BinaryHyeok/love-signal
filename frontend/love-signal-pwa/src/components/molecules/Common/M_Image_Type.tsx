@@ -11,6 +11,7 @@ type propsType = {
   marginTop: string;
   setMyImage: Dispatch<SetStateAction<FormData>>;
   setChangeImg: Dispatch<SetStateAction<boolean>>;
+  imgError?: boolean;
 };
 
 let timeout: NodeJS.Timer;
@@ -21,6 +22,7 @@ const M_Image_Type: React.FC<propsType> = ({
   marginTop,
   setMyImage,
   setChangeImg,
+  imgError,
 }) => {
   const [fileImg, setFileImg] = useState<string>(myImg);
   const [cropData, setCropData] = useState<string>("");
@@ -33,7 +35,7 @@ const M_Image_Type: React.FC<propsType> = ({
 
   useEffect(() => {
     setCropData(myImg);
-  }, [myImg]);
+  }, [myImg, imgError]);
 
   return (
     <>

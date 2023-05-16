@@ -126,7 +126,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     String selectorUUID = resChatRoom.getSelector().getMemberUUID();
                     String selectedUUID = resChatRoom.getSelected().getMemberUUID();
                     if(selectorUUID.equals(userUUID) || selectedUUID.equals(userUUID)) {
-                        chatRoomList.add(resChatRoom);
+                        if(resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T"))
+                            chatRoomList.add(resChatRoom);
+                        else
+                            chatRoomList.add(resChatRoom);
                     }
                 }
             }
@@ -277,7 +280,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         // seconds 가 120 이상이면 SIGNAL 아니면 SECRET
         String roomType = meetingRoom.getSelectCount()>=2?"SIGNAL":"SECRET";
-        secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
+        createOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
     }
 
 //    @Override
@@ -323,7 +326,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * createOneToOneChatRoom() 메서드에 사용되는 메서드
      * 1일, 2일 차 선택의 시간에 채팅방 생성
      */
-    public void secretOneToOne(String selectorUUID, String selectedUUID, String meetingRoomUUID,
+    public void createOneToOne(String selectorUUID, String selectedUUID, String meetingRoomUUID,
                                String type, Member selector, Member selected) {
 
         ResMember selectorDto = ResMember.toDto(selector);

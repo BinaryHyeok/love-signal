@@ -109,7 +109,7 @@ self.addEventListener("activate", (event) => {
           .subscribe({
             userVisibleOnly: true,
             // =========== 서버 키 확인 필요.
-            applicationServerKey: process.env.REACT_APP_PUSH_VAPID,
+            applicationServerKey: process.env.REACT_APP_PUSH_APP_KEY,
           })
           .then((subscription) => {
             console.log(" ======== Service-worker 구독 정보 : ", subscription);

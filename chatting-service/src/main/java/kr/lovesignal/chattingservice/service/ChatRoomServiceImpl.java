@@ -70,7 +70,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public String getProfileImageStoredName(Member member) {
         ProfileImage profileImage = profileImageJpaRepository.findByMemberAndExpired(member, "F");
         if(profileImage == null)
-            System.out.println("=================프로필 이미지가 null 인 member 닉네임 ============"+member.getNickname());
+            return "https://love-signal.s3.ap-northeast-2.amazonaws.com/default-blob";
         return profileImage.getStoredName();
     }
 

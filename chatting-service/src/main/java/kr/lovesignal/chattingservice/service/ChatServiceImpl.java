@@ -39,6 +39,8 @@ public class ChatServiceImpl implements ChatService{
 
     public String getProfileImageStoredName(Member member) {
         ProfileImage profileImage = profileImageJpaRepository.findByMemberAndExpired(member, "F");
+        if(profileImage == null)
+            return "https://love-signal.s3.ap-northeast-2.amazonaws.com/default-blob";
         return profileImage.getStoredName();
     }
 

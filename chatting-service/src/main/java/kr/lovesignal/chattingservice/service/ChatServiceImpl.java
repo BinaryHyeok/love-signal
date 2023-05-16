@@ -111,7 +111,7 @@ public class ChatServiceImpl implements ChatService{
                 .roomUUID(topicId)
                 .type("SHARE") //
                 .nickname(member.getNickname())
-                .content("")
+                .content(member.getNickname()+"님이 이성팀을 공유했습니다.")
                 .selectOrShareInfo(selectOrShareInfo)
                 .build();
 

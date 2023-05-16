@@ -50,13 +50,16 @@ const ExploreTeam = () => {
     setIdx(0);
     getMyInfo();
     getList();
-  }, [atk, kID]);
+  }, [atk, kID, TUUID]);
 
   useEffect(() => {
     setMsg("");
   }, [visible]);
 
   const getMyInfo = async () => {
+    if (!TUUID) {
+      return;
+    }
     if (isLeader) {
       getMyTeam(TUUID, atk, kID)
         .then((res) => {

@@ -64,7 +64,6 @@
 
 <div style="display: flex; align-items: flex-start;"></div>
 
-
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>FrontEnd&nbsp;</strong></span>
   <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="30" height="30" style="display: inline;" />
@@ -128,6 +127,8 @@
 - MatterMost
 
 ## 아키텍처
+
+![Image](https://ifh.cc/g/zChpLM.jpg)
 
 ## 팀원
 

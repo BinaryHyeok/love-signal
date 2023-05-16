@@ -7,6 +7,8 @@ import { chat } from "../../../types/chat";
 import { useRecoilState } from "recoil";
 import { nickname } from "../../../atom/member";
 import { member } from "../../../types/member";
+import Modal_portal from "../../UI/Modal/Modal_portal";
+import CheckTeam from "../../UI/Modal/CheckTeam/CheckTeam";
 
 const ENUM_BACKGROUND: { [key: string]: string } = {
   TEAM: "#cad9ff",
@@ -27,6 +29,8 @@ type PropsType = {
   members: member[] | null;
 };
 
+let timeout: NodeJS.Timer;
+
 const T_ChatRoom: React.FC<PropsType> = ({
   className,
   roomId,
@@ -42,6 +46,14 @@ const T_ChatRoom: React.FC<PropsType> = ({
 
   const [unitHeight, setUnitHeight] = useState<number>();
   const [me, _] = useRecoilState<string>(nickname);
+
+  const [detailVisible, setDetailVisible] = useState<boolean>(false);
+  const [animation, setAnimation] = useState<boolean>(false);
+  const [oppositeTeamMember, setOppositeTeamMember] = useState<member[]>([]);
+  const [oppositeTeamUUID, setOppositeTeamUUID] = useState<string>("");
+
+  const [, setMsg] = useState<string>("");
+  const [, setApplyModal] = useState<boolean>(false);
 
   useEffect(() => {
     window.addEventListener("resize", unitHeightSetHandler);
@@ -101,24 +113,75 @@ const T_ChatRoom: React.FC<PropsType> = ({
 
   useEffect(() => {}, [unitHeight]);
 
+  const viewDetail = () => {
+    //여기서 내가 팀이 있는지 없는지 체크를 해서 팀이 있으면 상세보기로 없으면 팀을 구성하라는 모달을 띄워주어야합니다.
+    setAnimation(false);
+    clearTimeout(timeout);
+    setDetailVisible(true);
+  };
+
   return (
     <div className={`${style.chatRoom} ${className}`} ref={box_chatRoom}>
-      <M_ChatRoomHeader
-        onRoomExit={onRoomExit}
-        roomId={roomId}
-        title={title}
-        count={members && members.length > 0 ? members.length + "" : ""}
-        background={roomType ? ENUM_BACKGROUND[roomType] : ""}
-      />
-      <O_ChatTextBox
-        // onTextSubmit={onTextSend}
-        onTextSubmit={textSendHandler}
-        onRoomExit={roomExitHandler}
-        roomType={roomType}
-        ulRef={ulRef}
-        chatList={chatList}
-        members={members}
-      />
+      {detailVisible ? (
+        <>
+          <Modal_portal>
+            <CheckTeam
+              timeout={timeout}
+              animation={animation}
+              setAnimation={setAnimation}
+              setVisible={setDetailVisible}
+              visible={detailVisible}
+              member={oppositeTeamMember}
+              oppositeTeamUUID={oppositeTeamUUID}
+              myTeam={true}
+              setMsg={setMsg}
+              setApplyModal={setApplyModal}
+            />
+          </Modal_portal>
+          <M_ChatRoomHeader
+            onRoomExit={onRoomExit}
+            roomId={roomId}
+            title={title}
+            count={members && members.length > 0 ? members.length + "" : ""}
+            background={roomType ? ENUM_BACKGROUND[roomType] : ""}
+          />
+          <O_ChatTextBox
+            // onTextSubmit={onTextSend}
+            onTextSubmit={textSendHandler}
+            onRoomExit={roomExitHandler}
+            roomType={roomType}
+            ulRef={ulRef}
+            chatList={chatList}
+            members={members}
+            setOppositeTeamMember={setOppositeTeamMember}
+            setOppositeTeamUUID={setOppositeTeamUUID}
+            viewDetail={viewDetail}
+          />
+        </>
+      ) : (
+        <>
+          {" "}
+          <M_ChatRoomHeader
+            onRoomExit={onRoomExit}
+            roomId={roomId}
+            title={title}
+            count={members && members.length > 0 ? members.length + "" : ""}
+            background={roomType ? ENUM_BACKGROUND[roomType] : ""}
+          />
+          <O_ChatTextBox
+            // onTextSubmit={onTextSend}
+            onTextSubmit={textSendHandler}
+            onRoomExit={roomExitHandler}
+            roomType={roomType}
+            ulRef={ulRef}
+            chatList={chatList}
+            members={members}
+            setOppositeTeamMember={setOppositeTeamMember}
+            setOppositeTeamUUID={setOppositeTeamUUID}
+            viewDetail={viewDetail}
+          />
+        </>
+      )}
     </div>
   );
 };

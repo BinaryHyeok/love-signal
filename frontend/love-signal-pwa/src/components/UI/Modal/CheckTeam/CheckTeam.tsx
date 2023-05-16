@@ -31,14 +31,14 @@ type propsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   visible: boolean;
   member: member[];
-  oppositeTeamUUID: string;
-  myTeam: boolean; //내팀일 경우엔 밑에 버튼을 띄우면 안될것 같아 사용.
+  oppositeTeamUUID?: string;
+  myTeam?: boolean; //내팀일 경우엔 밑에 버튼을 띄우면 안될것 같아 사용.
   setMsg: Dispatch<SetStateAction<string>>;
-  applyModal: boolean;
+  applyModal?: boolean;
   setApplyModal: Dispatch<SetStateAction<boolean>>;
   haveTeam?: boolean;
   memberLength?: number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const CheckTeam: React.FC<propsType> = ({
@@ -98,18 +98,20 @@ const CheckTeam: React.FC<propsType> = ({
 
   //공유하기 버튼
   const shareTeamBtn = () => {
-    shareTeam(myUUID, oppositeTeamUUID)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (oppositeTeamUUID) {
+      shareTeam(myUUID, oppositeTeamUUID)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   //신청하기 버튼
   const applyTeam = () => {
-    if (memberLength === 3 && !haveTeam && isLeader) {
+    if (memberLength === 3 && !haveTeam && isLeader && oppositeTeamUUID) {
       applyMeeting(myTUUID, oppositeTeamUUID, atk, kID)
         .then((res) => {
           setMsg(res.data.body);

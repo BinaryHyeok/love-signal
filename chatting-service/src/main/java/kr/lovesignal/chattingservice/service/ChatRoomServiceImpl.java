@@ -483,40 +483,39 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * 동성혼성 채팅방 기간 만료
      */
 //    @Scheduled(cron = "0 24 18 * * *")
-//    public void chatRoomExpired() {
-//        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
-//        for(ChatRoom meetingRoom : chatRooms) {
-//            int createdHour = meetingRoom.getCreatedDate().getHour();
-//            int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
-//
-////            if((createdHour < 16 && nightNumber == 2) || (createdHour >= 16 && nightNumber == 3)) { 일단 조건 분기 빼
-//                meetingRoom.setExpired("T");
-//                chatRoomJpaRepository.save(meetingRoom);
-//                List<Participant> participants = meetingRoom.getParticipants();
-//
-//                List<String> memberUUIDs = new ArrayList<>();
-//                for(Participant participant : participants) {
-//                    memberUUIDs.add(participant.getMember().getUUID().toString());
-//                }
-//
-//                // 이 자리에 진혁이 API 호출
-//                sendMeetingMemberUUIDs(memberUUIDs);
-//
-//                for(Participant participant : participants) {
-//                    participant.setExpired("T");
-//                    participantJpaRepository.save(participant);
-//
-//                    List<Participant> memberParticipants = participant.getMember().getParticipants();
-//                    for(Participant memeberParticipant : memberParticipants) {
-//                        ChatRoom chatRoom = memeberParticipant.getChatRoom();
-//                        if(chatRoom.getType().equals("TEAM")) {
-//                            chatRoom.setExpired("T");
-//                        }
-//                    }
-//                }
-////            }
-//        }
-//    }
+    public void chatRoomExpired() {
+        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
+        for(ChatRoom meetingRoom : chatRooms) {
+
+            if(meetingRoom.getSelectCount() >= 2) {
+                meetingRoom.setExpired("T");
+                chatRoomJpaRepository.save(meetingRoom);
+                List<Participant> participants = meetingRoom.getParticipants();
+
+                List<String> memberUUIDs = new ArrayList<>();
+                for(Participant participant : participants) {
+                    memberUUIDs.add(participant.getMember().getUUID().toString());
+                }
+
+                // 이 자리에 진혁이 API 호출
+                sendMeetingMemberUUIDs(memberUUIDs);
+
+                for(Participant participant : participants) {
+                    participant.setExpired("T");
+                    participantJpaRepository.save(participant);
+
+                    List<Participant> memberParticipants = participant.getMember().getParticipants();
+                    for(Participant memeberParticipant : memberParticipants) {
+                        ChatRoom chatRoom = memeberParticipant.getChatRoom();
+                        if(chatRoom.getType().equals("TEAM")) {
+                            chatRoom.setExpired("T");
+                            chatRoomJpaRepository.save(chatRoom);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
     /**

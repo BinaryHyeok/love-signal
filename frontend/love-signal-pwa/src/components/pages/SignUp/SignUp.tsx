@@ -195,6 +195,7 @@ const SignUp = () => {
           })
           .catch((err) => {
             console.log(err);
+            alert("사진이 등록이 되지 않았습니다. 다시 등록해야합니다.");
           });
       })
       .catch((err) => {

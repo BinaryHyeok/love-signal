@@ -28,6 +28,7 @@ const AlertBtn: React.FC<PropsType> = ({
   myAlarm,
   setMyAlarm,
 }) => {
+  console.log(myAlarm);
   const [myToken, _] = useRecoilState<string>(fcmToken);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const AlertBtn: React.FC<PropsType> = ({
       console.log("null 보냄");
       sendFCMToken(UUID, myNick, atk, kID, null);
       setMyAlarm(false);
+      setPushAlarmStatus(UUID, atk, kID, "false");
     } else {
       requestPushPermission(UUID)
         .then((permission) => {
@@ -53,9 +55,10 @@ const AlertBtn: React.FC<PropsType> = ({
               .then((token) => {
                 console.log("토큰 보냄 : ", token);
                 sendFCMToken(UUID, myNick, atk, kID, token);
+                setPushAlarmStatus(UUID, atk, kID, "true");
               })
               .catch((err) => {
-                alert("토큰발급에러 : " + err);
+                console.error("토큰발급에러 : " + err);
               });
           } else if (permission === "denied") {
             setMyAlarm(false);

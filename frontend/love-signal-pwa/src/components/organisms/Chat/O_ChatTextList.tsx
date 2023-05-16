@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/O_ChatTextList.module.scss";
 import M_ChatTextItem from "../../molecules/Chat/M_ChatTextItem";
 import { chat } from "../../../types/chat";
@@ -11,6 +11,9 @@ type PropsType = {
   roomType?: string;
   chatList: chat[];
   members: member[] | null;
+  setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
+  // setOppositeTeamUUID: Dispatch<SetStateAction<string>>;
+  viewDetail: () => void;
 };
 
 const O_ChatTextList: React.FC<PropsType> = ({
@@ -18,6 +21,9 @@ const O_ChatTextList: React.FC<PropsType> = ({
   roomType,
   chatList,
   members,
+  setOppositeTeamMember,
+  // setOppositeTeamUUID,
+  viewDetail,
 }) => {
   console.log(roomType);
   const [me, _] = useRecoilState<string>(nickname);
@@ -36,6 +42,9 @@ const O_ChatTextList: React.FC<PropsType> = ({
             members.filter((m) => m.nickname === item.nickname)[0]?.profileImage
           }
           chat={item}
+          setOppositeTeamMember={setOppositeTeamMember}
+          // setOppositeTeamUUID={setOppositeTeamUUID}
+          viewDetail={viewDetail}
         />
       ))}
     </ul>

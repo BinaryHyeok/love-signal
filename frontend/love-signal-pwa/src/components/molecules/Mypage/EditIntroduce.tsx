@@ -25,17 +25,9 @@ const EditIntroduce: React.FC<propsType> = ({
 
   const changeMyIntroduce = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-    if (getByteLength(target.value) <= 40) {
+    if (target.value.length <= 20) {
       setCurrDesc(target.value);
     }
-  };
-
-  const getByteLength = (word: string) => {
-    let len = 0;
-    if (word === "") return len;
-    for (let i = 0; i < word.length; i++)
-      len += word.charCodeAt(i) > 128 ? 2 : 1;
-    return len;
   };
 
   const updateDescHandler = () => {

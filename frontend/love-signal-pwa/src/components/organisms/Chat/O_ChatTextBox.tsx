@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import style from "./styles/O_ChatTextBox.module.scss";
 import M_ChatTopNotice from "../../molecules/Chat/M_ChatTopNotice";
 import O_ChatTextList from "./O_ChatTextList";
@@ -13,6 +13,8 @@ type PropsType = {
   chatList: chat[];
   members: member[] | null;
   onRoomExit: (type: number) => void;
+  setOppositeTeamMember: Dispatch<SetStateAction<member[]>>;
+  viewDetail: () => void;
 };
 
 const O_ChatTextBox: React.FC<PropsType> = ({
@@ -22,6 +24,8 @@ const O_ChatTextBox: React.FC<PropsType> = ({
   chatList,
   members,
   onRoomExit,
+  setOppositeTeamMember,
+  viewDetail,
 }) => {
   return (
     <div className={style.textContainer}>
@@ -39,6 +43,8 @@ const O_ChatTextBox: React.FC<PropsType> = ({
         roomType={roomType}
         chatList={chatList}
         members={members}
+        setOppositeTeamMember={setOppositeTeamMember}
+        viewDetail={viewDetail}
       />
       <M_ChatInputBox
         onTextSubmit={onTextSubmit}

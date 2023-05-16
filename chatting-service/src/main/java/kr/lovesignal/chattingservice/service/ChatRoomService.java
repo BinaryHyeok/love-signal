@@ -23,4 +23,8 @@ public interface ChatRoomService {
     ResEnterChatRoom getChatRoom(String roomUUID);
 
     void exitChatRoom(List<String> memberUUIDs);
+
+    void secretChatRoomExpiredT();
+
+    void redisToMysql();
 }

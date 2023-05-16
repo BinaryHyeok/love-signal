@@ -19,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -39,7 +40,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     private final CommonUtils commonUtils;
     private final ChatService chatService;
-    private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomJpaRepository chatRoomJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
@@ -256,7 +256,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) {
+    public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) { // 발표용
         // selector , selected 각각 Member 객체 찾아오기.
 
         UUID uuid = commonUtils.getValidUUID(selectorUUID);
@@ -273,28 +273,56 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 meetingRoom = participant.getChatRoom();
             }
         }
+
         String meetingRoomUUID = meetingRoom.getUUID().toString();
-        System.out.println("235 chatRoom Service Impl ======================"+meetingRoomUUID);
 
-        // 만들어진 시간이 16시 전인지 후인지. 혼성 채팅방이 현재 몇 번째 밤인지.
-        int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
-        int createdHour = meetingRoom.getCreatedDate().getHour();
+        // 혼성 채팅방이 만들어진 시간과 현재 시간의 차이.
+        Duration duration = Duration.between(meetingRoom.getCreatedDate(), LocalDateTime.now());
+        int seconds = (int)duration.toSeconds();
 
-        // 혼성 채팅방이 16시 전에 생성됐을 때
-//        if(createdHour < 16) { 일단은 조건 분기 다 빼놓기. 테스트를 위함.
-            // nightNumber 가 2 이면 마지막 선택 SIGNAL, nightNumber 가 0, 1 이면 익명 선택 SECRET
-            String roomType = nightNumber==2?"SIGNAL":"SECRET";
-            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
-//        }
-//        // 혼성 채팅방이 16시 이후에 생성됐을 때
-//        else if(createdHour >= 16) {
-//            // nightNumber 가 3 이면 마지막 선택 SIGNAL, nightNumber 가 0,1,2 이면 익명 선택 SECRET
-//            String roomType = nightNumber==3?"SIGNAL":"SECRET";
-//            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
-//        }
-
-
+        // seconds 가 120 이상이면 SIGNAL 아니면 SECRET
+        String roomType = seconds>=120?"SIGNAL":"SECRET";
+        secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
     }
+
+//    @Override
+//    public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) {
+//        // selector , selected 각각 Member 객체 찾아오기.
+//
+//        UUID uuid = commonUtils.getValidUUID(selectorUUID);
+//        Member selector = memberJpaRepository.findByUUID(uuid);
+//        Member selected = memberJpaRepository.findMemberByNickname(selectedNickname);
+//        UUID uuid2 = selected.getUUID();
+//        String selectedUUID = uuid2.toString();
+//
+//        // 현재 참여 중인 혼성 채팅방 찾기.
+//        List<Participant> participants = selector.getParticipants();
+//        ChatRoom meetingRoom = null;
+//        for(Participant participant : participants) {
+//            if(participant.getChatRoom().getType().equals("MEETING")) {
+//                meetingRoom = participant.getChatRoom();
+//            }
+//        }
+//        String meetingRoomUUID = meetingRoom.getUUID().toString();
+//        System.out.println("235 chatRoom Service Impl ======================"+meetingRoomUUID);
+//
+//        // 만들어진 시간이 16시 전인지 후인지. 혼성 채팅방이 현재 몇 번째 밤인지.
+//        int nightNumber = Period.between(meetingRoom.getCreatedDate().toLocalDate(), LocalDate.now()).getDays();
+//        int createdHour = meetingRoom.getCreatedDate().getHour();
+//
+//        // 혼성 채팅방이 16시 전에 생성됐을 때
+////        if(createdHour < 16) { 일단은 조건 분기 다 빼놓기. 테스트를 위함.
+//            // nightNumber 가 2 이면 마지막 선택 SIGNAL, nightNumber 가 0, 1 이면 익명 선택 SECRET
+//            String roomType = nightNumber==2?"SIGNAL":"SECRET";
+//            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
+////        }
+////        // 혼성 채팅방이 16시 이후에 생성됐을 때
+////        else if(createdHour >= 16) {
+////            // nightNumber 가 3 이면 마지막 선택 SIGNAL, nightNumber 가 0,1,2 이면 익명 선택 SECRET
+////            String roomType = nightNumber==3?"SIGNAL":"SECRET";
+////            secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
+////        }
+//    }
 
     /**
      * createOneToOneChatRoom() 메서드에 사용되는 메서드
@@ -305,7 +333,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         ResMember selectorDto = ResMember.toDto(selector);
         ResMember selectedDto = ResMember.toDto(selected);
-        String roomName = "";
+        String roomName = type.equals("SECRET")?"익명 채팅방":"시그널 채팅방";
 
         // 내가 지목한 상대가 나를 지목해서 이미 채팅방이 만들었는지 조회.
         ResChatRoom checkSelectChatRoom =
@@ -322,7 +350,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             ResChatRoom resSelectChatRoom = ResChatRoom.builder()
                     .UUID(roomUUID)
                     .type(type)
-                    .roomName("익명채팅방")
+                    .roomName(roomName)
                     .createdDate(LocalDateTime.now().toString())
                     .updatedDate(LocalDateTime.now().toString())
                     .expired("F")
@@ -332,19 +360,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // redis 에 저장.
             chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);
-
-//            Participant selectorParticipant = Participant.builder()
-//                            .member(selector)
-//                            .chatRoom(chatRoom)
-//                            .build();
-//
-//            Participant selectedParticipant = Participant.builder()
-//                    .member(selected)
-//                    .chatRoom(chatRoom)
-//                    .build();
-//
-//
-//            chatRoomRepository.saveParticipant(selectorParticipant, selectedParticipant);
         }
     }
 
@@ -364,7 +379,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      *  매일밤 10시 30분 선택의 시간에 의해 생성된 채팅방 저장.
      */
-    @Scheduled(cron = "0 36 23 * * *")
+//    @Scheduled(cron = "0/30 * * * * *")
+    @Override
     public void redisToMysql() {
         /*
             1. Redis에서 List<HV> 조회.
@@ -410,7 +426,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      * Redis 안의 ResChatRoom 객체 기간만료 처리.
      * 채팅방에 연결된 Participant 연관객체도 기간만료 처리
      */
-    @Scheduled(cron = "0 38 23 * * *")
+//    @Scheduled(cron = "0/30 * * * * *")
+    @Override
     public void secretChatRoomExpiredT() {
         chatRoomRepository.expiredSecretChatRoom();
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
@@ -424,6 +441,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 participantJpaRepository.save(participant);
             }
         }
+
+
     }
 
     /**

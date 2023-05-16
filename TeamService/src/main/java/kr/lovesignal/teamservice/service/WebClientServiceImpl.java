@@ -46,6 +46,27 @@ public class WebClientServiceImpl implements WebClientService{
     }
 
     @Override
+    public void makeMeetingFcmAlarm(List<String> memberUUIDs) {
+        String uri = "http://localhost:4444/api/fcm/meeting";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
+        if(instances == null || instances.isEmpty()){
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/api/fcm/meeting";
+        }
+
+        webClient.post()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
+
+    }
+
+    @Override
     public Mono<TeamResponse> getProfileImagesByTeamsApi(TeamResponse teamResponse){
         String uri = "http://localhost:9010/api/file/profiles/teams";
 

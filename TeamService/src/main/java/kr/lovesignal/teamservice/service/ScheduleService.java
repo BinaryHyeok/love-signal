@@ -23,20 +23,20 @@ public class ScheduleService {
     private final WebClientService webClientService;
 
 
-    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul")
-    @Transactional(readOnly = true)
-    public void sendMeetingMemberUUIDs(){
-        List<UUID> memberUUIDs = new ArrayList<>();
-        List<TeamEntity> meetingTeams = teamRepository.findByMeetingAndExpired("T", "F");
-
-        for(TeamEntity meetingTeam : meetingTeams){
-            List<MemberEntity> meetingMembers = memberRepository.findByTeamAndExpired(meetingTeam, "F");
-            for(MemberEntity meetingMember : meetingMembers){
-                memberUUIDs.add(meetingMember.getUUID());
-            }
-        }
-
-        webClientService.sendMeetingMemberUUIDs(memberUUIDs);
-
-    }
+//    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul")
+//    @Transactional(readOnly = true)
+//    public void sendMeetingMemberUUIDs(){
+//        List<UUID> memberUUIDs = new ArrayList<>();
+//        List<TeamEntity> meetingTeams = teamRepository.findByMeetingAndExpired("T", "F");
+//
+//        for(TeamEntity meetingTeam : meetingTeams){
+//            List<MemberEntity> meetingMembers = memberRepository.findByTeamAndExpired(meetingTeam, "F");
+//            for(MemberEntity meetingMember : meetingMembers){
+//                memberUUIDs.add(meetingMember.getUUID());
+//            }
+//        }
+//
+//        webClientService.sendMeetingMemberUUIDs(memberUUIDs);
+//
+//    }
 }

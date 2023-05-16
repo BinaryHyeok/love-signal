@@ -11,6 +11,8 @@ public interface WebClientService {
 
     public void makeChatRoomApi(List<String> memberUUIDs);
 
+    public void makeMeetingFcmAlarm(List<String> memberUUIDs);
+
     public Mono<TeamResponse> getProfileImagesByTeamsApi(TeamResponse teamResponse);
 
     public Mono<Team> getProfileImagesByTeamApi(Team team);

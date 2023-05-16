@@ -312,6 +312,7 @@ public class TeamServiceImpl implements TeamService{
 
         List<String> memberUUIDs = makeMeetingChatMembers(maleTeam, femaleTeam);
         webClientService.makeChatRoomApi(memberUUIDs);
+        webClientService.makeMeetingFcmAlarm(memberUUIDs);
     }
 
     @Override

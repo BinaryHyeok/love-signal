@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import style from "./styles/AlertBtn.module.scss";
 import { setPushAlarmStatus } from "../../../api/auth";
-import { useRecoilState } from "recoil";
-import { fcmToken } from "../../../atom/fcm";
 import {
   getPushPermissionState,
   requestPushPermission,
@@ -32,7 +30,7 @@ const AlertBtn: React.FC<PropsType> = ({
 
   useEffect(() => {
     const permission = getPushPermissionState();
-    if (permission !== "granted") {
+    if (permission === "denied") {
       setMyAlarm(false);
       sendFCMToken(UUID, myNick, atk, kID, null);
       setPushAlarmStatus(UUID, atk, kID, "false");

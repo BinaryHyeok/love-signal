@@ -99,24 +99,6 @@ const Mypage = () => {
               >
                 로그아웃
               </Link>
-              <button
-                onClick={() => {
-                  Notification.requestPermission().then((permission) => {
-                    alert("허용 상태 : " + permission);
-                    if (permission === "granted") {
-                      getFCMToken()
-                        .then((token) => {
-                          sendFCMToken(UUID, myNickName, atk, kID, token);
-                        })
-                        .catch((err) => {
-                          alert("토큰을 발급하는 중 오류 발생");
-                        });
-                    }
-                  });
-                }}
-              >
-                알림 허용 테스트
-              </button>
             </motion.div>
           </div>
         </motion.div>

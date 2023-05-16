@@ -30,6 +30,7 @@ const Mypage = () => {
   const [myAlarm, SetMyAlarm] = useState<boolean>(false);
   const [myCropImage, setMyCropImage] = useState<FormData>(new FormData());
   const [start, setStart] = useState<boolean>(false);
+  const [imgError, setImgError] = useState<boolean>(false);
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
@@ -60,6 +61,7 @@ const Mypage = () => {
           alert("나는 성공했어" + res);
         })
         .catch((err) => {
+          setImgError(!imgError);
           alert("나는 이미지야." + err.resquest);
         });
     } else {
@@ -84,6 +86,7 @@ const Mypage = () => {
               marginTop="8px"
               setMyImage={setMyCropImage}
               setChangeImg={setChangeImg}
+              imgError={imgError}
             />
             <MyInfo
               age={myAge}

@@ -1,8 +1,8 @@
 import React, { useState, useRef, Dispatch, SetStateAction } from "react";
 import EditBtnImg from "../../atoms/Common/EditBtnImg";
 import EditBtnInput from "../../atoms/Common/EditBtnInput";
-const FILE_SIZE_MAX_LIMIT = 10 * 1024 * 1024; // 10MB
-const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif,heif,heic";
+const FILE_SIZE_MAX_LIMIT = 3 * 1024 * 1024; // 3MB
+const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif";
 
 type propsType = {
   timeout: any;
@@ -60,6 +60,7 @@ const EditBtn: React.FC<propsType> = ({
         // 해당 if문이 수행되는 조건은
         // 1. 허용하지 않은 확장자일경우
         // 2. 확장자가 없는경우이다.
+        alert("허용하지 않은 확장자거나 확장자가 없습니다.");
         return false;
       }
       return true;
@@ -73,6 +74,7 @@ const EditBtn: React.FC<propsType> = ({
       // 파일 이름에서 .이 존재하지 않는 경우이다.
       // 이경우 파일 확장자가 존재하지 않는경우(?)를 의미한다.
       if (lastIndex < 0) {
+        alert("여기 문젠가?");
         return "";
       }
 

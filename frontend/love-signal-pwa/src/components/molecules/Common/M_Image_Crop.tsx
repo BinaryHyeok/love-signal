@@ -12,6 +12,7 @@ type PropsType = {
   setVisible: Dispatch<SetStateAction<boolean>>;
   setCropData: Dispatch<SetStateAction<string>>;
   setMyImage: Dispatch<SetStateAction<FormData>>;
+  setChangeImg: Dispatch<SetStateAction<boolean>>;
   extension: string;
 };
 
@@ -22,6 +23,7 @@ const M_Image_Crop: React.FC<PropsType> = ({
   setCropData,
   setVisible,
   setMyImage,
+  setChangeImg,
   extension,
 }) => {
   const cropperRef = createRef<ReactCropperElement>();
@@ -35,6 +37,7 @@ const M_Image_Crop: React.FC<PropsType> = ({
           const formData = new FormData();
           formData.append("file", blob);
           setMyImage(formData);
+          setChangeImg(true);
         }
       }, `image/${extension}`);
       setAnimation(true);

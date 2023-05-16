@@ -12,6 +12,7 @@ const EditBtnInput = forwardRef<HTMLInputElement, PropsType>(
       <>
         <input
           type="file"
+          accept="image/*"
           ref={ref}
           style={{ display: "none" }}
           onChange={changeImg}

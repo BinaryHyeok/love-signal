@@ -25,6 +25,7 @@ public class ChatRoom extends BaseEntity implements Serializable {
     private Long roomId;
     private String type;
     private String roomName;
+    private int selectCount;
 
     @Builder.Default
     @OneToMany(mappedBy = "chatRoom")

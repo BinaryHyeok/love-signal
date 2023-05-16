@@ -146,8 +146,6 @@ public class ChatServiceImpl implements ChatService{
 
         // 이성 객체 찾기.
         Member oppositeMember  = memberJpaRepository.findMemberByNickname(oppositeNickname);
-        System.out.println("클라에서 온 닉네임===================="+oppositeNickname);
-        System.out.println("멤버객체에서 갖고 온 닉네임=============="+oppositeMember.getNickname());
 
         // 이성지목 메세지 정보 필드 생성 및 저장.
         List<String> nicknames = new ArrayList<>();
@@ -188,16 +186,33 @@ public class ChatServiceImpl implements ChatService{
         //모든 채팅방. type 이 Meeting 인 것. expired 가 F 인 것. List 로 불러오기
         List<ChatRoom> meetingChatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeInAndExpired(Arrays.asList("SECRET", "SIGNAL"), "F");
-        Boolean check = true;
-        if(chatRooms.size() >= 1) check = false;
 
         for(ChatRoom chatRoom : meetingChatRooms) {
+
+            Boolean check = true;
+
+            List<Participant> roomParticipants = chatRoom.getParticipants();
+            checkFor:
+            for(Participant participant : roomParticipants) {
+                Member member = participant.getMember();
+                List<Participant> memberParticipants = member.getParticipants();
+
+                for(Participant memberParticipant : memberParticipants) {
+                    ChatRoom memberRoom = memberParticipant.getChatRoom();
+                    if(memberRoom.getType().equals("SECRET") || memberRoom.getType().equals("SIGNAL")) {
+                        check = false;
+                        break checkFor;
+                    }
+                }
+            }
 
             Duration duration = Duration.between(chatRoom.getCreatedDate(), LocalDateTime.now());
             int seconds = (int)duration.toSeconds();
 
             // 이성지목 메세지를 발송해야 하는 조건에서만 메세지 발송
             if(seconds >= 60 && check) {
+                // 선택의 시간 횟수 업데이트
+                chatRoom.setSelectCount(chatRoom.getSelectCount()+1);
                 // 해당 채팅룸에 입장한 사람 목록 불러오기.
                 List<Participant> participants = chatRoom.getParticipants();
 
@@ -261,6 +276,7 @@ public class ChatServiceImpl implements ChatService{
                         }
                     }
                 }
+            chatRoomJpaRepository.save(chatRoom);
             }
         }
     }

@@ -24,6 +24,7 @@ import { requestPushPermission, sendFCMToken } from "./api/pwa";
 import { myatk } from "./atom/member";
 import { fcmToken } from "./atom/fcm";
 import { nickname } from "./atom/member";
+import { setPushAlarmStatus } from "./api/auth";
 
 function App() {
   const [_, setToken] = useRecoilState<string>(fcmToken);
@@ -39,11 +40,13 @@ function App() {
           console.log(res);
           if (!(res === "granted")) {
             console.log("푸시알림을 허용해야 알림을 받을 수 있습니다.");
+            setPushAlarmStatus(UUID, atk, kID, "false");
           } else {
             getFCMToken()
               .then((token) => {
                 setToken(token);
                 sendFCMToken(UUID, myNick, atk, kID, token);
+                setPushAlarmStatus(UUID, atk, kID, "true");
               })
               .catch((err) => {
                 console.error("토큰을 발급하는 중 오류 발생 : ", err);

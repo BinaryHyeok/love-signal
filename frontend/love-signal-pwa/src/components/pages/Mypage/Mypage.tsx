@@ -54,7 +54,11 @@ const Mypage = () => {
 
   useEffect(() => {
     if (start) {
-      changeMyImg(UUID, myCropImage, atk, kID);
+      changeMyImg(UUID, myCropImage, atk, kID)
+        .then((res) => {})
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
     } else {
       setStart(true);
     }

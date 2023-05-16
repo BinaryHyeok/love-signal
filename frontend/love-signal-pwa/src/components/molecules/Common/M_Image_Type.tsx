@@ -91,7 +91,6 @@ const M_Image_Type: React.FC<propsType> = ({
                 setCropData={setCropData}
                 setVisible={setVisible}
                 setMyImage={setMyImage}
-                setChangeImg={setChangeImg}
                 extension={extension}
               />
             </CommonModal>

@@ -46,7 +46,7 @@ if ("serviceWorker" in navigator) {
         registration.pushManager
           .subscribe({
             userVisibleOnly: true,
-            applicationServerKey: process.env.REACT_APP_PUSH_VAPID,
+            applicationServerKey: process.env.REACT_APP_PUSH_APP_KEY,
           })
           .then((subscription) => {
             console.log("구독 첫 등록 in service-worker.js");
@@ -56,20 +56,3 @@ if ("serviceWorker" in navigator) {
     });
   });
 }
-
-// Service Worker 등록
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker
-//     .register("/service-worker.ts")
-//     .then((registration) => {
-//       console.log("Service Worker registered.");
-
-//       // PushManager 구독 정보 등록
-//       // registration.pushManager.getSubscription().then((subscription) => {
-//       //   pushSubscription = subscription;
-//       // });
-//     })
-//     .catch((error) => {
-//       console.error("Service Worker registration failed:", error);
-//     });
-// }

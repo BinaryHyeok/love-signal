@@ -75,13 +75,13 @@ const O_MyTeamBox: React.FC<propsType> = ({
             setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
             addApplyList(res.data.body.teams);
             setStart(false);
+            setIsLoading(true);
           })
           .catch((err) => {
             console.log(err);
           });
       }, 2000);
       return () => {
-        setIsLoading(true);
         clearInterval(timer);
       };
     } else {
@@ -107,6 +107,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
           setMatchMemberList([...newList]);
           setMatchTeamUUID(res.data.body.teamUUID);
           setStart(false);
+          setIsLoading(true);
         })
         .catch((err) => {
           console.log(err);

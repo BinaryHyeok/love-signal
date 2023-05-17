@@ -60,7 +60,6 @@ const Mypage = () => {
 
   useEffect(() => {
     if (start) {
-      alert(myCropImage);
       changeMyImg(UUID, myCropImage, atk, kID)
         .then(() => {
           inquireMember(UUID, atk, kID).then((res) => {
@@ -70,7 +69,6 @@ const Mypage = () => {
         .catch((err) => {
           setImgError(!imgError);
           setVisible(true);
-          alert("나는 이미지야." + err);
           //이거 그냥 모달창으로 처리하겠음. 실패했을시 모달창으로 이미지등록에 실패하였습니다를 띄우겠습니다.
         });
     } else {

@@ -147,7 +147,9 @@ const SignUp = () => {
 
   const handleNickname = () => {
     if (checkNickname) {
-      setCheckNickOk(!checkNickOk);
+      if (nickname.length !== 0) {
+        setCheckNickOk(!checkNickOk);
+      }
     } else {
       setCheckMsg("중복확인을 체크해주세요.");
     }
@@ -184,23 +186,25 @@ const SignUp = () => {
 
   //회원가입 버튼 클릭했을때
   const registMember = () => {
-    signUp(nickname, gender, birth, description, atk)
-      .then(async (res) => {
-        console.log(res);
-        setMemberUUID(res.data.body);
-        await changeMyImg(res.data.body, myImage, atk, kakaoId)
-          .then(() => {
-            navigate("/Manual");
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-            alert(err.response.data.message);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (description.length !== 0) {
+      signUp(nickname, gender, birth, description, atk)
+        .then(async (res) => {
+          console.log(res);
+          setMemberUUID(res.data.body);
+          await changeMyImg(res.data.body, myImage, atk, kakaoId)
+            .then(() => {
+              navigate("/Manual");
+              window.location.reload();
+            })
+            .catch((err) => {
+              console.log(err);
+              alert(err.response.data.message);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (

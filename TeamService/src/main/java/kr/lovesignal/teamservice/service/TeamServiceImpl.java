@@ -280,6 +280,9 @@ public class TeamServiceImpl implements TeamService{
 
         meetingRepository.save(saveMeeting);
 
+        List<String> memberUUIDs = getTeamUUIDList(receiveTeam);
+        webClientService.sendGetMeetingFcmAlarm(memberUUIDs);
+
         return responseUtils.buildSuccessResponse("미팅을 신청했습니다.");
     }
 
@@ -578,5 +581,16 @@ public class TeamServiceImpl implements TeamService{
 
         meetingTeamRepository.save(expiredMeetingTeam);
 
+    }
+
+    public List<String> getTeamUUIDList(TeamEntity team){
+        List<String> memberUUIDs = new ArrayList<>();
+        List<MemberEntity> memberEntities = memberRepository.findByTeamAndExpired(team, "F");
+
+        for(MemberEntity member : memberEntities){
+            memberUUIDs.add(member.getUUID().toString());
+        }
+
+        return memberUUIDs;
     }
 }

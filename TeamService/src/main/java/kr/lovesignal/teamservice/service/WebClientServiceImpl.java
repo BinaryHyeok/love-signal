@@ -201,4 +201,23 @@ public class WebClientServiceImpl implements WebClientService{
                 .bodyToMono(String.class)
                 .subscribe();
     }
+
+    @Override
+    public void sendGetMeetingFcmAlarm(List<String> memberUUIDs) {
+        String uri = "http://localhost:4444/api/fcm/getMeeting";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
+        if (instances == null || instances.isEmpty()) {
+            throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
+        } else if (port == 0) {
+            uri = instances.get(0).getUri().toString() + "/api/fcm/getMeeting";
+        }
+
+        webClient.post()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
+    }
 }

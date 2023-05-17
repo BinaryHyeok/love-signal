@@ -95,7 +95,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // Participant 객체에서 ChatRoom 을 뽑아오고 ResChatRoom 으로 변환.
             ChatRoom chatRoom = participant.getChatRoom();
-            if(!(chatRoom.getType().equals("SECRET") || chatRoom.getType().equals("SIGNAL"))) {
+//            if(!(chatRoom.getType().equals("SECRET") || chatRoom.getType().equals("SIGNAL"))) {
                 ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
 
                 // 룸에 참여하고 있는 모든 Participant 순회
@@ -116,22 +116,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 resChatRoom.setMemberList(memberList);
                 if(participant.getExpired().equals("F"))
                     chatRoomList.add(resChatRoom);
-            }
+//            }
         }
 
-//        이 코드 문제있음. Redis 에서 직접 가져오는 거라 DB에서 만료처리 된 녀석들도 가져옴.
-        List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
-        if(resChatRooms != null) {
-            for(ResChatRoom resChatRoom : resChatRooms) {
-                if(resChatRoom.getExpired().equals("F")){
-                    String selectorUUID = resChatRoom.getSelector().getMemberUUID();
-                    String selectedUUID = resChatRoom.getSelected().getMemberUUID();
-                    if(selectorUUID.equals(userUUID) || selectedUUID.equals(userUUID)) {
-                        chatRoomList.add(resChatRoom);
-                    }
-                }
-            }
-        }
+////        이 코드 문제있음. Redis 에서 직접 가져오는 거라 DB에서 만료처리 된 녀석들도 가져옴.
+//        List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
+//        if(resChatRooms != null) {
+//            for(ResChatRoom resChatRoom : resChatRooms) {
+//                if(resChatRoom.getExpired().equals("F")){
+//                    String selectorUUID = resChatRoom.getSelector().getMemberUUID();
+//                    String selectedUUID = resChatRoom.getSelected().getMemberUUID();
+//                    if(selectorUUID.equals(userUUID) || selectedUUID.equals(userUUID)) {
+//                        chatRoomList.add(resChatRoom);
+//                    }
+//                }
+//            }
+//        }
 
         return chatRoomList;
     }

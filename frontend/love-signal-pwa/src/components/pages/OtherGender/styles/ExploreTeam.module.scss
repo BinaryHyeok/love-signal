@@ -6,6 +6,8 @@
   align-items: center;
   flex-direction: column;
   height: 100%;
+  overflow: scroll;
+  overflow-y: scroll;
   .imgContainer {
     width: 100vw;
     display: flex;

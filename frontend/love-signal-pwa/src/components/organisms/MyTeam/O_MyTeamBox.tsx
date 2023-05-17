@@ -17,10 +17,7 @@ import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 import { receiveMatchMember, receivemeetingList } from "../../../api/team";
 
 import { kid, myTeamUUID, myatk } from "../../../atom/member";
-import { myMemberUUID } from "../../../atom/member";
 import { applyTeam } from "../../../types/member";
-import { withdrawTeam } from "../../../api/team";
-import { imLeader } from "../../../atom/member";
 
 type propsType = {
   setExitVisible: Dispatch<SetStateAction<boolean>>;
@@ -71,7 +68,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
       timer = setInterval(() => {
         receivemeetingList(TeamUUID, atk, kID)
           .then((res) => {
-            console.log(res);
             setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
             addApplyList(res.data.body.teams);
             setStart(false);
@@ -80,7 +76,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
           .catch((err) => {
             console.log(err);
           });
-      }, 2000);
+      }, 1000);
       return () => {
         clearInterval(timer);
       };

@@ -19,6 +19,7 @@ const ContentLayout = () => {
   const [animation, setAnimation] =
     useRecoilState<boolean>(alarmModalAnimation);
   const [manualVisible, setManualVisible] = useState<boolean>(false);
+  const [isSurveySubmitted, setIsSurveySubmitted] = useState<boolean>(false);
 
   const openManual = () => {
     setAnimation(false);
@@ -53,7 +54,18 @@ const ContentLayout = () => {
           <Modal_portal>
             <div className={style.container}>
               <div className={style.background} onClick={closeAlert}></div>
-              <AlarmModal closeModal={closeAlert}>알림창</AlarmModal>
+              <AlarmModal closeModal={closeAlert}>
+                {!isSurveySubmitted ? (
+                  <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSdTMLix7nTcSyDb6rXm1Qa6XPEtFbELbleunrtLot7bhJtoxQ/viewform?embedded=true"
+                    className={style.iframe}
+                  >
+                    로드 중…
+                  </iframe>
+                ) : (
+                  <p>"설문 제출이 완료되었습니다."</p>
+                )}
+              </AlarmModal>
             </div>
           </Modal_portal>
         )}

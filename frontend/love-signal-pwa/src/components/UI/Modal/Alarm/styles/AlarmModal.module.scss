@@ -3,7 +3,7 @@ $box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
   2px 2px 10px rgba(0, 0, 0, 0.5);
 
 .modal {
-  width: 336px;
+  min-width: 360px;
   height: 600px;
   background: $modal;
   box-shadow: $box-shadow;
@@ -21,6 +21,10 @@ $box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
     to {
       opacity: 0;
     }
+  }
+
+  .title {
+    margin: 16px 0 8px 0;
   }
 }
 

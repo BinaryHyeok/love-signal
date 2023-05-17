@@ -44,15 +44,20 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
       start.getSeconds() + 60
     );
 
+    if (timeoutTime.getTime() <= today.getTime()) {
+      clearInterval(timer);
+      return;
+    }
+
     let sec = timeoutTime.getSeconds() - today.getSeconds();
     let min = timeoutTime.getMinutes() - today.getMinutes();
     let hr = timeoutTime.getHours() - today.getHours();
 
-    if (sec < 0) {
+    if (sec < 0 && min > 0) {
       sec += 60;
       min--;
     }
-    if (min < 0) {
+    if (min < 0 && hr > 0) {
       min += 60;
       hr--;
     }

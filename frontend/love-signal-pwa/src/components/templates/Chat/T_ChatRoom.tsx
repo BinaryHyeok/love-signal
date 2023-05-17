@@ -29,6 +29,7 @@ type PropsType = {
   onTextSend: (text: chat) => void;
   members: member[] | null;
   myNick: string;
+  updatedDate?: string;
 };
 
 let timeout: NodeJS.Timer;
@@ -44,6 +45,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
   onTextSend,
   members,
   myNick,
+  updatedDate,
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
@@ -169,6 +171,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             setOppositeTeamMember={setOppositeTeamMember}
             // setOppositeTeamUUID={setOppositeTeamUUID}
             viewDetail={viewDetail}
+            updatedDate={updatedDate}
           />
         </>
       ) : (
@@ -193,6 +196,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             setOppositeTeamMember={setOppositeTeamMember}
             // setOppositeTeamUUID={setOppositeTeamUUID}
             viewDetail={viewDetail}
+            updatedDate={updatedDate}
           />
         </>
       )}

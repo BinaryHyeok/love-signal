@@ -176,6 +176,8 @@ const Chat = () => {
   };
 
   const chatInfoFetchHandler = () => {
+    if (!selectedRoom.uuid) return;
+
     getChatRoomList(UUID, atk, kID).then((res) => {
       const formattedRoomList: room[] = roomTitleFormatter(res.data);
       console.log(formattedRoomList);

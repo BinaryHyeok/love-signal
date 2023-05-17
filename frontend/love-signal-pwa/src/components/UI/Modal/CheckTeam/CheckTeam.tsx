@@ -107,6 +107,8 @@ const CheckTeam: React.FC<propsType> = ({
     if (oppositeTeamUUID) {
       shareTeam(myUUID, oppositeTeamUUID)
         .then((res) => {
+          setMsg("팀 채팅방에 공유되었습니다.");
+          setApplyModal(true);
           console.log(res);
         })
         .catch((err) => {
@@ -131,7 +133,7 @@ const CheckTeam: React.FC<propsType> = ({
         });
     } else {
       if (haveTeam) {
-        setMsg("이미 팀이 존재 합니다");
+        setMsg("이미 상대팀이 존재 합니다");
       } else if (!isLeader) {
         setMsg("팀의 리더가 아닙니다.");
       } else if (memberLength !== 3) {

@@ -18,11 +18,13 @@ const O_ChatList: React.FC<PropsType> = ({ roomList, chatList }) => {
   const [__, setFooterIsOn] = useRecoilState(footerIsOn);
 
   const selectRoomHandler = (e: React.MouseEvent<HTMLElement>): void => {
-    roomList.forEach((room) => {
-      if (room.uuid === e.currentTarget.id) {
-        setSelectedRoom(JSON.parse(JSON.stringify(room)));
-      }
-    });
+    setSelectedRoom(
+      JSON.parse(
+        JSON.stringify(
+          roomList.filter((room) => room.uuid === e.currentTarget.id)[0]
+        )
+      )
+    );
     setFooterIsOn(false);
   };
 

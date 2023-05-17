@@ -153,8 +153,12 @@ const Chat = () => {
 
     getChatList(room.uuid, atk, kID).then((res) => {
       const chatData = res.data;
+      console.log(
+        "조회된 채팅목록 ++++++++++++++++++++++++++++++++++++++++++++",
+        chatData
+      );
       const formattedChatData =
-        room.type === "SECRET"
+        chatData && room.type === "SECRET"
           ? chatData.map((item: chat) => {
               if (room.love !== "F") {
                 return item;
@@ -176,8 +180,6 @@ const Chat = () => {
   };
 
   const chatInfoFetchHandler = () => {
-    if (selectedRoom.uuid) return;
-
     getChatRoomList(UUID, atk, kID).then((res) => {
       const formattedRoomList: room[] = roomTitleFormatter(res.data);
       console.log(formattedRoomList);
@@ -260,6 +262,7 @@ const Chat = () => {
               setChatList={setChatList}
               onTextSend={publishChatMsg}
               members={selectedRoom.memberList || null}
+              myNick={myNick}
             />
           )}
           {!selectedRoom.uuid && (

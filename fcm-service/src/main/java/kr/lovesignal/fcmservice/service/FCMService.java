@@ -22,4 +22,8 @@ public interface FCMService {
 	void sendTeamRemoveNotification(List<String> memberUUIDs);
 
 	void sendMeetingRemoveNotification(List<String> memberUUIDs);
+
+	void sendSignalNotification(List<String> memberUUIDs);
+
+	void sendSecretNotification(List<String> memberUUIDs);
 }

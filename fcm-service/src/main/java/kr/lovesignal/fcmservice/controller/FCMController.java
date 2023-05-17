@@ -64,4 +64,18 @@ public class FCMController {
 		return new ResponseEntity<>("Meeting End Notification", HttpStatus.OK);
 	}
 
+	@PostMapping("/secret/notification")
+	public ResponseEntity<String> sendSecretNotification(@RequestBody List<String> memberUUIDs){
+        fcmService.sendSecretNotification(memberUUIDs);
+
+        return new ResponseEntity<>("Secret Notification", HttpStatus.OK);
+    }
+
+	@PostMapping("/signal/notification")
+	public ResponseEntity<String> sendSignalNotification(@RequestBody List<String> memberUUIDs){
+        fcmService.sendSignalNotification(memberUUIDs);
+
+        return new ResponseEntity<>("Signal Notification", HttpStatus.OK);
+    }
+
 }

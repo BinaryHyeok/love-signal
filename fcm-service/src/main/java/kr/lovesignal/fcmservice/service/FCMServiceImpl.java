@@ -214,6 +214,55 @@ public class FCMServiceImpl implements FCMService{
 		}
 	}
 
+	@Override
+	public void sendSignalNotification(List<String> memberUUIDs) {
+
+		List<UUID> memberUUIDList = stringToUUIDList(memberUUIDs);
+
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDList);
+
+		for(FCMEntity fcmEntity : fcmEntities){
+			if(fcmEntity.getToken() != null){
+				Message message = Message.builder()
+						.putData("title", "시그널 성공!")
+						.putData("content", "시그널 채팅방이 생성되었어요!, 서로의 마음을 좀 더 확인해보세요!")
+						.putData("type", "signal")
+						.setToken(fcmEntity.getToken())
+						.build();
+				try {
+					String response = FirebaseMessaging.getInstance().send(message);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void sendSecretNotification(List<String> memberUUIDs) {
+
+		List<UUID> memberUUIDList = stringToUUIDList(memberUUIDs);
+
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDList);
+
+		for(FCMEntity fcmEntity : fcmEntities){
+			if(fcmEntity.getToken() != null){
+				Message message = Message.builder()
+						.putData("title", "익명 채팅방 생성!")
+						.putData("content", "익명 채팅방이 생성되었어요, 서로에 대해 알아보세요!")
+						.putData("type", "secret")
+						.setToken(fcmEntity.getToken())
+						.build();
+				try {
+					String response = FirebaseMessaging.getInstance().send(message);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+
 	public List<UUID> stringToUUIDList(List<String> memberUUIDs){
 		List<UUID> memberUUIDList = new ArrayList<>();
 		for(String uuidString : memberUUIDs){

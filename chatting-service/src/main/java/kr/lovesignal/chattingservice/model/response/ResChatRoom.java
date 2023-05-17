@@ -35,7 +35,6 @@ public class ResChatRoom implements Serializable{
 
     public ChatRoom toEntity() {
         return ChatRoom.builder()
-                .UUID(java.util.UUID.fromString(this.UUID))
                 .type(this.type)
                 .roomName(this.roomName)
                 .selectCount(this.selectCount)

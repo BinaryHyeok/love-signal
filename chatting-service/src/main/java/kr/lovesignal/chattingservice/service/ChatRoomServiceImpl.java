@@ -431,6 +431,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
                 ChatRoom chatRoom = resChatRoom.toEntity();
                 chatRoom.setUpdatedDate(LocalDateTime.now());
+                UUID uuid = UUID.fromString(resChatRoom.getUUID());
+                chatRoom.setUUID(uuid);
 
                 ResMember selector = resChatRoom.getSelector();
                 ResMember selected = resChatRoom.getSelected();

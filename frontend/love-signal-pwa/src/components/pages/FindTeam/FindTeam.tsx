@@ -30,12 +30,9 @@ const FindTeam = () => {
     setIdx(1);
     if (matchStatus) {
       timer = setInterval(() => {
-        console.log("나 동작해?");
-
         inquireMember(UUID, atk, kID).then((res) => {
           if (!res.data.body.matchingStatus) {
             setMatchStatus(false);
-            window.location.reload();
           }
         });
       }, 5000);

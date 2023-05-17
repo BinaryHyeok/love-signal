@@ -262,6 +262,30 @@ public class FCMServiceImpl implements FCMService{
 		}
 	}
 
+	@Override
+	public void getMeetingNotification(List<String> memberUUIDs) {
+
+		List<UUID> memberUUIDList = stringToUUIDList(memberUUIDs);
+
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDList);
+
+		for(FCMEntity fcmEntity : fcmEntities){
+			if(fcmEntity.getToken() != null){
+				Message message = Message.builder()
+						.putData("title", "미팅 신청이 도착했습니다!")
+						.putData("content", "이성 팀으로부터 미팅 신청이 도착했습니다!")
+						.putData("type", "getMeeting")
+						.setToken(fcmEntity.getToken())
+						.build();
+				try {
+					String response = FirebaseMessaging.getInstance().send(message);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 
 	public List<UUID> stringToUUIDList(List<String> memberUUIDs){
 		List<UUID> memberUUIDList = new ArrayList<>();

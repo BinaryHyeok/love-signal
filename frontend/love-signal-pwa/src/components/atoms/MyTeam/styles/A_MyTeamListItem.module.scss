@@ -7,8 +7,18 @@ $size: 27%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin: 0 8px;
   overflow: hidden;
+  position: relative;
+  overflow: hidden;
 
-  img {
+  .profileImage {
     width: 100%;
+  }
+
+  .leaderBadge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 32px;
+    object-fit: cover;
   }
 }

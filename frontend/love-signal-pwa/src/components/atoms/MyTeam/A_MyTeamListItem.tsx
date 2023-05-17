@@ -6,9 +6,16 @@ type PropsType = {
 };
 
 const A_MyTeamListItem: React.FC<PropsType> = ({ member }) => {
+  console.log(member);
   return (
     <li className={style.item}>
-      <img src={member.profileImage} />
+      <img className={style.profileImage} src={member.profileImage} />
+      {member.teamLeader && (
+        <img
+          className={style.leaderBadge}
+          src={`${process.env.REACT_APP_ASSETS_DIR}/star_badge.png`}
+        />
+      )}
     </li>
   );
 };

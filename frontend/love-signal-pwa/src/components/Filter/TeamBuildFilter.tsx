@@ -12,7 +12,6 @@ type propsType = {
 //FindTeam, MyTeam, TeamBuild페이지에 들어가야 합니다.
 const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
   const [_, setIdx] = useRecoilState(footerIdx);
-  const [myTeamBuildState] = useRecoilState<boolean>(teamBuildState);
   useEffect(() => {
     setIdx(1);
     TeamFilter();

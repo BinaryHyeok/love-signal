@@ -118,15 +118,17 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     // 룸에 참여하고 있는 모든 Participant 순회
                     List<Participant> roomParticipants = participantJpaRepository.findByChatRoom(chatRoom);
                     for(Participant participant1 : roomParticipants) {
-                        // 멤버를 뽑아서 반환 멤버 생성
-                        Member member1 = participant1.getMember();
-                        ResMember resMember = ResMember.toDto(member1);
-                        resMember.setProfileImage(getProfileImageStoredName(member1));
-                        // 멤버 나이 계산 및 주입
-                        LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
-                        int age = Period.between(birthDate, LocalDate.now()).getYears();
-                        resMember.setAge(age);
-                        memberList.add(resMember);
+                        if(participant1.getExpired().equals("F")) {
+                            // 멤버를 뽑아서 반환 멤버 생성
+                            Member member1 = participant1.getMember();
+                            ResMember resMember = ResMember.toDto(member1);
+                            resMember.setProfileImage(getProfileImageStoredName(member1));
+                            // 멤버 나이 계산 및 주입
+                            LocalDate birthDate = LocalDate.parse(member1.getBirth(), DateTimeFormatter.BASIC_ISO_DATE);
+                            int age = Period.between(birthDate, LocalDate.now()).getYears();
+                            resMember.setAge(age);
+                            memberList.add(resMember);
+                        }
                     }
 
                     // 알맹이 리스트를 ResChatRoom 객체에 주입

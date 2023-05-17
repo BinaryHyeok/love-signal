@@ -385,18 +385,20 @@ public class ChatServiceImpl implements ChatService{
                     성별 별로 리스트에 내용물 저장.
                  */
                 for(Participant participant : participants) {
-                    Member member = participant.getMember();
-                    members.add(member);
-                    memberUUIDs.add(member.getUUID());
+                    if(participant.getExpired().equals("F")) {
+                        Member member = participant.getMember();
+                        members.add(member);
+                        memberUUIDs.add(member.getUUID());
 
-                    if(member.getGender().equals("M")) {
-                        maleNicknames.add(member.getNickname());
-                        maleProfileUrls.add(getProfileImageStoredName(member));
+                        if(member.getGender().equals("M")) {
+                            maleNicknames.add(member.getNickname());
+                            maleProfileUrls.add(getProfileImageStoredName(member));
 
-                    }
-                    else {
-                        femaleNicknames.add(member.getNickname());
-                        femaleProfileUrls.add(getProfileImageStoredName(member));
+                        }
+                        else {
+                            femaleNicknames.add(member.getNickname());
+                            femaleProfileUrls.add(getProfileImageStoredName(member));
+                        }
                     }
                 }
 

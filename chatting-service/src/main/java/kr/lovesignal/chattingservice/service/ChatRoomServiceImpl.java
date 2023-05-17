@@ -160,10 +160,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 ChatRoom chatRoom = participant.getChatRoom();
 
                 if(!(chatRoom.getType().equals("MEETING") || chatRoom.getType().equals("SYSTEM"))){
+                    participant.setExpired("T");
                     chatRoom.setExpired("T");
                 }
 
+                // 팀이나 미팅이 터졌을 때
                 if(strMemberUUIDs.size() >=2 && !chatRoom.getType().equals("SYSTEM") ) {
+                    participant.setExpired("T");
                     chatRoom.setExpired("T");
                 }
 

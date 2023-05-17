@@ -56,6 +56,7 @@ const Chat = () => {
   useEffect(() => {
     initStompClient();
 
+    chatInfoFetchHandler();
     intervalFunc = setInterval(chatInfoFetchHandler, 10000);
 
     setIdx(2);

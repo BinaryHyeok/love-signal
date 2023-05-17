@@ -10,6 +10,7 @@ export type member = {
   description: string;
   profileImage: string;
   gender?: string;
+  teamLeader?: boolean;
   //팀빌딩 상태인지 체크
 };
 

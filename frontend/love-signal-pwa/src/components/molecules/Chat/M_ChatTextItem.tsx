@@ -87,7 +87,6 @@ const M_ChatTextItem: React.FC<PropsType> = ({
           systemName={chat.nickname ? chat.nickname : ""}
           selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
         />
-        ;
       </>
     );
   } else if (chatType === "SHARE") {

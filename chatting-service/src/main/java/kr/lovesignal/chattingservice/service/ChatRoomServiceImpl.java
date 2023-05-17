@@ -432,6 +432,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         List<String> secretRoomMemberUUIDs = new ArrayList<>();
         List<String> signalRoomMemberUUIDs = new ArrayList<>();
+
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
         if(resChatRooms != null) {
 

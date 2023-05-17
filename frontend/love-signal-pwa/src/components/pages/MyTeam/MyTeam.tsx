@@ -23,6 +23,7 @@ import ModalBox from "../../UI/Modal/Common/ModalBox";
 import A_TextHighlight_Blink from "../../atoms/Common/A_TextHighlight_Blink";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import { useNavigate } from "react-router-dom";
+import { inquireMember } from "../../../api/auth";
 
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
@@ -99,17 +100,22 @@ const MyTeam = () => {
 
   //팀 나가기 함수입니다.
   const exitTeam = () => {
-    //팀 나가기에 대한 axios가 들어갈 요청입니다.
-    withdrawTeam(myUUID, atk, kID)
-      .then((res) => {
-        setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
-        setIsLeader(false);
+    inquireMember(myUUID, atk, kID).then((res) => {
+      if (res.data.body.teamUUID !== null) {
+        withdrawTeam(myUUID, atk, kID)
+          .then((res) => {
+            setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
+            setIsLeader(false);
+            navigate("/SameGender", { replace: true });
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
         navigate("/SameGender", { replace: true });
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    });
   };
 
   const closeModal = () => {

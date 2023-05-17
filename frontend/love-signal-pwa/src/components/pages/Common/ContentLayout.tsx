@@ -11,6 +11,7 @@ import AlarmModal from "../../UI/Modal/Alarm/AlarmModal";
 import style from "./styles/ContentLayout.module.scss";
 import { useState } from "react";
 import Manual_Quest from "../../Manual/Manual_Quest";
+import A_TextHighlight from "../../atoms/Common/A_TextHighlight";
 
 let timeout: NodeJS.Timer;
 
@@ -56,12 +57,18 @@ const ContentLayout = () => {
               <div className={style.background} onClick={closeAlert}></div>
               <AlarmModal closeModal={closeAlert}>
                 {!isSurveySubmitted ? (
-                  <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSdTMLix7nTcSyDb6rXm1Qa6XPEtFbELbleunrtLot7bhJtoxQ/viewform?embedded=true"
-                    className={style.iframe}
-                  >
-                    로드 중…
-                  </iframe>
+                  <>
+                    <h3 className={style.title}>
+                      <A_TextHighlight color="red">러브시그널</A_TextHighlight>{" "}
+                      설문
+                    </h3>
+                    <iframe
+                      src="https://docs.google.com/forms/d/e/1FAIpQLSdTMLix7nTcSyDb6rXm1Qa6XPEtFbELbleunrtLot7bhJtoxQ/viewform?embedded=true"
+                      className={style.iframe}
+                    >
+                      로드 중…
+                    </iframe>
+                  </>
                 ) : (
                   <p>"설문 제출이 완료되었습니다."</p>
                 )}

@@ -200,13 +200,14 @@ const Chat = () => {
   };
 
   const roomTitleFormatter = (rooms: room[]) => {
+    console.log(rooms);
     const formatted: room[] = rooms.map((room) => {
       if (room.type !== "SECRET") return room;
       room.roomName =
         room.selector?.nickname === myNick
           ? `${room.selected}님과의 시그널`
           : `${room.roomName}님과의 시그널`;
-
+      console.log(room);
       return room;
     });
 

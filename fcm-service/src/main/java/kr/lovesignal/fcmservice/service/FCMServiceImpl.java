@@ -125,7 +125,7 @@ public class FCMServiceImpl implements FCMService{
 			if(fcmEntity.getToken() != null){
 				Message message = Message.builder()
 					.putData("title", "팀 빌딩!")
-					.putData("content", "팀 빌딩이 되었어요, 이성팀에게 미팅을 신청해보세요!")
+					.putData("content", "팀 빌딩이 완료 되었어요, 이성팀에게 미팅을 신청해보세요!")
 					.putData("type", "build")
 					.setToken(fcmEntity.getToken())
 					.build();
@@ -151,7 +151,7 @@ public class FCMServiceImpl implements FCMService{
 			if(fcmEntity.getToken() != null){
 				Message message = Message.builder()
 					.putData("title", "시그널!")
-					.putData("content", "상대팀과 매칭되었어요, 시그널을 보내세요!")
+					.putData("content", "상대팀과의 미팅이 성사되었어요, 시그널을 보내세요!")
 					.putData("type", "meeting")
 					.setToken(fcmEntity.getToken())
 					.build();
@@ -205,7 +205,6 @@ public class FCMServiceImpl implements FCMService{
 						.putData("type", "meetingEnd")
 						.setToken(fcmEntity.getToken())
 						.build();
-
 				try {
 					String response = FirebaseMessaging.getInstance().send(message);
 				}catch (Exception e){

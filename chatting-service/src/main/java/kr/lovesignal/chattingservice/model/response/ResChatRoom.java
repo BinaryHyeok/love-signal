@@ -37,6 +37,7 @@ public class ResChatRoom implements Serializable{
                 .type(this.type)
                 .roomName(this.roomName)
                 .selectCount(this.selectCount)
+                .expired(this.expired)
                 .build();
     }
 

@@ -526,14 +526,16 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     for(Participant participant : participants) {
                         ChatRoom chatRoom = participant.getChatRoom();
                         if(chatRoom.getType().equals("TEAM")) {
-                            long roomId = participant.getParticipantId();
+                            long roomId = participant.getChatRoom().getRoomId();
                             Optional<ChatRoom> roomOptional = chatRoomJpaRepository.findById(roomId);
-                            ChatRoom teamChatRoom = roomOptional.get();
-                            teamChatRoom.setExpired("T");
-                            chatRoomJpaRepository.save(teamChatRoom);
+                            if(roomOptional.isPresent()) {
+                                ChatRoom teamChatRoom = roomOptional.get();
+                                teamChatRoom.setExpired("T");
+                                chatRoomJpaRepository.save(teamChatRoom);
 
-                            participant.setExpired("T");
-                            participantJpaRepository.save(participant);
+                                participant.setExpired("T");
+                                participantJpaRepository.save(participant);
+                            }
                         }
                     }
                 }

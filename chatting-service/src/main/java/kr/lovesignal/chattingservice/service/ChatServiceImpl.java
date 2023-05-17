@@ -366,7 +366,7 @@ public class ChatServiceImpl implements ChatService{
         for(ChatRoom chatRoom : meetingChatRooms) {
 
             // 이성지목 메세지를 발송해야 하는 조건에서만 메세지 발송
-            if(chatRoom.getSelectCount()<3) {
+            if(chatRoom.getSelectCount()<2) {
                 chatRoom.setSelectCount(chatRoom.getSelectCount()+1);
                 chatRoomJpaRepository.save(chatRoom);
                 // 해당 채팅룸에 입장한 사람 목록 불러오기.

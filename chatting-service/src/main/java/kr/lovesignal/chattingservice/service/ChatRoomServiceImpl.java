@@ -84,10 +84,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findByUUID(uuid);
 
-        // 멤버가 참여하고 있는 Participant 정보들
-        List<Participant> memberParticipants = member.getParticipants();
         // return 을 위한 껍데기
         List<ResChatRoom> chatRoomList = new ArrayList<>();
+        // 멤버가 참여하고 있는 Participant 정보들
+        List<Participant> memberParticipants = member.getParticipants();
 
         // 멤버가 참여하고 있는 모든 Participant 순회
         for(Participant participant : memberParticipants) {
@@ -109,6 +109,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                             resChatRoom.setSelector(resSelectChatRoom.getSelector());
                             resChatRoom.setSelected(resSelectChatRoom.getSelected());
                             resChatRoom.setLove(resChatRoom.getLove());
+                            System.out.println("getSelector======================"+resSelectChatRoom.getSelector());
+                            System.out.println("getSelected======================"+resSelectChatRoom.getSelected());
+                            System.out.println("getLove======================"+resSelectChatRoom.getLove());
                         }
                     }
 
@@ -336,7 +339,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         String meetingRoomUUID = meetingRoom.getUUID().toString();
 
-        // 혼성 채팅방이 만들어진 시간과 현재 시간의 차이.
+        // 혼성 채팅방이 몇번째 선택의 시간인지.
         int selectCount = meetingRoom.getSelectCount();
 
         // 2번째면 시그널 아니면 익명
@@ -358,7 +361,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         String animalName = commonUtils.getAnimal();
         String roomName = type.equals("SECRET")?"익명의 "+animalName:"시그널 채팅방";
 
-        // 내가 지목한 상대가 나를 지목해서 이미 채팅방이 만들었는지 조회.
+        // 내가 지목한 상대가 나를 지목해서 이미 채팅방을 만들었는지 조회.
         ResChatRoom checkSelectChatRoom =
                 chatRoomRepository.checkResSelectChatRoom(selectorUUID, selectedUUID, meetingRoomUUID);
 

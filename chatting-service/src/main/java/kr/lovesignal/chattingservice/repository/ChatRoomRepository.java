@@ -79,7 +79,11 @@ public class ChatRoomRepository {
     }
 
     public List<ResChatRoom> getSelectRoomList() {
-        return opsHashSelectRoomList.get(SELECT,"1");
+        List<ResChatRoom> resChatRooms = opsHashSelectRoomList.get(SELECT, "1");
+        if(resChatRooms == null) {
+            resChatRooms = new ArrayList<>();
+        }
+        return resChatRooms;
     }
 
     public List<Participant> getParticipantList() {

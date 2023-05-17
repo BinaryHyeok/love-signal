@@ -10,6 +10,10 @@ const MainBtn = () => {
       setName("/local");
     }
   }, []);
+
+  const delay = () => {
+    setTimeout(() => {}, 1000);
+  };
   return (
     <motion.div
       whileTap={{
@@ -21,6 +25,7 @@ const MainBtn = () => {
       <Link
         to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/login${name}`}
         className={style.link}
+        onClick={delay}
       >
         <img
           src={`${process.env.REACT_APP_ASSETS_DIR}/kakao2.png`}

@@ -16,6 +16,7 @@ import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
 import A_OtherTeamDesc_Fix from "../../atoms/OtherGender/A_OtherTeamDesc_Fix";
 import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
+import T_OtherGender_Fix from "./T_OtherGender_Fix";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -152,8 +153,7 @@ const ExploreTeam = () => {
                 </CheckTeam>
               </Modal_portal>
               <div>
-                <A_OtherTeamDesc_Fix />
-                <T_OtherGender
+                <T_OtherGender_Fix
                   getList={getList}
                   infinityScroll={infinityScroll}
                   lastList={lastList}
@@ -165,8 +165,12 @@ const ExploreTeam = () => {
             </>
           ) : (
             <>
-              <div>
-                <A_OtherTeamDesc />
+              <motion.div
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+                // exit="exit"
+              >
                 <T_OtherGender
                   getList={getList}
                   infinityScroll={infinityScroll}
@@ -175,7 +179,7 @@ const ExploreTeam = () => {
                   viewDetail={viewDetail}
                   team={team}
                 />
-              </div>
+              </motion.div>
             </>
           )}
         </GetMyInfo>

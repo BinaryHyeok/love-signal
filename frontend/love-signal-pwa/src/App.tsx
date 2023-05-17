@@ -14,54 +14,10 @@ import ContentLayout from "./components/pages/Common/ContentLayout";
 import { AnimatePresence } from "framer-motion";
 import MatchTeam from "./components/templates/FindTeam/MatchTeam";
 import Test from "./components/pages/Test";
-import { useEffect, useState } from "react";
 
 import "./firebase";
-import { getFCMToken } from "./firebase";
-import { useRecoilState } from "recoil";
-import { kid, myMemberUUID } from "./atom/member";
-import { requestPushPermission, sendFCMToken } from "./api/pwa";
-import { myatk } from "./atom/member";
-import { fcmToken } from "./atom/fcm";
-import { nickname } from "./atom/member";
-import { setPushAlarmStatus } from "./api/auth";
 
 function App() {
-  const [_, setToken] = useRecoilState<string>(fcmToken);
-  const [UUID] = useRecoilState<string>(myMemberUUID);
-  const [myNick] = useRecoilState<string>(nickname);
-  const [atk] = useRecoilState<string>(myatk);
-  const [kID] = useRecoilState<string>(kid);
-
-  useEffect(() => {
-    if (UUID && myNick && atk && kID) {
-      requestPushPermission(UUID)
-        .then((res) => {
-          console.log(res);
-          if (!(res === "granted")) {
-            console.log("푸시알림을 허용해야 알림을 받을 수 있습니다.");
-            setPushAlarmStatus(UUID, atk, kID, "false");
-          } else {
-            getFCMToken()
-              .then((token) => {
-                setToken(token);
-                sendFCMToken(UUID, myNick, atk, kID, token);
-                setPushAlarmStatus(UUID, atk, kID, "true");
-              })
-              .catch((err) => {
-                console.error("토큰을 발급하는 중 오류 발생 : ", err);
-                console.log(
-                  "지금 로컬에서 하면 토큰 발급 안된대요~ 서버에서 하셔야합니다.."
-                );
-              });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, []);
-
   const router = createBrowserRouter([
     {
       path: "/",

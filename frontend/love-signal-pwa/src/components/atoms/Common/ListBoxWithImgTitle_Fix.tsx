@@ -1,20 +1,13 @@
 import { useEffect } from "react";
 import style from "./styles/ListBoxWithImgTitle.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
-import "./ListBoxTransForm.css";
+// import "./ListBoxTransForm.css";
 
-let timeout: NodeJS.Timer;
-// let delayTime : "";
-
-const ListBoxWithImgTitle = (props: any) => {
-  // const delay = () => {
-  //   if (props.key % 5 === 0) {
-  //     setTimeout(()=>{
-
-  //     },500)
-  //   }
-  // };
-
+const ListBoxWithImgTitle_Fix = (props: any) => {
+  // useEffect(() => {
+  //   console.log(props.idx);
+  //   console.log(props);
+  // }, []);
   return (
     <motion.div
       key={props.key}
@@ -22,7 +15,7 @@ const ListBoxWithImgTitle = (props: any) => {
         scale: 1.05,
         transition: { type: "spring", stiffness: 200, damping: 10 },
       }}
-      className={`${style.listBox} ${props.type}-line box${props.idx}`}
+      className={`${style.listBox} ${props.type}-line`}
     >
       <div className={style.titleBox}>{props.title}</div>
       {props.children}
@@ -30,4 +23,4 @@ const ListBoxWithImgTitle = (props: any) => {
   );
 };
 
-export default ListBoxWithImgTitle;
+export default ListBoxWithImgTitle_Fix;

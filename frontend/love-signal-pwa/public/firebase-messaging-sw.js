@@ -72,11 +72,11 @@ self.addEventListener("notificationclick", function (event) {
   alert(pushData);
   const { type } = pushData;
   let url = "/";
-  if (type === "build") {
-    url = "/Samegender";
-  } else if (type === "meeting") {
-    url = "/Samegender";
-  }
+  // if (type === "build") {
+  //   url = "/Samegender";
+  // } else if (type === "meeting") {
+  //   url = "/Samegender";
+  // }
   event.notification.close();
   event.waitUntil(clients.openWindow(url));
 });

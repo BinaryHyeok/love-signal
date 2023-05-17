@@ -320,7 +320,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         // 혼성 채팅방이 만들어진 시간과 현재 시간의 차이.
         int selectCount = meetingRoom.getSelectCount();
 
-        // seconds 가 120 이상이면 SIGNAL 아니면 SECRET
+        // 2번째면 시그널 아니면 익명
         String roomType = selectCount==2?"SIGNAL":"SECRET";
         secretOneToOne(selectorUUID, selectedUUID, meetingRoomUUID, roomType, selector, selected);
     }
@@ -520,15 +520,16 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     UUID UUID = commonUtils.getValidUUID(memberUUID);
                     Member member = memberJpaRepository.findByUUID(UUID);
 
-                    Team team = member.getTeam();
-                    ChatRoom teamChatroom = chatRoomJpaRepository.findByTeam(team);
-                    teamChatroom.setExpired("T");
-                    chatRoomJpaRepository.save(teamChatroom);
-
                     List<Participant> participants = member.getParticipants();
                     for(Participant participant : participants) {
                         ChatRoom chatRoom = participant.getChatRoom();
                         if(chatRoom.getType().equals("TEAM")) {
+                            long roomId = participant.getParticipantId();
+                            Optional<ChatRoom> roomOptional = chatRoomJpaRepository.findById(roomId);
+                            ChatRoom teamChatRoom = roomOptional.get();
+                            teamChatRoom.setExpired("T");
+                            chatRoomJpaRepository.save(teamChatRoom);
+
                             participant.setExpired("T");
                             participantJpaRepository.save(participant);
                         }

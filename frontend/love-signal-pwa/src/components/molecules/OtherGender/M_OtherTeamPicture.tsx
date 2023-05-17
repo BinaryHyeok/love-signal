@@ -18,9 +18,7 @@ const PictureBox: React.FC<propsType> = ({ viewDetail, idx, team }) => {
         key={team.teamUUID}
       >
         {team.members.map((_, index) => (
-          <>
-            <A_GenderImg member={team.members[index]} key={index} />
-          </>
+          <A_GenderImg member={team.members[index]} key={index} />
         ))}
       </div>
     </>

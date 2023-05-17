@@ -54,6 +54,7 @@ const T_OtherGender: React.FC<propsType> = ({
                 </>
               }
               type="red"
+              key={idx}
             >
               <PictureBox viewDetail={viewDetail} idx={idx} team={item} />
             </ListBoxWithImgTitle>

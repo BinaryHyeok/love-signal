@@ -40,6 +40,7 @@ const Footer = () => {
   const isClickNav = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLImageElement;
     const navid: number = +target.id;
+    if (idx === navid) return;
     setIdx(navid);
 
     if (navid === 0) {

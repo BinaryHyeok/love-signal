@@ -121,6 +121,15 @@ const Chat = () => {
           } else {
             setChatList((prevState) => {
               const prevList = prevState[room.uuid] || [];
+              if (room.type === "SECRET" && room.love === "F") {
+                if (
+                  message.nickname !== myNick &&
+                  myNick === message.selectOrShareInfo.selected
+                ) {
+                  message.nickname = room.roomName;
+                }
+              }
+
               const newList = [...prevList, message];
               return {
                 ...prevState,
@@ -255,6 +264,7 @@ const Chat = () => {
                   ? chatList[selectedRoom.uuid]
                   : []
               }
+              updatedDate={selectedRoom.updatedDate}
               setChatList={setChatList}
               onTextSend={publishChatMsg}
               members={selectedRoom.memberList || null}

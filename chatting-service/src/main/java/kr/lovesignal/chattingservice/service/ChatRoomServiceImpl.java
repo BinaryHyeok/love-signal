@@ -430,6 +430,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             for (ResChatRoom resChatRoom : resChatRooms) {
 
                 ChatRoom chatRoom = resChatRoom.toEntity();
+                chatRoom.setUpdatedDate(LocalDateTime.now());
 
                 ResMember selector = resChatRoom.getSelector();
                 ResMember selected = resChatRoom.getSelected();

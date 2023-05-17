@@ -441,14 +441,14 @@ public class ChatServiceImpl implements ChatService{
     }
 
     public void sendMeetingMemberUUIDs(List<UUID> memberUUIDs) {
-        String uri = "http://localhost:4444/fcm/notification";
+        String uri = "http://localhost:4444/api/fcm/notification";
 
         List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
         if(instances == null || instances.isEmpty()){
             System.out.println("==================================FCM 여기오류");
         }
         else if(port == 0){
-            uri = instances.get(0).getUri().toString() + "/fcm/notification";
+            uri = instances.get(0).getUri().toString() + "/api/fcm/notification";
         }
 
         webClient.post()

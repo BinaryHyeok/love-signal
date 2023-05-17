@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import style from "./Manual.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
@@ -20,9 +21,40 @@ import { useNavigate } from "react-router-dom";
 import Button_Type_A from "../atoms/Common/Button_Type_A";
 import { contentVariants } from "../atoms/Common/contentVariants";
 import GetMyInfo from "../Filter/GetMyInfo";
+import { useRecoilState } from "recoil";
+import { requestPushPermission, sendFCMToken } from "../../api/pwa";
+import { getFCMToken } from "../../firebase";
+import { setPushAlarmStatus } from "../../api/auth";
+import { kid, myMemberUUID, myatk, nickname } from "../../atom/member";
 
 const Manual = () => {
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [myNick] = useRecoilState<string>(nickname);
+  const [atk] = useRecoilState<string>(myatk);
+  const [kID] = useRecoilState<string>(kid);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (UUID && myNick && atk && kID) {
+      requestPushPermission(UUID)
+        .then((permission) => {
+          if (permission === "granted") {
+            getFCMToken()
+              .then((token) => {
+                sendFCMToken(UUID, myNick, atk, kID, token);
+                setPushAlarmStatus(UUID, atk, kID, "true");
+              })
+              .catch((err) => {
+                console.error("토큰 발급 에러 : ", err);
+              });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, []);
+
   const goToMain = () => {
     navigate("/OtherGender");
   };

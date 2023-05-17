@@ -386,35 +386,37 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public void redisToMysql() {
 
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
-        for (ResChatRoom resChatRoom : resChatRooms) {
+        if(resChatRooms != null) {
 
-            ChatRoom chatRoom = resChatRoom.toEntity();
+            for (ResChatRoom resChatRoom : resChatRooms) {
 
-            ResMember selector = resChatRoom.getSelector();
-            ResMember selected = resChatRoom.getSelected();
+                ChatRoom chatRoom = resChatRoom.toEntity();
 
-            Member selectorMember = memberJpaRepository.findMemberByNickname(selector.getNickname());
-            Member selectedMember = memberJpaRepository.findMemberByNickname(selected.getNickname());
+                ResMember selector = resChatRoom.getSelector();
+                ResMember selected = resChatRoom.getSelected();
 
-            Participant selectorParticipant = buildParticipant(selectorMember, chatRoom);
-            Participant selectedParticipant = buildParticipant(selectedMember, chatRoom);
+                Member selectorMember = memberJpaRepository.findMemberByNickname(selector.getNickname());
+                Member selectedMember = memberJpaRepository.findMemberByNickname(selected.getNickname());
 
-            if(chatRoom.getExpired().equals("F")) {
-                // 익명 선택의 시간이면 양방향 여부 상관없이 채팅방 엔티티 저장
-                if (resChatRoom.getType().equals("SECRET")) {
-                    chatRoomJpaRepository.save(chatRoom);
-                    participantJpaRepository.save(selectorParticipant);
-                    participantJpaRepository.save(selectedParticipant);
-                }
-                // 마지막 선택의 시간이면 양방향 인것만 채팅방 엔티티 저장
-                else if (resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T")) {
-                    chatRoomJpaRepository.save(chatRoom);
-                    participantJpaRepository.save(selectorParticipant);
-                    participantJpaRepository.save(selectedParticipant);
-                }
-             }
+                Participant selectorParticipant = buildParticipant(selectorMember, chatRoom);
+                Participant selectedParticipant = buildParticipant(selectedMember, chatRoom);
+
+                if(chatRoom.getExpired().equals("F")) {
+                    // 익명 선택의 시간이면 양방향 여부 상관없이 채팅방 엔티티 저장
+                    if (resChatRoom.getType().equals("SECRET")) {
+                        chatRoomJpaRepository.save(chatRoom);
+                        participantJpaRepository.save(selectorParticipant);
+                        participantJpaRepository.save(selectedParticipant);
+                    }
+                    // 마지막 선택의 시간이면 양방향 인것만 채팅방 엔티티 저장
+                    else if (resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T")) {
+                        chatRoomJpaRepository.save(chatRoom);
+                        participantJpaRepository.save(selectorParticipant);
+                        participantJpaRepository.save(selectedParticipant);
+                    }
+                 }
+            }
         }
-
     }
 
 //        List<Participant> getParticipantList = chatRoomRepository.getParticipantList();

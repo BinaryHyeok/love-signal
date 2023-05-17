@@ -42,12 +42,16 @@ const MyInfo: React.FC<propsType> = ({
   };
 
   const updateNickHandler = (newNick: string) => {
-    changeMyInfo(UUID, newNick, description, atk, kID);
-    setMyNickname(newNick);
+    if (newNick.length !== 0) {
+      changeMyInfo(UUID, newNick, description, atk, kID);
+      setMyNickname(newNick);
+    }
   };
 
   const updateDescHandler = (newDesc: string) => {
-    changeMyInfo(UUID, mynickname, newDesc, atk, kID);
+    if (newDesc.length !== 0) {
+      changeMyInfo(UUID, mynickname, newDesc, atk, kID);
+    }
   };
 
   return (

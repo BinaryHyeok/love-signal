@@ -35,6 +35,7 @@
 }
 
 .box3 {
+  opacity: 0;
   font-size: 2rem;
   margin: 1rem;
   animation: bubble 1s ease;
@@ -46,6 +47,7 @@
 }
 
 .box4 {
+  opacity: 0;
   font-size: 2rem;
   margin: 1rem;
   animation: bubble 1s ease;

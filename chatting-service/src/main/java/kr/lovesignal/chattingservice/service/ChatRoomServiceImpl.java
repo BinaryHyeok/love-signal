@@ -103,6 +103,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     //            if(!(chatRoom.getType().equals("SECRET") || chatRoom.getType().equals("SIGNAL"))) {
                     ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
 
+                    if(chatRoom.getType().equals("SECRET"))
+                        System.out.println("================ get room list : chatRoom ======================="+resChatRoom.getUUID());
+
+                    if(resChatRoom.getType().equals("SECRET"))
+                        System.out.println("================ get room list : ResChatRoom ======================="+resChatRoom.getUUID());
+
                     // Redis 에 있던 One To One 채팅방의 소실된 정보 다시 주입.
                     for(ResChatRoom resSelectChatRoom : selectRoomList) {
                         if(resChatRoom.getUUID().equals(resSelectChatRoom.getUUID())) {

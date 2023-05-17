@@ -40,9 +40,10 @@ const TeamBuild = () => {
         inquireMember(myUUID, atk, kID).then((res) => {
           if (!res.data.body.matchingStatus) {
             setTeamUUID(res.data.body.teamUUID);
+            navigate("/SameGender/MyTeam");
           }
         });
-      }, 3000);
+      }, 2000);
       return () => {
         clearInterval(timer);
       };

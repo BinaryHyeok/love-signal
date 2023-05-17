@@ -12,20 +12,22 @@ type propsType = {
 //FindTeam, MyTeam, TeamBuild페이지에 들어가야 합니다.
 const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
   const [_, setIdx] = useRecoilState(footerIdx);
+  const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   useEffect(() => {
     setIdx(1);
     TeamFilter();
-  }, []);
+  }, [teamUUID]);
 
   const navigate = useNavigate();
 
-  const [teamUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
   //내가 시작했을때.. navigate를 해주려면 내 정보가 필요하다.
   //팀이 있는지 없는지 파악.
   const TeamFilter = () => {
+    console.log(teamUUID);
+
     if (teamUUID !== null || teamUUID !== "") {
       getMyTeam(teamUUID, atk, kID)
         .then((res) => {

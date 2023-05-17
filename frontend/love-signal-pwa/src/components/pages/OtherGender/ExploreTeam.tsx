@@ -89,10 +89,12 @@ const ExploreTeam = () => {
         adduuidList(res.data.body.teams);
         const length = res.data.body.teams.length;
         setaddNum(length);
-        setIsLoading(true);
         setReceiveList(addNum);
         setInfinityScroll(false);
         setLastList(res.data.body.hasRemainingTeam);
+        setTimeout(() => {
+          setIsLoading(true);
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);

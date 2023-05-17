@@ -417,6 +417,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public void redisToMysql() {
 
+        List<String> secretRoomMemberUUIDs = new ArrayList<>();
+        List<String> signalRoomMemberUUIDs = new ArrayList<>();
         List<ResChatRoom> resChatRooms = chatRoomRepository.getSelectRoomList();
         if(resChatRooms != null) {
 
@@ -439,16 +441,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                         chatRoomJpaRepository.save(chatRoom);
                         participantJpaRepository.save(selectorParticipant);
                         participantJpaRepository.save(selectedParticipant);
+                        secretRoomMemberUUIDs.add(selectorMember.getUUID().toString());
+                        secretRoomMemberUUIDs.add(selectedMember.getUUID().toString());
                     }
                     // 마지막 선택의 시간이면 양방향 인것만 채팅방 엔티티 저장
                     else if (resChatRoom.getType().equals("SIGNAL") && resChatRoom.getLove().equals("T")) {
                         chatRoomJpaRepository.save(chatRoom);
                         participantJpaRepository.save(selectorParticipant);
                         participantJpaRepository.save(selectedParticipant);
+                        signalRoomMemberUUIDs.add(selectorMember.getUUID().toString());
+                        signalRoomMemberUUIDs.add(selectedMember.getUUID().toString());
                     }
                  }
             }
         }
+        sendSecretFcmAlarm(secretRoomMemberUUIDs);
+        sendSignalFcmAlarm(signalRoomMemberUUIDs);
     }
 
 //        List<Participant> getParticipantList = chatRoomRepository.getParticipantList();
@@ -591,6 +599,50 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
 
         webClient.put()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
+    }
+
+    /**
+     * 익명채팅방 fcm알람
+     */
+    public void sendSecretFcmAlarm(List<String> memberUUIDs) {
+        String uri = "http://localhost:4444/api/fcm/secret/notification";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
+        if(instances == null || instances.isEmpty()){
+            System.out.println("에러남.");
+        }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/api/fcm/secret/notification";
+        }
+
+        webClient.post()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
+    }
+
+    /**
+     * 시그널채팅방 fcm알람
+     */
+    public void sendSignalFcmAlarm(List<String> memberUUIDs) {
+        String uri = "http://localhost:4444/api/fcm/signal/notification";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
+        if(instances == null || instances.isEmpty()){
+            System.out.println("에러남.");
+        }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/api/fcm/signal/notification";
+        }
+
+        webClient.post()
                 .uri(uri)
                 .bodyValue(memberUUIDs)
                 .retrieve()

@@ -12,7 +12,7 @@ const MainBtn = () => {
   }, []);
 
   const delay = () => {
-    setTimeout(() => {}, 1000);
+    setTimeout(() => {}, 2000);
   };
   return (
     <motion.div

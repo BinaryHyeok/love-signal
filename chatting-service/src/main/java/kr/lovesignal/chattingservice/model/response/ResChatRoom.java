@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -34,6 +35,7 @@ public class ResChatRoom implements Serializable{
 
     public ChatRoom toEntity() {
         return ChatRoom.builder()
+                .UUID(java.util.UUID.fromString(this.UUID))
                 .type(this.type)
                 .roomName(this.roomName)
                 .selectCount(this.selectCount)

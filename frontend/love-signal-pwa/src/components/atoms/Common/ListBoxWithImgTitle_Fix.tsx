@@ -4,10 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 // import "./ListBoxTransForm.css";
 
 const ListBoxWithImgTitle_Fix = (props: any) => {
-  // useEffect(() => {
-  //   console.log(props.idx);
-  //   console.log(props);
-  // }, []);
   return (
     <motion.div
       key={props.key}

@@ -13,10 +13,12 @@ import GetMyInfo from "../../Filter/GetMyInfo";
 import { kid, myMemberUUID, myatk, teamBuildState } from "../../../atom/member";
 import MatchTeam from "../../templates/FindTeam/MatchTeam";
 import { inquireMember } from "../../../api/auth";
+import { useNavigate } from "react-router-dom";
 
 let timer: NodeJS.Timer;
 
 const FindTeam = () => {
+  const navigate = useNavigate();
   const [count, setCount] = useState<number>(0);
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [atk] = useRecoilState<string>(myatk);
@@ -33,9 +35,10 @@ const FindTeam = () => {
         inquireMember(UUID, atk, kID).then((res) => {
           if (!res.data.body.matchingStatus) {
             setMatchStatus(false);
+            navigate("/SameGender/MyTeam");
           }
         });
-      }, 5000);
+      }, 2000);
 
       return () => {
         clearInterval(timer);

@@ -9,7 +9,7 @@ type propsType = {
 const A_SignUp_Year: React.FC<propsType> = ({ handleYearChange, myYear }) => {
   const years = Array.from(
     { length: 30 },
-    (_, i) => new Date().getFullYear() - 30 + i
+    (_, i) => new Date().getFullYear() - 45 + i
   );
   return (
     <span className={style.yearTag}>

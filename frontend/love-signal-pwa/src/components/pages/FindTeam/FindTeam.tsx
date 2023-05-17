@@ -14,6 +14,8 @@ import { kid, myMemberUUID, myatk, teamBuildState } from "../../../atom/member";
 import MatchTeam from "../../templates/FindTeam/MatchTeam";
 import { inquireMember } from "../../../api/auth";
 
+let timer: NodeJS.Timer;
+
 const FindTeam = () => {
   const [count, setCount] = useState<number>(0);
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -23,28 +25,26 @@ const FindTeam = () => {
   const [matchStatus, setMatchStatus] = useRecoilState<boolean>(teamBuildState);
 
   useEffect(() => {
+    console.log(matchStatus);
+
     setIdx(1);
     if (matchStatus) {
-      const timer = setInterval(() => {
-        // count가 5가 될 때까지 1씩 증가시킴
-        if (count === 5) {
-          clearInterval(timer);
-          inquireMember(UUID, atk, kID).then((res) => {
-            if (!res.data.body.matchingStatus) {
-              setMatchStatus(false);
-              window.location.reload();
-            }
-          });
-        } else {
-          setCount((prevCount) => prevCount + 1);
-        }
-      }, 1000);
+      timer = setInterval(() => {
+        console.log("나 동작해?");
+
+        inquireMember(UUID, atk, kID).then((res) => {
+          if (!res.data.body.matchingStatus) {
+            setMatchStatus(false);
+            window.location.reload();
+          }
+        });
+      }, 5000);
 
       return () => {
         clearInterval(timer);
       };
     }
-  }, [atk]);
+  }, [atk, matchStatus]);
 
   const [myTeamBuildState] = useRecoilState<boolean>(teamBuildState);
 

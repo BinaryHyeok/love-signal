@@ -39,6 +39,10 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
     } else {
       //rtk가 존재합니다. 이때 atk구분하기.
       if (atk !== "") {
+        console.log(atk);
+        console.log(date > myET);
+        console.log(rtk);
+
         if (date > myET) {
           reissueToken(rtk);
         }

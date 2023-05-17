@@ -4,7 +4,7 @@ import T_TeamBuildRoom from "../../templates/TeamBuild/T_TeamBuildRoom";
 import M_TeamBuildHeader from "../../molecules/TeamBuild/M_TeamBuildHeader";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import O_TeamMemberList from "../../organisms/TeamBuild/O_TeamMemberList";
-import { withdrawTeam } from "../../../api/team";
+import { getMyTeam, withdrawTeam } from "../../../api/team";
 import { useRecoilState } from "recoil";
 import {
   imLeader,
@@ -35,19 +35,16 @@ const TeamBuild = () => {
   const [, setIsLeader] = useRecoilState<boolean>(imLeader);
 
   useEffect(() => {
-    if (myTUUID !== null) {
-      timer = setInterval(() => {
-        inquireMember(myUUID, atk, kID).then((res) => {
-          if (!res.data.body.matchingStatus) {
-            setTeamUUID(res.data.body.teamUUID);
-            navigate("/SameGender/MyTeam");
-          }
-        });
-      }, 2000);
-      return () => {
-        clearInterval(timer);
-      };
-    }
+    timer = setInterval(() => {
+      getMyTeam(myTUUID, atk, kID).then((res) => {
+        if (res.data.body.members.length === 3) {
+          navigate("/SameGender/MyTeam", { replace: true });
+        }
+      });
+    }, 2000);
+    return () => {
+      clearInterval(timer);
+    };
   }, [atk, myTUUID]);
   //팀 나가기 함수입니다.
   const exitTeam = () => {

@@ -19,7 +19,6 @@ let timer: NodeJS.Timer;
 
 const FindTeam = () => {
   const navigate = useNavigate();
-  const [count, setCount] = useState<number>(0);
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [atk] = useRecoilState<string>(myatk);
   const [UUID] = useRecoilState<string>(myMemberUUID);
@@ -35,7 +34,7 @@ const FindTeam = () => {
         inquireMember(UUID, atk, kID).then((res) => {
           if (!res.data.body.matchingStatus) {
             setMatchStatus(false);
-            navigate("/SameGender/MyTeam");
+            navigate("/SameGender/MyTeam", { replace: true });
           }
         });
       }, 2000);

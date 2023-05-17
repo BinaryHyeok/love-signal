@@ -10,9 +10,6 @@ type propsType = {
 };
 
 const PictureBox: React.FC<propsType> = ({ viewDetail, idx, team }) => {
-  useEffect(() => {
-    console.log(idx);
-  });
   return (
     <>
       <div

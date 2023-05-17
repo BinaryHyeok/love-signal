@@ -80,7 +80,10 @@ const T_ChatRoom: React.FC<PropsType> = ({
 
   useEffect(() => {
     const lastChat = chatList[chatList.length - 1];
-    if (isFirstEnter || (!isFirstEnter && lastChat.nickname === myNick)) {
+    if (
+      isFirstEnter ||
+      (!isFirstEnter && lastChat && lastChat.nickname === myNick)
+    ) {
       if (ulRef.current) {
         ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
         setIsFirstEnter(false);

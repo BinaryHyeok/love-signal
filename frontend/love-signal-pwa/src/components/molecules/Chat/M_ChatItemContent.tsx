@@ -21,6 +21,7 @@ const M_ChatItemContent: React.FC<PropsType> = ({
       <A_ChatItemInfo
         uuid={room.uuid}
         roomName={room.roomName}
+        updatedDate={room.updatedDate}
         memberCount={
           room.memberList
             ? room.memberList.length

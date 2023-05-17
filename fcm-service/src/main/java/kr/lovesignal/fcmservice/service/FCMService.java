@@ -18,4 +18,8 @@ public interface FCMService {
 
 	// 미팅이 생성될 때 알람 보내기
 	void sendMeetingNotification(List<String> memberUUIDs);
+
+	void sendTeamRemoveNotification(List<String> memberUUIDs);
+
+	void sendMeetingRemoveNotification(List<String> memberUUIDs);
 }

@@ -50,4 +50,18 @@ public class FCMController {
 		return new ResponseEntity<>("Meeting Notification", HttpStatus.OK);
 	}
 
+	@PostMapping("/cancel-team")
+	public ResponseEntity<String> cancelTeamNotification(@RequestBody List<String> memberUUIDs){
+		fcmService.sendTeamRemoveNotification(memberUUIDs);
+
+		return new ResponseEntity<>("Team End Notification", HttpStatus.OK);
+	}
+
+	@PostMapping("/cancel-meeting")
+	public ResponseEntity<String> cancelMeetingNotification(@RequestBody List<String> memberUUIDs){
+		fcmService.sendMeetingRemoveNotification(memberUUIDs);
+
+		return new ResponseEntity<>("Meeting End Notification", HttpStatus.OK);
+	}
+
 }

@@ -20,6 +20,7 @@ import kr.lovesignal.fcmservice.repository.FCMRepository;
 
 
 @Service
+@Transactional
 public class FCMServiceImpl implements FCMService{
 
 	private final FCMRepository fcmRepository;
@@ -29,7 +30,6 @@ public class FCMServiceImpl implements FCMService{
 	}
 
 	@Override
-	@Transactional
 	public void registerToken(TokenRequest tokenRequest) {
 
 
@@ -72,7 +72,6 @@ public class FCMServiceImpl implements FCMService{
 //		System.out.println("*******************************");
 	}
 
-	@Transactional
 	public void createToken(UUID memberUUID, String token, String nickname){
 		FCMEntity saveFcm = FCMEntity.builder()
 				.UUID(memberUUID)
@@ -84,7 +83,6 @@ public class FCMServiceImpl implements FCMService{
 
 	}
 
-	@Transactional
 	public void updateToken(FCMEntity fcmEntity, String token){
 		FCMEntity saveFcm = FCMEntity.builder()
 				.fcmId(fcmEntity.getFcmId())
@@ -104,8 +102,8 @@ public class FCMServiceImpl implements FCMService{
 		for(FCMEntity fcmEntity : fcmEntities){
 			if(fcmEntity.getToken() != null){
 				Message message = Message.builder()
-					.putData("title", "선택의 시간")
-					.putData("content", "지금부터 10시 30분까지 마음에 드는 이성을 선택할 수 있습니다.")
+					.putData("title", "선택의 시간!")
+					.putData("content", "지금부터 마음에 드는 이성을 선택할 수 있어요")
 					.putData("type", "select")
 					.setToken(fcmEntity.getToken())
 					.build();
@@ -126,8 +124,8 @@ public class FCMServiceImpl implements FCMService{
 		for(FCMEntity fcmEntity : fcmEntities){
 			if(fcmEntity.getToken() != null){
 				Message message = Message.builder()
-					.putData("title", "팀 빌딩 완료")
-					.putData("content", "팀 빌딩이 완료되었고 동성 채팅방이 생성되었습니다.")
+					.putData("title", "팀 빌딩!")
+					.putData("content", "팀 빌딩이 되었어요, 이성팀에게 미팅을 신청해보세요!")
 					.putData("type", "build")
 					.setToken(fcmEntity.getToken())
 					.build();
@@ -145,11 +143,7 @@ public class FCMServiceImpl implements FCMService{
 	@Override
 	public void sendMeetingNotification(List<String> memberUUIDs) {
 
-		List<UUID> memberUUIDList = new ArrayList<>();
-		for(String uuidString : memberUUIDs){
-			UUID uuid = UUID.fromString(uuidString);
-			memberUUIDList.add(uuid);
-		}
+		List<UUID> memberUUIDList = stringToUUIDList(memberUUIDs);
 
 		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDList);
 
@@ -157,7 +151,7 @@ public class FCMServiceImpl implements FCMService{
 			if(fcmEntity.getToken() != null){
 				Message message = Message.builder()
 					.putData("title", "시그널!")
-					.putData("content", "상대팀과 매칭되었습니다. 시그널을 보내세요!")
+					.putData("content", "상대팀과 매칭되었어요, 시그널을 보내세요!")
 					.putData("type", "meeting")
 					.setToken(fcmEntity.getToken())
 					.build();
@@ -169,5 +163,64 @@ public class FCMServiceImpl implements FCMService{
 				}
 			}
 		}
+	}
+
+	@Override
+	public void sendTeamRemoveNotification(List<String> memberUUIDs) {
+
+		List<UUID> memberUUIDList = stringToUUIDList(memberUUIDs);
+
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDList);
+
+		for(FCMEntity fcmEntity : fcmEntities){
+			if(fcmEntity.getToken() != null){
+				Message message = Message.builder()
+						.putData("title", "팀 해체!")
+						.putData("content", "팀이 해체되었어요, 다른 팀을 구해보세요!")
+						.putData("type", "teamEnd")
+						.setToken(fcmEntity.getToken())
+						.build();
+
+				try {
+					String response = FirebaseMessaging.getInstance().send(message);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void sendMeetingRemoveNotification(List<String> memberUUIDs) {
+
+		List<UUID> memberUUIDList = stringToUUIDList(memberUUIDs);
+
+		List<FCMEntity> fcmEntities = fcmRepository.findAllByUUIDIn(memberUUIDList);
+
+		for(FCMEntity fcmEntity : fcmEntities){
+			if(fcmEntity.getToken() != null){
+				Message message = Message.builder()
+						.putData("title", "미팅 종료!")
+						.putData("content", "미팅이 끝났어요, 인연을 만나셨나요?")
+						.putData("type", "meetingEnd")
+						.setToken(fcmEntity.getToken())
+						.build();
+
+				try {
+					String response = FirebaseMessaging.getInstance().send(message);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public List<UUID> stringToUUIDList(List<String> memberUUIDs){
+		List<UUID> memberUUIDList = new ArrayList<>();
+		for(String uuidString : memberUUIDs){
+			UUID uuid = UUID.fromString(uuidString);
+			memberUUIDList.add(uuid);
+		}
+		return memberUUIDList;
 	}
 }

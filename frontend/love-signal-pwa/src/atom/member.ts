@@ -73,12 +73,6 @@ export const teamBuildState = atom<boolean>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const urlCode = atom<string>({
-  key: "code",
-  default: "",
-  effects_UNSTABLE: [persistAtom],
-});
-
 export const leftSwiper = atom<boolean>({
   key: "leftSwiper",
   default: false,

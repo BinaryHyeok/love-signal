@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import style from "./styles/FindTeam.module.scss";
 import { footerIdx } from "../../../atom/footer";
@@ -10,15 +10,40 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
-import { myatk, teamBuildState } from "../../../atom/member";
+import { kid, myMemberUUID, myatk, teamBuildState } from "../../../atom/member";
 import MatchTeam from "../../templates/FindTeam/MatchTeam";
+import { inquireMember } from "../../../api/auth";
 
 const FindTeam = () => {
+  const [count, setCount] = useState<number>(0);
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [atk] = useRecoilState<string>(myatk);
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [kID] = useRecoilState<string>(kid);
+  const [matchStatus, setMatchStatus] = useRecoilState<boolean>(teamBuildState);
 
   useEffect(() => {
     setIdx(1);
+    if (matchStatus) {
+      const timer = setInterval(() => {
+        // count가 5가 될 때까지 1씩 증가시킴
+        if (count === 5) {
+          clearInterval(timer);
+          inquireMember(UUID, atk, kID).then((res) => {
+            if (!res.data.body.matchingStatus) {
+              setMatchStatus(false);
+              window.location.reload();
+            }
+          });
+        } else {
+          setCount((prevCount) => prevCount + 1);
+        }
+      }, 1000);
+
+      return () => {
+        clearInterval(timer);
+      };
+    }
   }, [atk]);
 
   const [myTeamBuildState] = useRecoilState<boolean>(teamBuildState);

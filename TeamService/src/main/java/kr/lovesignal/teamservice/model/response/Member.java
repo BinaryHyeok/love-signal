@@ -20,6 +20,7 @@ public class Member {
     private String description;
     private String profileImage;
     private String memberUUID;
+    private boolean teamLeader;
 
     public static List<Member> buildMembers(List<MemberEntity> memberEntities){
         List<Member> members = new ArrayList<>();
@@ -31,6 +32,7 @@ public class Member {
                     .age(age)
                     .memberUUID(memberEntity.getUUID().toString())
                     .description(memberEntity.getDescription())
+                    .teamLeader("T".equals(memberEntity.getTeamLeader()) ? true : false)
                     .build();
             members.add(member);
         }

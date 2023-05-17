@@ -94,10 +94,23 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             List<ResMember> memberList = new ArrayList<>();
 
             if(participant.getExpired().equals("F")) {
+
+                // Redis 에 있는 select, selected 정보를 주입하기 위한 Redis 의 select 채팅방들
+                List<ResChatRoom> selectRoomList = chatRoomRepository.getSelectRoomList();\
+
                 // Participant 객체에서 ChatRoom 을 뽑아오고 ResChatRoom 으로 변환.
                 ChatRoom chatRoom = participant.getChatRoom();
     //            if(!(chatRoom.getType().equals("SECRET") || chatRoom.getType().equals("SIGNAL"))) {
                     ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
+
+                    // Redis 에 있던 One To One 채팅방의 소실된 정보 다시 주입.
+                    for(ResChatRoom resSelectChatRoom : selectRoomList) {
+                        if(resChatRoom.getUUID().equals(resSelectChatRoom.getUUID())) {
+                            resChatRoom.setSelector(resSelectChatRoom.getSelector());
+                            resChatRoom.setSelected(resSelectChatRoom.getSelected());
+                            resChatRoom.setLove(resChatRoom.getLove());
+                        }
+                    }
 
                     // 룸에 참여하고 있는 모든 Participant 순회
                     List<Participant> roomParticipants = participantJpaRepository.findByChatRoom(chatRoom);
@@ -159,6 +172,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             for(Participant participant : participants) {
                 ChatRoom chatRoom = participant.getChatRoom();
 
+                // 나혼자 팀을 나갔을 때
                 if(!(chatRoom.getType().equals("MEETING") || chatRoom.getType().equals("SYSTEM"))){
                     participant.setExpired("T");
                     chatRoom.setExpired("T");

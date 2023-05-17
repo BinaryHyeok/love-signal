@@ -132,11 +132,14 @@ public class TeamServiceImpl implements TeamService{
             else{
                 // 미팅과 팀 해체 및 모든 채팅방에서 나간다.
                 memberUUIDs = deleteMeetingTeam(leaveMember);
+                webClientService.sendMeetingRemoveFcmAlarm(memberUUIDs);
             }
         }
-        else{
+        else {
             //팀 해체
             memberUUIDs = deleteTeamByMember(leaveMember);
+            webClientService.sendTeamRemoveFcmAlarm(memberUUIDs);
+
         }
 
         if(isBuilding){

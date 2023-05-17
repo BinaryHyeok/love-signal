@@ -22,4 +22,8 @@ public interface WebClientService {
     public void sendMeetingMemberUUIDs(List<UUID> memberUUIDs);
 
     public void sendMatchingTeamMemberUUIDs(List<UUID> memberUUIDs);
+
+    public void sendTeamRemoveFcmAlarm(List<String> memberUUIDs);
+
+    public void sendMeetingRemoveFcmAlarm(List<String> memberUUIDs);
 }

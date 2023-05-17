@@ -7,13 +7,6 @@
   height: calc(calc(var(--vh, 1vh) * 100) * 0.4);
   z-index: 5;
   bottom: 0;
-  .proflieImg {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    background-color: black;
-    z-index: 100;
-  }
   .profileContainer {
     width: 200px;
     height: 200px;
@@ -24,4 +17,12 @@
     position: relative;
     z-index: 2;
   }
+}
+
+.proflieImg {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  z-index: 100;
 }

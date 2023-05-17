@@ -58,10 +58,10 @@ const ContentLayout = () => {
                 {" "}
                 <ExitImg closeModal={closeAlert} />
               </div>
-              <A_ChatProfile_Modal closeModal={closeAlert}>
+              {/* <A_ChatProfile_Modal closeModal={closeAlert}>
                 알림창ㅇㅇㅇㅇㅇ
-              </A_ChatProfile_Modal>
-              {/* <AlarmModal closeModal={closeAlert}>알림창</AlarmModal> */}
+              </A_ChatProfile_Modal> */}
+              <AlarmModal closeModal={closeAlert}>알림창</AlarmModal>
             </div>
           </Modal_portal>
         )}

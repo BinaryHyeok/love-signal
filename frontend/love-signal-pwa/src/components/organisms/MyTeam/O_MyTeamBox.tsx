@@ -107,7 +107,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
           setMatchMemberList([...newList]);
           setMatchTeamUUID(res.data.body.teamUUID);
           setStart(false);
-          setIsLoading(true);
         })
         .catch((err) => {
           console.log(err);

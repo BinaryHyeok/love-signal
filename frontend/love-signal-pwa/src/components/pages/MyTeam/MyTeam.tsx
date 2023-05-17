@@ -28,6 +28,7 @@ import { inquireMember } from "../../../api/auth";
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
 
 let timeout: NodeJS.Timer;
+let timer: NodeJS.Timer;
 
 const MyTeam = () => {
   //내가 상대팀이 있는지 파악해주는 state변수입니다.
@@ -64,7 +65,12 @@ const MyTeam = () => {
 
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
   useEffect(() => {
-    getUserTeamInfo();
+    timer = setInterval(() => {
+      getUserTeamInfo();
+    }, 2000);
+    return () => {
+      clearInterval(timer);
+    };
   }, [atk]);
 
   useEffect(() => {}, [exitVisible]);

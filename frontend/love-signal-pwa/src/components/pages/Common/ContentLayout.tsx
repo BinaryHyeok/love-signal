@@ -11,6 +11,8 @@ import AlarmModal from "../../UI/Modal/Alarm/AlarmModal";
 import style from "./styles/ContentLayout.module.scss";
 import { useState } from "react";
 import Manual_Quest from "../../Manual/Manual_Quest";
+import A_ChatProfile_Modal from "../../atoms/Chat/A_ChatProfile_Modal";
+import ExitImg from "../../atoms/Common/ExitImg";
 
 let timeout: NodeJS.Timer;
 
@@ -52,8 +54,14 @@ const ContentLayout = () => {
         {visible && (
           <Modal_portal>
             <div className={style.container}>
-              <div className={style.background} onClick={closeAlert}></div>
-              <AlarmModal closeModal={closeAlert}>알림창</AlarmModal>
+              <div className={style.background} onClick={closeAlert}>
+                {" "}
+                <ExitImg closeModal={closeAlert} />
+              </div>
+              <A_ChatProfile_Modal closeModal={closeAlert}>
+                알림창ㅇㅇㅇㅇㅇ
+              </A_ChatProfile_Modal>
+              {/* <AlarmModal closeModal={closeAlert}>알림창</AlarmModal> */}
             </div>
           </Modal_portal>
         )}

@@ -392,7 +392,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // 입장 메세지 저장.
             ReqChatMessage reqChatMessage = ReqChatMessage.builder()
-                    .roomUUID(resSelectChatRoom.getUUID().toString())
+                    .roomUUID(roomUUID)
                     .type("ENTER")
                     .nickname(animalName)
                     .content("익명 채팅방에 입장했습니다.")
@@ -430,9 +430,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             for (ResChatRoom resChatRoom : resChatRooms) {
 
                 ChatRoom chatRoom = resChatRoom.toEntity();
-                chatRoom.setUpdatedDate(LocalDateTime.now());
                 UUID uuid = UUID.fromString(resChatRoom.getUUID());
+
+                System.out.println("=========================ResChatRoom=================="+resChatRoom.getUUID());
+                System.out.println("=========================Before ChatRoom=================="+chatRoom.getUUID().toString());
+
                 chatRoom.setUUID(uuid);
+                System.out.println("=========================After ChatRoom=================="+chatRoom.getUUID().toString());
+                chatRoom.setUpdatedDate(LocalDateTime.now());
 
                 ResMember selector = resChatRoom.getSelector();
                 ResMember selected = resChatRoom.getSelected();
@@ -484,10 +489,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public void secretChatRoomExpiredT() {
         chatRoomRepository.expiredSecretChatRoom();
         List<ChatRoom> list = chatRoomJpaRepository.findByTypeAndExpired("SECRET", "F");
-        for(ChatRoom chatRoom : list) {
-            chatRoom.setExpired("T");
-            chatRoomJpaRepository.save(chatRoom);
-            List<Participant> participants = chatRoom.getParticipants();
+        for(ChatRoom secretChatRoom : list) {
+            secretChatRoom.setExpired("T");
+            chatRoomJpaRepository.save(secretChatRoom);
+            List<Participant> participants = secretChatRoom.getParticipants();
 
             for(Participant participant : participants) {
                 participant.setExpired("T");
@@ -543,8 +548,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      */
     @Scheduled(cron = "0/5 * * * * *")
     public void chatRoomExpired() {
-        List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
-        for(ChatRoom meetingRoom : chatRooms) {
+        List<ChatRoom> meetingRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
+        for(ChatRoom meetingRoom : meetingRooms) {
 
             if(meetingRoom.getSelectCount()>=3) {
                 // 미팅룸 만료 처리.

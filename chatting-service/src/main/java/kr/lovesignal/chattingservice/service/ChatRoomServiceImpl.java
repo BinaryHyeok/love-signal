@@ -104,13 +104,21 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
 
                     if(chatRoom.getType().equals("SECRET"))
-                        System.out.println("================ get room list : chatRoom ======================="+resChatRoom.getUUID());
+                        System.out.println("===================================== ChatRoom =======================================");
+                        System.out.println("================ get room list : participant expired ======================="+participant.getExpired());
+                        System.out.println("================ get room list : chatRoom expired ======================="+resChatRoom.getExpired());
+                        System.out.println("================ get room list : chatRoom uuid ======================="+resChatRoom.getUUID());
 
                     if(resChatRoom.getType().equals("SECRET"))
-                        System.out.println("================ get room list : ResChatRoom ======================="+resChatRoom.getUUID());
+                        System.out.println("===================================== ResChatRoom =======================================");
+                        System.out.println("================ get room list : participant expired ======================="+participant.getExpired());
+                        System.out.println("================ get room list : ResChatRoom expired ======================="+resChatRoom.getExpired());
+                        System.out.println("================ get room list : ResChatRoom uuid ======================="+resChatRoom.getUUID());
 
                     // Redis 에 있던 One To One 채팅방의 소실된 정보 다시 주입.
                     for(ResChatRoom resSelectChatRoom : selectRoomList) {
+                        if (resSelectChatRoom.getExpired().equals("F"))
+                            System.out.println("============Redis 채팅방 반복문 ================="+resSelectChatRoom.getUUID());
                         if(resChatRoom.getUUID().equals(resSelectChatRoom.getUUID())) {
                             resChatRoom.setSelector(resSelectChatRoom.getSelector());
                             resChatRoom.setSelected(resSelectChatRoom.getSelected());

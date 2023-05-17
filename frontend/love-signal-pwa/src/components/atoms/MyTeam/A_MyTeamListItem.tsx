@@ -6,7 +6,6 @@ type PropsType = {
 };
 
 const A_MyTeamListItem: React.FC<PropsType> = ({ member }) => {
-  console.log(member);
   return (
     <li className={style.item}>
       <img className={style.profileImage} src={member.profileImage} />

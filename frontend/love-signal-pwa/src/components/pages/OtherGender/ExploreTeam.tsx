@@ -24,8 +24,6 @@ const NUMBER = 5; //한번에 받아올 리스트의 수
 let timeout: NodeJS.Timer;
 
 const ExploreTeam = () => {
-  console.log(cookie.load("rtk"));
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
@@ -67,7 +65,6 @@ const ExploreTeam = () => {
     if (isLeader) {
       getMyTeam(TUUID, atk, kID)
         .then((res) => {
-          console.log(res);
           setHaveTeam(res.data.body.haveMeetingTeam);
           setMemberLength(res.data.body.members.length);
         })
@@ -82,11 +79,10 @@ const ExploreTeam = () => {
     if (!atk || !kID) {
       return;
     }
-    console.log(gender);
+
     const OGender: string = gender === "F" ? "M" : "F"; //반대로 보여줘야하니 삼항연산자 사용.
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
       .then((res) => {
-        console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
         adduuidList(res.data.body.teams);

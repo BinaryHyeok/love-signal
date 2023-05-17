@@ -9,10 +9,14 @@ import kr.lovesignal.chattingservice.pubsub.RedisPublisher;
 import kr.lovesignal.chattingservice.repository.*;
 import kr.lovesignal.chattingservice.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
@@ -33,6 +37,12 @@ public class ChatServiceImpl implements ChatService{
     private final ProfileImageJpaRepository profileImageJpaRepository;
     private final CommonUtils commonUtils;
     private final SimpMessageSendingOperations messagingTemplate;
+
+    private final WebClient webClient;
+    private final DiscoveryClient discoveryClient;
+
+    @Value("${server.port}")
+    private int port;
 
 
 
@@ -364,6 +374,7 @@ public class ChatServiceImpl implements ChatService{
 
                 // 성별 별로 리스트 생성
                 List<Member> members = new ArrayList<>();
+                List<UUID> memberUUIDs = new ArrayList<>();
                 List<String> maleNicknames = new ArrayList<>();
                 List<String> maleProfileUrls = new ArrayList<>();
                 List<String> femaleNicknames = new ArrayList<>();
@@ -376,6 +387,7 @@ public class ChatServiceImpl implements ChatService{
                 for(Participant participant : participants) {
                     Member member = participant.getMember();
                     members.add(member);
+                    memberUUIDs.add(member.getUUID());
 
                     if(member.getGender().equals("M")) {
                         maleNicknames.add(member.getNickname());
@@ -387,6 +399,8 @@ public class ChatServiceImpl implements ChatService{
                         femaleProfileUrls.add(getProfileImageStoredName(member));
                     }
                 }
+
+                sendMeetingMemberUUIDs(memberUUIDs);
 
                 // 이성지목 메세지 객체 생성
                 ReqChatMessage reqChatMessage = ReqChatMessage.builder()
@@ -424,6 +438,25 @@ public class ChatServiceImpl implements ChatService{
                 }
             }
         }
+    }
+
+    public void sendMeetingMemberUUIDs(List<UUID> memberUUIDs) {
+        String uri = "http://localhost:4444/fcm/notification";
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("fcm-service");
+        if(instances == null || instances.isEmpty()){
+            System.out.println("==================================FCM 여기오류");
+        }
+        else if(port == 0){
+            uri = instances.get(0).getUri().toString() + "/fcm/notification";
+        }
+
+        webClient.post()
+                .uri(uri)
+                .bodyValue(memberUUIDs)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe();
     }
 
 

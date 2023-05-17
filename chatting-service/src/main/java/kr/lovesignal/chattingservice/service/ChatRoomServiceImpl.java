@@ -493,7 +493,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     /**
      * 동성혼성 채팅방 기간 만료
      */
-    @Scheduled(cron = "0/1 * * * * *")
+    @Scheduled(cron = "0/5 * * * * *")
     public void chatRoomExpired() {
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("MEETING", "F");
         for(ChatRoom meetingRoom : chatRooms) {

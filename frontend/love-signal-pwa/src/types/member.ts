@@ -1,4 +1,5 @@
 export type team = {
+  haveMeetingTeam: boolean;
   teamUUID: string;
   members: member[];
 };
@@ -33,8 +34,6 @@ export type userInfo = {
   profileImage: string;
   matchingStatus: boolean;
   receiveAlarm: false;
-  //팀빌딩 상태인지 체크.
-  //푸쉬알림 수신 여부.
 };
 
 //상대의 정보를 받아올때 받아오는 데이터

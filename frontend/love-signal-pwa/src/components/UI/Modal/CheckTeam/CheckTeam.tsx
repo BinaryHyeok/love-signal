@@ -8,7 +8,7 @@ import { Pagination, Navigation } from "swiper";
 
 import Button_Type_A from "../../../atoms/Common/Button_Type_A";
 import { member } from "../../../../types/member";
-import { applyMeeting } from "../../../../api/team";
+import { applyMeeting, getMyTeam } from "../../../../api/team";
 import {
   imLeader,
   leftSwiper,
@@ -107,7 +107,20 @@ const CheckTeam: React.FC<propsType> = ({
     if (oppositeTeamUUID) {
       shareTeam(myUUID, oppositeTeamUUID)
         .then((res) => {
-          setMsg("팀 채팅방에 공유되었습니다.");
+          if (myTUUID) {
+            getMyTeam(myTUUID, atk, kID).then((res) => {
+              if (
+                res.data.body.members.length === 3 ||
+                res.data.body.haveMeetingTeam
+              ) {
+                setMsg("팀 채팅방에 공유되었습니다.");
+              } else {
+                setMsg("현재 팀 채팅방이 존재하지 않습니다.");
+              }
+            });
+          } else {
+            setMsg("현재 팀 채팅방이 존재하지 않습니다.");
+          }
           setApplyModal(true);
           console.log(res);
         })

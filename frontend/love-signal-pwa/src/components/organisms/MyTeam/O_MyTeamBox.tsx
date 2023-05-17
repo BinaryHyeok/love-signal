@@ -205,7 +205,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
               )}
             </>
           ) : (
-            <div>불러오는 중..</div>
+            <div className={style.loading}>불러오는 중..</div>
           )}
         </ListBoxWithImgTitle>
       ) : (

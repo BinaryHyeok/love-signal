@@ -160,12 +160,10 @@ const Chat = () => {
       const formattedChatData =
         chatData && room.type === "SECRET"
           ? chatData.map((item: chat) => {
-              if (room.love !== "F") {
+              if (item.nickname === myNick || room.love !== "F") {
                 return item;
               }
-              if (room.selector?.nickname === item.nickname) {
-                return { ...item, nickname: room.roomName };
-              }
+              return { ...item, nickname: room.roomName };
             })
           : chatData;
       setChatList((prevState) => {
@@ -195,12 +193,10 @@ const Chat = () => {
   const roomTitleFormatter = (rooms: room[]) => {
     const formatted: room[] = rooms.map((room) => {
       if (room.type !== "SECRET") return room;
-      const RANDOM_NAME =
-        RANDOM_ANIMAL[Math.floor(Math.random() * RANDOM_ANIMAL.length)];
       room.roomName =
         room.selector?.nickname === myNick
-          ? `${room.selected?.nickname}님과의 익명채팅방`
-          : `익명의 ${RANDOM_NAME}`;
+          ? `${room.selected}님과의 시그널`
+          : `${room.roomName}님과의 시그널`;
 
       return room;
     });

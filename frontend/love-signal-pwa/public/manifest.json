@@ -3,8 +3,8 @@
   "name": "러브시그널",
   "icons": [
     {
-      "src": "/assets/mail.png",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "./assets/mail.png",
+      "sizes": "32x32",
       "type": "image/x-icon"
     }
   ],

@@ -149,6 +149,7 @@ self.addEventListener("push", (e) => {
       body: content,
       icon: "/assets/heart-with-arrow.png",
       vibrate: [200, 100, 200, 100],
+      sound: "default",
       actions: [],
     };
     // 푸시 알림 표시

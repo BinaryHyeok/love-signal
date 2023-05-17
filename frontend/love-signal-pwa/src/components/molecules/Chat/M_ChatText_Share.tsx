@@ -27,7 +27,6 @@ const M_ChatText_Share: React.FC<PropsType> = ({
       setOppositeTeamMember(chat.selectOrShareInfo.memberList);
     }
     viewDetail();
-    console.log(chat.selectOrShareInfo);
   };
 
   let content = (

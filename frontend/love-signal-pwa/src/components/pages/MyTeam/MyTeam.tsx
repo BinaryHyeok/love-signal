@@ -32,6 +32,7 @@ let timeout: NodeJS.Timer;
 let timer: NodeJS.Timer;
 
 const MyTeam = () => {
+  const navigate = useNavigate();
   //내가 상대팀이 있는지 파악해주는 state변수입니다.
   const [haveOppositeTeam, setHaveOppositeTeam] = useState<boolean>(true);
 
@@ -55,6 +56,9 @@ const MyTeam = () => {
   //팀 나가기 모달창
   const [exitVisible, setExitVisible] = useState<boolean>(false);
 
+  //팀 터졌을때 뜰 모달창
+  const [bombTeam, setBombTeam] = useState<boolean>(false);
+
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [, setIsLeader] = useRecoilState<boolean>(imLeader);
 
@@ -64,47 +68,53 @@ const MyTeam = () => {
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
 
-  const navigate = useNavigate();
-
   //가져올 axios는 나의 팀 정보, 우리팀에 들어온 신청정보.
   useEffect(() => {
     timer = setInterval(() => {
+      setIsLoading(true);
       getUserTeamInfo();
     }, 1000);
     return () => {
       clearInterval(timer);
+      setIsLoading(false);
     };
-  }, [atk]);
-
-  useEffect(() => {}, [exitVisible]);
+  }, [atk, teamUUID]);
 
   const getUserTeamInfo = async () => {
-    await getMyTeam(teamUUID, atk, kID)
-      .then((res) => {
-        const newList = [...res.data.body.members];
-        if (res.data.body.members.length !== 3) {
-          //나의 팀 페이지로 왔는데 길이가 3이 아니라는것은 현재 팀 매칭이 되어있으면서 중간에 팀원이 나간것입니다.
-          while (newList.length < 3) {
-            newList.push({
-              memberUUID: "",
-              nickname: "나간 사람",
-              age: 0,
-              description: "팀을 나간 인원입니다.",
-              profileImage: MEMBER_LOADING_IMG,
-            });
-          }
-        }
-        setMemberList([...newList]);
-        //내가 상대팀을 가지고 있는지를 파악.
-        if (res.data.body.haveMeetingTeam) {
-          //상대팀이 있을시 false로 변경.
-          setHaveOppositeTeam(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    setIsLoading(true);
+    await inquireMember(myUUID, atk, kID).then(async (res) => {
+      if (res.data.body.teamUUID) {
+        await getMyTeam(teamUUID, atk, kID)
+          .then((res) => {
+            const newList = [...res.data.body.members];
+            if (res.data.body.members.length !== 3) {
+              //나의 팀 페이지로 왔는데 길이가 3이 아니라는것은 현재 팀 매칭이 되어있으면서 중간에 팀원이 나간것입니다.
+              while (newList.length < 3) {
+                newList.push({
+                  memberUUID: "",
+                  nickname: "나간 사람",
+                  age: 0,
+                  description: "팀을 나간 인원입니다.",
+                  profileImage: MEMBER_LOADING_IMG,
+                });
+              }
+            }
+            setMemberList([...newList]);
+            //내가 상대팀을 가지고 있는지를 파악.
+            if (res.data.body.haveMeetingTeam) {
+              //상대팀이 있을시 false로 변경.
+              setHaveOppositeTeam(false);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        setBombTeam(true);
+        // navigate("/SameGender", { replace: true });
+        //UI나 UX적으로 좋은건 이때 모달창 띄우면서 팀이 터졌다는걸 알려주는걸 모달창으로 보여주며
+        //모달이 꺼질때 FindTeam으로 Navigate시켜주거나 window.location.reload()실행.
+      }
+    });
   };
 
   //팀 나가기 함수입니다.
@@ -133,6 +143,13 @@ const MyTeam = () => {
     timeout = setTimeout(() => setExitVisible(false), 500);
   };
 
+  const goFindTeam = () => {
+    clearTimeout(timeout);
+    setAnimation(true);
+    timeout = setTimeout(() => setExitVisible(false), 500);
+    navigate("/SameGender", { replace: true });
+  };
+
   if (isLoading) {
     return (
       <ATKFilter>
@@ -143,6 +160,32 @@ const MyTeam = () => {
               initial="hidden"
               animate="visible"
             >
+              {bombTeam && (
+                <div className={style.bgContainer}>
+                  <div
+                    className={`${style.background} ${
+                      animation ? `${style.disappear}` : ""
+                    }`}
+                    onClick={goFindTeam}
+                  ></div>
+                  <ModalBox
+                    animation={animation}
+                    visible={bombTeam}
+                    width="90%"
+                    height="200px"
+                    closeModal={goFindTeam}
+                  >
+                    팀이 해체되었습니다.
+                    <Button_Type_A
+                      width="90%"
+                      background="#BCC5F0"
+                      onClick={goFindTeam}
+                    >
+                      <div className={style.exitDesc}>확인</div>
+                    </Button_Type_A>
+                  </ModalBox>
+                </div>
+              )}
               {exitVisible && !haveOppositeTeam && (
                 <div className={style.bgContainer}>
                   <div

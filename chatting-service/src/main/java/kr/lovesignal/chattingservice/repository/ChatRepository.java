@@ -76,13 +76,15 @@ public class ChatRepository {
 
     public void updateSelectMessage(String roomUUID, String chatUUID) {
         List<ResChatMessage> list = opsHashMessageList.get(RoomMessageList, roomUUID);
-        for(ResChatMessage resChatMessage : list) {
-            if(resChatMessage.getUUID().equals(chatUUID)) {
-                resChatMessage.getSelectOrShareInfo().setSelected("T");
-                break;
+        if(list != null) {
+            for(ResChatMessage resChatMessage : list) {
+                if(resChatMessage.getUUID().equals(chatUUID)) {
+                    resChatMessage.getSelectOrShareInfo().setSelected("T");
+                    break;
+                }
             }
+            opsHashMessageList.put(RoomMessageList, roomUUID, list);
         }
-        opsHashMessageList.put(RoomMessageList, roomUUID, list);
     }
 
     public void expiredSelectMessage(List<ChatRoom> chatRooms) {

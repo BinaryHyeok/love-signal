@@ -134,7 +134,7 @@ public class ChatServiceImpl implements ChatService{
     public void updateSelectMessage(String roomUUID, String chatUUID) {
 //        chatRepository.updateSelectMessage(roomUUID, chatUUID);
         List<ChatRoom> chatRooms = chatRoomJpaRepository.findByTypeAndExpired("SYSTEM", "F");
-        chatRepository.expiredSelectMessage(chatRooms);
+        chatRepository.updateSelectMessage(roomUUID, chatUUID);
     }
 
     /**

@@ -337,7 +337,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         ResMember selectorDto = ResMember.toDto(selector);
         ResMember selectedDto = ResMember.toDto(selected);
-        String roomName = type.equals("SECRET")?"익명 채팅방":"시그널 채팅방";
+
+        String animalName = commonUtils.getAnimal();
+        String roomName = type.equals("SECRET")?"익명의 "+animalName:"시그널 채팅방";
 
         // 내가 지목한 상대가 나를 지목해서 이미 채팅방이 만들었는지 조회.
         ResChatRoom checkSelectChatRoom =
@@ -364,6 +366,17 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             // redis 에 저장.
             chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);
+
+
+            // 입장 메세지 저장.
+            ReqChatMessage reqChatMessage = ReqChatMessage.builder()
+                    .roomUUID(resSelectChatRoom.getUUID().toString())
+                    .type("ENTER")
+                    .nickname(animalName)
+                    .content("익명 채팅방에 입장했습니다.")
+                    .build();
+
+            chatService.saveChatMessage(reqChatMessage);
         }
     }
 

@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
+import cookie from "react-cookies";
 import A_OtherTeamDesc_Fix from "../../atoms/OtherGender/A_OtherTeamDesc_Fix";
 import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
 import T_OtherGender_Fix from "./T_OtherGender_Fix";
@@ -23,6 +24,8 @@ const NUMBER = 5; //한번에 받아올 리스트의 수
 let timeout: NodeJS.Timer;
 
 const ExploreTeam = () => {
+  console.log(cookie.load("rtk"));
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
@@ -94,7 +97,7 @@ const ExploreTeam = () => {
         setLastList(res.data.body.hasRemainingTeam);
         setTimeout(() => {
           setIsLoading(true);
-        }, 1000);
+        }, 500);
       })
       .catch((err) => {
         console.log(err);

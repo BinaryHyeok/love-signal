@@ -40,6 +40,7 @@ type propsType = {
 };
 
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
+let timer: NodeJS.Timer;
 
 const O_MyTeamBox: React.FC<propsType> = ({
   setExitVisible,
@@ -64,20 +65,25 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
-  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (haveOppositeTeam) {
-      receivemeetingList(TeamUUID, atk, kID)
-        .then((res) => {
-          console.log(res);
-          setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
-          addApplyList(res.data.body.teams);
-          setStart(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      timer = setInterval(() => {
+        receivemeetingList(TeamUUID, atk, kID)
+          .then((res) => {
+            console.log(res);
+            setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
+            addApplyList(res.data.body.teams);
+            setStart(false);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 2000);
+      return () => {
+        setIsLoading(true);
+        clearInterval(timer);
+      };
     } else {
       //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
       receiveMatchMember(TeamUUID, atk, kID)

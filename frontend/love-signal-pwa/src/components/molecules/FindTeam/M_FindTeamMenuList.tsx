@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./styles/M_FindTeamMenuList.module.scss";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
@@ -30,6 +30,8 @@ const M_FindTeamMenuList = () => {
   const [errMsg, setErrMsg] = useState<string>("");
   const [animation, setAnimation] = useState<boolean>(false);
   const [fastModal, setFastModal] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
+  const [countVisible, setCountVisible] = useState<boolean>(false);
 
   const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
   const [atk] = useRecoilState<string>(myatk);
@@ -97,7 +99,14 @@ const M_FindTeamMenuList = () => {
     matchApply(myUUID, atk, kID)
       .then((res) => {
         //매칭 신청 시작했습니다~
-        setMyTeamBuildState(true);
+        if (res.data === -2) {
+          setMyTeamBuildState(true);
+          setCount(0);
+        } else {
+          setMyTeamBuildState(false);
+          setCountVisible(true);
+          setCount(res.data);
+        }
         console.log(res);
       })
       .catch((err) => {
@@ -136,7 +145,6 @@ const M_FindTeamMenuList = () => {
           </Button_Type_A>
         </div>
       )}
-
       {visible && (
         <Modal_portal>
           <CommonModal
@@ -154,6 +162,21 @@ const M_FindTeamMenuList = () => {
               setEnterTeamUUID={setEnterTeamUUID}
               errMsg={errMsg}
             />
+          </CommonModal>
+        </Modal_portal>
+      )}
+      {countVisible && (
+        <Modal_portal>
+          <CommonModal
+            timeout={timeout}
+            animation={animation}
+            setAnimation={setAnimation}
+            setVisible={setCountVisible}
+            visible={countVisible}
+            width="304px"
+            height="100px"
+          >
+            {count}초간 매칭이 불가능합니다.
           </CommonModal>
         </Modal_portal>
       )}

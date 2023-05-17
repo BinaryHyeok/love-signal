@@ -96,7 +96,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             if(participant.getExpired().equals("F")) {
 
                 // Redis 에 있는 select, selected 정보를 주입하기 위한 Redis 의 select 채팅방들
-                List<ResChatRoom> selectRoomList = chatRoomRepository.getSelectRoomList();\
+                List<ResChatRoom> selectRoomList = chatRoomRepository.getSelectRoomList();
 
                 // Participant 객체에서 ChatRoom 을 뽑아오고 ResChatRoom 으로 변환.
                 ChatRoom chatRoom = participant.getChatRoom();

@@ -323,6 +323,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public void createOneToOneChatRoom(String selectorUUID, String selectedNickname) { // 발표용
         // selector , selected 각각 Member 객체 찾아오기.
+        System.out.println("===========================일단 이거 클릭해서 들어옴==============================");
 
         UUID uuid = commonUtils.getValidUUID(selectorUUID);
         Member selector = memberJpaRepository.findByUUID(uuid);
@@ -336,6 +337,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         for(Participant participant : participants) {
             if(participant.getChatRoom().getType().equals("MEETING")) {
                 meetingRoom = participant.getChatRoom();
+                System.out.println("===============================미팅룸 찾음=============================");
             }
         }
 
@@ -356,6 +358,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
      */
     public void secretOneToOne(String selectorUUID, String selectedUUID, String meetingRoomUUID,
                                String type, Member selector, Member selected) {
+
+        System.out.println("================== 실질적으로 Redis 채팅방 생성하는 로직 들어옴 ==================");
 
         ResMember selectorDto = ResMember.toDto(selector);
         ResMember selectedDto = ResMember.toDto(selected);
@@ -385,6 +389,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     .selector(selectorDto)
                     .selected(selectedDto)
                     .build();
+
+            System.out.println("=======================Redis 채팅방 생성 Room Name====================" + resSelectChatRoom.getRoomName());
+            System.out.println("=======================Redis 채팅방에 넣을 UUID ===================" + roomUUID);
+            System.out.println("=======================Redis 채팅방 생성 Room get UUID===================" + resSelectChatRoom.getUUID());
 
             // redis 에 저장.
             chatRoomRepository.saveResSelectChatRoom(meetingRoomUUID, resSelectChatRoom);
@@ -467,6 +475,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     }
                  }
             }
+        }
+        else {
+            System.out.println("========================= Redis to Mysql null =====================================");
         }
         sendSecretFcmAlarm(secretRoomMemberUUIDs);
         sendSignalFcmAlarm(signalRoomMemberUUIDs);

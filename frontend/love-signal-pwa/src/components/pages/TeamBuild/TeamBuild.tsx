@@ -21,6 +21,9 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
+import { inquireMember } from "../../../api/auth";
+
+let timer: NodeJS.Timer;
 
 const TeamBuild = () => {
   const navigate = useNavigate();
@@ -28,9 +31,24 @@ const TeamBuild = () => {
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
-  const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
-  const [isLeader, setIsLeader] = useRecoilState<boolean>(imLeader);
+  const [myTUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [, setIsLeader] = useRecoilState<boolean>(imLeader);
 
+  useEffect(() => {
+    if (myTUUID !== null) {
+      timer = setInterval(() => {
+        inquireMember(myUUID, atk, kID).then((res) => {
+          if (!res.data.body.matchingStatus) {
+            setTeamUUID(res.data.body.teamUUID);
+            navigate("/SameGender/MyTeam");
+          }
+        });
+      }, 2000);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, [atk, myTUUID]);
   //팀 나가기 함수입니다.
   const exitTeam = () => {
     //팀 나가기에 대한 axios가 들어갈 요청입니다.

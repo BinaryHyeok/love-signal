@@ -80,7 +80,6 @@ public class ChatRepository {
             for(ResChatMessage resChatMessage : list) {
                 if(resChatMessage.getUUID().equals(chatUUID)) {
                     resChatMessage.getSelectOrShareInfo().setSelected("T");
-                    break;
                 }
             }
             opsHashMessageList.put(RoomMessageList, roomUUID, list);

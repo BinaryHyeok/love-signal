@@ -34,12 +34,13 @@ public class MatchingServiceImpl implements MatchingService {
 
     @Override
     @Transactional
-    public void addTeamMatching(String strMemberUUID) {
+    public Long addTeamMatching(String strMemberUUID) {
 
         // 대기열에 참가할 수 없는 유저
         boolean isBlocked = redisUtils.hasBlockUser(strMemberUUID);
         if(isBlocked){
-            throw new CustomException(ErrorCode.MATCHING_BLOCKED_USER);
+//            throw new CustomException(ErrorCode.MATCHING_BLOCKED_USER);
+            return Long.valueOf(redisUtils.getExpireTimeOfBlockUser(strMemberUUID));
         }
 
         MemberEntity member = teamService.findMemberByMemberUUID(strMemberUUID);
@@ -63,6 +64,8 @@ public class MatchingServiceImpl implements MatchingService {
         else{
             updateMatchingTeamMember(member, null,true, false);
         }
+
+        return -2L;
     }
 
     @Override
@@ -131,6 +134,7 @@ public class MatchingServiceImpl implements MatchingService {
         // 알람 보내고
         webClientService.sendMatchingTeamMemberUUIDs(memberUUIDs);
         webClientService.makeChatRoomApi(strMemberUUIDs);
+
     }
 
     public void updateMatchingTeamMember(MemberEntity member, TeamEntity team, boolean isMatching, boolean isLeader){

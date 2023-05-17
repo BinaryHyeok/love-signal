@@ -43,6 +43,10 @@ public class RedisUtils {
         redisTemplate.delete(blockUser + "_" + key);
     }
 
+    public long getExpireTimeOfBlockUser(String key) {
+        return redisTemplate.getExpire(blockUser + "_" + key);
+    }
+
     public void addRecentTeam(String key, int expireTime){
         redisTemplate.opsForValue().set(recentTeam + "_" + key, key, expireTime, TimeUnit.SECONDS);
     }

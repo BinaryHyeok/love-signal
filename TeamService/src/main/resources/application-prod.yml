@@ -63,6 +63,6 @@ redis-key:
   recent-teams: recent_teams
 
 redis-expire:
-  recent-team: 1
-  block-user: 1
+  recent-team: 60
+  block-user: 60
 

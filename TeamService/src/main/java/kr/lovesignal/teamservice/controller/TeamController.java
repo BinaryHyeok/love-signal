@@ -158,12 +158,12 @@ public class TeamController {
     }
 
     @PostMapping("/matching/{memberUUID}")
-    public ResponseEntity<String> addTeamMatching(@PathVariable String memberUUID){
-        matchingService.addTeamMatching(memberUUID);
+    public ResponseEntity<Integer> addTeamMatching(@PathVariable String memberUUID){
+        Long expireTime = matchingService.addTeamMatching(memberUUID);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("팀 매칭을 등록하였습니다.");
+                .body(expireTime.intValue());
     }
 
     @DeleteMapping("/matching/{memberUUID}")

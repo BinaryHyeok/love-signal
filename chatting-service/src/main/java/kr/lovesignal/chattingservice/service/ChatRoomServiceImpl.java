@@ -178,7 +178,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 ChatRoom chatRoom = participant.getChatRoom();
 
                 // 나혼자 팀을 나갔을 때
-                if(!(chatRoom.getType().equals("MEETING") || chatRoom.getType().equals("SYSTEM"))){
+                if(chatRoom.getType().equals("TEAM")) {
                     participant.setExpired("T");
                     chatRoom.setExpired("T");
                 }

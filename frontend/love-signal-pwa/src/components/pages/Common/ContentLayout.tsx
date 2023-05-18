@@ -63,8 +63,8 @@ const ContentLayout = () => {
                       설문
                     </h3>
                     <iframe
-                      src="https://docs.google.com/forms/d/e/1FAIpQLSdTMLix7nTcSyDb6rXm1Qa6XPEtFbELbleunrtLot7bhJtoxQ/viewform?embedded=true"
                       className={style.iframe}
+                      src="https://docs.google.com/forms/d/e/1FAIpQLSfnS0alrk_r5FDFL8DPVg6_6Rk7hpu9FBm_h3Y_soJ6R5I6Ig/viewform?embedded=true"
                     >
                       로드 중…
                     </iframe>

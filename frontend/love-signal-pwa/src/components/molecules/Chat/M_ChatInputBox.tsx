@@ -30,7 +30,6 @@ const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onTextSubmit }) => {
   };
 
   const toggleEmoji = () => {
-    console.log(emojiIsOpen);
     if (emojiIsOpen) {
       setEmojiIsOpen(false);
     } else {
@@ -40,7 +39,6 @@ const M_ChatInputBox: React.FC<PropsType> = ({ isDisabled, onTextSubmit }) => {
 
   const emojiCloseHandler = () => {
     setEmojiIsOpen(false);
-    console.log("click");
   };
 
   return (

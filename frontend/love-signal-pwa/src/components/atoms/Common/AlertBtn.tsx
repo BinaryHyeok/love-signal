@@ -37,7 +37,6 @@ const AlertBtn: React.FC<PropsType> = ({
 
   const toggleHandler = () => {
     if (myAlarm) {
-      console.log("null 보냄");
       sendFCMToken(UUID, myNick, atk, kID, null);
       setMyAlarm(false);
       setPushAlarmStatus(UUID, atk, kID, "false");
@@ -47,14 +46,11 @@ const AlertBtn: React.FC<PropsType> = ({
           if (permission === "granted") {
             getFCMToken()
               .then((token) => {
-                console.log("토큰 보냄 : ", token);
                 sendFCMToken(UUID, myNick, atk, kID, token);
                 setMyAlarm(true);
                 setPushAlarmStatus(UUID, atk, kID, "true");
               })
-              .catch((err) => {
-                console.error("토큰발급에러 : " + err);
-              });
+              .catch((err) => {});
           } else if (permission === "denied") {
             setMyAlarm(false);
             alert("브라우저/앱 설정에서 알림을 허용해야합니다.");

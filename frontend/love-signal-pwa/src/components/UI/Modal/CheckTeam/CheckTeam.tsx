@@ -83,7 +83,6 @@ const CheckTeam: React.FC<propsType> = ({
     } else {
       setShareBtn(false);
     }
-    console.log(member);
   }, []);
 
   const closeModal = () => {
@@ -106,7 +105,7 @@ const CheckTeam: React.FC<propsType> = ({
   const shareTeamBtn = () => {
     if (oppositeTeamUUID) {
       shareTeam(myUUID, oppositeTeamUUID)
-        .then((res) => {
+        .then(() => {
           if (myTUUID) {
             getMyTeam(myTUUID, atk, kID).then((res) => {
               if (
@@ -122,11 +121,8 @@ const CheckTeam: React.FC<propsType> = ({
             setMsg("현재 팀 채팅방이 존재하지 않습니다.");
           }
           setApplyModal(true);
-          console.log(res);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     }
   };
 
@@ -137,12 +133,10 @@ const CheckTeam: React.FC<propsType> = ({
         .then((res) => {
           setMsg(res.data.body);
           setApplyModal(true);
-          console.log(applyModal);
         })
         .catch((err) => {
           setMsg(err.response.data.message);
           setApplyModal(true);
-          console.log(applyModal);
         });
     } else {
       if (haveTeam) {
@@ -157,9 +151,7 @@ const CheckTeam: React.FC<propsType> = ({
   };
 
   //신고하기 버튼입니다
-  const reportMember = () => {
-    console.log("신고할거야");
-  };
+  const reportMember = () => {};
 
   return (
     <div className={`${style.container}`}>

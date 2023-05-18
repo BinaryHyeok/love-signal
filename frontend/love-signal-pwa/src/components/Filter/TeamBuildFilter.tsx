@@ -26,8 +26,6 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
   //내가 시작했을때.. navigate를 해주려면 내 정보가 필요하다.
   //팀이 있는지 없는지 파악.
   const TeamFilter = () => {
-    console.log(teamUUID);
-
     if (teamUUID !== null || teamUUID !== "") {
       getMyTeam(teamUUID, atk, kID)
         .then((res) => {
@@ -43,7 +41,6 @@ const TeamBuildFilter: React.FC<propsType> = ({ children }) => {
           }
         })
         .catch((err) => {
-          console.log(err);
           navigate("/SameGender", { replace: true });
         });
     } else {

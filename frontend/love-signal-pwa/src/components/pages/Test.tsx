@@ -6,7 +6,6 @@ const Test = () => {
 
   const handleClick = () => {
     setIsOn((prevIsOn) => !prevIsOn);
-    console.log(isOn);
   };
   return (
     <>

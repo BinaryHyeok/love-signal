@@ -65,9 +65,7 @@ const ExploreTeam = () => {
           setHaveTeam(res.data.body.haveMeetingTeam);
           setMemberLength(res.data.body.members.length);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     }
   };
 
@@ -93,7 +91,6 @@ const ExploreTeam = () => {
         }, 500);
       })
       .catch((err) => {
-        console.log(err);
         //axios에러가 떴을때 해줄 것.
         setTimeout(() => {
           setIsLoading(true);

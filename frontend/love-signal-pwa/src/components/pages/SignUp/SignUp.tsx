@@ -68,7 +68,6 @@ const SignUp = () => {
     if (queryParam) {
       login(queryParam, env)
         .then(async (res) => {
-          console.log(res);
           saveMyInfo(
             res.data.body.accessToken,
             res.data.body.refreshToken,
@@ -89,14 +88,11 @@ const SignUp = () => {
                 res.data.body.teamLeader
               );
             });
-            console.log(res.data.body.memberUUID);
             navigate("/OtherGender", { replace: true });
             window.location.reload();
           }
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     } else {
       navigate("/", { replace: true });
     }
@@ -132,8 +128,6 @@ const SignUp = () => {
   //쿠키를 저장해줄 함수입니다. (회원가입이 완료 되고 나면 rtk를 쿠키에 저장할것. 만료기간 설정.)
   const setCookie = (rtk: string, rTET: number) => {
     const expires = new Date(); //현재 시간 받아오고.
-    console.log(rtk);
-
     expires.setSeconds(expires.getSeconds() + rTET); //현재 시간에 만료시간의 초 + 만료기간 더해주기
     cookie.save("rtk", rtk, {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
@@ -165,8 +159,6 @@ const SignUp = () => {
   };
 
   const handleGender = () => {
-    console.log(gender);
-
     setCheckGenderOk(!checkGenderOk);
   };
 
@@ -174,13 +166,11 @@ const SignUp = () => {
   const duplecheck = () => {
     duplicateCheck(nickname)
       .then((res) => {
-        console.log(res);
         //닉네임 중복확인입니다.
         setCheckNickname(true); //중복확인 체크되었다는걸 말해줌.
         setMsg(res.data.body);
       })
       .catch((err) => {
-        console.log(err);
         //이미 있는 닉네임이면 안돼.
         setMsg(err.response.data.message);
       });
@@ -191,7 +181,6 @@ const SignUp = () => {
     if (description.length !== 0) {
       signUp(nickname, gender, birth, description, atk)
         .then(async (res) => {
-          console.log(res);
           setMemberUUID(res.data.body);
           await changeMyImg(res.data.body, myImage, atk, kakaoId)
             .then(() => {
@@ -199,13 +188,10 @@ const SignUp = () => {
               window.location.reload();
             })
             .catch((err) => {
-              console.log(err);
               alert(err.response.data.message);
             });
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     }
   };
 

@@ -39,10 +39,6 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
     } else {
       //rtk가 존재합니다. 이때 atk구분하기.
       if (atk !== "") {
-        console.log(atk);
-        console.log(date > myET);
-        console.log(rtk);
-
         if (date > myET) {
           reissueToken(rtk);
         }
@@ -55,7 +51,6 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
   const reissueToken = (rtk: string) => {
     expireATK(rtk)
       .then((res) => {
-        console.log(res);
         setATK(res.data.body.accessToken);
         let nowDate: Date = new Date();
         nowDate.setSeconds(
@@ -71,14 +66,11 @@ const ATKFilter: React.FC<propsType> = ({ children }) => {
           );
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
 
   const setCookie = (rtk: string, rTET: number) => {
     const expires = new Date(); //현재 시간 받아오고.
-    console.log(rtk);
     expires.setSeconds(expires.getSeconds() + rTET); //현재 시간에 만료시간의 초 + 만료기간 더해주기
     cookie.save("rtk", rtk, {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.

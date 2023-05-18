@@ -26,8 +26,6 @@ const FindTeam = () => {
   const [matchStatus, setMatchStatus] = useRecoilState<boolean>(teamBuildState);
 
   useEffect(() => {
-    console.log(matchStatus);
-
     setIdx(1);
     if (matchStatus) {
       timer = setInterval(() => {

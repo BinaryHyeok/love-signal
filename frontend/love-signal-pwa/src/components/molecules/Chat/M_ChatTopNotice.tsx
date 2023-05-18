@@ -31,12 +31,16 @@ const M_ChatTopNotice: React.FC<PropsType> = ({
   const [resTime, setResTime] = useState<string>("00:00:00");
 
   useEffect(() => {
-    timer = setInterval(() => {
-      getResTime();
-    }, 500);
+    if (doTimeCount) {
+      timer = setInterval(() => {
+        getResTime();
+      }, 500);
+    }
 
     return () => {
-      clearInterval(timer);
+      if (doTimeCount) {
+        clearInterval(timer);
+      }
     };
   }, []);
 

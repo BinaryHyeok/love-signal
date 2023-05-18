@@ -53,15 +53,12 @@ const TeamBuild = () => {
   const exitTeam = () => {
     //팀 나가기에 대한 axios가 들어갈 요청입니다.
     withdrawTeam(myUUID, atk, kID)
-      .then((res) => {
+      .then(() => {
         setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
         setIsLeader(false);
         navigate("/SameGender", { replace: true });
-        console.log(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
   if (isLoading) {
     return (

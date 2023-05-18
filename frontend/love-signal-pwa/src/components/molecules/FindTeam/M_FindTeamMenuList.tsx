@@ -52,7 +52,6 @@ const M_FindTeamMenuList = () => {
     joinTeam(myUUID, enterTeamUUID, atk, kID)
       .then((res) => {
         setIsErr(false);
-        console.log(res);
         //여기서 setTeamUUID를 설정해야합니다.
         setTeamUUID(enterTeamUUID);
         getMyTeam(enterTeamUUID, atk, kID).then((res) => {
@@ -70,25 +69,21 @@ const M_FindTeamMenuList = () => {
           setErrMsg("관리자에게 문의 부탁드립니다.");
         }
         setIsErr(true);
-        console.log(err);
       });
   };
 
   // 새로운 방을 생성해서 이동
   const createRoom = () => {
-    console.log(animation);
     // clearTimeout(timeout);
     setAnimation(false);
     setIsPending(true);
     makeTeam(myUUID, atk, kID)
       .then((res) => {
-        console.log(res.data); // 방 정보
         setTeamUUID(res.data.body);
         setIsPending(false);
         navigate("/SameGender/build", { replace: true });
       })
       .catch((err) => {
-        console.log(err);
         setIsPending(false);
       });
   };
@@ -107,11 +102,8 @@ const M_FindTeamMenuList = () => {
           setCountVisible(true);
           setCount(res.data);
         }
-        console.log(res);
       })
-      .catch((err) => {
-        console.log(err.response.data.message);
-      });
+      .catch((err) => {});
     //매칭을 시작한다는 axios를 보내주어야 합니다.
     setIsPending(false);
   };

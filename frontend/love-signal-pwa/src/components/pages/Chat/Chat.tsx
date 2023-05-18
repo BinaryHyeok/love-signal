@@ -146,9 +146,7 @@ const Chat = () => {
           content: "",
         });
       },
-      (err: any) => {
-        console.log(err);
-      }
+      (err: any) => {}
     );
   };
 
@@ -162,10 +160,6 @@ const Chat = () => {
 
     getChatList(room.uuid, atk, kID).then((res) => {
       const chatData = res.data;
-      console.log(
-        "조회된 채팅목록 ++++++++++++++++++++++++++++++++++++++++++++",
-        chatData
-      );
       const formattedChatData =
         chatData && room.type === "SECRET"
           ? chatData.map((item: chat) => {
@@ -189,7 +183,6 @@ const Chat = () => {
   const chatInfoFetchHandler = () => {
     getChatRoomList(UUID, atk, kID).then((res) => {
       const formattedRoomList: room[] = roomTitleFormatter(res.data);
-      console.log(formattedRoomList);
 
       setRoomList(() => [...formattedRoomList]);
       formattedRoomList.forEach((room) => {
@@ -200,14 +193,12 @@ const Chat = () => {
   };
 
   const roomTitleFormatter = (rooms: room[]) => {
-    console.log(rooms);
     const formatted: room[] = rooms.map((room) => {
       if (room.type !== "SECRET") return room;
       room.roomName =
         room.selector?.nickname === myNick
           ? `${room.selected}님과의 시그널`
           : `${room.roomName}님과의 시그널`;
-      console.log(room);
       return room;
     });
 

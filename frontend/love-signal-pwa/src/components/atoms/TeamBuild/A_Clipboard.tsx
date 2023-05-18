@@ -29,12 +29,8 @@ const A_Clipboard: React.FC<PropsType> = ({
 
   const copyToClipboard = (text: string) => {
     copy(text)
-      .then(() => {
-        console.log("텍스트 복사 완료");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then(() => {})
+      .catch((err) => {});
   };
 
   const handleCopyClick = () => {

@@ -19,7 +19,6 @@ const M_ChatItem: React.FC<PropsType> = ({
   lastChat,
   members,
 }) => {
-  console.log("렌더 룸 정보 : ", room);
   return (
     <li className={style.chatItem} id={room.uuid} onClick={onClick}>
       <M_ChatItemImage type={room.type} members={members} />

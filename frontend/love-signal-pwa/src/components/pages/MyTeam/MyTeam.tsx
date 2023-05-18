@@ -105,9 +105,7 @@ const MyTeam = () => {
               setHaveOppositeTeam(false);
             }
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch((err) => {});
       } else {
         setBombTeam(true);
         // navigate("/SameGender", { replace: true });
@@ -126,11 +124,8 @@ const MyTeam = () => {
             setTeamUUID(""); //팀을 나갔으니 TeamUUID없애주기.
             setIsLeader(false);
             navigate("/SameGender", { replace: true });
-            console.log(res);
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch((err) => {});
       } else {
         navigate("/SameGender", { replace: true });
       }

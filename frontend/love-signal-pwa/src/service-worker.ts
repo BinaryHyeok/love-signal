@@ -112,34 +112,25 @@ self.addEventListener("activate", (event) => {
             applicationServerKey: process.env.REACT_APP_PUSH_APP_KEY,
           })
           .then((subscription) => {
-            console.log(" ======== Service-worker 구독 정보 : ", subscription);
             // 서버로 구독 정보를 전송하는 등의 추가 작업 수행
           })
-          .catch((error) => {
-            console.error("푸시 알림 구독 오류:", error);
-          });
+          .catch((error) => {});
       }
     })
-    .catch((error) => {
-      console.error("푸시 알림 구독 정보 확인 오류:", error);
-    });
+    .catch((error) => {});
 
   // 새로운 Service Worker를 제어하기 위해 즉시 클라이언트를 가져옴
   event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener("install", function (e) {
-  console.log("client sw install..");
   self.skipWaiting();
 });
 
-self.addEventListener("activate", function (e) {
-  console.log("client sw activate..");
-});
+self.addEventListener("activate", function (e) {});
 
 // 푸시알림 이벤트 리스너 등록
 self.addEventListener("push", (e) => {
-  console.log("client, push: ", e.data?.json());
   if (!e.data?.json()) return;
 
   try {

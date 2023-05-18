@@ -27,10 +27,7 @@ const O_ChatTextList: React.FC<PropsType> = ({
   // setOppositeTeamUUID,
   viewDetail,
 }) => {
-  console.log(roomType);
   const [me, _] = useRecoilState<string>(nickname);
-  console.log("부모에서 가져온 채팅 목록 : ", chatList);
-  console.log("부모에서 가져온 룸 멤버 정보 : ", members);
   return (
     <ul className={style.textList} ref={ulRef}>
       {chatList.map((item, idx) => (

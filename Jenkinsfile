@@ -10,7 +10,7 @@ pipeline {
         stage('discoveryservice Build') {
             steps {
                 script {
-                    dir('discoveryservice') {
+                    dir('Discovery_Service') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp discoveryservice/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/discoveryservice/build/libs
+                        scp Discovery_Service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/discoveryservice/build/libs
                     """
                 }
             }
@@ -31,7 +31,7 @@ pipeline {
         stage('apigateway Build') {
             steps {
                 script {
-                    dir('apigateway') {
+                    dir('API_Gateway') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build'
                     }
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp apigateway/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/apigateway/build/libs
+                        scp API_Gateway/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/apigateway/build/libs
                     """
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
         stage('config Build') {
             steps {
                 script {
-                    dir('config') {
+                    dir('Spring_Cloud_Config') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build'
                     }
@@ -64,7 +64,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp config/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/config/build/libs
+                        scp Spring_Cloud_Config/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/config/build/libs
                     """
                 }
             }

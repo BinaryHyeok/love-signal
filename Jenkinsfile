@@ -10,7 +10,7 @@ pipeline {
         stage('file-service Build') {
             steps {
                 script {
-                    dir('file-service') {
+                    dir('File_Service') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp file-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/file-service/build/libs
+                        scp File_Service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/file-service/build/libs
                     """
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('file-service') {
+                            dir('File_Service') {
                                 sh './gradlew -d sonar'
                             }
                         }

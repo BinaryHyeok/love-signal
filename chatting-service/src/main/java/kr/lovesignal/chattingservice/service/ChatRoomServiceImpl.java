@@ -103,17 +103,19 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     //            if(!(chatRoom.getType().equals("SECRET") || chatRoom.getType().equals("SIGNAL"))) {
                     ResChatRoom resChatRoom = ResChatRoom.toDto(chatRoom);
 
-                    if(chatRoom.getType().equals("SECRET"))
+                    if(chatRoom.getType().equals("SECRET")) {
                         System.out.println("===================================== ChatRoom =======================================");
                         System.out.println("================ get room list : participant expired ======================="+participant.getExpired());
                         System.out.println("================ get room list : chatRoom expired ======================="+resChatRoom.getExpired());
                         System.out.println("================ get room list : chatRoom uuid ======================="+resChatRoom.getUUID());
+                    }
 
-                    if(resChatRoom.getType().equals("SECRET"))
+                    if(resChatRoom.getType().equals("SECRET")) {
                         System.out.println("===================================== ResChatRoom =======================================");
                         System.out.println("================ get room list : participant expired ======================="+participant.getExpired());
                         System.out.println("================ get room list : ResChatRoom expired ======================="+resChatRoom.getExpired());
                         System.out.println("================ get room list : ResChatRoom uuid ======================="+resChatRoom.getUUID());
+                    }
 
                     // Redis 에 있던 One To One 채팅방의 소실된 정보 다시 주입.
                     for(ResChatRoom resSelectChatRoom : selectRoomList) {

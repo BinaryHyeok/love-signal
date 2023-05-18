@@ -406,6 +406,26 @@ public class ChatServiceImpl implements ChatService{
 
                 sendMeetingMemberUUIDs(memberUUIDs);
 
+                ReqChatMessage selectMessageText = ReqChatMessage.builder()
+                        .type("TEXT") //
+                        .nickname("러브시그널")
+                        .content("1분동안 마음에 드는 이성을 선택하세요.")
+                        .build();
+
+
+                ReqChatMessage secretMessageText = ReqChatMessage.builder()
+                        .type("TEXT") //
+                        .nickname("러브시그널")
+                        .content("선택한 이성과 1분동안 대화할 수 있는 익명 채팅방이 개설됩니다.")
+                        .build();
+
+                ReqChatMessage signalMessageText = ReqChatMessage.builder()
+                        .type("TEXT") //
+                        .nickname("러브시그널")
+                        .content("내가 선택한 이성도 나를 선택하면 시그널 채팅방이 개설됩니다.")
+                        .build();
+
+
                 // 이성지목 메세지 객체 생성
                 ReqChatMessage reqChatMessage = ReqChatMessage.builder()
                         .type("SELECT") //
@@ -434,6 +454,15 @@ public class ChatServiceImpl implements ChatService{
                             }
 
                             // 실질적으로 Redis 에 메세지 객체 저장
+                            saveChatMessage(selectMessageText);
+
+                            if(chatRoom.getSelectCount() == 1) {
+                                saveChatMessage(secretMessageText);
+                            }
+                            else if(chatRoom.getSelectCount() == 2) {
+                                saveChatMessage(signalMessageText);
+                            }
+
                             saveChatMessage(reqChatMessage);
                             messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), reqChatMessage);
                             break findSystemChatRoomFor;

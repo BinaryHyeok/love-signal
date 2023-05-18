@@ -8,11 +8,7 @@ server:
 
 spring:
   application:
-<<<<<<<< HEAD:Member_Service/src/main/resources/application-prod.yml
-    name: fcm-service
-========
     name: chatting-service
->>>>>>>> be_develop_chatting:Chatting_Service/src/main/resources/application-prod.yml
 
   config:
     import: "optional:configserver:http://13.125.99.25:8888/"
@@ -40,11 +36,7 @@ spring:
 
   jpa:
     hibernate:
-<<<<<<<< HEAD:Member_Service/src/main/resources/application-prod.yml
-      ddl-auto: create
-========
       ddl-auto: update
->>>>>>>> be_develop_chatting:Chatting_Service/src/main/resources/application-prod.yml
     generate-ddl: true
     show-sql: false
     database-platform: org.hibernate.dialect.MySQL8Dialect

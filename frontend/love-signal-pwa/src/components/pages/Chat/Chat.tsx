@@ -46,7 +46,7 @@ const Chat = () => {
     initStompClient();
 
     chatInfoFetchHandler();
-    intervalFunc = setInterval(chatInfoFetchHandler, 10000);
+    intervalFunc = setInterval(chatInfoFetchHandler, 3000);
 
     setIdx(2);
     window.addEventListener("resize", unitHeightSetHandler);
@@ -111,16 +111,16 @@ const Chat = () => {
             setChatList((prevState) => {
               const prevList = prevState[room.uuid] || [];
               if (room.type === "SECRET" && room.love === "F") {
-                console.log(room);
-                console.log(message);
                 if (
                   message.nickname !== myNick &&
                   myNick === message.selectOrShareInfo?.selected
                 ) {
-                  message.nickname = room.roomName;
+                  message.showNick = room.roomName;
                 } else {
-                  message.nickname = room.roomName;
+                  message.showNick = room.roomName;
                 }
+              } else {
+                message.showNick = message.nickname;
               }
 
               const newList = [...prevList, message];
@@ -157,11 +157,13 @@ const Chat = () => {
         chatData && room.type === "SECRET"
           ? chatData.map((item: chat) => {
               if (item.nickname === myNick || room.love !== "F") {
-                return item;
+                return { ...item, showNick: item.nickname };
               }
-              return { ...item, nickname: room.roomName };
+              return { ...item, showNick: room.roomName };
             })
-          : chatData;
+          : chatData.map((item: chat) => {
+              return { ...item, showNick: item.nickname };
+            });
       setChatList((prevState) => {
         const newList = [...formattedChatData];
 

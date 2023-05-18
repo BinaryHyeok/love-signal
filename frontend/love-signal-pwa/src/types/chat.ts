@@ -15,6 +15,7 @@ export type chat = {
   expired?: String;
   notReadPerson?: string[];
   selectOrShareInfo?: selectOrShareInfo;
+  showNick?: string;
 };
 
 export type roomChatList = {

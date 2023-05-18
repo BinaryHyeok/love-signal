@@ -80,7 +80,7 @@ const M_ChatTopNotice: React.FC<PropsType> = ({
       setResTime(`${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`);
     } else {
       if (onRoomExit) {
-        onRoomExit(-1);
+        // onRoomExit(-1);
       }
     }
   };

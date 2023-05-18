@@ -553,6 +553,7 @@ public class TeamServiceImpl implements TeamService{
        String strMemberUUID = memberUUIDs.get(0);
        MemberEntity leaveMember = findMemberByMemberUUID(strMemberUUID);
        deleteMeetingTeam(leaveMember);
+       webClientService.sendMeetingRemoveFcmAlarm(memberUUIDs);
     }
 
     public TeamEntity findTeamByTeamUUID(String strTeamUUID){

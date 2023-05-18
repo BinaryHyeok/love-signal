@@ -76,10 +76,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_develop
-                            docker compose -f docker-compose.yml stop discoveryservice apigateway config sonarqube postres
-                            docker compose -f docker-compose.yml rm -f discoveryservice apigateway config sonarqube postres
-                            docker compose -f docker-compose.yml build discoveryservice apigateway config sonarqube postres
-                            docker compose -f docker-compose.yml up -d discoveryservice apigateway config sonarqube postres
+                            docker compose -f docker-compose.yml stop discoveryservice apigateway config sonarqube postgres
+                            docker compose -f docker-compose.yml rm -f discoveryservice apigateway config sonarqube postgres
+                            docker compose -f docker-compose.yml build discoveryservice apigateway config sonarqube postgres
+                            docker compose -f docker-compose.yml up -d discoveryservice apigateway config sonarqube postgres
                         "
                     """
                 }

@@ -50,12 +50,18 @@ const M_ChatTextItem: React.FC<PropsType> = ({
       />
     ) : (
       <>
-        <A_ChatSenderImg
-          senderImg={
-            profileImage ||
-            `${process.env.REACT_APP_ASSETS_DIR}/profile_notice.png`
-          }
-        />
+        {roomType !== "SECRET" ? (
+          <A_ChatSenderImg
+            senderImg={
+              profileImage ||
+              `${process.env.REACT_APP_ASSETS_DIR}/profile_notice.png`
+            }
+          />
+        ) : (
+          <A_ChatSenderImg
+            senderImg={`${process.env.REACT_APP_ASSETS_DIR}/profile_notice.png`}
+          />
+        )}
         <A_ChatText_TypeB content={chat.content} nickname={chat.showNick} />
       </>
     );

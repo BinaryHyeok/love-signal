@@ -55,7 +55,7 @@ const M_ChatTopNotice: React.FC<PropsType> = ({
       start.getDate(),
       start.getHours(),
       start.getMinutes(),
-      start.getSeconds() + 300
+      start.getSeconds() + 60
     );
 
     if (timeoutTime.getTime() < today.getTime()) {

@@ -1,6 +1,5 @@
 package kr.lovesignal.chattingservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,26 +9,24 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
-@Table(name = "participant")
+@Table(name = "chatmessage")
 @Getter
 @Setter
-@SuperBuilder
 @DynamicInsert
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Participant extends BaseEntity implements Serializable {
+public class ChatMessage extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long participantId;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id", updatable = false)
-    private Member member;
-
-    @ManyToOne
-    @JoinColumn(name = "roomId", updatable = false)
-    private ChatRoom chatRoom;
+    private Long chatId;
+    private UUID roomUUID;
+    private String type;
+    private String nickname;
+    private String content;
+    private int notReadPerson;
 
 }

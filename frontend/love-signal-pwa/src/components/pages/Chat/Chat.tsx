@@ -28,17 +28,6 @@ import GetMyInfo from "../../Filter/GetMyInfo";
 let socket: any;
 let ws: any;
 
-const RANDOM_ANIMAL = [
-  "판다",
-  "고양이",
-  "강아지",
-  "미어캣",
-  "몽구스",
-  "펭귄",
-  "다람쥐",
-  "햄스터",
-];
-
 let intervalFunc: NodeJS.Timer;
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);

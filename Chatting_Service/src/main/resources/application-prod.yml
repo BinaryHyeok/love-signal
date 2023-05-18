@@ -57,4 +57,4 @@ eureka:
 
 logging:
   level:
-    org.hibernate: ERROR
+    root: error

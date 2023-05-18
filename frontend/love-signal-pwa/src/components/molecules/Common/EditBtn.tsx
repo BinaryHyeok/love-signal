@@ -103,7 +103,6 @@ const EditBtn: React.FC<propsType> = ({
       alert("용량 초과");
       return;
     }
-    console.log(files);
 
     setAnimation(false);
     clearTimeout(timeout);

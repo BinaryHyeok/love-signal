@@ -40,14 +40,11 @@ const MatchTeam = () => {
 
   const cancelMatch = () => {
     matchCancel(myUUID, atk, kID)
-      .then((res) => {
+      .then(() => {
         //나 매칭 취소됐다는걸 알려줄 axios
         setMyTeamBuildState(false);
-        console.log(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
 
   const openModal = () => {

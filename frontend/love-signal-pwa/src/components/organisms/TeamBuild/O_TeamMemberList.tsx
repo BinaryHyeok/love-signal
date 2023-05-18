@@ -34,7 +34,6 @@ const O_TeamMemberList: React.FC<propsType> = ({
       setIsLoading(true);
       getMyTeam(teamUUID, atk, kID)
         .then((res) => {
-          console.log(res);
           setMemberLength(res.data.body.members.length);
           const newList = [...res.data.body.members];
           while (newList.length < 3) {

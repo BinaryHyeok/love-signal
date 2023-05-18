@@ -9,7 +9,6 @@ type PropsType = {
 };
 
 const M_ChatText_Result: React.FC<PropsType> = ({ systemName, selectInfo }) => {
-  console.log(selectInfo);
   let content = (
     <div className={styles.resultBox}>
       <div className={styles.imgBox}>

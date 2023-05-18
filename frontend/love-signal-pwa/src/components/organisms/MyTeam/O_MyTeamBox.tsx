@@ -73,9 +73,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
             setStart(false);
             setIsLoading(true);
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch((err) => {});
       }, 1000);
       return () => {
         clearInterval(timer);
@@ -84,7 +82,6 @@ const O_MyTeamBox: React.FC<propsType> = ({
       //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
       receiveMatchMember(TeamUUID, atk, kID)
         .then((res) => {
-          console.log(res);
           const newList = [...res.data.body.members];
           if (res.data.body.members.length !== 3) {
             if (res.data.body.members.length !== 3) {
@@ -104,9 +101,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
           setMatchTeamUUID(res.data.body.teamUUID);
           setStart(false);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     }
     setIsLoading(true);
   }, [clickBtn, haveOppositeTeam]);

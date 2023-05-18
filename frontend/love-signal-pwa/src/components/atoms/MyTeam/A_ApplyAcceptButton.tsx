@@ -25,14 +25,9 @@ const A_ApplyAcceptButton: React.FC<propsType> = ({
   const [kID] = useRecoilState<string>(kid);
   const acceptTeam = async () => {
     if (isLeader) {
-      console.log("나 동작해");
       await acceptMeeting(myTUUID, oppsiteTeamUUID, atk, kID)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then(() => {})
+        .catch(() => {});
       setClickBtn(!clickBtn);
       window.location.reload();
     }

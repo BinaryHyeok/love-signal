@@ -164,9 +164,14 @@ const O_MyTeamBox: React.FC<propsType> = ({
             * 주의 : 팀 나가기를 누르면 팀이 터집니다
           </A_TextHighlight_Blink>
         ) : (
-          <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
-            * 주의 : 이성팀과 매칭된 이후 팀 나가기를 누르면 팀에서 나가집니다
-          </A_TextHighlight_Blink>
+          <>
+            <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+              * 주의 : 이성팀과 매칭된 이후
+            </A_TextHighlight_Blink>
+            <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+              팀 나가기를 누르면 팀에서 나가집니다
+            </A_TextHighlight_Blink>
+          </>
         )}
       </div>
       {haveOppositeTeam ? (

@@ -1,13 +1,12 @@
 <h1 align="center"> 러브시그널 </h1> <br>
 <p align="center">
-러브시그널 사진 넣기!!!
-  <!-- <a href="https://gitpoint.co/">
-    <img alt="GitPoint" title="GitPoint" src="http://i.imgur.com/VShxJHs.png" width="450">
-  </a> -->
+  <a href="https://gitpoint.co/">
+    <img alt="GitPoint" title="GitPoint" src="https://drive.google.com/uc?export=view&id=1cg-8xpGyEph9klCrNqhDRd6ic3dTxnyo" width="450">
+  </a>
 </p>
 
 <p align="center">
-  
+  <strong>SSAFY 자율프로젝트 2023.04.10 ~ 2023.05.16 (6주)</strong>
 </p>
 
 ## 미리보기
@@ -17,6 +16,20 @@
 ## 프로잭트 기획
 
 - 누가 적어줄 사람...?
+
+## 프로젝트 설계
+
+### 와이어프레임
+
+피그마 주쎄요!!!!
+
+### ERD
+
+![ERD](https://drive.google.com/uc?export=view&id=1JPobwiIluhft2LpnGi9Ryuz1h6gbjHYo)
+
+### API
+
+![API 명세서](https://drive.google.com/uc?export=view&id=1jGJ_SSX3FKFUjskIUecsPU55TGDveKQZ)
 
 ## 주요 기능
 
@@ -74,18 +87,19 @@
 
 - Node.js 16.4.0
 - React.js 18.2.0
-- TypeScript
-- Recoil
-- Stomp.js
-- Sock.js
-- 버전과 함께 이어서 작성 요망
+- TypeScript 4.9.5
+- Recoil 0.7.7
+- Stomp.js 7.0.0
+- Sock.js 1.6.1
+- Three.js 0.152.2
+- Axios 1.3.6
 
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>BackEnd&nbsp;</strong></span>
   <img src="https://techstack-generator.vercel.app/restapi-icon.svg" alt="icon" width="45" height="45" />
 </div>
 
-- Java 17
+- Java 17 (openjdk:17)
 - Spring Boot 2.7.11
 - Gradle 7.6.1
 - Spring Cloud 2021.0.6
@@ -100,7 +114,7 @@
 
 - MySQL 8.0.33
 - Redis 7.0.11
-- PostgreSQL
+- PostgreSQL 15.2
 
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>Infra&nbsp;</strong></span>
@@ -109,12 +123,11 @@
 
 - AWS EC2 (Ubuntu 20.04 LTS)
 - AWS S3 Bucket
-- Nginx
-- Jenkins 2.402
+- Nginx 1.18.0
 - Jenkins 2.402
 - Docker 23.0.6
 - Docker Compose 2.17.3
-- SonarQube
+- SonarQube 10.0.0.68432
 
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>Colaboration &nbsp;</strong></span>
@@ -128,7 +141,7 @@
 
 ## 아키텍처
 
-[![Architecture](https://i.postimg.cc/Y9Q529Sf/loves-drawio-8.png)](https://postimg.cc/47NLBXVm)
+![Architecture](https://drive.google.com/uc?export=view&id=1ti5GaHwwF7igG-2X8By06JJ5jzwrUhnl)
 
 ## 팀원
 

@@ -81,20 +81,24 @@ const T_ChatRoom: React.FC<PropsType> = ({
   }, []);
 
   useEffect(() => {
-    const lastChat = chatList[chatList.length - 1];
-    const scrollTop = ulRef.current?.scrollTop;
-    const scrollHeight = ulRef.current?.scrollHeight;
-    const innerHeight = ulRef.current?.clientHeight;
+    // const lastChat = chatList[chatList.length - 1];
+    // const scrollTop = ulRef.current?.scrollTop;
+    // const scrollHeight = ulRef.current?.scrollHeight;
+    // const innerHeight = ulRef.current?.clientHeight;
 
-    if (isFirstEnter) {
-      if (ulRef.current) {
-        ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
-        setIsFirstEnter(false);
-      }
-    } else if (ulRef.current && scrollTop && scrollHeight && innerHeight) {
-      if (scrollTop + innerHeight >= scrollHeight - 100) {
-        ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
-      }
+    // if (isFirstEnter) {
+    //   if (ulRef.current) {
+    //     ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
+    //     setIsFirstEnter(false);
+    //   }
+    // } else if (ulRef.current && scrollTop && scrollHeight && innerHeight) {
+    //   if (scrollTop + innerHeight >= scrollHeight - 100) {
+    //     ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
+    //   }
+    // }
+    if (ulRef.current) {
+      ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
+      setIsFirstEnter(false);
     }
   }, [chatList.length]);
 

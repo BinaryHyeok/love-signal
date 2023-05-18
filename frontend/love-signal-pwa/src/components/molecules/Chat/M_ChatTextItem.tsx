@@ -56,7 +56,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
             `${process.env.REACT_APP_ASSETS_DIR}/profile_notice.png`
           }
         />
-        <A_ChatText_TypeB content={chat.content} nickname={chat.nickname} />
+        <A_ChatText_TypeB content={chat.content} nickname={chat.showNick} />
       </>
     );
   } else if (chatType && ["ENTER", "EXIT"].includes(chatType)) {
@@ -92,7 +92,7 @@ const M_ChatTextItem: React.FC<PropsType> = ({
   } else if (chatType === "SHARE") {
     text = isMe ? (
       <M_ChatText_Share
-        sender={chat.nickname ? chat.nickname : ""}
+        sender={chat.showNick ? chat.showNick : ""}
         selectInfo={chat.selectOrShareInfo ? chat.selectOrShareInfo : {}}
         isMe={isMe}
         setOppositeTeamMember={setOppositeTeamMember}

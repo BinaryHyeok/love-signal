@@ -10,7 +10,7 @@ pipeline {
         stage('chatting-service Build') {
             steps {
                 script {
-                    dir('chatting-service') {
+                    dir('Chatting_Service') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp chatting-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/chatting-service/build/libs
+                        scp Chatting_Service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/chatting-service/build/libs
                     """
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('chatting-service') {
+                            dir('Chatting_Service') {
                                 sh './gradlew -d sonar'
                             }
                         }

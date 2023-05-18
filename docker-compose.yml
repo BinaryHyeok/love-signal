@@ -1,36 +1,12 @@
 version: "3"
 
 services:
-  # mysql:
-  #   image: "mysql:8.0"
-  #   container_name: mysql
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: ssafy
-  #     MYSQL_DATABASE: love
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - mysql-data:/var/lib/mysql
-  #   restart: always
-  #   networks:
-  #     - backend
-
-  # redis:
-  #   image: "redis:latest"
-  #   container_name: redis
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - redis-data:/data
-  #   restart: always
-  #   networks:
-  #     - backend
 
   discoveryservice:
     image: discoveryservice:latest
     container_name: discoveryservice
     build:
-      context: ./discoveryservice
+      context: ./cloud/discoveryservice
       dockerfile: Dockerfile
     environment:
       - TZ=Asia/Seoul
@@ -44,7 +20,7 @@ services:
     image: apigateway:latest
     container_name: apigateway
     build:
-      context: ./apigateway
+      context: ./cloud/apigateway
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
@@ -60,7 +36,7 @@ services:
     image: config:latest
     container_name: config
     build:
-      context: ./config
+      context: ./cloud/config
       dockerfile: Dockerfile
     ports:
       - "8888:8888"
@@ -76,7 +52,7 @@ services:
     image: member-service:latest
     container_name: member-service
     build:
-      context: ./MemberService
+      context: ./member-service
       dockerfile: Dockerfile
     environment:
       - TZ=Asia/Seoul
@@ -88,7 +64,7 @@ services:
     image: team-service:latest
     container_name: team-service
     build:
-      context: ./TeamService
+      context: ./team-service
       dockerfile: Dockerfile
     environment:
       - TZ=Asia/Seoul
@@ -124,12 +100,24 @@ services:
     image: auth-service:latest
     container_name: auth-service
     build:
-      context: ./AuthService
+      context: ./auth-service
       dockerfile: Dockerfile
     environment:
       - TZ=Asia/Seoul
     ports:
       - "9999:9999"
+    restart: always
+    networks:
+      - backend
+
+  fcm-service:
+    image: fcm-service:latest
+    container_name: fcm-service
+    build:
+      context: ./fcm-service
+      dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Seoul
     restart: always
     networks:
       - backend

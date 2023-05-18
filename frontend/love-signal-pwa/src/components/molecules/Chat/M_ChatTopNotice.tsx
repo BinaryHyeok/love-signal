@@ -56,9 +56,6 @@ const M_ChatTopNotice: React.FC<PropsType> = ({
 
     if (timeoutTime.getTime() < today.getTime()) {
       clearInterval(timer);
-      if (onRoomExit) {
-        onRoomExit(-1);
-      }
       return;
     }
 
@@ -77,6 +74,10 @@ const M_ChatTopNotice: React.FC<PropsType> = ({
 
     if (hr >= 0 && min >= 0 && sec >= 0) {
       setResTime(`${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`);
+    } else {
+      if (onRoomExit) {
+        onRoomExit(-1);
+      }
     }
   };
 

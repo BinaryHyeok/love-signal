@@ -10,7 +10,7 @@ pipeline {
         stage('member-service Build') {
             steps {
                 script {
-                    dir('MemberService') {
+                    dir('Member_Service') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp MemberService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/member-service/build/libs
+                        scp Member_Service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/member-service/build/libs
                     """
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('MemberService') {
+                            dir('Member_Service') {
                                 sh './gradlew -d sonar'
                             }
                         }

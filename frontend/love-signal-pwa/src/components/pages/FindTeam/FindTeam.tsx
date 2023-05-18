@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import style from "./styles/FindTeam.module.scss";
 import { footerIdx } from "../../../atom/footer";
@@ -10,16 +10,40 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
-import { myatk, teamBuildState } from "../../../atom/member";
+import { kid, myMemberUUID, myatk, teamBuildState } from "../../../atom/member";
 import MatchTeam from "../../templates/FindTeam/MatchTeam";
+import { inquireMember } from "../../../api/auth";
+import { useNavigate } from "react-router-dom";
+
+let timer: NodeJS.Timer;
 
 const FindTeam = () => {
+  const navigate = useNavigate();
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [atk] = useRecoilState<string>(myatk);
+  const [UUID] = useRecoilState<string>(myMemberUUID);
+  const [kID] = useRecoilState<string>(kid);
+  const [matchStatus, setMatchStatus] = useRecoilState<boolean>(teamBuildState);
 
   useEffect(() => {
+    console.log(matchStatus);
+
     setIdx(1);
-  }, [atk]);
+    if (matchStatus) {
+      timer = setInterval(() => {
+        inquireMember(UUID, atk, kID).then((res) => {
+          if (!res.data.body.matchingStatus) {
+            setMatchStatus(false);
+            navigate("/SameGender/MyTeam", { replace: true });
+          }
+        });
+      }, 2000);
+
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, [atk, matchStatus]);
 
   const [myTeamBuildState] = useRecoilState<boolean>(teamBuildState);
 

@@ -11,7 +11,7 @@ const M_FindTeamDesc = () => {
       <A_TextHighlight_Blink fontSize="1rem" color="blue">
         동성팀
       </A_TextHighlight_Blink>{" "}
-      을 합니다.
+      을 찾아야 합니다.
       <br />
       <A_TextHighlight color="red">빠른 매칭</A_TextHighlight> 선택 시,{" "}
       <A_TextHighlight color="red">자동</A_TextHighlight>으로 팀이 꾸려집니다.

@@ -14,8 +14,7 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
-import A_OtherTeamDesc_Fix from "../../atoms/OtherGender/A_OtherTeamDesc_Fix";
-import A_OtherTeamDesc from "../../atoms/OtherGender/A_OtherTeamDesc";
+import T_OtherGender_Fix from "./T_OtherGender_Fix";
 
 const NUMBER = 5; //한번에 받아올 리스트의 수
 
@@ -63,7 +62,6 @@ const ExploreTeam = () => {
     if (isLeader) {
       getMyTeam(TUUID, atk, kID)
         .then((res) => {
-          console.log(res);
           setHaveTeam(res.data.body.haveMeetingTeam);
           setMemberLength(res.data.body.members.length);
         })
@@ -78,20 +76,21 @@ const ExploreTeam = () => {
     if (!atk || !kID) {
       return;
     }
-    console.log(gender);
+
     const OGender: string = gender === "F" ? "M" : "F"; //반대로 보여줘야하니 삼항연산자 사용.
     await getOtherGenderTeam(OGender, receiveList, uuidList, atk, kID)
       .then((res) => {
-        console.log(res);
         setInfinityScroll(false);
         addmemberList(res.data.body.teams);
         adduuidList(res.data.body.teams);
         const length = res.data.body.teams.length;
         setaddNum(length);
-        setIsLoading(true);
         setReceiveList(addNum);
         setInfinityScroll(false);
         setLastList(res.data.body.hasRemainingTeam);
+        setTimeout(() => {
+          setIsLoading(true);
+        }, 500);
       })
       .catch((err) => {
         console.log(err);
@@ -152,8 +151,7 @@ const ExploreTeam = () => {
                 </CheckTeam>
               </Modal_portal>
               <div>
-                <A_OtherTeamDesc_Fix />
-                <T_OtherGender
+                <T_OtherGender_Fix
                   getList={getList}
                   infinityScroll={infinityScroll}
                   lastList={lastList}
@@ -165,8 +163,12 @@ const ExploreTeam = () => {
             </>
           ) : (
             <>
-              <div>
-                <A_OtherTeamDesc />
+              <motion.div
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+                // exit="exit"
+              >
                 <T_OtherGender
                   getList={getList}
                   infinityScroll={infinityScroll}
@@ -175,7 +177,7 @@ const ExploreTeam = () => {
                   viewDetail={viewDetail}
                   team={team}
                 />
-              </div>
+              </motion.div>
             </>
           )}
         </GetMyInfo>

@@ -4,7 +4,7 @@ import T_TeamBuildRoom from "../../templates/TeamBuild/T_TeamBuildRoom";
 import M_TeamBuildHeader from "../../molecules/TeamBuild/M_TeamBuildHeader";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
 import O_TeamMemberList from "../../organisms/TeamBuild/O_TeamMemberList";
-import { withdrawTeam } from "../../../api/team";
+import { getMyTeam, withdrawTeam } from "../../../api/team";
 import { useRecoilState } from "recoil";
 import {
   imLeader,
@@ -21,6 +21,9 @@ import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import ATKFilter from "../../Filter/ATKFilter";
 import GetMyInfo from "../../Filter/GetMyInfo";
+import { inquireMember } from "../../../api/auth";
+
+let timer: NodeJS.Timer;
 
 const TeamBuild = () => {
   const navigate = useNavigate();
@@ -28,9 +31,21 @@ const TeamBuild = () => {
   const [myUUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
-  const [, setTeamUUID] = useRecoilState<string>(myTeamUUID);
-  const [isLeader, setIsLeader] = useRecoilState<boolean>(imLeader);
+  const [myTUUID, setTeamUUID] = useRecoilState<string>(myTeamUUID);
+  const [, setIsLeader] = useRecoilState<boolean>(imLeader);
 
+  useEffect(() => {
+    timer = setInterval(() => {
+      getMyTeam(myTUUID, atk, kID).then((res) => {
+        if (res.data.body.members.length === 3) {
+          navigate("/SameGender/MyTeam", { replace: true });
+        }
+      });
+    }, 2000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [atk, myTUUID]);
   //팀 나가기 함수입니다.
   const exitTeam = () => {
     //팀 나가기에 대한 axios가 들어갈 요청입니다.

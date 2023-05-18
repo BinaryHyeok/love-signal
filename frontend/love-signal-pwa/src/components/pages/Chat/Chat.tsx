@@ -39,6 +39,7 @@ const RANDOM_ANIMAL = [
   "햄스터",
 ];
 
+let intervalFunc: NodeJS.Timer;
 const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useRecoilState(roomInfo);
   const [_, setIdx] = useRecoilState<number>(footerIdx);
@@ -55,16 +56,8 @@ const Chat = () => {
   useEffect(() => {
     initStompClient();
 
-    getChatRoomList(UUID, atk, kID).then((res) => {
-      const formattedRoomList: room[] = roomTitleFormatter(res.data);
-      console.log(formattedRoomList);
-
-      setRoomList(() => [...formattedRoomList]);
-      formattedRoomList.forEach((room) => {
-        // 각 방의 채팅 목록 fetch
-        fetchRoomChat(room.uuid);
-      });
-    });
+    chatInfoFetchHandler();
+    intervalFunc = setInterval(chatInfoFetchHandler, 10000);
 
     setIdx(2);
     window.addEventListener("resize", unitHeightSetHandler);
@@ -84,6 +77,7 @@ const Chat = () => {
       );
       // 웹 소켓 종료
       clearStompClient();
+      clearInterval(intervalFunc);
     };
   }, []);
 
@@ -96,10 +90,10 @@ const Chat = () => {
       clearStompClient();
       initStompClient();
 
-      connectChatServer(selectedRoom.uuid);
+      connectChatServer(selectedRoom);
 
       // 각 방의 채팅 목록 fetch
-      fetchRoomChat(selectedRoom.uuid);
+      fetchRoomChat(selectedRoom);
     }
   }, [selectedRoom]);
 
@@ -114,23 +108,32 @@ const Chat = () => {
     }
   };
 
-  const connectChatServer = async (roomUUID: string) => {
+  const connectChatServer = async (room: room) => {
     const header = {};
     ws.connect(
       header,
       (frame: any) => {
-        ws.subscribe("/sub/chat/room/" + roomUUID, (res: any) => {
+        ws.subscribe("/sub/chat/room/" + room.uuid, (res: any) => {
           const message = JSON.parse(res.body);
 
           if (message.type === "RESULT") {
-            fetchRoomChat(roomUUID);
+            fetchRoomChat(room);
           } else {
             setChatList((prevState) => {
-              const prevList = prevState[roomUUID] || [];
+              const prevList = prevState[room.uuid] || [];
+              if (room.type === "SECRET" && room.love === "F") {
+                if (
+                  message.nickname !== myNick &&
+                  myNick === message.selectOrShareInfo?.selected
+                ) {
+                  message.nickname = room.roomName;
+                }
+              }
+
               const newList = [...prevList, message];
               return {
                 ...prevState,
-                [roomUUID]: newList,
+                [room.uuid]: newList,
               };
             });
           }
@@ -138,7 +141,7 @@ const Chat = () => {
 
         publishChatMsg({
           type: "TOPIC",
-          roomUUID: roomUUID,
+          roomUUID: room.uuid,
           nickname: myNick,
           content: "",
         });
@@ -154,32 +157,57 @@ const Chat = () => {
     ws.send("/pub/chat/message", header, JSON.stringify(newChat));
   };
 
-  const fetchRoomChat = (roomUUID: string) => {
-    if (!roomUUID) return;
+  const fetchRoomChat = (room: room) => {
+    if (!room || !room.uuid) return;
 
-    getChatList(roomUUID, atk, kID).then((res) => {
+    getChatList(room.uuid, atk, kID).then((res) => {
       const chatData = res.data;
+      console.log(
+        "조회된 채팅목록 ++++++++++++++++++++++++++++++++++++++++++++",
+        chatData
+      );
+      const formattedChatData =
+        chatData && room.type === "SECRET"
+          ? chatData.map((item: chat) => {
+              if (item.nickname === myNick || room.love !== "F") {
+                return item;
+              }
+              return { ...item, nickname: room.roomName };
+            })
+          : chatData;
       setChatList((prevState) => {
-        const newList = [...chatData];
+        const newList = [...formattedChatData];
 
         return {
           ...prevState,
-          [roomUUID]: newList,
+          [room.uuid]: newList,
         };
       });
     });
   };
 
+  const chatInfoFetchHandler = () => {
+    getChatRoomList(UUID, atk, kID).then((res) => {
+      const formattedRoomList: room[] = roomTitleFormatter(res.data);
+      console.log(formattedRoomList);
+
+      setRoomList(() => [...formattedRoomList]);
+      formattedRoomList.forEach((room) => {
+        // 각 방의 채팅 목록 fetch
+        fetchRoomChat(room);
+      });
+    });
+  };
+
   const roomTitleFormatter = (rooms: room[]) => {
+    console.log(rooms);
     const formatted: room[] = rooms.map((room) => {
       if (room.type !== "SECRET") return room;
       room.roomName =
         room.selector?.nickname === myNick
-          ? `${room.selected?.nickname}님과의 익명채팅방`
-          : `익명의 ${
-              RANDOM_ANIMAL[Math.floor(Math.random() * RANDOM_ANIMAL.length)]
-            }님과의 채팅방`;
-
+          ? `${room.selected}님과의 시그널`
+          : `${room.roomName}님과의 시그널`;
+      console.log(room);
       return room;
     });
 
@@ -237,9 +265,11 @@ const Chat = () => {
                   ? chatList[selectedRoom.uuid]
                   : []
               }
+              updatedDate={selectedRoom.updatedDate}
               setChatList={setChatList}
               onTextSend={publishChatMsg}
               members={selectedRoom.memberList || null}
+              myNick={myNick}
             />
           )}
           {!selectedRoom.uuid && (

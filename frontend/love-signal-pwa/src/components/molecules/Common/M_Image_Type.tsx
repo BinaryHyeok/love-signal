@@ -11,6 +11,10 @@ type propsType = {
   marginTop: string;
   setMyImage: Dispatch<SetStateAction<FormData>>;
   setChangeImg: Dispatch<SetStateAction<boolean>>;
+  imgError?: boolean;
+  setBlockChange?: Dispatch<SetStateAction<boolean>>;
+  setPageAnimation?: Dispatch<SetStateAction<boolean>>;
+  pageTimeOut?: any;
 };
 
 let timeout: NodeJS.Timer;
@@ -21,6 +25,10 @@ const M_Image_Type: React.FC<propsType> = ({
   marginTop,
   setMyImage,
   setChangeImg,
+  imgError,
+  setBlockChange,
+  setPageAnimation,
+  pageTimeOut,
 }) => {
   const [fileImg, setFileImg] = useState<string>(myImg);
   const [cropData, setCropData] = useState<string>("");
@@ -29,11 +37,10 @@ const M_Image_Type: React.FC<propsType> = ({
   const [extension, setExtension] = useState<string>("");
 
   //모달창이 닫혔을때 다시 입장하기 버튼을 클릭할수 있도록 의존성 추가.
-  useEffect(() => {}, [visible]);
 
   useEffect(() => {
     setCropData(myImg);
-  }, [myImg]);
+  }, [myImg, imgError]);
 
   return (
     <>
@@ -49,6 +56,9 @@ const M_Image_Type: React.FC<propsType> = ({
                 visible={visible}
                 setVisible={setVisible}
                 setExtension={setExtension}
+                setBlockChange={setBlockChange}
+                setPageAnimation={setPageAnimation}
+                pageTimeOut={pageTimeOut}
               />
             </div>
           </div>
@@ -70,6 +80,9 @@ const M_Image_Type: React.FC<propsType> = ({
                   visible={visible}
                   setVisible={setVisible}
                   setExtension={setExtension}
+                  setBlockChange={setBlockChange}
+                  setPageAnimation={setPageAnimation}
+                  pageTimeOut={pageTimeOut}
                 />
               </div>
             </div>

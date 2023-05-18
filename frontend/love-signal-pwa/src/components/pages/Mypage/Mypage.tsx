@@ -19,6 +19,11 @@ import { footerIdx } from "../../../atom/footer";
 import { kid, myMemberUUID } from "../../../atom/member";
 import { myatk } from "../../../atom/member";
 import AlertBtn from "../../atoms/Common/AlertBtn";
+import Modal_portal from "../../UI/Modal/Modal_portal";
+import ModalBox from "../../UI/Modal/Common/ModalBox";
+import Button_Type_A from "../../atoms/Common/Button_Type_A";
+
+let timeout: NodeJS.Timer;
 
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
@@ -30,6 +35,10 @@ const Mypage = () => {
   const [myAlarm, SetMyAlarm] = useState<boolean>(false);
   const [myCropImage, setMyCropImage] = useState<FormData>(new FormData());
   const [start, setStart] = useState<boolean>(false);
+  const [imgError, setImgError] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [animation, setAnimation] = useState<boolean>(false);
+  const [blockChange, setBlockChange] = useState<boolean>(false);
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
@@ -54,68 +63,146 @@ const Mypage = () => {
 
   useEffect(() => {
     if (start) {
-      alert(myCropImage);
       changeMyImg(UUID, myCropImage, atk, kID)
-        .then((res) => {
-          alert("나는 성공했어" + res);
+        .then(() => {
+          inquireMember(UUID, atk, kID).then((res) => {
+            setMyImg(res.data.body.profileImage);
+          });
         })
         .catch((err) => {
-          alert("나는 이미지야." + err.response.data);
+          setImgError(!imgError);
+          setVisible(true);
+          //이거 그냥 모달창으로 처리하겠음. 실패했을시 모달창으로 이미지등록에 실패하였습니다를 띄우겠습니다.
         });
     } else {
       setStart(true);
     }
   }, [myCropImage]);
 
+  const closeModal = () => {
+    setAnimation(true);
+    setVisible(false);
+  };
+
+  const notChange = () => {
+    clearTimeout(timeout);
+    setAnimation(true);
+    timeout = setTimeout(() => setBlockChange(false), 500);
+  };
+
   return (
     <ATKFilter>
       <GetMyInfo>
-        <motion.div
-          variants={contentVariants}
-          initial="hidden"
-          animate="visible"
-          // exit="exit"
-          className={style.myPageContainer}
-        >
-          {/* <AlertBtn /> */}
-          <div className={style.scrollContainer}>
-            <M_Image_Type
-              myImg={myImg}
-              marginTop="8px"
-              setMyImage={setMyCropImage}
-              setChangeImg={setChangeImg}
-            />
-            <MyInfo
-              age={myAge}
-              mynickname={myNickName}
-              description={myDescription}
-              setNick={setMyNickName}
-              setDesc={setMyDescription}
-            />
-            <AlertBtn
-              UUID={UUID}
-              myNick={myNickName}
-              atk={atk}
-              kID={kID}
-              myAlarm={myAlarm}
-              setMyAlarm={SetMyAlarm}
-            />
-            <motion.div
-              whileTap={{
-                scale: 1.05,
-                transition: { type: "spring", stiffness: 200, damping: 10 },
-              }}
-              className={style.logout}
+        {blockChange && (
+          <div className={style.bgContainer}>
+            <div
+              className={`${style.background} ${
+                animation ? `${style.disappear}` : ""
+              }`}
+              onClick={notChange}
+            ></div>
+            <ModalBox
+              animation={animation}
+              visible={blockChange}
+              width="90%"
+              height="200px"
+              closeModal={notChange}
             >
-              <Link
-                to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout${name}`}
-                className={style.link}
+              팀에 속해있어 변경이 불가합니다.
+              <Button_Type_A
+                width="100%"
+                background="#BCC5F0"
+                onClick={notChange}
               >
-                로그아웃
-              </Link>
-            </motion.div>
+                확인
+              </Button_Type_A>
+            </ModalBox>
           </div>
-        </motion.div>
+        )}
+        {visible ? (
+          <Modal_portal>
+            <div className={style.bgContainer}>
+              <div
+                className={`${style.background} ${
+                  animation ? `${style.disappear}` : ""
+                }`}
+                onClick={closeModal}
+              />
+              <ModalBox
+                animation={animation}
+                visible={visible}
+                closeModal={closeModal}
+                width="320px"
+                height="250px"
+              >
+                <div className={style.desc}>
+                  <div className={style.desc1}>이미지 등록 실패</div>
+                  <Button_Type_A
+                    width="80%"
+                    height="40px"
+                    background="#BCC5F0"
+                    onClick={closeModal}
+                  >
+                    확인
+                  </Button_Type_A>
+                </div>
+              </ModalBox>
+            </div>
+          </Modal_portal>
+        ) : (
+          <motion.div
+            variants={contentVariants}
+            initial="hidden"
+            animate="visible"
+            // exit="exit"
+            className={style.myPageContainer}
+          >
+            {/* <AlertBtn /> */}
+            <div className={style.scrollContainer}>
+              <M_Image_Type
+                myImg={myImg}
+                marginTop="8px"
+                setMyImage={setMyCropImage}
+                setChangeImg={setChangeImg}
+                imgError={imgError}
+                setBlockChange={setBlockChange}
+                setPageAnimation={setAnimation}
+                pageTimeOut={timeout}
+              />
+              <MyInfo
+                age={myAge}
+                mynickname={myNickName}
+                description={myDescription}
+                setNick={setMyNickName}
+                setDesc={setMyDescription}
+                setBlockChange={setBlockChange}
+                setAnimation={setAnimation}
+              />
+              <AlertBtn
+                UUID={UUID}
+                myNick={myNickName}
+                atk={atk}
+                kID={kID}
+                myAlarm={myAlarm}
+                setMyAlarm={SetMyAlarm}
+              />
+              <motion.div
+                whileTap={{
+                  scale: 1.05,
+                  transition: { type: "spring", stiffness: 200, damping: 10 },
+                }}
+                className={style.logout}
+              >
+                <Link
+                  to={`${process.env.REACT_APP_API_AUTH}/auth/kakao/logout${name}`}
+                  className={style.link}
+                >
+                  로그아웃
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
       </GetMyInfo>
     </ATKFilter>
   );

@@ -8,6 +8,7 @@ import A_Heartline from "../../atoms/Common/A_Heartline";
 import { motion } from "framer-motion";
 import { contentVariants } from "../../atoms/Common/contentVariants";
 import M_NoOtherTeam from "../../molecules/OtherGender/M_NoOtherTeam";
+import ListBoxWithImgTitle_Fix from "../../atoms/Common/ListBoxWithImgTitle_Fix";
 
 type propsType = {
   getList: () => void;
@@ -18,7 +19,7 @@ type propsType = {
   team: team[];
 };
 
-const T_OtherGender: React.FC<propsType> = ({
+const T_OtherGender_Fix: React.FC<propsType> = ({
   getList,
   infinityScroll,
   lastList,
@@ -46,7 +47,7 @@ const T_OtherGender: React.FC<propsType> = ({
       {team.length !== 0 ? (
         <div className={style.imgContainer} onScroll={handleScroll}>
           {team.map((item, idx) => (
-            <ListBoxWithImgTitle
+            <ListBoxWithImgTitle_Fix
               idx={idx}
               title={
                 <>
@@ -54,10 +55,9 @@ const T_OtherGender: React.FC<propsType> = ({
                 </>
               }
               type="red"
-              key={idx}
             >
               <PictureBox viewDetail={viewDetail} idx={idx} team={item} />
-            </ListBoxWithImgTitle>
+            </ListBoxWithImgTitle_Fix>
           ))}
         </div>
       ) : (
@@ -69,4 +69,4 @@ const T_OtherGender: React.FC<propsType> = ({
   );
 };
 
-export default T_OtherGender;
+export default T_OtherGender_Fix;

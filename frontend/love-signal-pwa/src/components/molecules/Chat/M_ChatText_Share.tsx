@@ -5,6 +5,7 @@ import { chat, selectOrShareInfo } from "../../../types/chat";
 import M_ChatSelectBox from "./M_ChatSelectBox";
 import A_ChatText_TypeA from "../../atoms/Chat/A_ChatText_TypeA";
 import { member } from "../../../types/member";
+import { motion } from "framer-motion";
 
 type PropsType = {
   sender: string;
@@ -27,7 +28,6 @@ const M_ChatText_Share: React.FC<PropsType> = ({
       setOppositeTeamMember(chat.selectOrShareInfo.memberList);
     }
     viewDetail();
-    console.log(chat.selectOrShareInfo);
   };
 
   let content = (
@@ -41,9 +41,16 @@ const M_ChatText_Share: React.FC<PropsType> = ({
           />
         ))}
       </ul>
-      <button className={style.showDetail} onClick={openTeamDetail}>
+      <motion.button
+        whileTap={{
+          scale: 1.05,
+          transition: { type: "spring", stiffness: 200, damping: 10 },
+        }}
+        className={style.showDetail}
+        onClick={openTeamDetail}
+      >
         상세보기
-      </button>
+      </motion.button>
     </>
   );
 

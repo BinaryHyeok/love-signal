@@ -132,12 +132,14 @@ const SignUp = () => {
   //쿠키를 저장해줄 함수입니다. (회원가입이 완료 되고 나면 rtk를 쿠키에 저장할것. 만료기간 설정.)
   const setCookie = (rtk: string, rTET: number) => {
     const expires = new Date(); //현재 시간 받아오고.
+    console.log(rtk);
+
     expires.setSeconds(expires.getSeconds() + rTET); //현재 시간에 만료시간의 초 + 만료기간 더해주기
     cookie.save("rtk", rtk, {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
       expires, //만료기간 설정
       secure: true, //보안 설정
-      httpOnly: true, //보안 설정
+      // httpOnly: true, //보안 설정
     });
   };
 
@@ -147,7 +149,9 @@ const SignUp = () => {
 
   const handleNickname = () => {
     if (checkNickname) {
-      setCheckNickOk(!checkNickOk);
+      if (nickname.length !== 0) {
+        setCheckNickOk(!checkNickOk);
+      }
     } else {
       setCheckMsg("중복확인을 체크해주세요.");
     }
@@ -184,23 +188,25 @@ const SignUp = () => {
 
   //회원가입 버튼 클릭했을때
   const registMember = () => {
-    signUp(nickname, gender, birth, description, atk)
-      .then(async (res) => {
-        console.log(res);
-        setMemberUUID(res.data.body);
-        await changeMyImg(res.data.body, myImage, atk, kakaoId)
-          .then(() => {
-            navigate("/Manual");
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-            alert(err.response.data.message);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (description.length !== 0) {
+      signUp(nickname, gender, birth, description, atk)
+        .then(async (res) => {
+          console.log(res);
+          setMemberUUID(res.data.body);
+          await changeMyImg(res.data.body, myImage, atk, kakaoId)
+            .then(() => {
+              navigate("/Manual");
+              window.location.reload();
+            })
+            .catch((err) => {
+              console.log(err);
+              alert(err.response.data.message);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (

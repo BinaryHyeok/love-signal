@@ -23,6 +23,8 @@ import Modal_portal from "../../UI/Modal/Modal_portal";
 import ModalBox from "../../UI/Modal/Common/ModalBox";
 import Button_Type_A from "../../atoms/Common/Button_Type_A";
 
+let timeout: NodeJS.Timer;
+
 const Mypage = () => {
   const [, setIdx] = useRecoilState<number>(footerIdx);
   const [myAge, setMyAge] = useState<number>(0);
@@ -36,6 +38,7 @@ const Mypage = () => {
   const [imgError, setImgError] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState<boolean>(false);
+  const [blockChange, setBlockChange] = useState<boolean>(false);
 
   const [UUID] = useRecoilState<string>(myMemberUUID);
   const [atk] = useRecoilState<string>(myatk);
@@ -81,9 +84,41 @@ const Mypage = () => {
     setVisible(false);
   };
 
+  const notChange = () => {
+    clearTimeout(timeout);
+    setAnimation(true);
+    timeout = setTimeout(() => setBlockChange(false), 500);
+  };
+
   return (
     <ATKFilter>
       <GetMyInfo>
+        {blockChange && (
+          <div className={style.bgContainer}>
+            <div
+              className={`${style.background} ${
+                animation ? `${style.disappear}` : ""
+              }`}
+              onClick={notChange}
+            ></div>
+            <ModalBox
+              animation={animation}
+              visible={blockChange}
+              width="90%"
+              height="200px"
+              closeModal={notChange}
+            >
+              팀에 속해있어 변경이 불가합니다.
+              <Button_Type_A
+                width="100%"
+                background="#BCC5F0"
+                onClick={notChange}
+              >
+                확인
+              </Button_Type_A>
+            </ModalBox>
+          </div>
+        )}
         {visible ? (
           <Modal_portal>
             <div className={style.bgContainer}>
@@ -130,6 +165,9 @@ const Mypage = () => {
                 setMyImage={setMyCropImage}
                 setChangeImg={setChangeImg}
                 imgError={imgError}
+                setBlockChange={setBlockChange}
+                setPageAnimation={setAnimation}
+                pageTimeOut={timeout}
               />
               <MyInfo
                 age={myAge}
@@ -137,6 +175,8 @@ const Mypage = () => {
                 description={myDescription}
                 setNick={setMyNickName}
                 setDesc={setMyDescription}
+                setBlockChange={setBlockChange}
+                setAnimation={setAnimation}
               />
               <AlertBtn
                 UUID={UUID}

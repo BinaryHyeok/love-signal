@@ -10,7 +10,7 @@ pipeline {
         stage('team-service Build') {
             steps {
                 script {
-                    dir('TeamService') {
+                    dir('Team_Service') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp TeamService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/team-service/build/libs
+                        scp Team_Service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/team-service/build/libs
                     """
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('TeamService') {
+                            dir('Team_Service') {
                                 sh './gradlew -d sonar'
                             }
                         }

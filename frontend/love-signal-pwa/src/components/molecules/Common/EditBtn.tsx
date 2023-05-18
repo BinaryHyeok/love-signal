@@ -1,6 +1,8 @@
 import React, { useState, useRef, Dispatch, SetStateAction } from "react";
 import EditBtnImg from "../../atoms/Common/EditBtnImg";
 import EditBtnInput from "../../atoms/Common/EditBtnInput";
+import { myTeamUUID } from "../../../atom/member";
+import { useRecoilState } from "recoil";
 const FILE_SIZE_MAX_LIMIT = 3 * 1024 * 1024; // 3MB
 const ALLOW_FILE_EXTENSION = "jpg,jpeg,png,gif";
 
@@ -11,6 +13,9 @@ type propsType = {
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
   setExtension: Dispatch<SetStateAction<string>>;
+  setBlockChange?: Dispatch<SetStateAction<boolean>>;
+  setPageAnimation?: Dispatch<SetStateAction<boolean>>;
+  pageTimeOut?: any;
 };
 
 const EditBtn: React.FC<propsType> = ({
@@ -20,9 +25,14 @@ const EditBtn: React.FC<propsType> = ({
   visible,
   setVisible,
   setExtension,
+  setBlockChange,
+  setPageAnimation,
+  pageTimeOut,
 }) => {
   const [file, setFile] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [TUUID] = useRecoilState<string>(myTeamUUID);
+
   const onChangeImg = (
     e: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLFormElement>
   ) => {
@@ -103,8 +113,17 @@ const EditBtn: React.FC<propsType> = ({
   };
 
   const handleImageClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+    if (TUUID && setBlockChange && setPageAnimation) {
+      setBlockChange(true);
+      setPageAnimation(false);
+      if (pageTimeOut) {
+        clearTimeout(pageTimeOut);
+      }
+      return;
+    } else {
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
     }
   };
   return (

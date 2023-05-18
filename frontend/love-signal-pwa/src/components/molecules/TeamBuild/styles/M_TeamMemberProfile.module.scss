@@ -1,0 +1,30 @@
+$w: 100px;
+
+.profileBox {
+  width: calc(100% - 100px);
+  height: $w;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 8px 16px;
+
+  .profile {
+    width: 100%;
+    font-weight: 700;
+    margin: 4px 0;
+
+    .nickname {
+      font-weight: 700;
+    }
+    .age {
+      font-size: 15px;
+    }
+  }
+
+  .introduce {
+    width: 100%;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+}

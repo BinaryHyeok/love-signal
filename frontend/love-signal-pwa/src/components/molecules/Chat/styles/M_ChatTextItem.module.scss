@@ -1,0 +1,19 @@
+.outerBox {
+  border-radius: 10px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  margin: 16px 0;
+
+  &.isMe {
+    flex-direction: row-reverse;
+  }
+
+  &.notice {
+    justify-content: center;
+    margin: 0;
+  }
+}

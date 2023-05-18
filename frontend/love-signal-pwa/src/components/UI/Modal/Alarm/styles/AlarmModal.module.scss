@@ -1,0 +1,76 @@
+$modal: #eef0f5;
+$box-shadow: -2px -2px 10px rgba(255, 255, 255, 0.25),
+  2px 2px 10px rgba(0, 0, 0, 0.5);
+
+.modal {
+  min-width: 360px;
+  height: 600px;
+  background: $modal;
+  box-shadow: $box-shadow;
+  border-radius: 10px;
+  position: absolute;
+  display: flex;
+  z-index: 99999;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  .title {
+    margin: 16px 0 8px 0;
+  }
+}
+
+.disappear {
+  animation: translate 1.2s;
+  -moz-animation: translate 1.2s; /* Firefox */
+  -webkit-animation: translate 1.2s; /* Safari and Chrome */
+  -o-animation: translate 1.2s; /* Opera */
+  animation-fill-mode: forwards;
+  @keyframes translate {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+      transform: translateY(-40%);
+    }
+  }
+  @-moz-keyframes translate {
+    /* Firefox */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+      transform: translateY(-40%);
+    }
+  }
+  @-webkit-keyframes translate {
+    /* Safari and Chrome */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+      transform: translateY(-40%);
+    }
+  }
+  @-o-keyframes translate {
+    /* Opera */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+      transform: translateY(-40%);
+    }
+  }
+}

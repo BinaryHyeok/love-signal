@@ -1,0 +1,11 @@
+.chatList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  width: 100%;
+  padding: 0 calc(5%);
+  padding-top: 16px;
+}

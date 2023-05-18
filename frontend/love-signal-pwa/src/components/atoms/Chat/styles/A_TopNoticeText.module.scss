@@ -1,0 +1,32 @@
+.text {
+  font-weight: 700;
+}
+
+.textBox {
+  width: 100%;
+  animation: typing 5s steps(65), blink 0.5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid;
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+}
+
+.resTime {
+  color: red;
+  font-weight: 700;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,20 @@
+.swiper-slide {
+  margin-bottom: 32px;
+}
+
+.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+  background-color: #e5729d;
+}
+
+.swiper .swiper-pagination {
+  /* position: fixed; */
+  max-width: 768px;
+  /* top: 16px !important; */
+  z-index: 1;
+}
+
+.swiper .swiper-pagination-bullet {
+  background-color: #e5729d;
+  margin: 0px 8px !important;
+  bottom: 0;
+}

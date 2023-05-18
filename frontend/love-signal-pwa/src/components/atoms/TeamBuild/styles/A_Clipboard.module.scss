@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 0 0 0 16px;
+  text-align: center;
+
+  img {
+    width: 32px;
+    background: radial-gradient(#bccfff 0%, #d7eeff 50%, #eef0f5 100%);
+    -webkit-animation: blink 3s linear infinite;
+    -moz-animation: blink 3s linear infinite;
+    -ms-animation: blink 3s linear infinite;
+    -o-animation: blink 3s linear infinite;
+    animation: blink 2s linear infinite;
+    @-webkit-keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @-moz-keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @-ms-keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @-o-keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes blink {
+      0% {
+        opacity: 0.5;
+      }
+      30% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.5;
+      }
+    }
+  }
+}

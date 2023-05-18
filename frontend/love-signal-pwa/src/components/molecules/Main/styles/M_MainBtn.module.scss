@@ -1,0 +1,25 @@
+.buttonBox {
+  // width: 100%;
+  display: flex;
+  align-items: center;
+  // flex-direction: column;
+  height: 20%;
+  justify-content: center;
+  .link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 20px;
+  }
+  .kakao {
+    bottom: 30px;
+    width: 90%;
+    max-width: 240px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 12px;
+    box-shadow: -2px -2px 5px rgba(255, 255, 255, 0.5),
+      2.5px 2.5px 5px rgba(77, 63, 83, 0.5);
+  }
+}

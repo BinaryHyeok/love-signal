@@ -1,0 +1,12 @@
+.radioBtn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  .selectGender {
+    .genderImg {
+      width: 80px;
+      height: 80px;
+    }
+  }
+}

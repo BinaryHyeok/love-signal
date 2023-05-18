@@ -1,0 +1,40 @@
+.infoBox {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .titleBox {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    max-width: calc(100% - 58px);
+
+    .title {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 8px;
+      width: calc(100% - 24px);
+      white-space: nowrap;
+    }
+
+    .count {
+      display: inline-block;
+      color: #797979;
+      width: 24px;
+      font-size: 0.8rem;
+    }
+
+    .timer {
+      margin-left: 8px;
+      color: #fb659f;
+      font-size: 0.6rem;
+    }
+  }
+
+  .time {
+    font-size: 0.7rem;
+    min-width: 58px;
+  }
+}

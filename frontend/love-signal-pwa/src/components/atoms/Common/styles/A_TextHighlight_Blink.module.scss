@@ -1,0 +1,102 @@
+/* 공통 깜빡이는 효과 */
+.common {
+  -webkit-animation: blink 3s linear infinite;
+  -moz-animation: blink 3s linear infinite;
+  -ms-animation: blink 3s linear infinite;
+  -o-animation: blink 3s linear infinite;
+  animation: blink 2s linear infinite;
+  @-webkit-keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-ms-keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes blink {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+}
+
+/* 텍스트 형광펜 효과, 빨간색 */
+.red {
+  display: inline-block;
+  overflow-x: visible;
+  padding: 0 4px;
+  border-radius: 20px;
+  line-height: 1.4rem;
+  position: relative;
+  background: radial-gradient(#fed2d7 0%, #fde5e7 50%, #eef0f5 100%);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* 텍스트 형광펜 효과, 파란색 */
+.blue {
+  display: inline-block;
+  padding: 0 4px;
+  border-radius: 20px;
+  line-height: 1.4rem;
+  background: radial-gradient(#bccfff 0%, #d7eeff 50%, #eef0f5 100%);
+  font-weight: 700;
+  font-size: 14px;
+}

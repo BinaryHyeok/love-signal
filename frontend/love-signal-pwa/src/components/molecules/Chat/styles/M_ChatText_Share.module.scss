@@ -1,0 +1,20 @@
+.shareList {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0;
+}
+
+.showDetail {
+  width: 90%;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  margin-left: 5%;
+  background-color: #fbced3;
+  border: none;
+  outline: none;
+  padding: 4px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+}

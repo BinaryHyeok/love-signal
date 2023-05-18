@@ -1,0 +1,13 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100%;
+  align-items: center;
+  .center {
+    margin-top: 40px;
+  }
+  .checkBtn > button {
+    margin: 0 auto;
+  }
+}

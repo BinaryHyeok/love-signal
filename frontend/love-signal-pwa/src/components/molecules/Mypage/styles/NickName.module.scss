@@ -1,0 +1,57 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.05rem;
+  width: 100%;
+  .btnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    .nickname {
+      width: 200px;
+      width: calc(100% - 32px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto, 0;
+    }
+  }
+
+  .img {
+    width: 32px;
+  }
+
+  .editBtn {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+  }
+}
+
+.containerEdit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.05rem;
+  width: 100%;
+
+  .btnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    // margin-left: 24px;
+  }
+
+  .img {
+    width: 32px;
+  }
+
+  .editBtn {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+  }
+}

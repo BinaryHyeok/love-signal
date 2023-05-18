@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  min-width: 230px;
+
+  .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 12px 6px 12px;
+    background-color: #cad9ff;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: -2px -2px 5px rgba(255, 255, 255, 0.3),
+      2.5px 2.5px 5px rgba(77, 63, 83, 0.3);
+  }
+  .disappear {
+    animation: fadeout 0.5s;
+    -moz-animation: fadeout 0.5s; /* Firefox */
+    -webkit-animation: fadeout 0.5s; /* Safari and Chrome */
+    -o-animation: fadeout 0.5s; /* Opera */
+    animation-fill-mode: forwards;
+    @keyframes fadeout {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    @-moz-keyframes fadeout {
+      /* Firefox */
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    @-webkit-keyframes fadeout {
+      /* Safari and Chrome */
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    @-o-keyframes fadeout {
+      /* Opera */
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  }
+}

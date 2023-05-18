@@ -122,10 +122,14 @@ const Chat = () => {
             setChatList((prevState) => {
               const prevList = prevState[room.uuid] || [];
               if (room.type === "SECRET" && room.love === "F") {
+                console.log(room);
+                console.log(message);
                 if (
                   message.nickname !== myNick &&
                   myNick === message.selectOrShareInfo?.selected
                 ) {
+                  message.nickname = room.roomName;
+                } else {
                   message.nickname = room.roomName;
                 }
               }

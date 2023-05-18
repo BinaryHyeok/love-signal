@@ -48,10 +48,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_develop
-                            docker compose -f docker-compose.yml stop fcm-service
-                            docker compose -f docker-compose.yml rm -f fcm-service
-                            docker compose -f docker-compose.yml build fcm-service
-                            docker compose -f docker-compose.yml up -d fcm-service
+                            docker compose -f docker-compose.yml stop auth-service
+                            docker compose -f docker-compose.yml rm -f auth-service
+                            docker compose -f docker-compose.yml build auth-service
+                            docker compose -f docker-compose.yml up -d auth-service
                         "
                     """
                 }

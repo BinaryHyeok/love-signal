@@ -124,7 +124,7 @@ const Chat = () => {
               if (room.type === "SECRET" && room.love === "F") {
                 if (
                   message.nickname !== myNick &&
-                  myNick === message.selectOrShareInfo.selected
+                  myNick === message.selectOrShareInfo?.selected
                 ) {
                   message.nickname = room.roomName;
                 }

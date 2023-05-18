@@ -10,7 +10,7 @@ pipeline {
         stage('fcm-service Build') {
             steps {
                 script {
-                    dir('fcm-service') {
+                    dir('FCM_Service') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp fcm-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/fcm-service/build/libs
+                        scp FCM_Service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/fcm-service/build/libs
                     """
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('fcm-service') {
+                            dir('FCM_Service') {
                                 sh './gradlew -d sonar'
                             }
                         }

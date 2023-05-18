@@ -7,37 +7,65 @@ pipeline {
 
     stages {
 
-        stage('fcm-service Build') {
+        stage('discoveryservice Build') {
             steps {
                 script {
-                    dir('fcm-service') {
+                    dir('discoveryservice') {
                         sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build -x test -Pprod'
+                        sh './gradlew clean build'
                     }
                 }
             }
         }
 
-        stage('Copy new JAR file') {
+        stage('Copy new JAR file for discoveryservice') {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp fcm-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/fcm-service/build/libs
+                        scp discoveryservice/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/discoveryservice/build/libs
                     """
                 }
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('apigateway Build') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    withSonarQubeEnv('SonarQube Server') {
-                        script {
-                            dir('fcm-service') {
-                                sh './gradlew -d sonar'
-                            }
-                        }
-                    }                
+                script {
+                    dir('apigateway') {
+                        sh 'chmod +x ./gradlew'
+                        sh './gradlew clean build'
+                    }
+                }
+            }
+        }
+
+        stage('Copy new JAR file for apigateway') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp apigateway/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/apigateway/build/libs
+                    """
+                }
+            }
+        }
+
+        stage('config Build') {
+            steps {
+                script {
+                    dir('config') {
+                        sh 'chmod +x ./gradlew'
+                        sh './gradlew clean build'
+                    }
+                }
+            }
+        }
+
+        stage('Copy new JAR file for config') {
+            steps {
+                sshagent([credentials: ['SSH_CREDENTIAL']]) {
+                    sh """
+                        scp config/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/config/build/libs
+                    """
                 }
             }
         }
@@ -48,10 +76,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_develop
-                            docker compose -f docker-compose.yml stop fcm-service
-                            docker compose -f docker-compose.yml rm -f fcm-service
-                            docker compose -f docker-compose.yml build fcm-service
-                            docker compose -f docker-compose.yml up -d fcm-service
+                            docker compose -f docker-compose.yml stop discoveryservice apigateway config sonarqube postres
+                            docker compose -f docker-compose.yml rm -f discoveryservice apigateway config sonarqube postres
+                            docker compose -f docker-compose.yml build discoveryservice apigateway config sonarqube postres
+                            docker compose -f docker-compose.yml up -d discoveryservice apigateway config sonarqube postres
                         "
                     """
                 }

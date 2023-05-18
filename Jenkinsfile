@@ -7,10 +7,10 @@ pipeline {
 
     stages {
 
-        stage('member-service Build') {
+        stage('team-service Build') {
             steps {
                 script {
-                    dir('MemberService') {
+                    dir('TeamService') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp MemberService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/member-service/build/libs
+                        scp TeamService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/team-service/build/libs
                     """
                 }
             }
@@ -33,11 +33,11 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('MemberService') {
+                            dir('TeamService') {
                                 sh './gradlew -d sonar'
                             }
                         }
-                    }                
+                    }
                 }
             }
         }
@@ -48,10 +48,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_develop
-                            docker compose -f docker-compose.yml stop member-service
-                            docker compose -f docker-compose.yml rm -f member-service
-                            docker compose -f docker-compose.yml build member-service
-                            docker compose -f docker-compose.yml up -d member-service
+                            docker compose -f docker-compose.yml stop team-service
+                            docker compose -f docker-compose.yml rm -f team-service
+                            docker compose -f docker-compose.yml build team-service
+                            docker compose -f docker-compose.yml up -d team-service
                         "
                     """
                 }

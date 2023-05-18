@@ -7,10 +7,10 @@ pipeline {
 
     stages {
 
-        stage('team-service Build') {
+        stage('file-service Build') {
             steps {
                 script {
-                    dir('TeamService') {
+                    dir('file-service') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp TeamService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/team-service/build/libs
+                        scp file-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/file-service/build/libs
                     """
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('TeamService') {
+                            dir('file-service') {
                                 sh './gradlew -d sonar'
                             }
                         }
@@ -48,10 +48,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_develop
-                            docker compose -f docker-compose.yml stop team-service
-                            docker compose -f docker-compose.yml rm -f team-service
-                            docker compose -f docker-compose.yml build team-service
-                            docker compose -f docker-compose.yml up -d team-service
+                            docker compose -f docker-compose.yml stop file-service
+                            docker compose -f docker-compose.yml rm -f file-service
+                            docker compose -f docker-compose.yml build file-service
+                            docker compose -f docker-compose.yml up -d file-service
                         "
                     """
                 }

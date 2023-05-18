@@ -1,0 +1,64 @@
+server:
+  port: 0
+  ssl:
+    enabled: false
+
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+<<<<<<<< HEAD:Member_Service/src/main/resources/application-prod.yml
+    name: fcm-service
+========
+    name: chatting-service
+>>>>>>>> be_develop_chatting:Chatting_Service/src/main/resources/application-prod.yml
+
+  config:
+    import: "optional:configserver:http://13.125.99.25:8888/"
+  cloud:
+    config:
+      name: mysql,redis
+      profile: config
+
+  # cache:
+  #   type: redis
+  # redis:
+  #   host: 13.125.99.25
+  #   port: 6379
+  #   password: lovesignal
+
+  # datasource:
+  #   driver-class-name: com.mysql.cj.jdbc.Driver
+  #   url: jdbc:mysql://k8b309.p.ssafy.io:3306/love?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+  #   username: lovesignal
+  #   password: lovesignal
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    hibernate:
+<<<<<<<< HEAD:Member_Service/src/main/resources/application-prod.yml
+      ddl-auto: create
+========
+      ddl-auto: update
+>>>>>>>> be_develop_chatting:Chatting_Service/src/main/resources/application-prod.yml
+    generate-ddl: true
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://discoveryservice:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

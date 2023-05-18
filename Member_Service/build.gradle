@@ -1,0 +1,129 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.11'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "org.sonarqube" version "4.0.0.2929"
+}
+
+group = 'kr.lovesignal'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2021.0.6")
+}
+
+sonar {
+    properties {
+<<<<<<<< HEAD:Member_Service/build.gradle
+<<<<<<<< HEAD:Member_Service/build.gradle
+        property "sonar.projectKey", "member-service"
+        property "sonar.projectName", "member-service"
+========
+        property "sonar.projectKey", "team-service"
+        property "sonar.projectName", "team-service"
+>>>>>>>> be_develop_team:Team_Service/build.gradle
+========
+        property "sonar.projectKey", "file-service"
+        property "sonar.projectName", "file-service"
+>>>>>>>> be_develop_file:File_Service/build.gradle
+    }
+}
+
+
+dependencies {
+    // spring boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Eureka
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // Configuration
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+<<<<<<<< HEAD:Member_Service/build.gradle
+<<<<<<<< HEAD:Member_Service/build.gradle
+    // Spring Security
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+========
+>>>>>>>> be_develop_team:Team_Service/build.gradle
+    // Lombok
+========
+    // lombok
+>>>>>>>> be_develop_file:File_Service/build.gradle
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Amazon S3
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.455'
+
+    // DataBase
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+<<<<<<<< HEAD:Member_Service/build.gradle
+========
+
+<<<<<<<< HEAD:Member_Service/build.gradle
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+>>>>>>>> be_develop_team:Team_Service/build.gradle
+
+    // Validation
+========
+    // validation
+>>>>>>>> be_develop_file:File_Service/build.gradle
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Swagger
+//    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+//    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+<<<<<<<< HEAD:Member_Service/build.gradle
+<<<<<<<< HEAD:Member_Service/build.gradle
+    // spring cloud config
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+    // Actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+========
+   // spring cloud config
+========
+    // spring cloud config
+>>>>>>>> be_develop_file:File_Service/build.gradle
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+>>>>>>>> be_develop_team:Team_Service/build.gradle
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

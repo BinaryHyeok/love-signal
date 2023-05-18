@@ -7,65 +7,37 @@ pipeline {
 
     stages {
 
-        stage('discoveryservice Build') {
+        stage('auth-service Build') {
             steps {
                 script {
-                    dir('discoveryservice') {
+                    dir('AuthService') {
                         sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build'
+                        sh './gradlew clean build -x test -Pprod'
                     }
                 }
             }
         }
 
-        stage('Copy new JAR file for discoveryservice') {
+        stage('Copy new JAR file') {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp discoveryservice/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/discoveryservice/build/libs
+                        scp AuthService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/auth-service/build/libs
                     """
                 }
             }
         }
 
-        stage('apigateway Build') {
+        stage('SonarQube Analysis') {
             steps {
-                script {
-                    dir('apigateway') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build -x test'
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        script {
+                            dir('AuthService') {
+                                sh './gradlew -d sonar'
+                            }
+                        }
                     }
-                }
-            }
-        }
-
-        stage('Copy new JAR file for apigateway') {
-            steps {
-                sshagent([credentials: ['SSH_CREDENTIAL']]) {
-                    sh """
-                        scp apigateway/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/apigateway/build/libs
-                    """
-                }
-            }
-        }
-
-        stage('config Build') {
-            steps {
-                script {
-                    dir('config') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build'
-                    }
-                }
-            }
-        }
-
-        stage('Copy new JAR file for config') {
-            steps {
-                sshagent([credentials: ['SSH_CREDENTIAL']]) {
-                    sh """
-                        scp config/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/cloud/config/build/libs
-                    """
                 }
             }
         }
@@ -76,11 +48,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_develop
-                            docker compose -f docker-compose.yml stop discoveryservice apigateway config sonarqube postgres
-                            docker compose -f docker-compose.yml rm -f discoveryservice apigateway config sonarqube postgres
-                            docker compose -f docker-compose.yml build discoveryservice apigateway config sonarqube postgres
-                            docker compose -f docker-compose.yml up -d discoveryservice apigateway config sonarqube postgres
-
+                            docker compose -f docker-compose.yml stop auth-service
+                            docker compose -f docker-compose.yml rm -f auth-service
+                            docker compose -f docker-compose.yml build auth-service
+                            docker compose -f docker-compose.yml up -d auth-service
                         "
                     """
                 }

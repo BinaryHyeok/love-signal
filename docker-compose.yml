@@ -128,6 +128,8 @@ services:
       dockerfile: Dockerfile
     environment:
       - TZ=Asia/Seoul
+    ports:
+      - "9999:9999"
     restart: always
     networks:
       - backend

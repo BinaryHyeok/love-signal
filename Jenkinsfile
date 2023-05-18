@@ -7,10 +7,10 @@ pipeline {
 
     stages {
 
-        stage('fcm-service Build') {
+        stage('member-service Build') {
             steps {
                 script {
-                    dir('fcm-service') {
+                    dir('MemberService') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -x test -Pprod'
                     }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sshagent([credentials: ['SSH_CREDENTIAL']]) {
                     sh """
-                        scp fcm-service/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/fcm-service/build/libs
+                        scp MemberService/build/libs/*.jar ubuntu@k8b309.p.ssafy.io:/home/ubuntu/be_develop/member-service/build/libs
                     """
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withSonarQubeEnv('SonarQube Server') {
                         script {
-                            dir('fcm-service') {
+                            dir('MemberService') {
                                 sh './gradlew -d sonar'
                             }
                         }
@@ -48,10 +48,10 @@ pipeline {
                     sh """
                         ssh ubuntu@k8b309.p.ssafy.io "
                             cd /home/ubuntu/be_develop
-                            docker compose -f docker-compose.yml stop fcm-service
-                            docker compose -f docker-compose.yml rm -f fcm-service
-                            docker compose -f docker-compose.yml build fcm-service
-                            docker compose -f docker-compose.yml up -d fcm-service
+                            docker compose -f docker-compose.yml stop member-service
+                            docker compose -f docker-compose.yml rm -f member-service
+                            docker compose -f docker-compose.yml build member-service
+                            docker compose -f docker-compose.yml up -d member-service
                         "
                     """
                 }

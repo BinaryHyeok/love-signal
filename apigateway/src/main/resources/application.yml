@@ -1,0 +1,89 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: DEBUG
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://discoveryservice:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+
+spring:
+  application:
+    name: apigateway
+  cloud:
+    gateway:
+      routes:
+
+        ## 서비스 라우팅
+        - id: member-service
+          uri: lb://member-service
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - name : Authentication
+
+        - id: team-service
+          uri: lb://team-service
+          predicates:
+            - Path=/api/team/**
+          filters:
+            - name: Authentication
+
+        - id: chatting-service
+          uri: lb://chatting-service
+          predicates:
+            - Path=/api/chat/** , /api/chatRoom/**, /api/ws-stomp/**, /api/pub/**, /api/sub/**, /api/webjars/**
+#          filters:
+#            - name: Authentication
+
+        - id: file-service
+          uri: lb://file-service
+          predicates:
+            - Path=/api/file/**
+          filters:
+            - name: Authentication
+
+        - id: fcm-service
+          uri: lb://fcm-service
+          predicates:
+            - Path=/api/fcm/**
+          filters:
+            - name: Authentication
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - https://localhost:3000
+              - https://www.love-signal.kr
+            allow-credentials: true
+            allowedHeaders:
+              - Access-Control-Allow-Credentials
+              - Access-Control-Allow-Origin
+              - X-Auth_Token
+              - X-Auth_ID
+              - Content-Type
+            allowedMethods:
+              - GET
+              - PUT
+              - POST
+              - DELETE
+              - OPTIONS
+
+  security:
+    oauth2:
+      client:
+        kakao:
+          account-uri: https://kapi.kakao.com/v2/user/me?property_keys=["for_partner.uuid"]

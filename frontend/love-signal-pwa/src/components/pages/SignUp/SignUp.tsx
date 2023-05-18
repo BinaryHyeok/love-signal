@@ -132,12 +132,14 @@ const SignUp = () => {
   //쿠키를 저장해줄 함수입니다. (회원가입이 완료 되고 나면 rtk를 쿠키에 저장할것. 만료기간 설정.)
   const setCookie = (rtk: string, rTET: number) => {
     const expires = new Date(); //현재 시간 받아오고.
+    console.log(rtk);
+
     expires.setSeconds(expires.getSeconds() + rTET); //현재 시간에 만료시간의 초 + 만료기간 더해주기
     cookie.save("rtk", rtk, {
       path: "/", //일단 모든 경로에서 전부 쿠키 쓸수있게 해놓기.
       expires, //만료기간 설정
       secure: true, //보안 설정
-      httpOnly: true, //보안 설정
+      // httpOnly: true, //보안 설정
     });
   };
 

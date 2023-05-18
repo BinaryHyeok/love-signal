@@ -42,7 +42,7 @@ const M_ChatText_Select: React.FC<PropsType> = ({
       return { ...prevState };
     });
   };
-  console.log(selectInfo);
+
   let content = (
     <ul className={style.selectList}>
       {selectInfo.nicknames?.map((item, idx) => (

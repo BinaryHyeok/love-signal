@@ -26,8 +26,6 @@ const AlertBtn: React.FC<PropsType> = ({
   myAlarm,
   setMyAlarm,
 }) => {
-  console.log(myAlarm);
-
   useEffect(() => {
     const permission = getPushPermissionState();
     if (permission === "denied") {

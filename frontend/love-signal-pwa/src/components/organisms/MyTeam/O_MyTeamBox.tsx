@@ -17,10 +17,7 @@ import A_MyTeamListItem from "../../atoms/MyTeam/A_MyTeamListItem";
 import { receiveMatchMember, receivemeetingList } from "../../../api/team";
 
 import { kid, myTeamUUID, myatk } from "../../../atom/member";
-import { myMemberUUID } from "../../../atom/member";
 import { applyTeam } from "../../../types/member";
-import { withdrawTeam } from "../../../api/team";
-import { imLeader } from "../../../atom/member";
 
 type propsType = {
   setExitVisible: Dispatch<SetStateAction<boolean>>;
@@ -40,6 +37,7 @@ type propsType = {
 };
 
 const MEMBER_LOADING_IMG = `${process.env.REACT_APP_ASSETS_DIR}/member_loading.png`;
+let timer: NodeJS.Timer;
 
 const O_MyTeamBox: React.FC<propsType> = ({
   setExitVisible,
@@ -64,20 +62,24 @@ const O_MyTeamBox: React.FC<propsType> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [atk] = useRecoilState<string>(myatk);
   const [kID] = useRecoilState<string>(kid);
-  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (haveOppositeTeam) {
-      receivemeetingList(TeamUUID, atk, kID)
-        .then((res) => {
-          console.log(res);
-          setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
-          addApplyList(res.data.body.teams);
-          setStart(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      timer = setInterval(() => {
+        receivemeetingList(TeamUUID, atk, kID)
+          .then((res) => {
+            setApplyList([]); //초기화 안시켜주면 계속 추가되어서 안됌
+            addApplyList(res.data.body.teams);
+            setStart(false);
+            setIsLoading(true);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 1000);
+      return () => {
+        clearInterval(timer);
+      };
     } else {
       //상대 팀이 있는 경우 그 팀의 리스트를 불러와줘.
       receiveMatchMember(TeamUUID, atk, kID)
@@ -162,9 +164,14 @@ const O_MyTeamBox: React.FC<propsType> = ({
             * 주의 : 팀 나가기를 누르면 팀이 터집니다
           </A_TextHighlight_Blink>
         ) : (
-          <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
-            * 주의 : 이성팀과 매칭된 이후 팀 나가기를 누르면 팀에서 나가집니다
-          </A_TextHighlight_Blink>
+          <>
+            <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+              * 주의 : 이성팀과 매칭된 이후
+            </A_TextHighlight_Blink>
+            <A_TextHighlight_Blink color="blue" fontSize="0.8rem">
+              팀 나가기를 누르면 팀에서 나가집니다
+            </A_TextHighlight_Blink>
+          </>
         )}
       </div>
       {haveOppositeTeam ? (
@@ -199,7 +206,7 @@ const O_MyTeamBox: React.FC<propsType> = ({
               )}
             </>
           ) : (
-            <div>불러오는 중..</div>
+            <div className={style.loading}>불러오는 중..</div>
           )}
         </ListBoxWithImgTitle>
       ) : (

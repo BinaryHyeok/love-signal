@@ -28,6 +28,8 @@ type PropsType = {
   setChatList: React.Dispatch<React.SetStateAction<roomChatList>>;
   onTextSend: (text: chat) => void;
   members: member[] | null;
+  myNick: string;
+  updatedDate?: string;
 };
 
 let timeout: NodeJS.Timer;
@@ -42,6 +44,8 @@ const T_ChatRoom: React.FC<PropsType> = ({
   setChatList,
   onTextSend,
   members,
+  myNick,
+  updatedDate,
 }) => {
   const box_chatRoom = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
@@ -56,6 +60,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
 
   const [, setMsg] = useState<string>("");
   const [, setApplyModal] = useState<boolean>(false);
+  const [isFirstEnter, setIsFirstEnter] = useState<boolean>(true);
 
   useEffect(() => {
     window.addEventListener("resize", unitHeightSetHandler);
@@ -76,8 +81,15 @@ const T_ChatRoom: React.FC<PropsType> = ({
   }, []);
 
   useEffect(() => {
-    if (ulRef.current) {
-      ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
+    const lastChat = chatList[chatList.length - 1];
+    if (
+      isFirstEnter ||
+      (!isFirstEnter && lastChat && lastChat.nickname === myNick)
+    ) {
+      if (ulRef.current) {
+        ulRef.current.scrollTop = ulRef.current.scrollHeight + 100;
+        setIsFirstEnter(false);
+      }
     }
   }, [chatList]);
 
@@ -159,6 +171,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             setOppositeTeamMember={setOppositeTeamMember}
             // setOppositeTeamUUID={setOppositeTeamUUID}
             viewDetail={viewDetail}
+            updatedDate={updatedDate}
           />
         </>
       ) : (
@@ -183,6 +196,7 @@ const T_ChatRoom: React.FC<PropsType> = ({
             setOppositeTeamMember={setOppositeTeamMember}
             // setOppositeTeamUUID={setOppositeTeamUUID}
             viewDetail={viewDetail}
+            updatedDate={updatedDate}
           />
         </>
       )}

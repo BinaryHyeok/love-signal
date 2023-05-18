@@ -7,6 +7,7 @@ type PropsType = {
   memberCount?: string;
   lastMsgTime?: string;
   showTimer: boolean;
+  updatedDate?: string;
 };
 
 let timer: NodeJS.Timer;
@@ -15,8 +16,9 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
   memberCount,
   lastMsgTime,
   showTimer,
+  updatedDate,
 }) => {
-  const [resTime, setResTime] = useState<string>("00:00:00");
+  const [resTime, setResTime] = useState<string>("00:00");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,18 +31,21 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
   }, []);
 
   const getResTime = () => {
+    if (!updatedDate) return;
+
     const today = new Date();
+    const start = new Date(updatedDate);
     const timeoutTime = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-      23,
-      30
+      start.getFullYear(),
+      start.getMonth(),
+      start.getDate(),
+      start.getHours(),
+      start.getMinutes(),
+      start.getSeconds() + 60
     );
 
     if (timeoutTime.getTime() <= today.getTime()) {
       clearInterval(timer);
-      setResTime("00:00:00");
       return;
     }
 
@@ -48,20 +53,16 @@ const A_ChatItemInfo: React.FC<PropsType> = ({
     let min = timeoutTime.getMinutes() - today.getMinutes();
     let hr = timeoutTime.getHours() - today.getHours();
 
-    if (sec < 0) {
+    if (sec < 0 && min > 0) {
       sec += 60;
       min--;
     }
-    if (min < 0) {
+    if (min < 0 && hr > 0) {
       min += 60;
       hr--;
     }
 
-    setResTime(
-      `${hr < 10 ? "0" + hr : hr}:${min < 10 ? "0" + min : min}:${
-        sec < 10 ? "0" + sec : sec
-      }`
-    );
+    setResTime(`${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`);
   };
 
   const timeForMatter = (str: string) => {

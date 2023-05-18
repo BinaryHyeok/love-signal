@@ -121,6 +121,15 @@ const Chat = () => {
           } else {
             setChatList((prevState) => {
               const prevList = prevState[room.uuid] || [];
+              if (room.type === "SECRET" && room.love === "F") {
+                if (
+                  message.nickname !== myNick &&
+                  myNick === message.selectOrShareInfo?.selected
+                ) {
+                  message.nickname = room.roomName;
+                }
+              }
+
               const newList = [...prevList, message];
               return {
                 ...prevState,
@@ -153,15 +162,17 @@ const Chat = () => {
 
     getChatList(room.uuid, atk, kID).then((res) => {
       const chatData = res.data;
+      console.log(
+        "조회된 채팅목록 ++++++++++++++++++++++++++++++++++++++++++++",
+        chatData
+      );
       const formattedChatData =
-        room.type === "SECRET"
+        chatData && room.type === "SECRET"
           ? chatData.map((item: chat) => {
-              if (room.love !== "F") {
+              if (item.nickname === myNick || room.love !== "F") {
                 return item;
               }
-              if (room.selector?.nickname === item.nickname) {
-                return { ...item, nickname: room.roomName };
-              }
+              return { ...item, nickname: room.roomName };
             })
           : chatData;
       setChatList((prevState) => {
@@ -176,8 +187,6 @@ const Chat = () => {
   };
 
   const chatInfoFetchHandler = () => {
-    if (!selectedRoom.uuid) return;
-
     getChatRoomList(UUID, atk, kID).then((res) => {
       const formattedRoomList: room[] = roomTitleFormatter(res.data);
       console.log(formattedRoomList);
@@ -191,15 +200,14 @@ const Chat = () => {
   };
 
   const roomTitleFormatter = (rooms: room[]) => {
+    console.log(rooms);
     const formatted: room[] = rooms.map((room) => {
       if (room.type !== "SECRET") return room;
-      const RANDOM_NAME =
-        RANDOM_ANIMAL[Math.floor(Math.random() * RANDOM_ANIMAL.length)];
       room.roomName =
         room.selector?.nickname === myNick
-          ? `${room.selected?.nickname}님과의 익명채팅방`
-          : `익명의 ${RANDOM_NAME}`;
-
+          ? `${room.selected}님과의 시그널`
+          : `${room.roomName}님과의 시그널`;
+      console.log(room);
       return room;
     });
 
@@ -257,9 +265,11 @@ const Chat = () => {
                   ? chatList[selectedRoom.uuid]
                   : []
               }
+              updatedDate={selectedRoom.updatedDate}
               setChatList={setChatList}
               onTextSend={publishChatMsg}
               members={selectedRoom.memberList || null}
+              myNick={myNick}
             />
           )}
           {!selectedRoom.uuid && (

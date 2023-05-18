@@ -17,3 +17,20 @@ $background: rgba(0, 0, 0, 0.4);
     // backdrop-filter: blur(2px);
   }
 }
+
+.iframe {
+  position: relative;
+  left: -28px;
+  width: 118%;
+  min-height: 500px;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  border: 0;
+  outline: 0;
+  // overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+}

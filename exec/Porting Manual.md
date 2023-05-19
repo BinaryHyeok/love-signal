@@ -1,4 +1,4 @@
-# Love Signal
+# [B309] Love Signal
 
 Love Signal 프로젝트는 Docker, Docker Compose, 그리고 Jenkins Pipeline을 활용한 CI/CD 자동화 환경을 구성하고 있습니다.
 
@@ -190,7 +190,49 @@ cloud:
     stack:
       auto: false
 
-# 기타 Backend 설정파일은 각 서비스의 application-prod.yml파일에 존재
+# 각 Spring Boot 마이크로서비스의 application-prod.yml파일
+server:
+  port: 0
+  ssl:
+    enabled: false
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: member-service
+
+ config:
+   import: "optional:configserver:http://13.125.99.25:8888/"
+ cloud:
+   config:
+     name: mysql
+     profile: config
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://discoveryservice:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 ```
 
 ## Docker : Dockerfile
@@ -657,6 +699,8 @@ Frontend 프로젝트 (1)
 Backend Microservices 프로젝트 (6)
 총 7개의 SonarQube 프로젝트 생성 및 정적 코드분석 완료
 
-### Member Service 코드 분석 예시
+### Member Service
 
 ![image](https://ifh.cc/g/PXnyjN.png)
+
+나머지 프로젝트 또한 정적 코드분석 완료.

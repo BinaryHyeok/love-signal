@@ -11,11 +11,15 @@
 
 ## 미리보기
 
-- 간단한 채팅 / 선택의 시간 등 모바일버전 gif 혹은 영상 짧은거 추가하면 좋을듯
+<p align="center">
+<img src="https://drive.google.com/uc?export=view&id=1ncA3Xe2n2fIeUTjcvmn_JvdV4swvTF7L" alt="icon" width="160" height="320" />
+<img src="https://drive.google.com/uc?export=view&id=11SKjRyd6bntSmUXlTePh7f06mof4_3zh" alt="icon" width="160" height="320" /></p>
+<br/>
+<br/>
 
 ## 프로젝트 기획
 
-- 현재 많은 소개팅 어플은 1:1 매칭입니다. 여기서 저희는 처음으로 유명한 프로그램인 하트시그널처럼 다대다로 서로 마음에 드는 사람들을 선택해 매칭을 하는 서비스가 있으면 좋겠다 싶었고, 혼자서는 이성과 대화하기를 불편해 하는 사람들, 과팅과 같은 다대다 미팅을 하고싶은 사람들등 다대다 서비스가 더 좋은 사람들이 있을것 같아 이 서비스를 기획해 제작하게 되었습니다.
+현재 많은 소개팅 어플은 1:1 매칭입니다. 여기서 저희는 처음으로 유명한 프로그램인 하트시그널처럼 다대다로 서로 마음에 드는 사람들을 선택해 매칭을 하는 서비스가 있으면 좋겠다 싶었고, 혼자서는 이성과 대화하기를 불편해 하는 사람들, 과팅과 같은 다대다 미팅을 하고싶은 사람들등 다대다 서비스가 더 좋은 사람들이 있을것 같아 이 서비스를 기획해 제작하게 되었습니다.
 
 ## 프로젝트 설계
 
@@ -32,28 +36,29 @@
 
 ![API 명세서](https://drive.google.com/uc?export=view&id=1jGJ_SSX3FKFUjskIUecsPU55TGDveKQZ)
 
-## 주요 기능1
+## 주요 기능
+
+<img src="https://drive.google.com/uc?export=view&id=1Uf2cO28ZKpFoH55-8zY_CyR2ahcwyRq5" alt="icon" width="160" height="320" />
+<img src="https://drive.google.com/uc?export=view&id=10tRWSgXN6D5zIrbBOmSXb7x41XKveF_T" alt="icon" width="160" height="320" />
+<img src="https://drive.google.com/uc?export=view&id=1xMXIYc6H_JVOThl-7quyFvF0Mf1wE_ZC" alt="icon" width="160" height="320" />
+
+<img src="https://drive.google.com/uc?export=view&id=1RXYLRDN8EHiVRfZWyxopjM1mvzOUVGUA" alt="icon" width="160" height="320" />
+<img src="https://drive.google.com/uc?export=view&id=1stx-pYrmoUoghjxY1zw-QxdvDr-_5-iM" alt="icon" width="160" height="320" />
 
 ### 동성 팀 매칭
 
 - 동성팀은 빠른 매칭 및 팀코드로 들어갈 수 있습니다.
 - 동성팀 생성시 채팅방에 동성팀 채팅방 생성.
 
-## 주요기능2
-
 ### 이성팀과의 미팅 성사
 
 - 이성팀에게 받은 신청 또는 보낸 신청이 수락될 시 미팅이 성사됩니다.
 - 이때 혼성팀 채팅방이 생성되며 우리팀과 상대팀과 채팅이 가능합니다.
 
-## 주요기능3
-
 ### 선택의 시간(1)
 
 - 이성팀과의 미팅 성사시에 일정 시간에 공지채팅방으로 이성팀의 멤버를 지목하는 선택의 시간이 오게됩니다.
 - 이때 선택의 시간에서 지목한 사람, 지목받은 사람은 일정시간 살아있는 익명 채팅방을 얻게됩니다.
-
-## 주요기능4
 
 ### 선택의 시간(2)
 

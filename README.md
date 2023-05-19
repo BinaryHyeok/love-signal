@@ -21,7 +21,8 @@
 
 ### 와이어프레임
 
-피그마 주쎄요!!!!
+![Wireframe](https://drive.google.com/uc?export=view&id=1QV2OQGmdIiNCQqwD0DZb5vPl6Tsws6tL)
+![Wireframe](https://drive.google.com/uc?export=view&id=1DDO_CWQuGifbHJDgXXp0zvHBYLfKu2Ki)
 
 ### ERD
 
@@ -60,10 +61,11 @@
 
 ## 기능 차별점
 
-### Service Worker를 활용한 백그라운드 환경 구축
+### PWA(Progressive Web App)환경 구축
 
-- 1
-- 2
+- 서비스 워커를 통해 앱의 기능을 오프라인에서도 사용 가능
+- 서비스 워커와 캐싱을 사용하여 로딩시간 단축 및 전반적인 성능 향상
+- 플랫폼에 종속되지 않고 Android / IOS 및 웹 브라우저 등 다양한 환경에서 동일하게 작동
 
 ### Spring Cloud를 활용한 MSA 구축
 
@@ -116,7 +118,7 @@
 - Spring Cloud 2021.0.6
 - Spring Security
 - JPA
-- 버전과 함께 이어서 작성 요망
+- Hibernate
 
 <div style="display: flex; align-items: center;">
   <span style="font-size: 32px;"><strong>Database&nbsp;</strong></span>
@@ -150,13 +152,27 @@
 - Notion
 - MatterMost
 
+<div style="display: flex; align-items: center;">
+  <span style="font-size: 32px;"><strong>External tools&nbsp;</strong></span>
+</div>
+
+- Kakao Login API
+- Firebase Cloud Messaging
+
 ## 아키텍처
 
 ![Architecture](https://drive.google.com/uc?export=view&id=1ti5GaHwwF7igG-2X8By06JJ5jzwrUhnl)
 
+<br/>
+<br/>
+<br/>
+
 ## 팀원
 
-|                  FrontEnd                   |                    FrontEnd                     |                   FrontEnd                   |                    BackEnd                    |                     BackEnd                      |                    Infra                     |
-| :-----------------------------------------: | :---------------------------------------------: | :------------------------------------------: | :-------------------------------------------: | :----------------------------------------------: | :------------------------------------------: |
-| ![](https://github.com/2sseul.png?size=120) | ![](https://github.com/sonjonghyo.png?size=120) | ![](https://github.com/PakaOxO.png?size=120) | ![](https://github.com/doyeolKR.png?size=120) | ![](https://github.com/BinaryHyeok.png?size=120) | ![](https://github.com/kwnoyng.png?size=120) |
-|     [김이슬](https://github.com/2sseul)     |     [손종효](https://github.com/sonjonghyo)     |     [이정현](https://github.com/PakaOxO)     |     [유도열](https://github.com/doyeolKR)     |     [이진혁](https://github.com/BinaryHyeok)     |     [권오영](https://github.com/kwnoyng)     |
+<img src="https://drive.google.com/uc?export=view&id=1ricWs8Rra3xcrWpPfmz-rYb6cgUdWEx2" alt="icon" width="480" height="360" />
+
+|              FrontEnd               |                FrontEnd                 |               FrontEnd               |                BackEnd                |                 BackEnd                  |                Infra                 |
+| :---------------------------------: | :-------------------------------------: | :----------------------------------: | :-----------------------------------: | :--------------------------------------: | :----------------------------------: |
+| [김이슬](https://github.com/2sseul) | [손종효](https://github.com/sonjonghyo) | [이정현](https://github.com/PakaOxO) | [유도열](https://github.com/doyeolKR) | [이진혁](https://github.com/BinaryHyeok) | [권오영](https://github.com/kwnoyng) |
+
+😀 클릭 시 깃허브로 이동합니다.

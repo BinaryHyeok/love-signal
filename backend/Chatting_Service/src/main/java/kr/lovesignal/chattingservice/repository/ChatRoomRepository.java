@@ -38,12 +38,14 @@ public class ChatRoomRepository {
 
         // HV 순회하면서 selector 와 selected 반대로 일치하는 채팅방 존재유무 체크.
         for(ResChatRoom resSelectChatRoom : list) {
-            String preSelectorUUID = resSelectChatRoom.getSelected().getMemberUUID().toString();
-            String preSelectedUUID = resSelectChatRoom.getSelector().getMemberUUID().toString();
+            if(resSelectChatRoom.getExpired().equals("F")) {
+                String preSelectorUUID = resSelectChatRoom.getSelected().getMemberUUID().toString();
+                String preSelectedUUID = resSelectChatRoom.getSelector().getMemberUUID().toString();
 
-            // 발견하면 리턴 껍데기에 주입.
-            if(selectorUUID.equals(preSelectorUUID) && selectedUUID.equals(preSelectedUUID)) {
-                chatRoom = resSelectChatRoom;
+                // 발견하면 리턴 껍데기에 주입.
+                if(selectorUUID.equals(preSelectorUUID) && selectedUUID.equals(preSelectedUUID)) {
+                    chatRoom = resSelectChatRoom;
+                }
             }
         }
         return chatRoom;

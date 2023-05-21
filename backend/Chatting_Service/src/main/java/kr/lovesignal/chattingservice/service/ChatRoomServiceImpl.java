@@ -81,6 +81,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     public List<ResChatRoom> getChatRoomList(String userUUID) {
+        System.out.println("========================이거맞음??===============================");
         UUID uuid = commonUtils.getValidUUID(userUUID);
         Member member = memberJpaRepository.findByUUID(uuid);
 
@@ -347,6 +348,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         UUID uuid2 = selected.getUUID();
         String selectedUUID = uuid2.toString();
 
+
+        System.out.println("============== selector nickname ===================="+selector.getNickname());
+        System.out.println("============== selected nickname ===================="+selected.getNickname());
+
+
         // 현재 참여 중인 혼성 채팅방 찾기.
         List<Participant> participants = selector.getParticipants();
         ChatRoom meetingRoom = null;
@@ -361,6 +367,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         // 혼성 채팅방이 몇번째 선택의 시간인지.
         int selectCount = meetingRoom.getSelectCount();
+        System.out.println("============== select count ===================="+selectCount);
 
         // 2번째면 시그널 아니면 익명
         String roomType = selectCount==2?"SIGNAL":"SECRET";
@@ -382,6 +389,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         String animalName = commonUtils.getAnimal();
         String roomName = type.equals("SECRET")?"익명의 "+animalName:"시그널 채팅방";
+
+        System.out.println("============== room name ===================="+roomName);
+        System.out.println("============== selector nickname ===================="+selector.getNickname());
+        System.out.println("============== selected nickname ===================="+selected.getNickname());
+
 
         // 내가 지목한 상대가 나를 지목해서 이미 채팅방을 만들었는지 조회.
         ResChatRoom checkSelectChatRoom =

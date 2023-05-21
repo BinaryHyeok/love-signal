@@ -444,6 +444,9 @@ public class ChatServiceImpl implements ChatService{
                         if(findSystemChatRoom.getType().equals("SYSTEM")){
                             // ReqChatMessage 에 roomUUID 주입.
                             reqChatMessage.setRoomUUID(findSystemChatRoom.getUUID().toString());
+                            selectMessageText.setRoomUUID(findSystemChatRoom.getUUID().toString());
+                            secretMessageText.setRoomUUID(findSystemChatRoom.getUUID().toString());
+                            signalMessageText.setRoomUUID(findSystemChatRoom.getUUID().toString());
 
                             // 닉네임과 사진이 있는 SelectOrShareInfo 객체 생성후 Req 메세지에 주입.
                             if(member.getGender().equals("M")) {
@@ -455,12 +458,15 @@ public class ChatServiceImpl implements ChatService{
 
                             // 실질적으로 Redis 에 메세지 객체 저장
                             saveChatMessage(selectMessageText);
+                            messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), selectMessageText);
 
                             if(chatRoom.getSelectCount() == 1) {
                                 saveChatMessage(secretMessageText);
+                                messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), secretMessageText);
                             }
                             else if(chatRoom.getSelectCount() == 2) {
                                 saveChatMessage(signalMessageText);
+                                messagingTemplate.convertAndSend("/sub/chat/room/" + reqChatMessage.getRoomUUID(), signalMessageText);
                             }
 
                             saveChatMessage(reqChatMessage);
